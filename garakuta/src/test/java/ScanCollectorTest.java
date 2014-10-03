@@ -17,6 +17,9 @@ import java.util.stream.Stream;
 
 import org.junit.Test;
 
+/**
+ * @see http://backpaper0.github.io/2014/10/04/stream_collect.html
+ */
 public class ScanCollectorTest {
 
     @Test
