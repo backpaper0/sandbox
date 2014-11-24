@@ -1,0 +1,12 @@
+<arquillian xmlns="http://jboss.org/schema/arquillian"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+  <container qualifier="tomcat-managed-7" default="true">
+    <configuration>
+      <property name="catalinaHome">target/apache-tomcat-7.0.47</property>
+      <property name="user">tomcat</property>
+      <property name="pass">tomcat</property>
+      <property name="javaVmArguments">-Xmx512m -XX:MaxPermSize=128m "-Djava.util.logging.config.file=../conf/logging.properties"</property>
+    </configuration>
+  </container>
+</arquillian>

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html">
+  <h:head>
+    <title>JSFサンプル</title>
+  </h:head>
+  <h:body>
+    <h:form>
+      <h:inputText value="#{calc.left}" />
+      +
+      <h:inputText value="#{calc.right}" />
+      =
+      <h:outputText value="#{calc.answer}" />
+      <h:commandButton action="#{calc.add}" value="計算する" />
+    </h:form>
+  </h:body>
+</html>

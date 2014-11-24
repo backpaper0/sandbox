@@ -1,0 +1,4 @@
+/target/
+/.*
+!/.gitignore
+/src/main/webapp/WEB-INF/classes/
