@@ -1,4 +1,4 @@
-# JSFのサンプル
+# JSF ( PrimeFaces )のサンプル
 
 ## これはなに
 
@@ -6,15 +6,18 @@ JSF自分勉強用のサンプルです。
 
 参照実装の [Mojarra](https://javaserverfaces.java.net/) を使用しています。
 
+コンポーネントは [PrimeFaces](http://primefaces.org/) を使用しています。
+
 ## 動かすには
 
-とりあえず組込みTomcatで動くようにしています。
+jetty-maven-pluginで動くようにしています。
+次のコマンドを実行してください。
 
-1. `app.TestServer` を実行する
-2. http://localhost:8080/index.jsf をWebブラウザで開く
-3. (ﾟдﾟ)ｳﾏｰ
+```sh
+mvn jetty:run
+```
 
-です。
+`control + c` で停止します。
 
 ## ライセンス
 

@@ -1,9 +1,13 @@
 package app;
 
-import javax.faces.bean.ManagedBean;
+import java.io.Serializable;
 
-@ManagedBean(name = "calc")
-public class CalcBean {
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+@ViewScoped
+@ManagedBean
+public class CalcBean implements Serializable {
 
     private int left;
 
@@ -11,9 +15,8 @@ public class CalcBean {
 
     private int answer;
 
-    public Object add() {
+    public void add() {
         answer = left + right;
-        return null;
     }
 
     public int getLeft() {
