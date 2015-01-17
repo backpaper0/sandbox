@@ -1,27 +1,41 @@
-　　　 　　　　　　＼　　　　　　　ヽ 　 　 　 　 　 |　　　　　　 　/　　　　　　　　／ 
-　　　　　　　　　 ＼　　 　 　ヽ　　　　　　　 　 　 　 　/　　　　　　／ 
-‐､、　　　殺　伐　と　し　た　ロ　グ　に　Play Framework　が　！　！　 　_,,－'' 
-
-　　　　　　　,-'"ヽ　 　 　 　 　∩＿＿＿∩ 
-　　　　　　/　　　i､　　_,､ 　 　| ノ　　　　　 ヽ 
-　　　　　　{ ﾉ　 　 "'"　 "'"'"/　　●　　　● | 
-　　　　　 ／　　　　　　　　　|　　　　( _●_)　 ミ 
-　　　 　 /　　　　　　　 　　彡､　　　|∪|　　 ミ　　＿/＼／＼/＼／|＿ 
-　　　 　i 　　　Java EE 7　　　 ＼　 ヽノ　　/　　　＼　　　　　　　　　　／ 
-　　　　/　　　　　　　　　　　　　　`ー-ー'" }　　　＜　　Grails！！　＞ 
-　　　 i'　　　 /､　 　　　　　　 　　　　　　　　,i　　　／　 　　　　　　　　＼ 
-　　　 い _／　 `-､.,,　　　　　､_　　　　　　　i　　　　￣|／＼/＼/＼/￣ 
-　　 /'　/ 　 　 _/　 ＼`i　　　"　　　/ﾞ　　 ./ 
-　 (,,／ 　 　 , '　 _,,-'"　i　 ヾi__,,,...--t'"　 ,| 
-　　　　　　 ,/　／　 　 　＼　 ヽ､　　　i　　| 
-　　　　　　 (､,,/　　　　　　 〉､ ､,}　　　 |　 .i 
-　　　　　　　　　　　　　 　 `` `　　　　　! ､､＼ 
-　　　　　　　　　　　　　　 　　　　　　　　!､_n_,〉> 
-
-  .   ____          _            __ _ _
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-  '  |____| .__|_| |_|_| |_\__, | / / / /
- =========|_|==============|___/=/_/_/_/
+                                                                                
+              ````````````````````                                              
+        `:+sydNMMMMMMMMMMMMMMMMMMNddddddsss|-                                   
+      :dMMNhss|::`             -::::|ssssymMMms|`                               
+   `odNms-`                                ,+dMMm|                              
+   +Mm:                                       |dMN-                             
+  ,mMo     -dMh,     |+`      -+-       :+,     sMN                             
+  :MN`     -dNh,    yMMN`    |MMM|     oMMN-    +MN                             
+  :MN               `|o,      :o:       |o-    `mMN                             
+  ,mM|                                         sMM+                             
+   -Md-                                      -sMMh`                             
+    |dmddhoo---:oohddh-     -o:-    ------+hdMMNo`                              
+       `,||sssss+||oMN,   `mMNNMNNNNMNmmmmmms+-`                                
+                   :MN`   ,MMs`,,,,,,`                        `,:::::::``       
+                   :MMh   `dMM:                        ,-oohhNMMMMMMMMMMMmhhoo:`
+                    |NMs,  :NMd,                 `:oymNMMMNNNhyyy|||||syyNNNMMMN
+                     ,sNMmys|sNMy:            ,odNMMMMdh+:`                `-+yh
+                        -ohmMMMMMMm`      `-ymMMMmys-                           
+                            `-||||-     -ymMMmo:`                               
+                                      -hMMNo,                                   
+                                    ,hMMNo`                                     
+                                   :mMMh`                                       
+                                  oMMm:                           -::`          
+                                 `NMMNo`                      `sdMMMMMm+`       
+                                  -hMMMN:                    -dMms|`-oNMm:      
+                                    :hMMMh+`                `dMy      ,mMN,     
+                                      -sNMMNo`              ,NMy      `dMM:     
+                                        `ohMMNo`             ,mMy:```|hMN|      
+                                           ,+mMNo`            ,smMMMMMNo`       
+                                             `+mMNo`             `-:``          
+                                               `+mMNo`                          
+                                                 `+mMNo`                        
+                                              `,,,,,yMMh-                       
+                                     -:+ssdmmmNMMMMNMMMMh                       
+                              :hNMMMMNddyoo|:::,                                
+                              yMN+````                                          
+                              `dMN-                                             
+                               ,mMM+                                            
+                                `yMMy,                                          
+                                  :dMNy,                                        
  :: Spring Boot ::        (v${spring-boot.version})
