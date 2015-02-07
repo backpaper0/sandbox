@@ -17,10 +17,6 @@ public class Server {
         rc.register(Calc.class);
 
         HttpServer httpServer = JdkHttpServerFactory.createHttpServer(uri, rc);
-
-        System.out.println("JAX-RS started");
-        System.in.read();
-
-        httpServer.stop(0);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> httpServer.stop(0)));
     }
 }
