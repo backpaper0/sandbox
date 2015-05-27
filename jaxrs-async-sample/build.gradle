@@ -1,0 +1,32 @@
+ext {
+    javaeeVersion = '7.0'
+    junitVersion = '4.12'
+    arquillianVersion = '1.1.8.Final'
+    arquillianWildflyVersion = '1.0.0.CR1'
+    jerseyVersion = '2.17'
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+group = 'backpaper0'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    providedCompile "javax:javaee-api:$javaeeVersion"
+    testCompile "junit:junit:$junitVersion"
+    testCompile "org.jboss.arquillian.junit:arquillian-junit-container:$arquillianVersion"
+    testRuntime "org.wildfly.arquillian:wildfly-arquillian-container-managed:$arquillianWildflyVersion"
+    testRuntime "org.glassfish.jersey.core:jersey-client:$jerseyVersion"
+}
