@@ -1,3 +1,9 @@
 # JAX-RSのAsyncResponseとCompletableFutureを使ったサンプル
 
-`src/test/resources/arquillian.xml` 内の `/path/to/wildfly` をWildflyへのファイルパスに変更してから `gradlew build` してください。
+`gradlew test` したら勝手にWildflyをダウンロードしてunzipしてArquillianを走らせます。
+
+## TODO
+
+* 既にunzipされたWildflyがあったらもうunzipしないようにreadyWildflyタスクを修正する
+* GlassFishでも動かしたい
+
