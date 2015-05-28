@@ -34,10 +34,8 @@ dependencies {
 }
 
 task readyWildfly(type: Copy) {
-    configurations.archives.each {
-        from zipTree(it)
-    }
-    into "$project.buildDir"
+    from zipTree(configurations.archives.find { it.name ==~ /wildfly.*/ })
+    into buildDir
 }
 
 test.dependsOn readyWildfly
