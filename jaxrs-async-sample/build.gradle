@@ -4,6 +4,7 @@ ext {
     arquillianVersion = '1.1.8.Final'
     arquillianWildflyVersion = '1.0.0.CR1'
     jerseyVersion = '2.17'
+    wildflyVersion = '9.0.0.CR1'
 }
 
 apply plugin: 'java'
@@ -29,4 +30,14 @@ dependencies {
     testCompile "org.jboss.arquillian.junit:arquillian-junit-container:$arquillianVersion"
     testRuntime "org.wildfly.arquillian:wildfly-arquillian-container-managed:$arquillianWildflyVersion"
     testRuntime "org.glassfish.jersey.core:jersey-client:$jerseyVersion"
+    archives "org.wildfly:wildfly-dist:$wildflyVersion@zip"
 }
+
+task readyWildfly(type: Copy) {
+    configurations.archives.each {
+        from zipTree(it)
+    }
+    into "$project.buildDir"
+}
+
+test.dependsOn readyWildfly

@@ -4,7 +4,7 @@
 
   <container qualifier="wildfly" default="true">
     <configuration>
-      <property name="jbossHome">/path/to/wildfly</property>
+      <property name="jbossHome">build/wildfly-9.0.0.CR1</property>
     </configuration>
   </container>
 
