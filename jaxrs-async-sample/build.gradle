@@ -34,8 +34,13 @@ dependencies {
 }
 
 task readyWildfly(type: Copy) {
-    from zipTree(configurations.archives.find { it.name ==~ /wildfly.*/ })
+    def wildflyZip = configurations.archives.find { it.name ==~ /wildfly.*/ }
+
+    from zipTree(wildflyZip)
     into buildDir
+
+    inputs.file wildflyZip
+    outputs.upToDateWhen { new File(buildDir, "wildfly-$wildflyVersion").exists() }
 }
 
 test.dependsOn readyWildfly
