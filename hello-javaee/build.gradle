@@ -10,6 +10,8 @@ apply plugin: 'idea'
 group = 'backpaper0'
 version = '1.0-SNAPSHOT'
 
+war.archiveName = "${project.archivesBaseName}.war"
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
