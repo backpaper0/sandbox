@@ -1,10 +1,13 @@
 package hello;
 
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.batch.operations.JobOperator;
+import javax.batch.runtime.BatchRuntime;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.spi.CDI;
@@ -39,6 +42,10 @@ public class HelloJaxrsResource {
                 () -> Stream.of(s1, s2, helloJpa()).collect(
                         Collectors.joining(System.lineSeparator())), executor)
                 .thenAccept(response::resume);
+
+        JobOperator jobOperator = BatchRuntime.getJobOperator();
+        Properties props = new Properties();
+        jobOperator.start("hello-jbatch", props);
     }
 
     private String helloJpa() {
