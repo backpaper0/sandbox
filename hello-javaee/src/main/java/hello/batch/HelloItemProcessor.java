@@ -5,8 +5,10 @@ import java.util.stream.IntStream;
 
 import javax.batch.api.chunk.ItemProcessor;
 import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 
 @Dependent
+@Named
 public class HelloItemProcessor implements ItemProcessor {
 
     @Override

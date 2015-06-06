@@ -1,9 +1,9 @@
 <job xmlns="http://xmlns.jcp.org/xml/ns/javaee" id="job1" version="1.0">
   <step id="step1">
     <chunk>
-      <reader ref="hello.batch.HelloItemReader" />
-      <processor ref="hello.batch.HelloItemProcessor" />
-      <writer ref="hello.batch.HelloItemWriter" />
+      <reader ref="helloItemReader" />
+      <processor ref="helloItemProcessor" />
+      <writer ref="helloItemWriter" />
     </chunk>
   </step>
 </job>

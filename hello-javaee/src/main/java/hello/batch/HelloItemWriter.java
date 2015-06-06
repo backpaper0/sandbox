@@ -5,8 +5,10 @@ import java.util.logging.Logger;
 
 import javax.batch.api.chunk.AbstractItemWriter;
 import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 
 @Dependent
+@Named
 public class HelloItemWriter extends AbstractItemWriter {
 
     private static final Logger logger = Logger.getLogger(HelloItemWriter.class
