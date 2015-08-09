@@ -291,7 +291,7 @@ public class Calc {
             Optional<Ast> opt = tryMul(left).map(Optional::of).orElseGet(
                     () -> tryDiv(left));
             if (opt.isPresent()) {
-                return exprRec(opt.get());
+                return termRec(opt.get());
             }
             return left;
         }
