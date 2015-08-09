@@ -1,5 +1,12 @@
 package parser;
 
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
+
 public class Calc {
 
     public static int calc(String source) {
@@ -228,7 +235,9 @@ public class Calc {
 
     static class Parser {
         private final Lexer lexer;
-        private Token token;
+        private final List<Token> tokens = new ArrayList<>();
+        private int index = -1;
+        private final Deque<Integer> indexes = new LinkedList<>();
 
         public Parser(Lexer lexer) {
             this.lexer = lexer;
@@ -236,15 +245,22 @@ public class Calc {
         }
 
         private void consume() {
-            token = lexer.next();
+            index++;
+            while (tokens.size() <= index) {
+                tokens.add(lexer.next());
+            }
+        }
+
+        private Token token() {
+            return tokens.get(index);
         }
 
         private void match(TokenType expected) {
-            if (token.type == expected) {
+            if (token().type == expected) {
                 consume();
             } else {
-                throw new RuntimeException(String.format(
-                        "expected %s but actual %s", expected, token));
+                throw new ParseException(String.format(
+                        "expected %s but actual %s", expected, token()));
             }
         }
 
@@ -255,47 +271,101 @@ public class Calc {
         }
 
         private Ast expr() {
-            Ast ast = term();
-            while (token.type == TokenType.ADD || token.type == TokenType.SUB) {
-                if (token.type == TokenType.ADD) {
-                    match(TokenType.ADD);
-                    ast = new AddOp(ast, term());
-                } else {
-                    match(TokenType.SUB);
-                    ast = new SubOp(ast, term());
-                }
+            return exprRec(term());
+        }
+
+        private Ast exprRec(Ast left) {
+            Optional<Ast> opt = tryAdd(left).map(Optional::of).orElseGet(
+                    () -> trySub(left));
+            if (opt.isPresent()) {
+                return exprRec(opt.get());
             }
-            return ast;
+            return left;
         }
 
         private Ast term() {
-            Ast ast = fact();
-            while (token.type == TokenType.MUL || token.type == TokenType.DIV) {
-                if (token.type == TokenType.MUL) {
-                    match(TokenType.MUL);
-                    ast = new MulOp(ast, fact());
-                } else {
-                    match(TokenType.DIV);
-                    ast = new DivOp(ast, fact());
-                }
+            return termRec(fact());
+        }
+
+        private Ast termRec(Ast left) {
+            Optional<Ast> opt = tryMul(left).map(Optional::of).orElseGet(
+                    () -> tryDiv(left));
+            if (opt.isPresent()) {
+                return exprRec(opt.get());
             }
-            return ast;
+            return left;
         }
 
         private Ast fact() {
-            if (token.type != TokenType.L_PAREN) {
-                return number();
-            }
+            return tryGet(this::paren).orElseGet(this::number);
+        }
+
+        private Ast add(Ast left) {
+            match(TokenType.ADD);
+            return new AddOp(left, term());
+        }
+
+        private Ast sub(Ast left) {
+            match(TokenType.SUB);
+            return new SubOp(left, term());
+        }
+
+        private Ast mul(Ast left) {
+            match(TokenType.MUL);
+            return new MulOp(left, fact());
+        }
+
+        private Ast div(Ast left) {
+            match(TokenType.DIV);
+            return new DivOp(left, fact());
+        }
+
+        private Ast number() {
+            Token token = token();
+            match(TokenType.NUMBER);
+            return new Num(token);
+        }
+
+        private Ast paren() {
             match(TokenType.L_PAREN);
             Ast ast = expr();
             match(TokenType.R_PAREN);
             return ast;
         }
 
-        private Ast number() {
-            Token token = this.token;
-            match(TokenType.NUMBER);
-            return new Num(token);
+        private Optional<Ast> tryAdd(Ast left) {
+            return tryGet(() -> add(left));
+        }
+
+        private Optional<Ast> trySub(Ast left) {
+            return tryGet(() -> sub(left));
+        }
+
+        private Optional<Ast> tryMul(Ast left) {
+            return tryGet(() -> mul(left));
+        }
+
+        private Optional<Ast> tryDiv(Ast left) {
+            return tryGet(() -> div(left));
+        }
+
+        private <T> Optional<T> tryGet(Supplier<T> supplier) {
+            indexes.push(index);
+            try {
+                T t = supplier.get();
+                indexes.pop();
+                return Optional.of(t);
+            } catch (ParseException e) {
+                index = indexes.pop();
+                return Optional.empty();
+            }
+        }
+    }
+
+    static class ParseException extends RuntimeException {
+
+        public ParseException(String message) {
+            super(message);
         }
     }
 }
