@@ -93,9 +93,26 @@ public class Calc {
             switch (c) {
             case '+':
                 consume();
+                if ('0' <= c && c <= '9') {
+                    StringBuilder buf = new StringBuilder();
+                    do {
+                        buf.append(c);
+                        consume();
+                    } while ('0' <= c && c <= '9');
+                    return new Token(TokenType.NUMBER, buf.toString());
+                }
                 return new Token(TokenType.ADD, "+");
             case '-':
                 consume();
+                if ('0' <= c && c <= '9') {
+                    StringBuilder buf = new StringBuilder();
+                    buf.append('-');
+                    do {
+                        buf.append(c);
+                        consume();
+                    } while ('0' <= c && c <= '9');
+                    return new Token(TokenType.NUMBER, buf.toString());
+                }
                 return new Token(TokenType.SUB, "-");
             case '*':
                 consume();
