@@ -93,26 +93,9 @@ public class Calc {
             switch (c) {
             case '+':
                 consume();
-                if ('0' <= c && c <= '9') {
-                    StringBuilder buf = new StringBuilder();
-                    do {
-                        buf.append(c);
-                        consume();
-                    } while ('0' <= c && c <= '9');
-                    return new Token(TokenType.NUMBER, buf.toString());
-                }
                 return new Token(TokenType.ADD, "+");
             case '-':
                 consume();
-                if ('0' <= c && c <= '9') {
-                    StringBuilder buf = new StringBuilder();
-                    buf.append('-');
-                    do {
-                        buf.append(c);
-                        consume();
-                    } while ('0' <= c && c <= '9');
-                    return new Token(TokenType.NUMBER, buf.toString());
-                }
                 return new Token(TokenType.SUB, "-");
             case '*':
                 consume();
@@ -148,7 +131,11 @@ public class Calc {
         public final int value;
 
         public Num(Token token) {
-            value = Integer.parseInt(token.text);
+            this(token, false);
+        }
+
+        public Num(Token token, boolean negative) {
+            value = Integer.parseInt(token.text) * (negative ? -1 : 1);
         }
 
         @Override
@@ -339,6 +326,17 @@ public class Calc {
 
         private Ast number() {
             Token token = token();
+            if (token.type == TokenType.ADD) {
+                match(TokenType.ADD);
+                token = token();
+                match(TokenType.NUMBER);
+                return new Num(token);
+            } else if (token.type == TokenType.SUB) {
+                match(TokenType.SUB);
+                token = token();
+                match(TokenType.NUMBER);
+                return new Num(token, true);
+            }
             match(TokenType.NUMBER);
             return new Num(token);
         }
