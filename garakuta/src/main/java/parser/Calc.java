@@ -1,11 +1,16 @@
 package parser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 public class Calc {
 
@@ -274,94 +279,85 @@ public class Calc {
             return ast;
         }
 
-        private Ast expr() {
+        protected Ast expr() {
             return exprRec(term());
         }
 
-        private Ast exprRec(Ast left) {
-            Optional<Ast> opt = tryAdd(left).map(Optional::of).orElseGet(
-                    () -> trySub(left));
-            if (opt.isPresent()) {
-                return exprRec(opt.get());
-            }
-            return left;
-        }
-
-        private Ast term() {
+        protected Ast term() {
             return termRec(fact());
         }
 
-        private Ast termRec(Ast left) {
-            Optional<Ast> opt = tryMul(left).map(Optional::of).orElseGet(
-                    () -> tryDiv(left));
-            if (opt.isPresent()) {
-                return termRec(opt.get());
-            }
-            return left;
+        protected Ast add(Ast left) {
+            return binOp(TokenType.ADD, AddOp::new, left, this::term);
         }
 
-        private Ast fact() {
+        protected Ast sub(Ast left) {
+            return binOp(TokenType.SUB, SubOp::new, left, this::term);
+        }
+
+        protected Ast mul(Ast left) {
+            return binOp(TokenType.MUL, MulOp::new, left, this::fact);
+        }
+
+        protected Ast div(Ast left) {
+            return binOp(TokenType.DIV, DivOp::new, left, this::fact);
+        }
+
+        protected Ast fact() {
             return tryGet(this::paren).orElseGet(this::number);
         }
 
-        private Ast add(Ast left) {
-            match(TokenType.ADD);
-            return new AddOp(left, term());
-        }
-
-        private Ast sub(Ast left) {
-            match(TokenType.SUB);
-            return new SubOp(left, term());
-        }
-
-        private Ast mul(Ast left) {
-            match(TokenType.MUL);
-            return new MulOp(left, fact());
-        }
-
-        private Ast div(Ast left) {
-            match(TokenType.DIV);
-            return new DivOp(left, fact());
-        }
-
-        private Ast number() {
-            Token token = token();
-            if (token.type == TokenType.ADD) {
-                match(TokenType.ADD);
-                token = token();
-                match(TokenType.NUMBER);
-                return new Num(token);
-            } else if (token.type == TokenType.SUB) {
-                match(TokenType.SUB);
-                token = token();
-                match(TokenType.NUMBER);
-                return new Num(token, true);
-            }
-            match(TokenType.NUMBER);
-            return new Num(token);
-        }
-
-        private Ast paren() {
+        protected Ast paren() {
             match(TokenType.L_PAREN);
             Ast ast = expr();
             match(TokenType.R_PAREN);
             return ast;
         }
 
-        private Optional<Ast> tryAdd(Ast left) {
-            return tryGet(() -> add(left));
+        protected Ast number() {
+            Function<Boolean, Ast> f = negative -> {
+                Token token = token();
+                match(TokenType.NUMBER);
+                return new Num(token, negative);
+            };
+            Supplier<Optional<Ast>> tryPlus = () -> tryGet(() -> {
+                match(TokenType.ADD);
+                return f.apply(false);
+            });
+            Supplier<Optional<Ast>> tryMinus = () -> tryGet(() -> {
+                match(TokenType.SUB);
+                return f.apply(true);
+            });
+            Supplier<Ast> num = () -> f.apply(false);
+            return Stream.of(tryPlus, tryMinus).map(Supplier::get)
+                    .filter(Optional::isPresent).map(Optional::get).findFirst()
+                    .orElseGet(num);
         }
 
-        private Optional<Ast> trySub(Ast left) {
-            return tryGet(() -> sub(left));
+        private Ast binOp(TokenType expected, BinaryOperator<Ast> op, Ast left,
+                Supplier<Ast> right) {
+            match(expected);
+            return op.apply(left, right.get());
         }
 
-        private Optional<Ast> tryMul(Ast left) {
-            return tryGet(() -> mul(left));
+        private Ast exprRec(Ast left) {
+            return tryRec(left, this::exprRec, this::add, this::sub);
         }
 
-        private Optional<Ast> tryDiv(Ast left) {
-            return tryGet(() -> div(left));
+        private Ast termRec(Ast left) {
+            return tryRec(left, this::termRec, this::mul, this::div);
+        }
+
+        @SafeVarargs
+        private final Ast tryRec(Ast left, UnaryOperator<Ast> op,
+                UnaryOperator<Ast>... fs) {
+            Optional<Ast> opt = Arrays.stream(fs)
+                    .map(f -> tryGet(() -> f.apply(left)))
+                    .filter(Optional::isPresent).map(Optional::get).findFirst();
+            if (opt.isPresent()) {
+                return op.apply(opt.get());
+            }
+            return left;
         }
 
         private <T> Optional<T> tryGet(Supplier<T> supplier) {
