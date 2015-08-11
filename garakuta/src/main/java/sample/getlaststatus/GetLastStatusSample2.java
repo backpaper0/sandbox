@@ -9,6 +9,18 @@ import java.util.Optional;
 /**
  * Visitorパターンバージョン
  *
+ * StatusEvent.acceptを実行
+ * →EventVisitor.visit(StatusEvent, P)を実行
+ * →Optional.of(StatusEvent)を返す
+ * 
+ * といった流れ。
+ * 
+ * Visitorパターンはデータと処理を分離するパターン。
+ * そして今回はEventに対する細かい処理が多くありそうなので
+ * Visitorパターンを採用しても良いかもL(’ω’)┘三└(’ω’)」ｼｭｯｼｭｯ
+ * 
+ * ただ、VisitorパターンはIteratorパターンやObserverパターンよりも
+ * 理解しにくいと感じる(・_・)
  */
 public class GetLastStatusSample2 {
 
@@ -99,4 +111,24 @@ public class GetLastStatusSample2 {
 
         R visit(OtherEvent event, P param);
     }
+
+    //↓こんな感じのスケルトンがあるとvisitメソッドが多いときに便利〜(今回は使ってない)
+    static abstract class DefaultEventVisitor<P, R> implements
+            EventVisitor<P, R> {
+
+        protected R defaultAction(Event event, P param) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public R visit(StatusEvent event, P param) {
+            return defaultAction(event, param);
+        }
+
+        @Override
+        public R visit(OtherEvent event, P param) {
+            return defaultAction(event, param);
+        }
+    }
+
 }
