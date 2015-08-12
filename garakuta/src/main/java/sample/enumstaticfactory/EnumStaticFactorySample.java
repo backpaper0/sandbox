@@ -48,7 +48,7 @@ public class EnumStaticFactorySample {
              * 順序を気にしなくて良い分、並列処理のときはfindAnyの方がコストの低い操作です。
              * (findFirstは並列処理で使うと複数のスレッド間で順序を気にしないといけない分、高コスト)
              * シングルスレッドの場合はどちらのメソッドを利用するか気にしなくて良いです。
-             * (ただし並列処理にした場合にどちらのメソッドの方が良いか想像するのは良い習慣だと思います)
+             * (ただし並列処理にした場合にどちらのメソッドの方が良いか考えてみるのは良い習慣だと思います)
              * 
              * 順序付けされたStreamについては次のURLを参照してください。
              * https://docs.oracle.com/javase/jp/8/docs/api/java/util/stream/package-summary.html#Ordering
