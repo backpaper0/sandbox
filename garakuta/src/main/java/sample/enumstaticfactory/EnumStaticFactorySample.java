@@ -32,9 +32,9 @@ public class EnumStaticFactorySample {
             // throw new IllegalArgumentException();
 
             return
-            //このenumのすべての値から
-            Arrays.stream(values())
-            //valueが一致するものに絞って(valueが一致するのはひとつしかない)
+                    //このenumのすべての値から
+                    Arrays.stream(values())
+                    //valueが一致するものに絞って(valueが一致するのはひとつしかない)
                     .filter(status -> status.value == value)
                     //ひとつ取り出して
                     .findAny()
