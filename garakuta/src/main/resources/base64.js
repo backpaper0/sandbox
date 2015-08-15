@@ -6,8 +6,8 @@ function encodeBase64(src) {
     var written = 0;
     var i = 0;
     while (true) {
-        read = src.charCodeAt(i++);
-        if (isNaN(read)) {
+        read = src[i++];
+        if (read === undefined) {
             break;
         }
         index = read >> 2;
@@ -15,8 +15,8 @@ function encodeBase64(src) {
         written++;
 
         index = read << 4;
-        read = src.charCodeAt(i++);
-        if (isNaN(read)) {
+        read = src[i++];
+        if (read === undefined) {
             out += cs[index & 0x3f];
             written++;
             break;
@@ -26,8 +26,8 @@ function encodeBase64(src) {
         written++;
 
         index = read << 2;
-        read = src.charCodeAt(i++);
-        if (isNaN(read)) {
+        read = src[i++];
+        if (read === undefined) {
             out += cs[index & 0x3f];
             written++;
             break;

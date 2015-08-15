@@ -20,7 +20,8 @@ public class Base64Test {
 
     @Test
     public void test() throws Exception {
-        Object o = engine.eval("encodeBase64('hello')");
+        Object o = engine
+                .eval("encodeBase64('hello'.split('').map(function(a) { return a.charCodeAt(0); }))");
         assertThat(o,
                 is(Base64.getEncoder().encodeToString("hello".getBytes())));
     }
