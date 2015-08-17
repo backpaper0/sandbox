@@ -1,11 +1,16 @@
+import java.awt.AWTException;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,27 +22,64 @@ import javax.imageio.ImageIO;
 
 public class JavaFXImageSample extends Application {
 
+    private final Robot robot;
+    private final Rectangle screenRect = new Rectangle(0, 0, 500, 500);
+    private ImageView imageView;
+
+    public JavaFXImageSample() throws AWTException {
+        robot = new Robot();
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        Robot robot = new Robot();
-        Rectangle screenRect = new Rectangle(0, 0, 500, 500);
-        BufferedImage img = robot.createScreenCapture(screenRect);
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ImageIO.write(img, "png", out);
-        InputStream is = new ByteArrayInputStream(out.toByteArray());
-
-        Image image = new Image(is);
-        ImageView imageView = new ImageView(image);
+        imageView = new ImageView(createImage(getCapture()));
         Parent root = new Group(imageView);
 
         Scene scene = new Scene(root, 500, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        new Capture().start();
+    }
+
+    private byte[] getCapture() throws IOException {
+        BufferedImage img = robot.createScreenCapture(screenRect);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ImageIO.write(img, "png", out);
+        return out.toByteArray();
+    }
+
+    private Image createImage(byte[] buf) {
+        InputStream is = new ByteArrayInputStream(buf);
+        return new Image(is);
     }
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private class Capture extends Service<byte[]> {
+
+        @Override
+        protected Task<byte[]> createTask() {
+            Task<byte[]> task = new Task<byte[]>() {
+
+                @Override
+                protected byte[] call() throws Exception {
+                    return getCapture();
+                }
+
+                @Override
+                protected void succeeded() {
+                    try {
+                        imageView.setImage(createImage(get()));
+                    } catch (InterruptedException e) {
+                    } catch (ExecutionException e) {
+                    }
+                    new Capture().start();
+                }
+            };
+            return task;
+        }
     }
 }
