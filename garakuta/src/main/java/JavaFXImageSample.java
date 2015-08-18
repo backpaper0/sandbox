@@ -7,6 +7,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
+import javax.imageio.ImageIO;
 
 import javafx.application.Application;
 import javafx.concurrent.Service;
@@ -18,13 +21,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
-
 public class JavaFXImageSample extends Application {
 
     private final Robot robot;
     private final Rectangle screenRect = new Rectangle(0, 0, 500, 500);
     private ImageView imageView;
+    private long time;
+    private int count;
 
     public JavaFXImageSample() throws AWTException {
         robot = new Robot();
@@ -60,6 +63,8 @@ public class JavaFXImageSample extends Application {
 
     private class Capture extends Service<byte[]> {
 
+        final long started = System.nanoTime();
+
         @Override
         protected Task<byte[]> createTask() {
             Task<byte[]> task = new Task<byte[]>() {
@@ -75,6 +80,13 @@ public class JavaFXImageSample extends Application {
                         imageView.setImage(createImage(get()));
                     } catch (InterruptedException e) {
                     } catch (ExecutionException e) {
+                    }
+                    count++;
+                    time += System.nanoTime() - started;
+                    if (time >= TimeUnit.SECONDS.toNanos(1)) {
+                        System.out.println(count + "(fps)");
+                        count = 0;
+                        time = 0;
                     }
                     new Capture().start();
                 }
