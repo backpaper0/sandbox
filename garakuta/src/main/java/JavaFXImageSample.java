@@ -2,23 +2,19 @@ import java.awt.AWTException;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-
-import javax.imageio.ImageIO;
 
 import javafx.application.Application;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.stage.Stage;
 
 public class JavaFXImageSample extends Application {
@@ -45,32 +41,29 @@ public class JavaFXImageSample extends Application {
         new Capture().start();
     }
 
-    private byte[] getCapture() throws IOException {
-        BufferedImage img = robot.createScreenCapture(screenRect);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ImageIO.write(img, "png", out);
-        return out.toByteArray();
+    private BufferedImage getCapture() {
+        return robot.createScreenCapture(screenRect);
     }
 
-    private Image createImage(byte[] buf) {
-        InputStream is = new ByteArrayInputStream(buf);
-        return new Image(is);
+    private Image createImage(BufferedImage src) {
+        WritableImage img = new WritableImage(src.getWidth(), src.getHeight());
+        return SwingFXUtils.toFXImage(src, img);
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    private class Capture extends Service<byte[]> {
+    private class Capture extends Service<BufferedImage> {
 
         final long started = System.nanoTime();
 
         @Override
-        protected Task<byte[]> createTask() {
-            Task<byte[]> task = new Task<byte[]>() {
+        protected Task<BufferedImage> createTask() {
+            Task<BufferedImage> task = new Task<BufferedImage>() {
 
                 @Override
-                protected byte[] call() throws Exception {
+                protected BufferedImage call() throws Exception {
                     return getCapture();
                 }
 
