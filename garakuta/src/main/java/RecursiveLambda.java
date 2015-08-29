@@ -4,7 +4,8 @@ public class RecursiveLambda {
 
     /*
      * ラムダ式は再帰呼び出しできない。
-     * 次のラムダ式は
+     * 次のラムダ式は自身のメソッドapplyを呼び出そうとしているので
+     * コンパイルエラーになる。
      * UnaryOperator<Integer> sum = n -> (n > 0) ? n + apply(n - 1) : 0;
      * 
      * 再帰したい関数インターフェースを拡張した関数インターフェースを用意する。
