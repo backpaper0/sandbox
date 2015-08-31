@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { url 'http://maven.seasar.org/maven2/' }
+}
+
+war.archiveName = 'sample.war'
+
+dependencies {
+    providedCompile 'javax:javaee-api:7.0'
+    compile 'org.seasar.container:s2-tiger:2.4.48'
+    archives 'fish.payara.extras:payara-micro:4.1.153'
+}
+
+task run << {
+    def payaraJar = configurations.archives.find { it.name ==~ /payara-micro.*/ }
+    def warFile = war.archivePath
+    def proc = "java -jar $payaraJar --deploy $warFile".execute()
+    Runtime.runtime.addShutdownHook(new Thread({ -> proc.destroy() } as Runnable))
+    proc.waitForProcessOutput(System.out, System.err)
+}
+
+run.dependsOn war
