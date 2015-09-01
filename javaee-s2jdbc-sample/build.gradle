@@ -21,12 +21,10 @@ dependencies {
     archives 'fish.payara.extras:payara-micro:4.1.153'
 }
 
-task run << {
+task run(type:Exec) {
     def payaraJar = configurations.archives.find { it.name ==~ /payara-micro.*/ }
     def warFile = war.archivePath
-    def proc = "java -jar $payaraJar --deploy $warFile".execute()
-    Runtime.runtime.addShutdownHook(new Thread({ -> proc.destroy() } as Runnable))
-    proc.waitForProcessOutput(System.out, System.err)
+    commandLine 'java', '-jar', "$payaraJar", '--deploy', "$warFile"
 }
 
 run.dependsOn war
