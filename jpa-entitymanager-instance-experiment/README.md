@@ -31,7 +31,7 @@ Gradleタスクを書いているので次のコマンドで起動できます�
 gradle run
 ```
 
-次にcurlを叩きます。
+次にcurlを数回叩きます。
 
 ```
 curl http://localhost:8080/sample/
