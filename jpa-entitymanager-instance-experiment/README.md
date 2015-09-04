@@ -72,8 +72,9 @@ org.eclipse.persistence.internal.jpa.EntityManagerImpl@345443677
 `EntityManagerWrapper` というラッパーで、
 実際は `EntityManagerImpl` が使われているようです。
 そして `EntityManagerWrapper` から取得される `EntityManagerImpl`
-は同一リクエスト内では同一インスタンスだが異なるリクエストでは異なるインスタンスとなるようです。
+は同一リクエスト内では同一インスタンスですが、異なるリクエストでは異なるインスタンスとなるようです。
 
+これで安心してインジェクションしまくれますね！
 
 
 
