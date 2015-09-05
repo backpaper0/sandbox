@@ -32,10 +32,10 @@ public class StreamDropExample {
         Stream<Integer> original = Stream.iterate(1, a -> a + 1);
 
         //先頭から5つ飛ばす
-        Stream<Integer> s = drop(original, 5);
+        Stream<Integer> stream = drop(original, 5);
 
         //5つ取り出してカンマ区切りの文字列にする
-        String result = s.map(Objects::toString).limit(5)
+        String result = stream.map(Objects::toString).limit(5)
                 .collect(joining(", "));
 
         System.out.println(result);
