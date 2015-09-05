@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.Spliterators;
 import java.util.Spliterators.AbstractSpliterator;
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -30,7 +29,7 @@ public class StreamDropExample {
     public static void main(String[] args) {
 
         //1,2,3,4,5...みたいな無限ストリームを用意する。
-        Stream<Integer> original = IntStream.iterate(1, a -> a + 1).boxed();
+        Stream<Integer> original = Stream.iterate(1, a -> a + 1);
 
         //先頭から5つ飛ばす
         Stream<Integer> s = drop(original, 5);
