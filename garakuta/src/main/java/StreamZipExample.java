@@ -2,10 +2,14 @@ import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.Spliterators.AbstractSpliterator;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import misc.DelegateStream;
 
 /**
  * Stream APIでScalaのList.zipみたいな事をしたい。
@@ -31,13 +35,15 @@ public class StreamZipExample {
         Stream<String> second = Stream.of("foo", "bar", "baz");
 
         String result = zip(first, second)
-                .map(p -> String.format("(%s, %s)", p.getFirst(),
-                        p.getSecond()))
+                //Pair.getFirstが奇数だけに絞る
+                .filter((f, s) -> f % 2 == 1)
+                //文字列にする
+                .map((f, s) -> String.format("(%s, %s)", f, s))
                 .collect(Collectors.joining(System.lineSeparator()));
         System.out.println(result);
     }
 
-    public static <T, U> Stream<Pair<T, U>> zip(Stream<T> first,
+    public static <T, U> ZippedStream<T, U> zip(Stream<T> first,
             Stream<U> second) {
         Iterator<T> it1 = Spliterators.iterator(first.spliterator());
         Iterator<U> it2 = Spliterators.iterator(second.spliterator());
@@ -55,7 +61,8 @@ public class StreamZipExample {
                 return false;
             }
         };
-        return StreamSupport.stream(spliterator, false);
+        Stream<Pair<T, U>> stream = StreamSupport.stream(spliterator, false);
+        return new ZippedStreamImpl<>(stream);
     }
 
     public static class Pair<T, U> {
@@ -73,6 +80,42 @@ public class StreamZipExample {
 
         public U getSecond() {
             return second;
+        }
+    }
+
+    public interface ZippedStream<T, U> extends Stream<Pair<T, U>> {
+
+        <R> Stream<R> map(BiFunction<T, U, ? extends R> mapper);
+
+        <R> Stream<R> flatMap(
+                BiFunction<T, U, ? extends Stream<? extends R>> mapper);
+
+        ZippedStream<T, U> filter(BiPredicate<T, U> predicate);
+    }
+
+    private static class ZippedStreamImpl<T, U>
+            extends DelegateStream<Pair<T, U>>implements ZippedStream<T, U> {
+
+        public ZippedStreamImpl(Stream<Pair<T, U>> stream) {
+            super(stream);
+        }
+
+        @Override
+        public <R> Stream<R> map(BiFunction<T, U, ? extends R> mapper) {
+            return stream.map(a -> mapper.apply(a.getFirst(), a.getSecond()));
+        }
+
+        @Override
+        public <R> Stream<R> flatMap(
+                BiFunction<T, U, ? extends Stream<? extends R>> mapper) {
+            return stream
+                    .flatMap(a -> mapper.apply(a.getFirst(), a.getSecond()));
+        }
+
+        @Override
+        public ZippedStream<T, U> filter(BiPredicate<T, U> predicate) {
+            return new ZippedStreamImpl<>(stream
+                    .filter(a -> predicate.test(a.getFirst(), a.getSecond())));
         }
     }
 }
