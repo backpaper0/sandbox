@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WebRTC Study</title>
+    </head>
+    <body>
+        <video id="video" width="400" height="300" autoplay="1" ></video>
+        <script type="text/javascript">
+var video = document.getElementById('video');
+navigator.webkitGetUserMedia({ video: true, audio: true }, function(stream) {
+    video.src = window.URL.createObjectURL(stream);
+}, function() {});
+        </script>
+    </body>
+</html>
