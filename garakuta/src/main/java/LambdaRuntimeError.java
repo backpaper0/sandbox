@@ -19,6 +19,7 @@ import java.util.Optional;
 public class LambdaRuntimeError {
 
     public static void main(String[] args) {
+        System.out.println(get3(new IfImpl("hoge")));
         System.out.println(get1(new Obj("foo")));
         System.out.println(get2(new Obj("bar")));
     }
@@ -28,6 +29,18 @@ public class LambdaRuntimeError {
     }
 
     static <T extends Abs & If> String get2(T t) {
+        return Optional.of(t).map(If::get).orElse("empty");
+    }
+
+    /*
+     * If2 & Ifだと実行時エラーになった。
+     * If & If2だと通る。
+     * Class & Interfaceは書けるけどInterface & Classは
+     * コンパイルエラーになるっぽいので片方が抽象クラスだと
+     * どうしようもない感じする。
+     */
+    //    static <T extends If2 & If> String get3(T t) {
+    static <T extends If & If2> String get3(T t) {
         return Optional.of(t).map(If::get).orElse("empty");
     }
 
@@ -49,5 +62,21 @@ public class LambdaRuntimeError {
 
     public interface If {
         String get();
+    }
+
+    public interface If2 {
+    }
+
+    public static class IfImpl implements If, If2 {
+        private final String text;
+
+        public IfImpl(String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String get() {
+            return text;
+        }
     }
 }
