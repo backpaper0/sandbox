@@ -1,0 +1,325 @@
+Classfile /Users/backpaper0/src/sandbox/garakuta/bin/LambdaRuntimeError.class
+  Last modified 2015/09/10; size 2722 bytes
+  MD5 checksum a94e5c8401037d0ef0fd5d9f811908c5
+  Compiled from "LambdaRuntimeError.java"
+public class LambdaRuntimeError
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+    #1 = Class              #2            // LambdaRuntimeError
+    #2 = Utf8               LambdaRuntimeError
+    #3 = Class              #4            // java/lang/Object
+    #4 = Utf8               java/lang/Object
+    #5 = Utf8               <init>
+    #6 = Utf8               ()V
+    #7 = Utf8               Code
+    #8 = Methodref          #3.#9         // java/lang/Object."<init>":()V
+    #9 = NameAndType        #5:#6         // "<init>":()V
+   #10 = Utf8               LineNumberTable
+   #11 = Utf8               LocalVariableTable
+   #12 = Utf8               this
+   #13 = Utf8               LLambdaRuntimeError;
+   #14 = Utf8               main
+   #15 = Utf8               ([Ljava/lang/String;)V
+   #16 = Fieldref           #17.#19       // java/lang/System.out:Ljava/io/PrintStream;
+   #17 = Class              #18           // java/lang/System
+   #18 = Utf8               java/lang/System
+   #19 = NameAndType        #20:#21       // out:Ljava/io/PrintStream;
+   #20 = Utf8               out
+   #21 = Utf8               Ljava/io/PrintStream;
+   #22 = Class              #23           // LambdaRuntimeError$IfImpl
+   #23 = Utf8               LambdaRuntimeError$IfImpl
+   #24 = String             #25           // hoge
+   #25 = Utf8               hoge
+   #26 = Methodref          #22.#27       // LambdaRuntimeError$IfImpl."<init>":(Ljava/lang/String;)V
+   #27 = NameAndType        #5:#28        // "<init>":(Ljava/lang/String;)V
+   #28 = Utf8               (Ljava/lang/String;)V
+   #29 = Methodref          #1.#30        // LambdaRuntimeError.get3:(LLambdaRuntimeError$If;)Ljava/lang/String;
+   #30 = NameAndType        #31:#32       // get3:(LLambdaRuntimeError$If;)Ljava/lang/String;
+   #31 = Utf8               get3
+   #32 = Utf8               (LLambdaRuntimeError$If;)Ljava/lang/String;
+   #33 = Methodref          #34.#36       // java/io/PrintStream.println:(Ljava/lang/String;)V
+   #34 = Class              #35           // java/io/PrintStream
+   #35 = Utf8               java/io/PrintStream
+   #36 = NameAndType        #37:#28       // println:(Ljava/lang/String;)V
+   #37 = Utf8               println
+   #38 = Class              #39           // LambdaRuntimeError$Obj
+   #39 = Utf8               LambdaRuntimeError$Obj
+   #40 = String             #41           // fuga
+   #41 = Utf8               fuga
+   #42 = Methodref          #38.#27       // LambdaRuntimeError$Obj."<init>":(Ljava/lang/String;)V
+   #43 = Methodref          #1.#44        // LambdaRuntimeError.get4:(LLambdaRuntimeError$Abs;)Ljava/lang/String;
+   #44 = NameAndType        #45:#46       // get4:(LLambdaRuntimeError$Abs;)Ljava/lang/String;
+   #45 = Utf8               get4
+   #46 = Utf8               (LLambdaRuntimeError$Abs;)Ljava/lang/String;
+   #47 = String             #48           // foo
+   #48 = Utf8               foo
+   #49 = Methodref          #1.#50        // LambdaRuntimeError.get1:(LLambdaRuntimeError$Obj;)Ljava/lang/String;
+   #50 = NameAndType        #51:#52       // get1:(LLambdaRuntimeError$Obj;)Ljava/lang/String;
+   #51 = Utf8               get1
+   #52 = Utf8               (LLambdaRuntimeError$Obj;)Ljava/lang/String;
+   #53 = String             #54           // bar
+   #54 = Utf8               bar
+   #55 = Methodref          #1.#56        // LambdaRuntimeError.get2:(LLambdaRuntimeError$Abs;)Ljava/lang/String;
+   #56 = NameAndType        #57:#46       // get2:(LLambdaRuntimeError$Abs;)Ljava/lang/String;
+   #57 = Utf8               get2
+   #58 = Utf8               args
+   #59 = Utf8               [Ljava/lang/String;
+   #60 = Methodref          #61.#63       // java/util/Optional.of:(Ljava/lang/Object;)Ljava/util/Optional;
+   #61 = Class              #62           // java/util/Optional
+   #62 = Utf8               java/util/Optional
+   #63 = NameAndType        #64:#65       // of:(Ljava/lang/Object;)Ljava/util/Optional;
+   #64 = Utf8               of
+   #65 = Utf8               (Ljava/lang/Object;)Ljava/util/Optional;
+   #66 = NameAndType        #67:#68       // apply:()Ljava/util/function/Function;
+   #67 = Utf8               apply
+   #68 = Utf8               ()Ljava/util/function/Function;
+   #69 = InvokeDynamic      #0:#66        // #0:apply:()Ljava/util/function/Function;
+   #70 = Methodref          #61.#71       // java/util/Optional.map:(Ljava/util/function/Function;)Ljava/util/Optional;
+   #71 = NameAndType        #72:#73       // map:(Ljava/util/function/Function;)Ljava/util/Optional;
+   #72 = Utf8               map
+   #73 = Utf8               (Ljava/util/function/Function;)Ljava/util/Optional;
+   #74 = String             #75           // empty
+   #75 = Utf8               empty
+   #76 = Methodref          #61.#77       // java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+   #77 = NameAndType        #78:#79       // orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+   #78 = Utf8               orElse
+   #79 = Utf8               (Ljava/lang/Object;)Ljava/lang/Object;
+   #80 = Class              #81           // java/lang/String
+   #81 = Utf8               java/lang/String
+   #82 = Utf8               t
+   #83 = Utf8               LLambdaRuntimeError$Obj;
+   #84 = Utf8               Signature
+   #85 = Utf8               <T:LLambdaRuntimeError$Abs;:LLambdaRuntimeError$If;>(TT;)Ljava/lang/String;
+   #86 = InvokeDynamic      #1:#66        // #1:apply:()Ljava/util/function/Function;
+   #87 = Utf8               LLambdaRuntimeError$Abs;
+   #88 = Utf8               LocalVariableTypeTable
+   #89 = Utf8               TT;
+   #90 = Utf8               <T::LLambdaRuntimeError$If;:LLambdaRuntimeError$If2;>(TT;)Ljava/lang/String;
+   #91 = InvokeDynamic      #2:#66        // #2:apply:()Ljava/util/function/Function;
+   #92 = Utf8               LLambdaRuntimeError$If;
+   #93 = InvokeDynamic      #3:#66        // #3:apply:()Ljava/util/function/Function;
+   #94 = Utf8               lambda$0
+   #95 = Class              #96           // LambdaRuntimeError$If
+   #96 = Utf8               LambdaRuntimeError$If
+   #97 = InterfaceMethodref #95.#98       // LambdaRuntimeError$If.get:()Ljava/lang/String;
+   #98 = NameAndType        #99:#100      // get:()Ljava/lang/String;
+   #99 = Utf8               get
+  #100 = Utf8               ()Ljava/lang/String;
+  #101 = Utf8               a
+  #102 = Utf8               SourceFile
+  #103 = Utf8               LambdaRuntimeError.java
+  #104 = Utf8               BootstrapMethods
+  #105 = Methodref          #106.#108     // java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #106 = Class              #107          // java/lang/invoke/LambdaMetafactory
+  #107 = Utf8               java/lang/invoke/LambdaMetafactory
+  #108 = NameAndType        #109:#110     // metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #109 = Utf8               metafactory
+  #110 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #111 = MethodHandle       #6:#105       // invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #112 = MethodType         #79           //  (Ljava/lang/Object;)Ljava/lang/Object;
+  #113 = MethodHandle       #9:#97        // invokeinterface LambdaRuntimeError$If.get:()Ljava/lang/String;
+  #114 = MethodType         #52           //  (LLambdaRuntimeError$Obj;)Ljava/lang/String;
+  #115 = MethodType         #79           //  (Ljava/lang/Object;)Ljava/lang/Object;
+  #116 = MethodHandle       #9:#97        // invokeinterface LambdaRuntimeError$If.get:()Ljava/lang/String;
+  #117 = MethodType         #46           //  (LLambdaRuntimeError$Abs;)Ljava/lang/String;
+  #118 = MethodType         #79           //  (Ljava/lang/Object;)Ljava/lang/Object;
+  #119 = MethodHandle       #9:#97        // invokeinterface LambdaRuntimeError$If.get:()Ljava/lang/String;
+  #120 = MethodType         #32           //  (LLambdaRuntimeError$If;)Ljava/lang/String;
+  #121 = MethodType         #79           //  (Ljava/lang/Object;)Ljava/lang/Object;
+  #122 = Methodref          #1.#123       // LambdaRuntimeError.lambda$0:(LLambdaRuntimeError$Abs;)Ljava/lang/String;
+  #123 = NameAndType        #94:#46       // lambda$0:(LLambdaRuntimeError$Abs;)Ljava/lang/String;
+  #124 = MethodHandle       #6:#122       // invokestatic LambdaRuntimeError.lambda$0:(LLambdaRuntimeError$Abs;)Ljava/lang/String;
+  #125 = MethodType         #46           //  (LLambdaRuntimeError$Abs;)Ljava/lang/String;
+  #126 = Utf8               InnerClasses
+  #127 = Class              #128          // LambdaRuntimeError$Abs
+  #128 = Utf8               LambdaRuntimeError$Abs
+  #129 = Utf8               Abs
+  #130 = Utf8               If
+  #131 = Class              #132          // LambdaRuntimeError$If2
+  #132 = Utf8               LambdaRuntimeError$If2
+  #133 = Utf8               If2
+  #134 = Utf8               IfImpl
+  #135 = Utf8               Obj
+  #136 = Class              #137          // java/lang/invoke/MethodHandles$Lookup
+  #137 = Utf8               java/lang/invoke/MethodHandles$Lookup
+  #138 = Class              #139          // java/lang/invoke/MethodHandles
+  #139 = Utf8               java/lang/invoke/MethodHandles
+  #140 = Utf8               Lookup
+{
+  public LambdaRuntimeError();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #8                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 19: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   LLambdaRuntimeError;
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=1, args_size=1
+         0: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+         3: new           #22                 // class LambdaRuntimeError$IfImpl
+         6: dup
+         7: ldc           #24                 // String hoge
+         9: invokespecial #26                 // Method LambdaRuntimeError$IfImpl."<init>":(Ljava/lang/String;)V
+        12: invokestatic  #29                 // Method get3:(LLambdaRuntimeError$If;)Ljava/lang/String;
+        15: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        18: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        21: new           #38                 // class LambdaRuntimeError$Obj
+        24: dup
+        25: ldc           #40                 // String fuga
+        27: invokespecial #42                 // Method LambdaRuntimeError$Obj."<init>":(Ljava/lang/String;)V
+        30: invokestatic  #43                 // Method get4:(LLambdaRuntimeError$Abs;)Ljava/lang/String;
+        33: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        36: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        39: new           #38                 // class LambdaRuntimeError$Obj
+        42: dup
+        43: ldc           #47                 // String foo
+        45: invokespecial #42                 // Method LambdaRuntimeError$Obj."<init>":(Ljava/lang/String;)V
+        48: invokestatic  #49                 // Method get1:(LLambdaRuntimeError$Obj;)Ljava/lang/String;
+        51: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        54: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        57: new           #38                 // class LambdaRuntimeError$Obj
+        60: dup
+        61: ldc           #53                 // String bar
+        63: invokespecial #42                 // Method LambdaRuntimeError$Obj."<init>":(Ljava/lang/String;)V
+        66: invokestatic  #55                 // Method get2:(LLambdaRuntimeError$Abs;)Ljava/lang/String;
+        69: invokevirtual #33                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        72: return
+      LineNumberTable:
+        line 22: 0
+        line 23: 18
+        line 24: 36
+        line 25: 54
+        line 26: 72
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      73     0  args   [Ljava/lang/String;
+
+  static java.lang.String get1(LambdaRuntimeError$Obj);
+    descriptor: (LLambdaRuntimeError$Obj;)Ljava/lang/String;
+    flags: ACC_STATIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: invokestatic  #60                 // Method java/util/Optional.of:(Ljava/lang/Object;)Ljava/util/Optional;
+         4: invokedynamic #69,  0             // InvokeDynamic #0:apply:()Ljava/util/function/Function;
+         9: invokevirtual #70                 // Method java/util/Optional.map:(Ljava/util/function/Function;)Ljava/util/Optional;
+        12: ldc           #74                 // String empty
+        14: invokevirtual #76                 // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+        17: checkcast     #80                 // class java/lang/String
+        20: areturn
+      LineNumberTable:
+        line 29: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      21     0     t   LLambdaRuntimeError$Obj;
+
+  static <T extends LambdaRuntimeError$Abs & LambdaRuntimeError$If> java.lang.String get2(T);
+    descriptor: (LLambdaRuntimeError$Abs;)Ljava/lang/String;
+    flags: ACC_STATIC
+    Signature: #85                          // <T:LLambdaRuntimeError$Abs;:LLambdaRuntimeError$If;>(TT;)Ljava/lang/String;
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: invokestatic  #60                 // Method java/util/Optional.of:(Ljava/lang/Object;)Ljava/util/Optional;
+         4: invokedynamic #86,  0             // InvokeDynamic #1:apply:()Ljava/util/function/Function;
+         9: invokevirtual #70                 // Method java/util/Optional.map:(Ljava/util/function/Function;)Ljava/util/Optional;
+        12: ldc           #74                 // String empty
+        14: invokevirtual #76                 // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+        17: checkcast     #80                 // class java/lang/String
+        20: areturn
+      LineNumberTable:
+        line 33: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      21     0     t   LLambdaRuntimeError$Abs;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      21     0     t   TT;
+
+  static <T extends LambdaRuntimeError$If & LambdaRuntimeError$If2> java.lang.String get3(T);
+    descriptor: (LLambdaRuntimeError$If;)Ljava/lang/String;
+    flags: ACC_STATIC
+    Signature: #90                          // <T::LLambdaRuntimeError$If;:LLambdaRuntimeError$If2;>(TT;)Ljava/lang/String;
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: invokestatic  #60                 // Method java/util/Optional.of:(Ljava/lang/Object;)Ljava/util/Optional;
+         4: invokedynamic #91,  0             // InvokeDynamic #2:apply:()Ljava/util/function/Function;
+         9: invokevirtual #70                 // Method java/util/Optional.map:(Ljava/util/function/Function;)Ljava/util/Optional;
+        12: ldc           #74                 // String empty
+        14: invokevirtual #76                 // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+        17: checkcast     #80                 // class java/lang/String
+        20: areturn
+      LineNumberTable:
+        line 45: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      21     0     t   LLambdaRuntimeError$If;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      21     0     t   TT;
+
+  static <T extends LambdaRuntimeError$Abs & LambdaRuntimeError$If> java.lang.String get4(T);
+    descriptor: (LLambdaRuntimeError$Abs;)Ljava/lang/String;
+    flags: ACC_STATIC
+    Signature: #85                          // <T:LLambdaRuntimeError$Abs;:LLambdaRuntimeError$If;>(TT;)Ljava/lang/String;
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: invokestatic  #60                 // Method java/util/Optional.of:(Ljava/lang/Object;)Ljava/util/Optional;
+         4: invokedynamic #93,  0             // InvokeDynamic #3:apply:()Ljava/util/function/Function;
+         9: invokevirtual #70                 // Method java/util/Optional.map:(Ljava/util/function/Function;)Ljava/util/Optional;
+        12: ldc           #74                 // String empty
+        14: invokevirtual #76                 // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+        17: checkcast     #80                 // class java/lang/String
+        20: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      21     0     t   LLambdaRuntimeError$Abs;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      21     0     t   TT;
+}
+SourceFile: "LambdaRuntimeError.java"
+BootstrapMethods:
+  0: #111 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #112 (Ljava/lang/Object;)Ljava/lang/Object;
+      #113 invokeinterface LambdaRuntimeError$If.get:()Ljava/lang/String;
+      #114 (LLambdaRuntimeError$Obj;)Ljava/lang/String;
+  1: #111 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #115 (Ljava/lang/Object;)Ljava/lang/Object;
+      #116 invokeinterface LambdaRuntimeError$If.get:()Ljava/lang/String;
+      #117 (LLambdaRuntimeError$Abs;)Ljava/lang/String;
+  2: #111 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #118 (Ljava/lang/Object;)Ljava/lang/Object;
+      #119 invokeinterface LambdaRuntimeError$If.get:()Ljava/lang/String;
+      #120 (LLambdaRuntimeError$If;)Ljava/lang/String;
+  3: #111 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #121 (Ljava/lang/Object;)Ljava/lang/Object;
+      #124 invokestatic LambdaRuntimeError.lambda$0:(LLambdaRuntimeError$Abs;)Ljava/lang/String;
+      #125 (LLambdaRuntimeError$Abs;)Ljava/lang/String;
+InnerClasses:
+     public static abstract #129= #127 of #1; //Abs=class LambdaRuntimeError$Abs of class LambdaRuntimeError
+     public static #130= #95 of #1; //If=class LambdaRuntimeError$If of class LambdaRuntimeError
+     public static #133= #131 of #1; //If2=class LambdaRuntimeError$If2 of class LambdaRuntimeError
+     public static #134= #22 of #1; //IfImpl=class LambdaRuntimeError$IfImpl of class LambdaRuntimeError
+     public static #135= #38 of #1; //Obj=class LambdaRuntimeError$Obj of class LambdaRuntimeError
+     public static final #140= #136 of #138; //Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles
