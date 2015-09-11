@@ -1,9 +1,0 @@
-/.*
-!/.gitignore
-/build/
-/bin/
-
-*.iws
-*.iml
-*.ipr
-
