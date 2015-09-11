@@ -1,5 +1,8 @@
 /.*
-/target/
+/bin/
+/build/
+/*.iml
+/*.ipr
+/*.iws
+/derby.log
 !/.gitignore
-/src/main/webapp/WEB-INF/classes/
-

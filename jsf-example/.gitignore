@@ -1,10 +1,8 @@
 /.*
-!/.gitignore
-/build/
 /bin/
-/target/
-
-*.iws
-*.iml
-*.ipr
-
+/build/
+/*.iml
+/*.ipr
+/*.iws
+/derby.log
+!/.gitignore

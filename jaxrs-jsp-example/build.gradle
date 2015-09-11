@@ -1,0 +1,30 @@
+apply plugin: 'war'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+war.archiveName = 'sample.war'
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    providedCompile 'javax:javaee-api:7.0'
+    archives 'fish.payara.extras:payara-micro:4.1.153'
+}
+
+task run(type:Exec) {
+    def payaraJar = configurations.archives.find { it.name ==~ /payara-micro.*/ }
+    def warFile = war.archivePath
+    commandLine 'java', '-jar', "$payaraJar", '--deploy', "$warFile"
+}
+
+run.dependsOn war
