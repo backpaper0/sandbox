@@ -4,17 +4,15 @@
 
 JSF自分勉強用のサンプルです。
 
-参照実装の [Mojarra](https://javaserverfaces.java.net/) を使用しています。
-
 コンポーネントは [PrimeFaces](http://primefaces.org/) を使用しています。
 
 ## 動かすには
 
-jetty-maven-pluginで動くようにしています。
+Payara Microで動かすGradleタスクを書いています。
 次のコマンドを実行してください。
 
 ```sh
-mvn jetty:run
+gradle run
 ```
 
 `control + c` で停止します。
