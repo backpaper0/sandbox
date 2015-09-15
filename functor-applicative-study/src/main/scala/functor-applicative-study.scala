@@ -6,11 +6,11 @@ trait Functor[A, F[_]] { self: F[A] =>
   def map[B](f: A => B): F[B]
 }
 
-trait Apply[A, F[_]] { self: F[A] =>
+trait Apply[A, F[_]] extends Functor[A, F] { self: F[A] =>
   def ap[B](f: F[A => B]): F[B]
 }
 
-sealed trait Maybe[A] extends Functor[A, Maybe] with Apply[A, Maybe]
+sealed trait Maybe[A] extends Apply[A, Maybe]
 
 case class Just[A](value: A) extends Maybe[A] {
   def map[B](f: A => B): Maybe[B] = Just(f(value))
@@ -25,7 +25,7 @@ case class Nothing[A]() extends Maybe[A] {
   def ap[B](f: Maybe[A => B]): Maybe[B] = Nothing()
 }
 
-sealed trait List[A] extends Functor[A, List] with Apply[A, List]
+sealed trait List[A] extends Apply[A, List]
 
 case class Cons[A](head: A, tail: List[A]) extends List[A] {
   def map[B](f: A => B): List[B] = Cons(f(head), tail.map(f))
