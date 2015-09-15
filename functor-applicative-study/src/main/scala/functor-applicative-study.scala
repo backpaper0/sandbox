@@ -3,7 +3,7 @@ package study
 //import scala.language.higherKinds
 
 trait Functor[A, F[_]] { self: F[A] =>
-  def fmap[B](f: A => B): F[B]
+  def map[B](f: A => B): F[B]
 }
 
 trait Apply[A, F[_]] { self: F[A] =>
@@ -13,7 +13,7 @@ trait Apply[A, F[_]] { self: F[A] =>
 sealed trait Maybe[A] extends Functor[A, Maybe] with Apply[A, Maybe]
 
 case class Just[A](value: A) extends Maybe[A] {
-  def fmap[B](f: A => B): Maybe[B] = Just(f(value))
+  def map[B](f: A => B): Maybe[B] = Just(f(value))
   def ap[B](f: Maybe[A => B]): Maybe[B] = f match {
     case Just(g) => Just(g(value))
     case Nothing() => Nothing()
@@ -21,14 +21,14 @@ case class Just[A](value: A) extends Maybe[A] {
 }
 
 case class Nothing[A]() extends Maybe[A] {
-  def fmap[B](f: A => B): Maybe[B] = Nothing()
+  def map[B](f: A => B): Maybe[B] = Nothing()
   def ap[B](f: Maybe[A => B]): Maybe[B] = Nothing()
 }
 
 sealed trait List[A] extends Functor[A, List] with Apply[A, List]
 
 case class Cons[A](head: A, tail: List[A]) extends List[A] {
-  def fmap[B](f: A => B): List[B] = Cons(f(head), tail.fmap(f))
+  def map[B](f: A => B): List[B] = Cons(f(head), tail.map(f))
   def ap[B](f: List[A => B]): List[B] = {
     def inner(x: A, xs: List[A], fs: List[A => B]): List[B] = (xs, fs) match {
       case (Nil(), Cons(h2, Nil())) => Cons(h2(x), Nil())
@@ -41,6 +41,6 @@ case class Cons[A](head: A, tail: List[A]) extends List[A] {
 }
 
 case class Nil[A]() extends List[A] {
-  def fmap[B](f: A => B): List[B] = Nil()
+  def map[B](f: A => B): List[B] = Nil()
   def ap[B](f: List[A => B]): List[B] = Nil()
 }
