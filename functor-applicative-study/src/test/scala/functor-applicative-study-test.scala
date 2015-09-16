@@ -26,4 +26,16 @@ class FunctorSpec extends FlatSpec with Matchers {
     val a: List[Int] = Nil()
     a.map(_ * 2) should be (Nil())
   }
+
+  "Just(2) map id" should "Just(2)" in {
+    val a: Maybe[Int] = Just(2)
+    a.map(x => x) should be (a)
+  }
+
+  "Just(2) map f map g" should "Just(2) map f andThen g" in {
+    val a: Maybe[Int] = Just(2)
+    val f: Int => Int = x => x * 2
+    val g: Int => String = x => "*" + x + "*"
+    a.map(f).map(g) should be (a.map(f andThen g))
+  }
 }
