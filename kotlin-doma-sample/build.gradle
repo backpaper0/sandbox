@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        kotlinVersion = '0.12.1230'
-        domaVersion = '2.4.0'
+        kotlinVersion = '0.13.1513'
+        domaVersion = '2.4.1'
     }
     repositories {
         jcenter()
