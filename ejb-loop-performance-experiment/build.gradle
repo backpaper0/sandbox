@@ -56,3 +56,14 @@ if (env == 'payara-micro') {
     test.systemProperty 'arquillian.launch', 'payara-micro'
 }
 
+if (env == 'payara-managed') {
+    dependencies {
+        testCompile 'org.jboss.arquillian.container:arquillian-glassfish-managed-3.1:1.0.0.CR4'
+    }
+
+    test {
+        systemProperty 'arquillian.launch', 'payara-managed'
+        systemProperty 'payara.home', project.properties['payara.home']
+    }
+}
+

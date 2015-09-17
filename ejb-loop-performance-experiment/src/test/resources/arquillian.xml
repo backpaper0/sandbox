@@ -11,4 +11,12 @@
   <container qualifier="payara-micro">
   </container>
 
+  <container qualifier="payara-managed">
+    <configuration>
+      <property name="glassFishHome">${payara.home}</property>
+      <property name="outputToConsole">true</property>
+      <property name="domain">domain1</property>
+    </configuration>
+  </container>
+
 </arquillian>
