@@ -1,0 +1,45 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+war.archiveName = 'sample.war'
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    providedCompile 'javax:javaee-api:7.0'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.9.Final'
+    testRuntime 'org.wildfly.arquillian:wildfly-arquillian-container-managed:1.0.1.Final'
+    archives 'fish.payara.extras:payara-micro:4.1.153'
+    archives 'org.wildfly:wildfly-dist:9.0.1.Final@zip'
+}
+
+task run(type:Exec) {
+    def payaraJar = configurations.archives.find { it.name ==~ /payara-micro.*/ }
+    def warFile = war.archivePath
+    commandLine 'java', '-jar', "$payaraJar", '--deploy', "$warFile"
+}
+
+run.dependsOn war
+
+task readyWildfly(type: Copy) {
+    def wildflyZip = configurations.archives.find { it.name ==~ /wildfly.*/ }
+
+    from zipTree(wildflyZip)
+    into buildDir
+
+    inputs.file wildflyZip
+    outputs.upToDateWhen { new File(buildDir, 'wildfly-9.0.1.Final').exists() }
+}
+
+test.dependsOn readyWildfly
+
