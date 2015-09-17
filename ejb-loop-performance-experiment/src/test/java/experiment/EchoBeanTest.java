@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit.InSequence;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
@@ -26,8 +27,9 @@ public class EchoBeanTest {
     //    @Resource
     //    private UserTransaction utx;
 
+    @InSequence(1)
     @Test
-    public void test0_デプロイしたりJIT見込んで温めるやつ() throws Exception {
+    public void デプロイしたりJIT見込んで温めるやつ() throws Exception {
         //WildFlyの起動やデプロイの時間を分離したいので
         //それとJIT効くかもしれないし温める
         for (int i = 0; i < 100000; i++) {
@@ -38,30 +40,33 @@ public class EchoBeanTest {
         }
     }
 
+    @InSequence(2)
     @Test
-    public void test3_ApplicationScopedなCDIでメソッドにTransactionalつけた()
-            throws Exception {
+    public void ApplicationScopedなCDIでメソッドにTransactionalつけた() throws Exception {
         for (int i = 0; i < 100000; i++) {
             bean.echoInTx(String.valueOf(i));
         }
     }
 
+    @InSequence(3)
     @Test
-    public void test4_ApplicationScopedなCDIでTransactional無し() throws Exception {
+    public void ApplicationScopedなCDIでTransactional無し() throws Exception {
         for (int i = 0; i < 100000; i++) {
             bean.echo(String.valueOf(i));
         }
     }
 
+    @InSequence(4)
     @Test
-    public void test1_Statlessセッションビーン() throws Exception {
+    public void Statlessセッションビーン() throws Exception {
         for (int i = 0; i < 100000; i++) {
             bean2.echo(String.valueOf(i));
         }
     }
 
+    @InSequence(5)
     @Test
-    public void test2_Singletonセッションビーン() throws Exception {
+    public void Singletonセッションビーン() throws Exception {
         for (int i = 0; i < 100000; i++) {
             bean3.echo(String.valueOf(i));
         }
