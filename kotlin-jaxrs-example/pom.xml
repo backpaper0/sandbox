@@ -16,7 +16,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.version>0.7.895</kotlin.version>
+        <kotlin.version>0.13.1513</kotlin.version>
         <wildfly.version>8.1.0.Final</wildfly.version>
     </properties>
 
