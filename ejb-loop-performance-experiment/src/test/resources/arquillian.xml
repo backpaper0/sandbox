@@ -8,4 +8,7 @@
     </configuration>
   </container>
 
+  <container qualifier="payara-micro">
+  </container>
+
 </arquillian>

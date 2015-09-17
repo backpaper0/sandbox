@@ -1,12 +1,14 @@
 package experiment;
 
+import java.io.File;
+
 import javax.ejb.EJB;
 import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -66,8 +68,10 @@ public class EchoBeanTest {
     }
 
     @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class).addClasses(EchoBean.class,
-                EchoBean2.class, EchoBean3.class);
+    public static WebArchive createDeployment() {
+        return ShrinkWrap.create(WebArchive.class)
+                .addClasses(EchoBean.class, EchoBean2.class, EchoBean3.class)
+                .addAsWebInfResource(
+                        new File("src/main/webapp/WEB-INF/glassfish-web.xml"));
     }
 }
