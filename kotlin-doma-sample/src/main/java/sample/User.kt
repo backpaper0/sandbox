@@ -2,7 +2,7 @@ package sample
 
 import org.seasar.doma.*
 
-Entity
+@Entity
 public class User {
 
     var name: Name? = null
