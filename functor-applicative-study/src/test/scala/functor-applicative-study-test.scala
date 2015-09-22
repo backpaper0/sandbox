@@ -3,34 +3,63 @@ package study
 import org.scalatest._
 import org.scalatest.junit._
 import org.junit.runner.RunWith
-import study.Functors._
+import study.Implicits._
 
 @RunWith(classOf[JUnitRunner])
 class FunctorSpec extends FlatSpec with Matchers {
 
-  "Just(2) * 4" should "be Just(4)" in {
+  "Just(2) * 2" should "be Just(4)" in {
     val a: Maybe[Int] = Just(2)
-    a.map(_ * 2) should be (Just(4))
+    val f: Int => Int = _ * 2
+    a.map(f) should be (Just(4))
   }
 
-  "Nothing * 4" should "be Nothing" in {
+  "Nothing * 2" should "be Nothing" in {
     val a: Maybe[Int] = Nothing.asInstanceOf[Maybe[Int]]
-    a.map(_ * 2) should be (Nothing)
+    val f: Int => Int = _ * 2
+    a.map(f) should be (Nothing)
   }
 
-  "List(1, 2, 3) * 4" should "be List(2, 4, 6)" in {
+  "Just(2) ap Just(* 2)" should "be Just(4)" in {
+    val a: Maybe[Int] = Just(2)
+    val f: Maybe[Int => Int] = Just(_ * 2)
+    a.ap(f) should be (Just(4))
+  }
+
+  "Nothing ap Just(* 2)" should "be Nothing" in {
+    val a: Maybe[Int] = Nothing.asInstanceOf[Maybe[Int]]
+    val f: Maybe[Int => Int] = Just(_ * 2)
+    a.ap(f) should be (Nothing)
+  }
+
+  "Just(2) ap Nothing" should "be Nothing" in {
+    val a: Maybe[Int] = Nothing.asInstanceOf[Maybe[Int]]
+    val f: Maybe[Int => Int] = Nothing.asInstanceOf[Maybe[Int => Int]]
+    a.ap(f) should be (Nothing)
+  }
+  
+  "List(1, 2, 3) * 2" should "be List(2, 4, 6)" in {
     val a: List[Int] = Cons(1, Cons(2, Cons(3, Nil.asInstanceOf[List[Int]])))
-    a.map(_ * 2) should be (Cons(2, Cons(4, Cons(6, Nil.asInstanceOf[List[Int]]))))
+    val f: Int => Int = _ * 2
+    a.map(f) should be (Cons(2, Cons(4, Cons(6, Nil.asInstanceOf[List[Int]]))))
   }
 
-  "Nil * 4" should "Nil" in {
+  "Nil * 2" should "Nil" in {
     val a: List[Int] = Nil.asInstanceOf[List[Int]]
-    a.map(_ * 2) should be (Nil.asInstanceOf[List[Int]])
+    val f: Int => Int = _ * 2
+    a.map(f) should be (Nil.asInstanceOf[List[Int]])
+  }
+
+  "List(1, 2, 3) ap List(* 2, + 1)" should "be List(2, 4, 6, 2, 3, 4)" in {
+    val a: List[Int] = Cons(1, Cons(2, Cons(3, Nil.asInstanceOf[List[Int]])))
+    val f: List[Int => Int] = Cons(_ * 2, Cons(_ + 1, Nil.asInstanceOf[List[Int => Int]]))
+    a.ap(f) should be (Cons(2, Cons(4, Cons(6, Cons(2, Cons(3, Cons(4, Nil.asInstanceOf[List[Int]])))))))
   }
 
   "Just(2) map id" should "Just(2)" in {
     val a: Maybe[Int] = Just(2)
-    a.map(x => x) should be (a)
+    val id: Int => Int = x => x
+    a.map(id) should be (a)
   }
 
   "Just(2) map f map g" should "Just(2) map f andThen g" in {
