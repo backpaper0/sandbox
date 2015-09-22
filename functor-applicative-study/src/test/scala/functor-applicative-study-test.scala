@@ -9,7 +9,7 @@ import study.Implicits._
 class FunctorSpec extends FlatSpec with Matchers {
 
   "Just(2) * 2" should "be Just(4)" in {
-    val a: Maybe[Int] = Just(2)
+    val a: Maybe[Int] = (2).point[Maybe]
     val f: Int => Int = _ * 2
     a.map(f) should be (Just(4))
   }
@@ -21,14 +21,14 @@ class FunctorSpec extends FlatSpec with Matchers {
   }
 
   "Just(2) ap Just(* 2)" should "be Just(4)" in {
-    val a: Maybe[Int] = Just(2)
-    val f: Maybe[Int => Int] = Just(_ * 2)
+    val a: Maybe[Int] = (2).point[Maybe]
+    val f: Maybe[Int => Int] = ((_: Int) * 2).point[Maybe]
     a.ap(f) should be (Just(4))
   }
 
   "Nothing ap Just(* 2)" should "be Nothing" in {
     val a: Maybe[Int] = Nothing.asInstanceOf[Maybe[Int]]
-    val f: Maybe[Int => Int] = Just(_ * 2)
+    val f: Maybe[Int => Int] = ((_: Int) * 2).point[Maybe]
     a.ap(f) should be (Nothing)
   }
 
