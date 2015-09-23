@@ -33,6 +33,11 @@ package object monoid {
     def zero: Option[A] = None
   }
 
+  def optionMonoid2[A]: Monoid[Option[A]] = new Monoid[Option[A]] {
+    def op(a1: Option[A], a2: Option[A]): Option[A] = a1.orElse(a2)
+    def zero: Option[A] = None
+  }
+
   def endoMonoid[A]: Monoid[A => A] = new Monoid[A => A] {
     def op(a1: A => A, a2: A => A): A => A = a1.andThen(a2)
     def zero: A => A = a => a

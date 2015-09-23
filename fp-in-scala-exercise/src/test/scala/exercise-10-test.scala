@@ -30,6 +30,13 @@ class MonoidSpec {
   @Test
   def testOptionMonoid() {
     testMonoidLaw(optionMonoid(intAddition), Some(2), Some(3), Some(4))
+    testMonoidLaw(optionMonoid(intAddition), Some(2), None, Some(4))
+    testMonoidLaw(optionMonoid(intAddition), None, Some(3), None)
+    testMonoidLaw(optionMonoid(intAddition), None, None, None)
+    testMonoidLaw(optionMonoid2[Int], Some(2), Some(3), Some(4))
+    testMonoidLaw(optionMonoid2[Int], Some(2), None, Some(4))
+    testMonoidLaw(optionMonoid2[Int], None, Some(3), None)
+    testMonoidLaw(optionMonoid2[Int], None, None, None)
   }
 
   @Test
