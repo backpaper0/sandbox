@@ -1,4 +1,4 @@
-package exercise_10_1
+package exercise_10
 
 import org.junit._
 import org.junit.Assert._
@@ -14,17 +14,22 @@ class MonoidSpec {
 
   @Test
   def testIntMultiplication() {
-    testMonoidRule(intMultiplication,  2, 3, 4)
+    testMonoidRule(intMultiplication, 2, 3, 4)
   }
 
   @Test
   def testBooeanOr() {
-    testMonoidRule(booleanOr,  true, false, true)
+    testMonoidRule(booleanOr, true, false, true)
   }
 
   @Test
   def testBooleanAnd() {
-    testMonoidRule(booleanAnd,  true, false, true)
+    testMonoidRule(booleanAnd, true, false, true)
+  }
+
+  @Test
+  def testOptionMonoid() {
+    testMonoidRule(optionMonoid(intAddition), Some(2), Some(3), Some(4))
   }
 
   private def testMonoidRule[A](m: Monoid[A], a1: A, a2: A, a3: A) {
