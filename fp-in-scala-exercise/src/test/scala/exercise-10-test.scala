@@ -32,6 +32,19 @@ class MonoidSpec {
     testMonoidLaw(optionMonoid(intAddition), Some(2), Some(3), Some(4))
   }
 
+  @Test
+  def testEndoMonoid() {
+    val m = endoMonoid[Int]
+    val a1 = (_: Int) * 2
+    val a2 = (_: Int) * 3
+    val a3 = (_: Int) + 4
+    assertTrue(m.op(m.op(a1, a2), a3)(5) == m.op(a1, m.op(a2, a3))(5))
+    List(a1, a2, a3).foreach { a =>
+      assertTrue(m.op(a, m.zero)(5) == a(5))
+      assertTrue(a(5) == m.op(a, m.zero)(5))
+    }
+  }
+
   private def testMonoidLaw[A](m: Monoid[A], a1: A, a2: A, a3: A) {
     assertTrue(m.op(m.op(a1, a2), a3) == m.op(a1, m.op(a2, a3)))
     List(a1, a2, a3).foreach { a =>
