@@ -1,0 +1,16 @@
+apply plugin: 'scala'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+[compileScala, compileTestScala]*.options*.encoding = 'UTF-8'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.11.7'
+    testCompile 'org.scalatest:scalatest_2.11:2.2.4'
+    testCompile 'junit:junit:4.12'
+}
