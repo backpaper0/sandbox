@@ -48,6 +48,9 @@ object Implicits {
     }
     def point[A](a: A): List[A] = Cons(a, Nil.asInstanceOf[List[A]])
   }
+  implicit def functionFunctor[ARG]: Functor[({ type F[A] = ARG => A })#F] = new Functor[({ type F[A] = ARG => A })#F] {
+    def map[A, B](a: ARG => A, f: A => B): ARG => B = ???
+  }
 }
 
 sealed trait Maybe[A]
