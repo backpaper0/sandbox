@@ -68,4 +68,11 @@ class FunctorSpec extends FlatSpec with Matchers {
     val g: Int => String = x => "*" + x + "*"
     a.map(f).map(g) should be (a.map(f andThen g))
   }
+
+  "Int => String map String => Array[Char]" should "Int => Array[Char]" in {
+    val a: Int => String = _.toString
+    val f: String => Array[Char] = _.toCharArray
+    functionFunctor[Int].map(a, f)(123) should be (Array('1', '2', '3'))
+  }
+
 }
