@@ -20,11 +20,17 @@ class MonoidSpec {
   @Test
   def testBooeanOr() {
     testMonoidLaw(booleanOr, true, false, true)
+    testMonoidLaw(booleanOr, false, true, false)
+    testMonoidLaw(booleanOr, true, true, true)
+    testMonoidLaw(booleanOr, false, false, false)
   }
 
   @Test
   def testBooleanAnd() {
     testMonoidLaw(booleanAnd, true, false, true)
+    testMonoidLaw(booleanAnd, false, true, false)
+    testMonoidLaw(booleanAnd, true, true, true)
+    testMonoidLaw(booleanAnd, false, false, false)
   }
 
   @Test
