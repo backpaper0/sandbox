@@ -14,7 +14,7 @@ trait Applicative[F[_]] extends Apply[F] {
   def point[A](a: A): F[A]
 }
 
-object Implicits {
+package object implicits {
   implicit class ApplyWrapper[A, F[_]](val value: F[A]) {
     def map[B](f: A => B)(implicit functor: Apply[F]): F[B] = functor.map(value, f)
     def ap[B](f: F[A => B])(implicit functor: Apply[F]): F[B] = functor.ap(value, f)

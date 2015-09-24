@@ -3,7 +3,7 @@ package study
 import org.scalatest._
 import org.scalatest.junit._
 import org.junit.runner.RunWith
-import study.Implicits._
+import study.implicits._
 
 @RunWith(classOf[JUnitRunner])
 class FunctorSpec extends FlatSpec with Matchers {
