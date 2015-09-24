@@ -26,9 +26,7 @@ package object monoid {
   def optionMonoid[A](m: Monoid[A]): Monoid[Option[A]] = new Monoid[Option[A]] {
     def op(a1: Option[A], a2: Option[A]): Option[A] = (a1, a2) match {
       case (Some(x1), Some(x2)) => Some(m.op(x1, x2))
-      case (Some(_), None) => a1
-      case (None, Some(_)) => a2
-      case (None, None) => None
+      case _ => a1 orElse a2
     }
     def zero: Option[A] = None
   }
