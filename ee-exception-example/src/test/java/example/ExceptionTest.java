@@ -1,10 +1,12 @@
 package example;
 
-import static org.hamcrest.CoreMatchers.isA;
+import static example.ExceptionChain.exceptionChain;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.ejb.EJBTransactionRolledbackException;
+import javax.ejb.TransactionRolledbackLocalException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
@@ -40,16 +42,29 @@ public class ExceptionTest {
 
     @Test
     public void test_EJB_NoResultException() throws Exception {
-        ee.expect(EJBException.class);
-        ee.expectCause(isA(NoResultException.class));
+        ee.expect(exceptionChain(EJBException.class, NoResultException.class));
         ejbBean.noResultException();
     }
 
     @Test
     public void test_EJB_OptimisticLockException() throws Exception {
-        ee.expect(EJBException.class);
-        ee.expectCause(isA(OptimisticLockException.class));
+        ee.expect(exceptionChain(EJBException.class,
+                OptimisticLockException.class));
         ejbBean.optimisticLockException();
+    }
+
+    @Test
+    public void test_Nested_EJB_Exception() throws Exception {
+        ee.expect(ExampleException.class);
+        ejbBean.exception();
+    }
+
+    @Test
+    public void test_Nested_EJB_RuntimeException() throws Exception {
+        ee.expect(exceptionChain(EJBTransactionRolledbackException.class,
+                TransactionRolledbackLocalException.class,
+                ExampleRuntimeException.class));
+        ejbBean.runtimeException();
     }
 
     @Before
@@ -76,8 +91,9 @@ public class ExceptionTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClasses(EjbBean.class, ExampleEntity.class,
-                        ExampleEntity_.class)
+                .addClasses(EjbBean.class, EjbBean2.class, ExampleEntity.class,
+                        ExampleEntity_.class, ExampleException.class,
+                        ExampleRuntimeException.class)
                 .addAsResource("META-INF/persistence.xml");
     }
 }

@@ -1,5 +1,6 @@
 package example;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +13,9 @@ public class EjbBean {
 
     @PersistenceContext
     private EntityManager em;
+
+    @EJB
+    private EjbBean2 ejbBean2;
 
     public void noResultException() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -26,5 +30,13 @@ public class EjbBean {
         entity.setId(2);
         entity.setId(1);
         em.merge(entity);
+    }
+
+    public void exception() throws ExampleException {
+        ejbBean2.exception();
+    }
+
+    public void runtimeException() {
+        ejbBean2.runtimeException();
     }
 }
