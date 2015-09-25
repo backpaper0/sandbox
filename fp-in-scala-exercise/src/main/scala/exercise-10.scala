@@ -40,4 +40,6 @@ package object monoid {
     def op(a1: A => A, a2: A => A): A => A = a1.andThen(a2)
     def zero: A => A = a => a
   }
+
+  def foldMap[A, B](as: List[A], m: Monoid[B])(f: A => B): B = as.map(f).foldLeft(m.zero)(m.op)
 }
