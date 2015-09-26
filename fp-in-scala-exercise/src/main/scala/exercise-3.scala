@@ -34,4 +34,11 @@ object List {
     case Cons(h, t) => if(f(h)) dropWhile(t, f) else l
     case Nil => Nil
   }
+
+  //EXERCISE 3.6 (P.46)
+  def init[A](l: List[A]): List[A] = l match {
+    case Cons(h, Nil) => Nil
+    case Cons(h, t) => Cons(h, init(t))
+    case Nil => Nil
+  }
 }

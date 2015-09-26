@@ -40,4 +40,10 @@ class Exercise3Test {
     val ys = List.dropWhile(xs, (_: Int) < 3)
     assert(ys == List(3, 4, 5))
   }
+
+  @Test def exercise_3_6 = {
+    val xs = List(1, 2, 3, 4)
+    val ys = List.init(xs)
+    assert(ys == List(1, 2, 3))
+  }
 }
