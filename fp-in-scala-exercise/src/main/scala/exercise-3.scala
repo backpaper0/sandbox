@@ -89,8 +89,25 @@ object List {
   }
 
   //EXERCISE 3.19 (P.52)
-  def filter[A, B](as: List[A])(f: A => Boolean): List[A] = as match {
-    case Nil => Nil
-    case Cons(h, t) => if(f(h)) Cons(h, filter(t)(f)) else filter(t)(f)
+  //EXERCISE 3.21 (P.53)
+  def filter[A, B](as: List[A])(f: A => Boolean): List[A] = flatMap(as)(a => if(f(a)) List(a) else Nil)
+
+  //EXERCISE 3.20 (P.53)
+  def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] = {
+    def map2(bs1: List[B], bs2: List[B]): List[B] = bs1 match {
+      case Nil => bs2
+      case Cons(h, t) => Cons(h, map2(t, bs2))
+    }
+    def g(as2: List[A]): List[B] = as2 match {
+      case Nil => Nil
+      case Cons(h, t) => map2(f(h), g(t))
+    }
+    g(as)
+  }
+
+  //EXERCISE 3.22 (P.53)
+  def sum(as1: List[Int], as2: List[Int]): List[Int] = (as1, as2) match {
+    case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1 + h2, sum(t1, t2))
+    case _ => Nil
   }
 }

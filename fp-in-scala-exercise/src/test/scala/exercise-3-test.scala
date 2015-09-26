@@ -107,4 +107,31 @@ class Exercise3Test {
     val ys = List.filter(xs)(_ % 2 == 0)
     assert(ys == List(2, 4, 6))
   }
+
+  @Test def exercise_3_20 = {
+    val xs = List(1, 2, 3)
+    val ys = List.flatMap(xs)(i => List(i, i))
+    assert(ys == List(1, 1, 2, 2, 3, 3))
+  }
+
+  @Test def exercise_3_22 = {
+    val xs = List(1, 2, 3)
+    val ys = List(4, 5, 6)
+    val zs = List.sum(xs, ys)
+    assert(zs == List(5, 7, 9))
+  }
+
+  @Test def exercise_3_22b = {
+    val xs = List(1, 2, 3, 4)
+    val ys = List(4, 5, 6)
+    val zs = List.sum(xs, ys)
+    assert(zs == List(5, 7, 9))
+  }
+
+  @Test def exercise_3_22c = {
+    val xs = List(1, 2, 3)
+    val ys = List(4, 5, 6, 7)
+    val zs = List.sum(xs, ys)
+    assert(zs == List(5, 7, 9))
+  }
 }
