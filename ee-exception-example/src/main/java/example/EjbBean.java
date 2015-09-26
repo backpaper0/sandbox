@@ -28,7 +28,7 @@ public class EjbBean {
     public void optimisticLockException() {
         ExampleEntity entity = new ExampleEntity();
         entity.setId(2);
-        entity.setId(1);
+        entity.setVersion(1);
         em.merge(entity);
     }
 
