@@ -82,4 +82,11 @@ class Exercise3Test {
     val ys = List.reverse(xs)
     assert(ys == List(5, 4, 3, 2, 1))
   }
+
+  @Test def exercise_3_14 = {
+    val xs = List(1, 2, 3)
+    val ys = List(4, 5, 6)
+    val zs = List.append(xs, ys)
+    assert(zs == List(1, 2, 3, 4, 5, 6))
+  }
 }

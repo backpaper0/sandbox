@@ -64,4 +64,15 @@ object List {
 
   //EXERCISE 3.12 (P.51)
   def reverse[A](as: List[A]): List[A] = foldLeft(as, (Nil:List[A]))((b, a) => Cons(a, b))
+
+  //EXERCISE 3.13 (P.51)
+  //あとで考える
+  def foldLeft2[A, B](as: List[A], z: B)(f: (B, A) => B): B = ???
+
+  //EXERCISE 3.14 (P.51)
+  def append[A](a1: List[A], a2: List[A]): List[A] = foldRight(a1, a2)(Cons(_, _))
+
+  //EXERCISE 3.15 (P.51)
+  //あとで考える
+  def append2[A](as: List[A]*): List[A] = ???
 }
