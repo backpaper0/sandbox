@@ -77,14 +77,14 @@ object List {
   def append2[A](as: List[A]*): List[A] = ???
 
   //EXERCISE 3.16 (P.52)
-  def increment(as: List[Int]): List[Int] = as match {
-    case Nil => Nil
-    case Cons(h, t) => Cons(h + 1, increment(t))
-  }
+  def increment(as: List[Int]): List[Int] = map(as)(_ + 1)
 
   //EXERCISE 3.17 (P.52)
-  def doubleToString(as: List[Double]): List[String] = as match {
+  def doubleToString(as: List[Double]): List[String] = map(as)(_.toString)
+
+  //EXERCISE 3.18 (P.52)
+  def map[A, B](as: List[A])(f: A => B): List[B] = as match {
     case Nil => Nil
-    case Cons(h, t) => Cons(h.toString, doubleToString(t))
+    case Cons(h, t) => Cons(f(h), map(t)(f))
   }
 }
