@@ -58,4 +58,22 @@ class Exercise3Test {
     val ys = List.foldLeft(xs, 0)(_ + _)
     assert(ys == 10)
   }
+
+  @Test def exercise_3_11_sum = {
+    val xs = List(1, 2, 3, 4)
+    val ys = List.sum(xs)
+    assert(ys == 10)
+  }
+
+  @Test def exercise_3_11_product = {
+    val xs = List(2.0, 3.0, 4.0)
+    val ys = List.product(xs)
+    assert(ys == 24.0)
+  }
+
+  @Test def exercise_3_11_length = {
+    val xs = List(1, 2, 3, 4, 5)
+    val ys = List.length(xs)
+    assert(ys == 5)
+  }
 }

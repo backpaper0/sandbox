@@ -5,10 +5,10 @@ case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
 object List {
-  def sum(ints: List[Int]): Int = ints match {
-    case Nil => 0
-    case Cons(x, xs) => x + sum(xs)
-  }
+//  def sum(ints: List[Int]): Int = ints match {
+//    case Nil => 0
+//    case Cons(x, xs) => x + sum(xs)
+//  }
   def apply[A](as: A*): List[A] = if(as.isEmpty) Nil else Cons(as.head, apply(as.tail: _*))
 
   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
@@ -56,4 +56,9 @@ object List {
     }
     g(as, z)
   }
+
+  //EXERCISE 3.11 (P.51)
+  def sum(ints: List[Int]): Int = foldLeft(ints, 0)(_ + _)
+  def product(ds: List[Double]): Double = foldLeft(ds, 1.0)(_ * _)
+  def length[A](xs: List[A]): Int = foldLeft(xs, 0)((b, a) => b + 1)
 }
