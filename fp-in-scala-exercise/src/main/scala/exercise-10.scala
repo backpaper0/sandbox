@@ -42,4 +42,6 @@ package object monoid {
   }
 
   def foldMap[A, B](as: List[A], m: Monoid[B])(f: A => B): B = as.map(f).foldLeft(m.zero)(m.op)
+
+  def foldLeft[A](as: List[A], m: Monoid[A]): A = foldMap(as, m)(a => a)
 }
