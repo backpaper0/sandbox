@@ -106,8 +106,11 @@ object List {
   }
 
   //EXERCISE 3.22 (P.53)
-  def sum(as1: List[Int], as2: List[Int]): List[Int] = (as1, as2) match {
-    case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1 + h2, sum(t1, t2))
+  def sum(as1: List[Int], as2: List[Int]): List[Int] = zipWith(as1, as2)(_ + _)
+
+  //EXERCISE 3.23 (P.53)
+  def zipWith[A](as1: List[A], as2: List[A])(f: (A, A) => A): List[A] = (as1, as2) match {
+    case (Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1, h2), zipWith(t1, t2)(f))
     case _ => Nil
   }
 }
