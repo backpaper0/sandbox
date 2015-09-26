@@ -46,4 +46,16 @@ class Exercise3Test {
     val ys = List.init(xs)
     assert(ys == List(1, 2, 3))
   }
+
+  @Test def exercise_3_8 = {
+    val xs = List(1, 2, 3)
+    val ys = List.foldRight(xs, Nil: List[Int])(Cons(_, _))
+    assert(ys == List(1, 2, 3))
+  }
+
+  @Test def exercise_3_10 = {
+    val xs = List(1, 2, 3, 4)
+    val ys = List.foldLeft(xs, 0)(_ + _)
+    assert(ys == 10)
+  }
 }

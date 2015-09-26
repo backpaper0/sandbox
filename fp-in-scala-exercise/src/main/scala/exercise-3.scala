@@ -11,6 +11,11 @@ object List {
   }
   def apply[A](as: A*): List[A] = if(as.isEmpty) Nil else Cons(as.head, apply(as.tail: _*))
 
+  def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+    case Nil => z
+    case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  }
+
   //EXERCISE 3.2 (P.44)
   def tail[A](as: List[A]): List[A] = as match {
     case Cons(h, t) => t
@@ -40,5 +45,15 @@ object List {
     case Cons(h, Nil) => Nil
     case Cons(h, t) => Cons(h, init(t))
     case Nil => Nil
+  }
+
+  //EXERCISE 3.10 (P.51)
+  def foldLeft[A, B](as: List[A], z: B)(f: (B, A) => B): B = {
+    @annotation.tailrec
+    def g(as2: List[A], b: B): B = as2 match {
+      case Cons(h, t) => g(t, f(b, h))
+      case Nil => b
+    }
+    g(as, z)
   }
 }
