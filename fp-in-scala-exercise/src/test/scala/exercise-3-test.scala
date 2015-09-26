@@ -89,4 +89,10 @@ class Exercise3Test {
     val zs = List.append(xs, ys)
     assert(zs == List(1, 2, 3, 4, 5, 6))
   }
+
+  @Test def exercise_3_16 = {
+    val xs = List(1, 2, 3)
+    val ys = List.increment(xs)
+    assert(ys == List(2, 3, 4))
+  }
 }

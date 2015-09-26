@@ -75,4 +75,10 @@ object List {
   //EXERCISE 3.15 (P.51)
   //あとで考える
   def append2[A](as: List[A]*): List[A] = ???
+
+  //EXERCISE 3.16 (P.52)
+  def increment(as: List[Int]): List[Int] = as match {
+    case Nil => Nil
+    case Cons(h, t) => Cons(h + 1, increment(t))
+  }
 }
