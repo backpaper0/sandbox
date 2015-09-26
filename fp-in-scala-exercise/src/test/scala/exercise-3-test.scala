@@ -76,4 +76,10 @@ class Exercise3Test {
     val ys = List.length(xs)
     assert(ys == 5)
   }
+
+  @Test def exercise_3_12 = {
+    val xs = List(1, 2, 3, 4, 5)
+    val ys = List.reverse(xs)
+    assert(ys == List(5, 4, 3, 2, 1))
+  }
 }
