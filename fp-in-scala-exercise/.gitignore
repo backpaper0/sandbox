@@ -4,3 +4,4 @@
 !/.gitignore
 /target/
 /derby.log
+*.swp
