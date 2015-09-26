@@ -95,4 +95,10 @@ class Exercise3Test {
     val ys = List.increment(xs)
     assert(ys == List(2, 3, 4))
   }
+
+  @Test def exercise_3_17 = {
+    val xs = List(1.0, 2.0, 3.0)
+    val ys = List.doubleToString(xs)
+    assert(ys == List("1.0", "2.0", "3.0"))
+  }
 }

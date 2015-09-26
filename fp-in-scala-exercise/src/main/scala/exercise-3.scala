@@ -81,4 +81,10 @@ object List {
     case Nil => Nil
     case Cons(h, t) => Cons(h + 1, increment(t))
   }
+
+  //EXERCISE 3.17 (P.52)
+  def doubleToString(as: List[Double]): List[String] = as match {
+    case Nil => Nil
+    case Cons(h, t) => Cons(h.toString, doubleToString(t))
+  }
 }
