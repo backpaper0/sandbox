@@ -28,4 +28,10 @@ class Exercise3Test {
     val ys = List.setHead(xs, 4)
     assert(ys == List(4, 2, 3))
   }
+
+  @Test def exercise_3_4 = {
+    val xs = List(1, 2, 3, 4, 5)
+    val ys = List.drop(xs, 3)
+    assert(ys == List(4, 5))
+  }
 }

@@ -22,4 +22,10 @@ object List {
     case Cons(h, t) => Cons(a, t)
     case Nil => Nil
   }
+
+  //EXERCISE 3.4 (P.45)
+  def drop[A](l: List[A], n: Int): List[A] = if(n < 1) l else l match {
+    case Cons(h, t) => drop(t, n - 1)
+    case Nil => Nil
+  }
 }
