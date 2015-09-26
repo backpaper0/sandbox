@@ -101,4 +101,10 @@ class Exercise3Test {
     val ys = List.doubleToString(xs)
     assert(ys == List("1.0", "2.0", "3.0"))
   }
+
+  @Test def exercise_3_19 = {
+    val xs = List(1, 2, 3, 4, 5, 6)
+    val ys = List.filter(xs)(_ % 2 == 0)
+    assert(ys == List(2, 4, 6))
+  }
 }
