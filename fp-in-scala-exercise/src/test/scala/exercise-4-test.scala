@@ -40,4 +40,14 @@ class Exercise4Test {
   @Test def exercise4_1_none_fitler: Unit = {
     assert((None:Option[Int]).filter(_ => true) == None)
   }
+
+  @Test def exercise4_3_some_some: Unit = {
+    assert(Option.map2(Some(1), Some(2))(_ + _) == Some(3))
+  }
+  @Test def exercise4_3_some_none: Unit = {
+    assert(Option.map2(Some(1), None:Option[Int])(_ + _) == None)
+  }
+  @Test def exercise4_3_none_some: Unit = {
+    assert(Option.map2(None:Option[Int], Some(2))(_ + _) == None)
+  }
 }

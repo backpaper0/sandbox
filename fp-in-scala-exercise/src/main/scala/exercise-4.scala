@@ -25,8 +25,9 @@ case class Some[+A](get: A) extends Option[A]
 
 case object None extends Option[Nothing]
 
-package object functions {
+object Option {
 
+  //EXERCISE 4.2 (P.68)
   def variance(xs: Seq[Double]): Option[Double] = {
     val om = if(xs.isEmpty) None else Some(xs.sum / xs.size)
     om.flatMap { m =>
@@ -34,4 +35,10 @@ package object functions {
       if(ys.isEmpty) None else Some(ys.sum / ys.size)
     }
   }
+
+  //EXERCISE 4.3 (P.72)
+  def map2[A, B, C](oa: Option[A], ob: Option[B])(f: (A, B) => C): Option[C] = (oa, ob) match {
+    case (Some(a), Some(b)) => Some(f(a, b))
+    case _ => None
+  } 
 }
