@@ -134,4 +134,10 @@ class Exercise3Test {
     val zs = List.sum(xs, ys)
     assert(zs == List(5, 7, 9))
   }
+
+  @Test def exercise_3_25 = {
+    val t = Branch(Leaf(1), Branch(Leaf(2), Branch(Leaf(3), Leaf(4))))
+    val u = Tree.size(t)
+    assert(u == 7)
+  }
 }

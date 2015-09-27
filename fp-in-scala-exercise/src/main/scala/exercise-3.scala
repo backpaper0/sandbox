@@ -113,4 +113,22 @@ object List {
     case (Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1, h2), zipWith(t1, t2)(f))
     case _ => Nil
   }
+
+  //EXERCISE 3.24 (P.54)
+  //あとで考える
+  def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = ???
 }
+
+sealed trait Tree[+A]
+case class Leaf[A](value: A) extends Tree[A]
+case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
+object Tree {
+
+  //EXERCISE 3.25 (P.56)
+  def size[A](t: Tree[A]): Int = t match {
+    case Leaf(_) => 1
+    case Branch(l, r) => 1 + size(l) + size(r)
+  }
+}
+
