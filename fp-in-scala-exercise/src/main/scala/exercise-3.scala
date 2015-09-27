@@ -138,12 +138,9 @@ object Tree {
   }
 
   //EXERCISE 3.27 (P.56)
-  def depth[A](t: Tree[A]): Int = {
-    def f(u: Tree[A], i: Int): Int = u match {
-      case Leaf(_) => i + 1
-      case Branch(l, r) => f(l, i + 1) max f(r, i + 1)
-    }
-    f(t, 0)
+  def depth[A](t: Tree[A]): Int = t match {
+    case Leaf(_) => 1
+    case Branch(l, r) => (depth(l) + 1) max (depth(r) + 1)
   }
 
   //EXERCISE 3.28 (P.57)
