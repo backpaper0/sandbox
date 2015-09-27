@@ -57,4 +57,11 @@ class Exercise4Test {
   @Test def exercise4_4_has_none: Unit = {
     assert(Option.sequence(List(Some(1), None, Some(3))) == None)
   }
+
+  @Test def exercise4_5_all_some: Unit = {
+    assert(Option.traverse(List(1, 2, 3))(a => Some(a.toString)) == Some(List("1", "2", "3")))
+  }
+  @Test def exercise4_5_has_none: Unit = {
+    assert(Option.traverse(List(1, 2, 3))(a => if(a % 2 == 0) None:Option[String] else Some(a.toString)) == None)
+  }
 }

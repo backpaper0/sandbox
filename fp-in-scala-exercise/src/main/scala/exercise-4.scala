@@ -52,4 +52,21 @@ object Option {
     }
     f(as, Nil:List[A])
   }
+
+  //EXERCISE 4.5 (P.73)
+  def traverse[A, B](as: List[A])(f: A => Option[B]): Option[List[B]] = {
+    @annotation.tailrec
+    def g(as2: List[A], bs: List[B]): Option[List[B]] = as2 match {
+      case h :: Nil => f(h) match {
+        case Some(b) => Some((b :: bs).reverse)
+        case None => None
+      }
+        case h :: t => f(h) match {
+          case Some(b) => g(t, b :: bs)
+          case None => None
+        }
+          case _ => None
+    }
+    g(as, Nil:List[B])
+  }
 }
