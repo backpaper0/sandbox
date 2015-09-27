@@ -111,7 +111,7 @@ class Exercise3Test {
   @Test def exercise_3_20 = {
     val xs = List(1, 2, 3)
     val ys = List.flatMap(xs)(i => List(i, i))
-    assert(ys == List(1, 1, 2, 2, 3, 3))
+    assert(ys == List(1, 1, 2, 2, 3, 3), ys)
   }
 
   @Test def exercise_3_22 = {

@@ -29,22 +29,27 @@ object List {
   }
 
   //EXERCISE 3.4 (P.45)
+  @annotation.tailrec
   def drop[A](l: List[A], n: Int): List[A] = if(n < 1) l else l match {
     case Cons(h, t) => drop(t, n - 1)
     case Nil => Nil
   }
 
   //EXERCISE 3.5 (P.45)
+  @annotation.tailrec
   def dropWhile[A](l: List[A])(f: A => Boolean): List[A] = l match {
     case Cons(h, t) => if(f(h)) dropWhile(t)(f) else l
     case Nil => Nil
   }
 
   //EXERCISE 3.6 (P.46)
-  def init[A](l: List[A]): List[A] = l match {
-    case Cons(h, Nil) => Nil
-    case Cons(h, t) => Cons(h, init(t))
-    case Nil => Nil
+  def init[A](l: List[A]): List[A] = {
+    @annotation.tailrec
+    def f(l2: List[A], l3: List[A]): List[A] = l2 match {
+      case Cons(h, t) if t != Nil => f(t, Cons(h, l3))
+      case _ => l3
+    }
+    reverse(f(l, Nil))
   }
 
   //EXERCISE 3.10 (P.51)
@@ -83,10 +88,7 @@ object List {
   def doubleToString(as: List[Double]): List[String] = map(as)(_.toString)
 
   //EXERCISE 3.18 (P.52)
-  def map[A, B](as: List[A])(f: A => B): List[B] = as match {
-    case Nil => Nil
-    case Cons(h, t) => Cons(f(h), map(t)(f))
-  }
+  def map[A, B](as: List[A])(f: A => B): List[B] = reverse(foldLeft(as, Nil:List[B])((b, a) => Cons(f(a), b)))
 
   //EXERCISE 3.19 (P.52)
   //EXERCISE 3.21 (P.53)
@@ -94,24 +96,31 @@ object List {
 
   //EXERCISE 3.20 (P.53)
   def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] = {
-    def map2(bs1: List[B], bs2: List[B]): List[B] = bs1 match {
-      case Nil => bs2
-      case Cons(h, t) => Cons(h, map2(t, bs2))
+    @annotation.tailrec
+    def map2[C](cs1: List[C], cs2: List[C], cs3: List[C]): List[C] = (cs1, cs2) match {
+      case (Cons(h, t), _) => map2(t, cs2, Cons(h, cs3))
+      case (Nil, Cons(h, t)) => map2(Nil, t, Cons(h, cs3))
+      case _ => reverse(cs3)
     }
-    def g(as2: List[A]): List[B] = as2 match {
-      case Nil => Nil
-      case Cons(h, t) => map2(f(h), g(t))
+    @annotation.tailrec
+    def g(as2: List[A], bs: List[B]): List[B] = as2 match {
+      case Nil => bs
+      case Cons(h, t) => g(t, map2(bs, f(h), Nil))
     }
-    g(as)
+    g(as, Nil)
   }
 
   //EXERCISE 3.22 (P.53)
   def sum(as1: List[Int], as2: List[Int]): List[Int] = zipWith(as1, as2)(_ + _)
 
   //EXERCISE 3.23 (P.53)
-  def zipWith[A](as1: List[A], as2: List[A])(f: (A, A) => A): List[A] = (as1, as2) match {
-    case (Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1, h2), zipWith(t1, t2)(f))
-    case _ => Nil
+  def zipWith[A](as1: List[A], as2: List[A])(f: (A, A) => A): List[A] = {
+    @annotation.tailrec
+    def g(l: List[A], r: List[A], as: List[A]): List[A] = (l, r) match {
+      case (Cons(h1, t1), Cons(h2, t2)) => g(t1, t2, Cons(f(h1, h2), as))
+      case _ => as
+    }
+    reverse(g(as1, as2, Nil))
   }
 
   //EXERCISE 3.24 (P.54)
