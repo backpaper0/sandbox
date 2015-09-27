@@ -37,4 +37,20 @@ class Exercise4EitherTest {
   @Test def exercise4_6_left_map2_left: Unit = {
     assert((Left(1):Either[Int, Int]).map2(Left(2))(_ + _) == Left(1))
   }
+
+  @Test def exercise4_7_sequence_all_right: Unit = {
+    assert(Either.sequence(List(Right(1), Right(2), Right(3))) == Right(List(1, 2, 3)))
+  }
+  @Test def exercise4_7_sequence_has_left: Unit = {
+    assert(Either.sequence(List(Right(1), Left(2), Left(3))) == Left(2))
+  }
+  @Test def exercise4_7_traverse_all_right: Unit = {
+    assert(Either.traverse(List(1, 2, 3))(a => Right(a.toString)) == Right(List("1", "2", "3")))
+  }
+  @Test def exercise4_7_traverse_has_left: Unit = {
+    assert(Either.traverse(List(1, 2, 3))(a => if(a % 2 == 0) Right(a.toString) else Left(a)) == Left(1))
+  }
+  @Test def exercise4_7_traverse_nil: Unit = {
+    assert(Either.traverse(Nil)(Right(_)) == Right(Nil))
+  }
 }

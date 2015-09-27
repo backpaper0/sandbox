@@ -26,3 +26,33 @@ sealed trait Either[+E, +A] {
 case class Left[+E](value: E) extends Either[E, Nothing]
 
 case class Right[+A](value: A) extends Either[Nothing, A]
+
+object Either {
+
+  //EXERCISE 4.7
+  def sequence[E, A](es: List[Either[E, A]]): Either[E, List[A]] = {
+    @annotation.tailrec
+    def f(es2: List[Either[E, A]], as: List[A]): Either[E, List[A]] = es2 match {
+      case Right(h) :: Nil => Right((h :: as).reverse)
+      case Right(h) :: t => f(t, h :: as)
+      case Left(value) :: _ => Left(value)
+    }
+    f(es, Nil)
+  }
+
+  def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] = {
+    @annotation.tailrec
+    def g(as2: List[A], bs: List[B]): Either[E, List[B]] = as2 match {
+      case h :: Nil => f(h) match {
+        case Right(value) => Right((value :: bs).reverse)
+        case Left(value) => Left(value)
+      }
+      case h :: t => f(h) match {
+        case Right(value) => g(t, value :: bs)
+        case Left(value) => Left(value)
+      }
+        case _ => Right(Nil)
+    }
+    g(as, Nil)
+  }
+}
