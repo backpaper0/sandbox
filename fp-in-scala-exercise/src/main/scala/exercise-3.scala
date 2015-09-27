@@ -130,5 +130,26 @@ object Tree {
     case Leaf(_) => 1
     case Branch(l, r) => 1 + size(l) + size(r)
   }
+
+  //EXERCISE 3.26 (P.56)
+  def maximum(t: Tree[Int]): Int = t match {
+    case Leaf(value) => value
+    case Branch(l, r) => maximum(l) max maximum(r)
+  }
+
+  //EXERCISE 3.27 (P.56)
+  def depth[A](t: Tree[A]): Int = {
+    def f(u: Tree[A], i: Int): Int = u match {
+      case Leaf(_) => i + 1
+      case Branch(l, r) => f(l, i + 1) max f(r, i + 1)
+    }
+    f(t, 0)
+  }
+
+  //EXERCISE 3.28 (P.57)
+  def map[A, B](t: Tree[A])(f: A => B): Tree[B] = t match {
+    case Leaf(value) => Leaf(f(value))
+    case Branch(l, r) => Branch(map(l)(f), map(r)(f))
+  }
 }
 

@@ -140,4 +140,23 @@ class Exercise3Test {
     val u = Tree.size(t)
     assert(u == 7)
   }
+
+  @Test def exercise_3_26 = {
+    val t = Branch(Branch(Leaf(1), Leaf(2)), Branch(Leaf(3), Branch(Branch(Leaf(4), Leaf(5)), Leaf(6))))
+    val u = Tree.maximum(t)
+    assert(u == 6)
+  }
+
+  @Test def exercise_3_27 = {
+    val l = Leaf(0)
+    val t = Branch(Branch(Branch(Branch(l, l), l), Branch(l, l)), Branch(l, Branch(l, l)))
+    val u = Tree.depth(t)
+    assert(u == 5)
+  }
+
+  @Test def exercise_3_28 = {
+    val t = Branch(Branch(Leaf(1), Leaf(2)), Branch(Leaf(3), Leaf(4)))
+    val u = Tree.map(t)(_ * 2)
+    assert(u == Branch(Branch(Leaf(2), Leaf(4)), Branch(Leaf(6), Leaf(8))))
+  }
 }
