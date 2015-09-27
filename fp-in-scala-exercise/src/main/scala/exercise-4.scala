@@ -48,7 +48,8 @@ object Option {
     def f(as2: List[Option[A]], as3: List[A]): Option[List[A]] = as2 match {
       case Some(h) :: Nil => Some((h :: as3).reverse)
       case Some(h) :: t => f(t, h :: as3)
-      case _ => None
+      case None :: _ => None
+      case Nil => Some(Nil)
     }
     f(as, Nil:List[A])
   }
@@ -65,7 +66,7 @@ object Option {
           case Some(b) => g(t, b :: bs)
           case None => None
         }
-          case _ => None
+          case _ => Some(Nil)
     }
     g(as, Nil:List[B])
   }

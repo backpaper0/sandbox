@@ -44,6 +44,9 @@ class Exercise4EitherTest {
   @Test def exercise4_7_sequence_has_left: Unit = {
     assert(Either.sequence(List(Right(1), Left(2), Left(3))) == Left(2))
   }
+  @Test def exercise4_7_sequence_nil: Unit = {
+    assert(Either.sequence(Nil) == Right(Nil))
+  }
   @Test def exercise4_7_traverse_all_right: Unit = {
     assert(Either.traverse(List(1, 2, 3))(a => Right(a.toString)) == Right(List("1", "2", "3")))
   }

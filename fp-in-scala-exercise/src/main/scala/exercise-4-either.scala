@@ -36,6 +36,7 @@ object Either {
       case Right(h) :: Nil => Right((h :: as).reverse)
       case Right(h) :: t => f(t, h :: as)
       case Left(value) :: _ => Left(value)
+      case Nil => Right(Nil)
     }
     f(es, Nil)
   }
