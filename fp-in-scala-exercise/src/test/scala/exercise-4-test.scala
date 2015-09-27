@@ -50,4 +50,11 @@ class Exercise4Test {
   @Test def exercise4_3_none_some: Unit = {
     assert(Option.map2(None:Option[Int], Some(2))(_ + _) == None)
   }
+
+  @Test def exercise4_4_all_some: Unit = {
+    assert(Option.sequence(List(Some(1), Some(2), Some(3))) == Some(List(1, 2, 3)))
+  }
+  @Test def exercise4_4_has_none: Unit = {
+    assert(Option.sequence(List(Some(1), None, Some(3))) == None)
+  }
 }

@@ -41,4 +41,15 @@ object Option {
     case (Some(a), Some(b)) => Some(f(a, b))
     case _ => None
   } 
+
+  //EXERCISE 4.4 (P.72)
+  def sequence[A](as: List[Option[A]]): Option[List[A]] = {
+    @annotation.tailrec
+    def f(as2: List[Option[A]], as3: List[A]): Option[List[A]] = as2 match {
+      case Some(h) :: Nil => Some((h :: as3).reverse)
+      case Some(h) :: t => f(t, h :: as3)
+      case _ => None
+    }
+    f(as, Nil:List[A])
+  }
 }
