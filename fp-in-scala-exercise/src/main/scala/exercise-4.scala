@@ -25,3 +25,13 @@ case class Some[+A](get: A) extends Option[A]
 
 case object None extends Option[Nothing]
 
+package object functions {
+
+  def variance(xs: Seq[Double]): Option[Double] = {
+    val om = if(xs.isEmpty) None else Some(xs.sum / xs.size)
+    om.flatMap { m =>
+      val ys = xs.map(x => math.pow(x - m, 2))
+      if(ys.isEmpty) None else Some(ys.sum / ys.size)
+    }
+  }
+}
