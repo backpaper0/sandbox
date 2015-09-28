@@ -12,6 +12,7 @@ THREE = { f -> { x -> f(f(f(x))) }}
 //真偽値
 TRUE  = { t -> { f -> t }}
 FALSE = { t -> { f -> f }}
+IF    = { b -> { x -> { y -> b(x)(y) }}}
 
 //ペア
 PAIR  = { l -> { r -> { f -> f(l)(r) }}}
@@ -55,6 +56,8 @@ assert(toInt(THREE) == 3)
 //真偽値
 assert(toBoolean(TRUE))
 assert(toBoolean(FALSE) == false)
+assert(toInt(IF(TRUE)(ONE)(TWO))  == 1)
+assert(toInt(IF(FALSE)(ONE)(TWO)) == 2)
 
 //ペア
 def p1 = PAIR(ONE)(TWO)
