@@ -8,6 +8,8 @@ ZERO  = { f -> { x -> x }}
 ONE   = { f -> { x -> f(x) }}
 TWO   = { f -> { x -> f(f(x)) }}
 THREE = { f -> { x -> f(f(f(x))) }}
+FOUR  = { f -> { x -> f(f(f(f(x)))) }}
+FIVE  = { f -> { x -> f(f(f(f(f(x))))) }}
 
 //真偽値
 TRUE  = { t -> { f -> t }}
@@ -25,7 +27,17 @@ NIL    = PAIR(PAIR(TRUE)(TRUE))(TRUE)
 IS_NIL = { l -> LEFT(LEFT(l)) }
 HEAD   = { l -> RIGHT(LEFT(l)) }
 TAIL   = { l -> RIGHT(l) }
-
+APPEND = Z({ f -> { l -> { m ->
+    IF(IS_NIL(l))(
+        IF(IS_NIL(m))(
+            NIL
+        )(
+            CONS(HEAD(m))(f(l)(TAIL(m)))
+        )
+    )(
+        CONS(HEAD(l))(f(TAIL(l))(m))
+    )
+}}})
 
 
 //intに変換する関数
@@ -66,7 +78,9 @@ assert(toInt(RIGHT(p1)) == 2)
 
 //リスト
 def l1 = CONS(ONE)(CONS(TWO)(CONS(THREE)(NIL)))
+def l2 = CONS(FOUR)(CONS(FIVE)(NIL))
 assert(toList(l1, { toInt(it) }) == [1, 2, 3 ])
+assert(toList(APPEND(l1)(l2), { toInt(it) }) == [1, 2, 3, 4, 5 ])
 
 
 
