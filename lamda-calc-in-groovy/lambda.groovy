@@ -9,6 +9,11 @@ THREE = { f -> { x -> f(f(f(x))) }}
 TRUE  = { t -> { f -> t }}
 FALSE = { t -> { f -> f }}
 
+//ペア
+PAIR  = { l -> { r -> { f -> f(l)(r) }}}
+LEFT  = { p -> p(TRUE) }
+RIGHT = { p -> p(FALSE) }
+
 
 
 //intに変換する関数
@@ -28,6 +33,11 @@ assert(toInt(THREE) == 3)
 //真偽値
 assert(toBoolean(TRUE))
 assert(toBoolean(FALSE) == false)
+
+//ペア
+def p1 = PAIR(ONE)(TWO)
+assert(toInt(LEFT(p1))  == 1)
+assert(toInt(RIGHT(p1)) == 2)
 
 
 
