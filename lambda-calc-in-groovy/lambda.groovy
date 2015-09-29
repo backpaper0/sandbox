@@ -32,10 +32,17 @@ APPEND = Z({ f -> { l -> { m ->
         IF(IS_NIL(m))(
             NIL
         )(
-            CONS(HEAD(m))(f(l)(TAIL(m)))
+            { x -> CONS(HEAD(m))(f(l)(TAIL(m)))(x) }
         )
     )(
-        CONS(HEAD(l))(f(TAIL(l))(m))
+        { x -> CONS(HEAD(l))(f(TAIL(l))(m))(x) }
+    )
+}}})
+FLAT_MAP = Z({ f -> { g -> { l ->
+    IF(IS_NIL(l))(
+        NIL
+    )(
+        { x -> APPEND(g(HEAD(l)))(f(g)(TAIL(l)))(x) }
     )
 }}})
 
@@ -81,6 +88,7 @@ def l1 = CONS(ONE)(CONS(TWO)(CONS(THREE)(NIL)))
 def l2 = CONS(FOUR)(CONS(FIVE)(NIL))
 assert(toList(l1, { toInt(it) }) == [1, 2, 3 ])
 assert(toList(APPEND(l1)(l2), { toInt(it) }) == [1, 2, 3, 4, 5 ])
+assert(toList(FLAT_MAP({ x -> CONS(x)(CONS(x)(NIL)) })(l1), { toInt(it) }) == [1, 1, 2, 2, 3, 3 ])
 
 
 
