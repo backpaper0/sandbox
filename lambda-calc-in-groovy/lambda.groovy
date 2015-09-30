@@ -42,13 +42,7 @@ APPEND = Z({ f -> { l -> { m ->
         { x -> CONS(HEAD(l))(f(TAIL(l))(m))(x) }
     )
 }}})
-FLAT_MAP = Z({ f -> { g -> { l ->
-    IF(IS_NIL(l))(
-        NIL
-    )(
-        { x -> APPEND(g(HEAD(l)))(f(g)(TAIL(l)))(x) }
-    )
-}}})
+FLAT_MAP = { f -> FOLDL(NIL)({ l -> { x -> APPEND(l)(f(x)) }}) }
 FOLDL = Z({ f -> { z -> { g -> { l ->
     IF(IS_NIL(l))(
         z
