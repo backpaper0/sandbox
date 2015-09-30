@@ -11,6 +11,10 @@ THREE = { f -> { x -> f(f(f(x))) }}
 FOUR  = { f -> { x -> f(f(f(f(x)))) }}
 FIVE  = { f -> { x -> f(f(f(f(f(x))))) }}
 
+//数値関数いろいろ
+SUCC = { n -> { f -> { x -> f(n(f)(x)) }}}
+ADD  = { m -> { n -> { f -> { x -> m(f)(n(f)(x)) }}}}
+
 //真偽値
 TRUE  = { t -> { f -> t }}
 FALSE = { t -> { f -> f }}
@@ -45,6 +49,13 @@ FLAT_MAP = Z({ f -> { g -> { l ->
         { x -> APPEND(g(HEAD(l)))(f(g)(TAIL(l)))(x) }
     )
 }}})
+FOLDL = Z({ f -> { z -> { g -> { l ->
+    IF(IS_NIL(l))(
+        z
+    )(
+        { x -> f(g(z)(HEAD(l)))(g)(TAIL(l))(x) }
+    )
+}}}})
 
 
 //intに変換する関数
@@ -72,6 +83,9 @@ assert(toInt(ONE)   == 1)
 assert(toInt(TWO)   == 2)
 assert(toInt(THREE) == 3)
 
+assert(toInt(SUCC(THREE))     == 4)
+assert(toInt(ADD(TWO)(THREE)) == 5)
+
 //真偽値
 assert(toBoolean(TRUE))
 assert(toBoolean(FALSE) == false)
@@ -89,7 +103,7 @@ def l2 = CONS(FOUR)(CONS(FIVE)(NIL))
 assert(toList(l1, { toInt(it) }) == [1, 2, 3 ])
 assert(toList(APPEND(l1)(l2), { toInt(it) }) == [1, 2, 3, 4, 5 ])
 assert(toList(FLAT_MAP({ x -> CONS(x)(CONS(x)(NIL)) })(l1), { toInt(it) }) == [1, 1, 2, 2, 3, 3 ])
-
+assert(toInt(FOLDL(ZERO)(ADD)(l1)) == 6)
 
 
 //assert全部通ったら喜んどく
