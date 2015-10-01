@@ -21,6 +21,10 @@ trait Stream[+A] {
     case Empty => Stream.empty
     case Cons(h, t) => t().drop(n - 1)
   }
+  def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+    case Cons(h, t) => f(h(), t().foldRight(z)(f))
+    case _ => z
+  }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
