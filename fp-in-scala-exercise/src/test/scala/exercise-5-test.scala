@@ -16,6 +16,10 @@ class Exercise5Test {
     assert(Stream(1, 2, 3).drop(1).toList == List(2, 3))
   }
 
+  @Test def exercise5_3: Unit = {
+    assert(Stream(1, 2, 3, 4, 5).dropWhile(_ < 3).toList == List(3, 4, 5))
+  }
+
   @Test def exercise5_4: Unit = {
     assert(Stream(1, 2, 3).forAll(_ < 5))
   }
