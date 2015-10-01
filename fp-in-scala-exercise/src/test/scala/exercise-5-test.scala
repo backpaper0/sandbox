@@ -15,4 +15,11 @@ class Exercise5Test {
   @Test def exercise5_2_drop: Unit = {
     assert(Stream(1, 2, 3).drop(1).toList == List(2, 3))
   }
+
+  @Test def exercise5_4: Unit = {
+    assert(Stream(1, 2, 3).forAll(_ < 5))
+  }
+  @Test def exercise5_4_false: Unit = {
+    assert(Stream(() => 5, () => sys.error(""), () => 1).forAll(_() < 5) == false)
+  }
 }
