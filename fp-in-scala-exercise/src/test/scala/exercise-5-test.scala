@@ -30,4 +30,11 @@ class Exercise5Test {
   @Test def exercise5_5: Unit = {
     assert(Stream(1, 2, 3, 4, 3).takeWhile(_ < 4).toList == List(1, 2, 3))
   }
+
+  @Test def exercise5_6: Unit = {
+    assert(Stream(1, 2, 3).headOption == Some(1))
+  }
+  @Test def exercise5_6_empty: Unit = {
+    assert(Stream.empty.headOption == None)
+  }
 }

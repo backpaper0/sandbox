@@ -1,10 +1,7 @@
 package exercise5
 
 trait Stream[+A] {
-  def headOption: Option[A] = this match {
-    case Empty => None
-    case Cons(h, t) => Some(h())
-  }
+  def headOption: Option[A] = foldRight(None:Option[A])((a, b) => Some(a))
   def toList: List[A] = {
     @annotation.tailrec
     def f(s: Stream[A], l: List[A]): List[A] = s match {
