@@ -5,6 +5,14 @@ trait Stream[+A] {
     case Empty => None
     case Cons(h, t) => Some(h())
   }
+  def toList: List[A] = {
+    @annotation.tailrec
+    def f(s: Stream[A], l: List[A]): List[A] = s match {
+      case Empty => l.reverse
+      case Cons(h, t) => f(t(), h() :: l)
+    }
+    f(this, Nil)
+  }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
