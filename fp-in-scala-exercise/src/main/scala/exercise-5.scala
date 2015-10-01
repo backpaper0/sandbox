@@ -13,6 +13,14 @@ trait Stream[+A] {
     }
     f(this, Nil)
   }
+  def take(n: Int): Stream[A] = if (n == 0) Stream.empty else this match {
+    case Empty => Stream.empty
+    case Cons(h, t) => Stream.cons(h(), t().take(n - 1))
+  }
+  def drop(n: Int): Stream[A] = if (n == 0) this else this match {
+    case Empty => Stream.empty
+    case Cons(h, t) => t().drop(n - 1)
+  }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
