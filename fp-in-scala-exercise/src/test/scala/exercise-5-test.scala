@@ -26,4 +26,8 @@ class Exercise5Test {
   @Test def exercise5_4_false: Unit = {
     assert(Stream(() => 5, () => sys.error(""), () => 1).forAll(_() < 5) == false)
   }
+
+  @Test def exercise5_5: Unit = {
+    assert(Stream(1, 2, 3, 4, 3).takeWhile(_ < 4).toList == List(1, 2, 3))
+  }
 }
