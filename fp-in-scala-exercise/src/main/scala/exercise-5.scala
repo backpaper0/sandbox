@@ -58,6 +58,7 @@ trait Stream[+A] {
     case Empty => None
     case Cons(h, t) => Some((t(), t()))
   })
+  def scanRight[B](z: B)(f: (A, B) => B): Stream[B] = ???
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
