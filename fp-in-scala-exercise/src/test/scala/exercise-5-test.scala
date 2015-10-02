@@ -69,4 +69,8 @@ class Exercise5Test {
   @Test def exercise5_11: Unit = {
     assert(Stream.unfold(1)(s => if (s < 4) Some((s, s + 1)) else None).toList == List(1, 2, 3))
   }
+
+  @Test def exercise5_12_ones: Unit = {
+    assert(Stream.ones.take(3).toList == List(1, 1, 1))
+  }
 }

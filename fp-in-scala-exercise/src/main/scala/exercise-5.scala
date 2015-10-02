@@ -50,15 +50,10 @@ object Stream {
     else cons(as.head, apply(as.tail: _*))
   }
 
-  def constant[A](a: A): Stream[A] = {
-    lazy val s: Stream[A] = cons(a, s)
-    s
-  }
-  def from(n: Int): Stream[Int] = cons(n, from(n + 1))
-  def fibs: Stream[Int] = {
-    def f(m: Int, n: Int): Stream[Int] = cons(n, f(n, m + n))
-    cons(0, f(0, 1))
-  }
+  def ones: Stream[Int] = unfold(1)(s => Some((s, s)))
+  def constant[A](a: A): Stream[A] = unfold(a)(s => Some((s, s)))
+  def from(n: Int): Stream[Int] = unfold(n)(s => Some((s, s + 1)))
+  def fibs: Stream[Int] = unfold((0, 1)){ case (m, n) => Some((m, (n, m + n))) }
   def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = {
     def g(s: S): Stream[A] = f(s) match {
       case Some((a, t)) => cons(a, g(t))
