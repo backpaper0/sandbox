@@ -57,4 +57,8 @@ class Exercise5Test {
   @Test def exercise5_8: Unit = {
     assert(Stream.constant(9).take(3).toList == List(9, 9, 9))
   }
+
+  @Test def exercise5_9: Unit = {
+    assert(Stream.from(3).take(3).toList == List(3, 4, 5))
+  }
 }

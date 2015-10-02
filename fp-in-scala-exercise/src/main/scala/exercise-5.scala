@@ -54,4 +54,5 @@ object Stream {
     lazy val s: Stream[A] = cons(a, s)
     s
   }
+  def from(n: Int): Stream[Int] = cons(n, from(n + 1))
 }
