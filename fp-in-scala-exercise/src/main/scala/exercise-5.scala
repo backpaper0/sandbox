@@ -49,6 +49,11 @@ trait Stream[+A] {
     case (Empty, Cons(h2, t2)) => Some(((None, Some(h2())), (empty, t2())))
     case _ => None
   }
+  def startsWith[B >: A](s: Stream[B]): Boolean = zipAll(s).foldRight(true)((a, b) => a match {
+    case (Some(x), Some(y)) if x == y => b
+    case (Some(_), None) => true
+    case _ => false
+  })
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]

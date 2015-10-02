@@ -80,4 +80,11 @@ class Exercise5Test {
   @Test def exercise5_13_zipAll: Unit = {
     assert(Stream.ones.zipAll(Stream(1, 2)).take(3).toList == List((Some(1), Some(1)), (Some(1), Some(2)), (Some(1), None)))
   }
+
+  @Test def exercise5_14_true: Unit = {
+    assert(Stream.from(1).startsWith(Stream(1, 2, 3)))
+  }
+  @Test def exercise5_14_false: Unit = {
+    assert(Stream.from(0).startsWith(Stream.fibs) == false)
+  }
 }
