@@ -73,4 +73,11 @@ class Exercise5Test {
   @Test def exercise5_12_ones: Unit = {
     assert(Stream.ones.take(3).toList == List(1, 1, 1))
   }
+
+  @Test def exercise5_13_zipWith: Unit = {
+    assert(Stream.from(1).zipWith(Stream(2, 4, 6))(_ + _).toList == List(3, 6, 9))
+  }
+  @Test def exercise5_13_zipAll: Unit = {
+    assert(Stream.ones.zipAll(Stream(1, 2)).take(3).toList == List((Some(1), Some(1)), (Some(1), Some(2)), (Some(1), None)))
+  }
 }

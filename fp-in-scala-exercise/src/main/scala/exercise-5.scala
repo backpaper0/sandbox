@@ -11,9 +11,9 @@ trait Stream[+A] {
     }
     f(this, Nil)
   }
-  def take(n: Int): Stream[A] = if (n == 0) empty else this match {
-    case Empty => empty
-    case Cons(h, t) => cons(h(), t().take(n - 1))
+  def take(n: Int): Stream[A] = unfold((this, 0)) {
+    case (Cons(h, t), m) if m < n => Some((h(), (t(), m + 1)))
+    case _ => None
   }
   def drop(n: Int): Stream[A] = if (n == 0) this else this match {
     case Empty => empty
@@ -28,11 +28,27 @@ trait Stream[+A] {
     case _ => z
   }
   def forAll(p: A => Boolean): Boolean = foldRight(true)((a, b) => p(a) && b)
-  def takeWhile(p: A => Boolean): Stream[A] = foldRight(empty[A])((a, b) => if (p(a)) cons(a, b) else empty)
-  def map[B](f: A => B): Stream[B] = foldRight(empty[B])((a, b) => cons(f(a), b))
+  def takeWhile(p: A => Boolean): Stream[A] = unfold(this) {
+    case Cons(h, t) if p(h()) => Some((h(), t()))
+    case _ => None
+  }
+  def map[B](f: A => B): Stream[B] = unfold(this) {
+    case Empty => None
+    case Cons(h, t) => Some((f(h()), t()))
+  }
   def filter(p: A => Boolean): Stream[A] = foldRight(empty[A])((a, b) => if(p(a)) cons(a, b) else b)
   def append[B >: A](s: Stream[B]): Stream[B] = foldRight(s)((a, b) => cons(a, b))
   def flatMap[B](f: A => Stream[B]): Stream[B] = foldRight(empty[B])((a, b) => f(a).append(b))
+  def zipWith[B >: A](s: Stream[B])(f: (B, B) => B): Stream[B] = unfold((this, s)) {
+    case (Cons(h1, t1), Cons(h2, t2)) => Some((f(h1(), h2()), (t1(), t2())))
+    case _ => None
+  }
+  def zipAll[B](s: Stream[B]): Stream[(Option[A], Option[B])] = unfold((this, s)) {
+    case (Cons(h1, t1), Cons(h2, t2)) => Some(((Some(h1()), Some(h2())), (t1(), t2())))
+    case (Cons(h1, t1), Empty) => Some(((Some(h1()), None), (t1(), empty)))
+    case (Empty, Cons(h2, t2)) => Some(((None, Some(h2())), (empty, t2())))
+    case _ => None
+  }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
