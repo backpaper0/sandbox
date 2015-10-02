@@ -59,4 +59,11 @@ object Stream {
     def f(m: Int, n: Int): Stream[Int] = cons(n, f(n, m + n))
     cons(0, f(0, 1))
   }
+  def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = {
+    def g(s: S): Stream[A] = f(s) match {
+      case Some((a, t)) => cons(a, g(t))
+      case None => empty
+    }
+    g(z)
+  }
 }
