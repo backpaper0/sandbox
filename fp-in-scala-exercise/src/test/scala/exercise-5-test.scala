@@ -87,4 +87,8 @@ class Exercise5Test {
   @Test def exercise5_14_false: Unit = {
     assert(Stream.from(0).startsWith(Stream.fibs) == false)
   }
+
+  @Test def exercise5_15: Unit = {
+    assert(Stream(1, 2, 3).tails.toList.map(_.toList) == List(List(1, 2, 3), List(2, 3), List(3), Nil))
+  }
 }
