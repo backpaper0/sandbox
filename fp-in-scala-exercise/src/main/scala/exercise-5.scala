@@ -48,4 +48,9 @@ object Stream {
     if (as.isEmpty) empty
     else cons(as.head, apply(as.tail: _*))
   }
+
+  def constant[A](a: A): Stream[A] = {
+    lazy val s: Stream[A] = Stream.cons(a, s)
+    s
+  }
 }

@@ -53,4 +53,8 @@ class Exercise5Test {
   @Test def exercise5_7_flatMap: Unit = {
     assert(Stream(1, 2, 3).flatMap(a => Stream(a, a)).toList == List(1, 1, 2, 2, 3, 3))
   }
+
+  @Test def exercise5_8: Unit = {
+    assert(Stream.constant(9).take(3).toList == List(9, 9, 9))
+  }
 }
