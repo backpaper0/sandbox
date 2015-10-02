@@ -37,4 +37,20 @@ class Exercise5Test {
   @Test def exercise5_6_empty: Unit = {
     assert(Stream.empty.headOption == None)
   }
+
+  @Test def exercise5_7_map: Unit = {
+    assert(Stream(1, 2, 3).map(_ * 2).toList == List(2, 4, 6))
+  }
+  @Test def exercise5_7_filter: Unit = {
+    assert(Stream(1, 2, 3).filter(_ % 2 == 0).toList == List(2))
+  }
+  @Test def exercise5_7_append: Unit = {
+    assert(Stream(1, 2, 3).append(Stream(4, 5)).toList == List(1, 2, 3, 4, 5))
+  }
+  @Test def exercise5_7_append_lazy: Unit = {
+    assert(Stream(() => 1).append(Stream(() => sys.error(""))).headOption.map(a => a()) == Some(1))
+  }
+  @Test def exercise5_7_flatMap: Unit = {
+    assert(Stream(1, 2, 3).flatMap(a => Stream(a, a)).toList == List(1, 1, 2, 2, 3, 3))
+  }
 }
