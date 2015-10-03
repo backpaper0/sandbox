@@ -62,6 +62,13 @@ class Exercise6Test {
     assert(rng2 == MockRNG(7))
   }
 
+  @Test def exercise6_8_nonNegativeLessThan: Unit = {
+    assert(nonNegativeLessThan(12)(MockRNG(15)) == (3, MockRNG()))
+  }
+  @Test def exercise6_8_nonNegativeLessThan_recursive: Unit = {
+    assert(nonNegativeLessThan(3)(MockRNG(Int.MaxValue, 5)) == (2, MockRNG()))
+  }
+
   case class MockRNG(as: Int*) extends RNG {
     def nextInt: (Int, RNG) = (as.head, MockRNG(as.tail: _*))
   }

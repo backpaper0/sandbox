@@ -64,6 +64,12 @@ object RNG {
     }
     f(rng, fs, Nil)
   }
+  def nonNegativeLessThan(n: Int): Rand[Int] = rng => {
+    val (i, rng2) = nonNegativeInt(rng)
+    val mod = i % n
+    if (i + (n - 1) - mod >= 0) (mod, rng2)
+    else nonNegativeLessThan(n)(rng2)
+  }
 }
 
 
