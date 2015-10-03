@@ -38,7 +38,8 @@ object RNG {
   }
   def ints(count: Int)(rng: RNG): (List[Int], RNG) = sequence(List.fill(count)(int))(rng)
 
-  type Rand[+A] = RNG => (A, RNG)
+  type State[+A, S] = S => (A, S)
+  type Rand[+A] = State[A, RNG]
 
   val int: Rand[Int] = _.nextInt
 
@@ -67,5 +68,4 @@ object RNG {
     f(a)(rng2)
   }
 }
-
 
