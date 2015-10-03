@@ -68,6 +68,14 @@ class Exercise6Test {
   @Test def exercise6_8_nonNegativeLessThan_recursive: Unit = {
     assert(nonNegativeLessThan(3)(MockRNG(Int.MaxValue, 5)) == (2, MockRNG()))
   }
+  @Test def exercise6_8_flatMap: Unit = {
+    val ra: Rand[Int] = _.nextInt
+    val f: Int => Rand[(Int, Int)] = a => rng => rng.nextInt match {
+      case (i, rng2) => ((a, i), rng2)
+    }
+    val rb = flatMap(ra)(f)
+    assert(rb(MockRNG(1, 2, 3)) == ((1, 2), MockRNG(3)))
+  }
 
   case class MockRNG(as: Int*) extends RNG {
     def nextInt: (Int, RNG) = (as.head, MockRNG(as.tail: _*))
