@@ -19,10 +19,7 @@ object RNG {
     case (n, r) if n < 0 => (n * -1, r)
     case x => x
   }
-  def double(rng: RNG): (Double, RNG) = {
-    val (n, r) = nonNegativeInt(rng)
-    (n.toDouble / Int.MaxValue.toDouble, r)
-  }
+  def double(rng: RNG): (Double, RNG) = map(nonNegativeInt)(i => i.toDouble / Int.MaxValue)(rng)
   def intDouble(rng: RNG): ((Int, Double), RNG) = {
     val (i, rng2) = rng.nextInt
     val (d, rng3) = double(rng2)
