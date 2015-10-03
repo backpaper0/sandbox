@@ -40,14 +40,14 @@ object RNG {
     ((d1, d2, d3), rng4)
   }
   def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
-    def f(n: Int, r: RNG): List[(Int, RNG)] = {
-      if (n == 0) Nil
+    @annotation.tailrec
+    def f(n: Int, xs: List[Int], rng2: RNG): (List[Int], RNG) = {
+      if (n == 0) (xs.reverse, rng2)
       else {
-        val (a, b) = r.nextInt
-        (a, b) :: f(n - 1, b)
+        val (x, rng3) = rng2.nextInt
+        f(n - 1, x :: xs, rng3)
       }
     }
-    val l = f(count, rng)
-    (l.map { case (a, _) => a }, l.map { case (_, a) => a }.lastOption.getOrElse(rng))
+    f(count, Nil, rng)
   }
 }
