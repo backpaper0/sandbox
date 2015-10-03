@@ -43,29 +43,38 @@ object RNG {
 
   val int: Rand[Int] = _.nextInt
 
-  def unit[A](a: A): Rand[A] = rng => (a, rng)
-  def map[A, B](ra: Rand[A])(f: A => B): Rand[B] = flatMap(ra)(a => rng => (f(a), rng))
+  def unit[A](a: A): Rand[A] = State.unit[A, RNG](a).run
+  def map[A, B](ra: Rand[A])(f: A => B): Rand[B] = State(ra).map(f).run
   def nonNegativeEven: Rand[Int] = map(nonNegativeInt)(i => i - i % 2)
-  def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = flatMap(ra)(a => flatMap(rb)(b => rng => (f(a, b), rng)))
-  def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = rng => {
-    @annotation.tailrec
-    def f(rng2: RNG, rs: List[Rand[A]], as: List[A]): (List[A], RNG) = rs match {
-      case Nil => (as.reverse, rng2)
-      case h :: t => {
-        val (a, rng3) = h(rng2)
-        f(rng3, t, a :: as)
-      }
-    }
-    f(rng, fs, Nil)
-  }
+  def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = State(ra).map2(State(rb))(f).run
+  def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = State.sequence(fs.map(State(_))).run
   def nonNegativeLessThan(n: Int): Rand[Int] = flatMap(nonNegativeInt) { i =>
     val mod = i % n
     if (i + (n - 1) - mod >= 0) rng2 => (mod, rng2)
     else nonNegativeLessThan(n)
   }
-  def flatMap[A, B](ra: Rand[A])(f: A => Rand[B]): Rand[B] = rng => {
-    val (a, rng2) = ra(rng)
-    f(a)(rng2)
-  }
+  def flatMap[A, B](ra: Rand[A])(f: A => Rand[B]): Rand[B] = State(ra).flatMap(a => State(f(a))).run
 }
 
+case class State[+A, S](run: S => (A, S)) {
+  def map[B](f: A => B): State[B, S] = flatMap(a => State(s => (f(a), s)))
+  def map2[B, C](sb: State[B, S])(f: (A, B) => C): State[C, S] = flatMap(a => sb.flatMap(b => State(s => ((f(a, b), s)))))
+  def flatMap[B](f: A => State[B, S]): State[B, S] = State(s => {
+    val (a, s2) = run(s)
+    f(a).run(s2)
+  })
+}
+object State {
+  def unit[A, S](a: A): State[A, S] = State(s => (a, s))
+  def sequence[A, S](fs: List[State[A, S]]): State[List[A], S] = State(s => {
+    @annotation.tailrec
+    def f(s2: S, rs: List[State[A, S]], as: List[A]): (List[A], S) = rs match {
+      case Nil => (as.reverse, s2)
+      case h :: t => {
+        val (a, s3) = h.run(s2)
+        f(s3, t, a :: as)
+      }
+    }
+    f(s, fs, Nil)
+  })
+}
