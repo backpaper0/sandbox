@@ -46,6 +46,22 @@ class Exercise6Test {
     assert(r == MockRNG(3))
   }
 
+  @Test def exercise6_7: Unit = {
+    val ra1: Rand[Int] = _.nextInt
+    val ra2: Rand[Int] = rng => rng.nextInt match {
+      case (a, rng2) => (a + 1, rng2)
+    }
+    val ra3: Rand[Int] = rng => rng.nextInt match {
+      case (a, rng2) => (a * 2, rng2)
+    }
+    val fs = List(ra1, ra2, ra3)
+    val rl = sequence(fs)
+    val rng = MockRNG(1, 3, 5, 7)
+    val (l, rng2) = rl(rng)
+    assert(l == List(1, 4, 10))
+    assert(rng2 == MockRNG(7))
+  }
+
   case class MockRNG(as: Int*) extends RNG {
     def nextInt: (Int, RNG) = (as.head, MockRNG(as.tail: _*))
   }

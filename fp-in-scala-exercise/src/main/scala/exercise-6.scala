@@ -36,17 +36,7 @@ object RNG {
     val (d3, rng4) = double(rng3)
     ((d1, d2, d3), rng4)
   }
-  def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
-    @annotation.tailrec
-    def f(n: Int, xs: List[Int], rng2: RNG): (List[Int], RNG) = {
-      if (n == 0) (xs.reverse, rng2)
-      else {
-        val (x, rng3) = rng2.nextInt
-        f(n - 1, x :: xs, rng3)
-      }
-    }
-    f(count, Nil, rng)
-  }
+  def ints(count: Int)(rng: RNG): (List[Int], RNG) = sequence(List.fill(count)(int))(rng)
 
   type Rand[+A] = RNG => (A, RNG)
 
@@ -62,6 +52,17 @@ object RNG {
     val (a, rng2) = ra(rng)
     val (b, rng3) = rb(rng2)
     (f(a, b), rng3)
+  }
+  def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = rng => {
+    @annotation.tailrec
+    def f(rng2: RNG, rs: List[Rand[A]], as: List[A]): (List[A], RNG) = rs match {
+      case Nil => (as.reverse, rng2)
+      case h :: t => {
+        val (a, rng3) = h(rng2)
+        f(rng3, t, a :: as)
+      }
+    }
+    f(rng, fs, Nil)
   }
 }
 
