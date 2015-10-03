@@ -38,12 +38,12 @@ object RNG {
   }
   def ints(count: Int)(rng: RNG): (List[Int], RNG) = sequence(List.fill(count)(int))(rng)
 
-  type State[+A, S] = S => (A, S)
-  type Rand[+A] = State[A, RNG]
+  type State[S, +A] = S => (A, S)
+  type Rand[+A] = State[RNG, A]
 
   val int: Rand[Int] = _.nextInt
 
-  def unit[A](a: A): Rand[A] = State.unit[A, RNG](a).run
+  def unit[A](a: A): Rand[A] = State.unit[RNG, A](a).run
   def map[A, B](ra: Rand[A])(f: A => B): Rand[B] = State(ra).map(f).run
   def nonNegativeEven: Rand[Int] = map(nonNegativeInt)(i => i - i % 2)
   def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = State(ra).map2(State(rb))(f).run
@@ -56,19 +56,19 @@ object RNG {
   def flatMap[A, B](ra: Rand[A])(f: A => Rand[B]): Rand[B] = State(ra).flatMap(a => State(f(a))).run
 }
 
-case class State[+A, S](run: S => (A, S)) {
-  def map[B](f: A => B): State[B, S] = flatMap(a => State(s => (f(a), s)))
-  def map2[B, C](sb: State[B, S])(f: (A, B) => C): State[C, S] = flatMap(a => sb.flatMap(b => State(s => ((f(a, b), s)))))
-  def flatMap[B](f: A => State[B, S]): State[B, S] = State(s => {
+case class State[S, +A](run: S => (A, S)) {
+  def map[B](f: A => B): State[S, B] = flatMap(a => State(s => (f(a), s)))
+  def map2[B, C](sb: State[S, B])(f: (A, B) => C): State[S, C] = flatMap(a => sb.flatMap(b => State(s => ((f(a, b), s)))))
+  def flatMap[B](f: A => State[S, B]): State[S, B] = State(s => {
     val (a, s2) = run(s)
     f(a).run(s2)
   })
 }
 object State {
-  def unit[A, S](a: A): State[A, S] = State(s => (a, s))
-  def sequence[A, S](fs: List[State[A, S]]): State[List[A], S] = State(s => {
+  def unit[S, A](a: A): State[S, A] = State(s => (a, s))
+  def sequence[S, A](fs: List[State[S, A]]): State[S, List[A]] = State(s => {
     @annotation.tailrec
-    def f(s2: S, rs: List[State[A, S]], as: List[A]): (List[A], S) = rs match {
+    def f(s2: S, rs: List[State[S, A]], as: List[A]): (List[A], S) = rs match {
       case Nil => (as.reverse, s2)
       case h :: t => {
         val (a, s3) = h.run(s2)
@@ -77,4 +77,6 @@ object State {
     }
     f(s, fs, Nil)
   })
+  def get[S]: State[S, S] = State(s => (s, s))
+  def set[S](s: S): State[S, Unit] = State(_ => ((), s))
 }
