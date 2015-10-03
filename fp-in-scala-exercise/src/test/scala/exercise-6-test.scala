@@ -22,6 +22,13 @@ class Exercise6Test {
     assert(nonNegativeInt(MockRNG(Int.MinValue))._1 == 0)
   }
 
+  @Test def exercise6_2_zero: Unit = {
+    assert(double(MockRNG(0))._1 == 0.0)
+  }
+  @Test def exercise6_2_one: Unit = {
+    assert(double(MockRNG(Int.MaxValue))._1 == 1.0)
+  }
+
   case class MockRNG(as: Int*) extends RNG {
     def nextInt: (Int, RNG) = (as.head, MockRNG(as.tail: _*))
   }

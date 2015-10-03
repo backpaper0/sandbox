@@ -19,4 +19,8 @@ object RNG {
     case (n, r) if n < 0 => (n * -1, r)
     case x => x
   }
+  def double(rng: RNG): (Double, RNG) = {
+    val (n, r) = nonNegativeInt(rng)
+    (n.toDouble / Int.MaxValue.toDouble, r)
+  }
 }
