@@ -39,4 +39,15 @@ object RNG {
     val (d3, rng4) = double(rng3)
     ((d1, d2, d3), rng4)
   }
+  def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
+    def f(n: Int, r: RNG): List[(Int, RNG)] = {
+      if (n == 0) Nil
+      else {
+        val (a, b) = r.nextInt
+        (a, b) :: f(n - 1, b)
+      }
+    }
+    val l = f(count, rng)
+    (l.map { case (a, _) => a }, l.map { case (_, a) => a }.lastOption.getOrElse(rng))
+  }
 }

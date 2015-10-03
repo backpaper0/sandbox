@@ -29,6 +29,12 @@ class Exercise6Test {
     assert(double(MockRNG(Int.MaxValue))._1 == 1.0)
   }
 
+  @Test def exercise6_4: Unit = {
+    val (l, r) = ints(3)(MockRNG(1, 2, 3, 4))
+    assert(l == List(1, 2, 3))
+    assert(r == MockRNG(4))
+  }
+
   case class MockRNG(as: Int*) extends RNG {
     def nextInt: (Int, RNG) = (as.head, MockRNG(as.tail: _*))
   }
