@@ -88,18 +88,18 @@ object State {
 sealed trait Input
 case object Coin extends Input
 case object Turn extends Input
-case class Machine(locked: Boolean, candies: Int, coins: Int)
+case class Machine(locked: Boolean, candies: Int, coins: Int) {
+  def accept(input: Input): Machine = (this, input) match {
+    case (Machine(true, candies, coins), Coin) if candies > 0 => Machine(false, candies, coins + 1)
+    case (Machine(false, candies, coins), Turn) if candies > 0 => Machine(true, candies - 1, coins)
+    case (machine, _) => machine
+  }
+}
 object Machine {
   def simulateMachine(inputs: List[Input]): State[Machine, (Int, Int)] = {
     State(machine => {
-      val m = inputs.foldLeft(machine) {
-        case (Machine(true, candies, coins), Coin) if candies > 0 => Machine(false, candies, coins + 1)
-        case (Machine(false, candies, coins), Turn) if candies > 0 => Machine(true, candies - 1, coins)
-        case (machine, _) => machine
-      }
-      m match {
-        case Machine(_, candies, coins) => ((coins, candies), m)
-      }
+      val m = inputs.foldLeft(machine)(_.accept(_))
+      ((m.coins, m.candies), m)
     })
   }
 }
