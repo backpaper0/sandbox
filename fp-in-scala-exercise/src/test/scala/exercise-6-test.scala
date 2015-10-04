@@ -80,4 +80,48 @@ class Exercise6Test {
   case class MockRNG(as: Int*) extends RNG {
     def nextInt: (Int, RNG) = (as.head, MockRNG(as.tail: _*))
   }
+
+  @Test def exercise6_11: Unit = {
+    val inputs = List.fill(4)(Coin :: Turn :: Nil).flatten
+    val s = Machine.simulateMachine(inputs)
+    val m1 = Machine(true, 5, 10)
+    val (a1, m2) = s.run(m1)
+    assert(a1 == (14, 1), a1)
+  }
+  @Test def exercise6_11_add_coin_to_locked_machine: Unit = {
+    val s = Machine.simulateMachine(List(Coin))
+    val m1 = Machine(true, 1, 0)
+    val (_, m2) = s.run(m1)
+    assert(m2 == Machine(false, 1, 1))
+  }
+  @Test def exercise6_11_turn_handle_unlocked_machine: Unit = {
+    val s = Machine.simulateMachine(List(Turn))
+    val m1 = Machine(false, 1, 1)
+    val (_, m2) = s.run(m1)
+    assert(m2 == Machine(true, 0, 1))
+  }
+  @Test def exercise6_11_add_coin_to_unlocked_machine: Unit = {
+    val s = Machine.simulateMachine(List(Coin))
+    val m1 = Machine(false, 1, 0)
+    val (_, m2) = s.run(m1)
+    assert(m2 == Machine(false, 1, 0))
+  }
+  @Test def exercise6_11_turn_handle_locked_machine: Unit = {
+    val s = Machine.simulateMachine(List(Turn))
+    val m1 = Machine(true, 1, 1)
+    val (_, m2) = s.run(m1)
+    assert(m2 == Machine(true, 1, 1))
+  }
+  @Test def exercise6_11_add_coin_to_sold_out_machine: Unit = {
+    val s = Machine.simulateMachine(List(Coin))
+    val m1 = Machine(true, 0, 0)
+    val (_, m2) = s.run(m1)
+    assert(m2 == Machine(true, 0, 0))
+  }
+  @Test def exercise6_11_turn_handle_sold_out_machine: Unit = {
+    val s = Machine.simulateMachine(List(Turn))
+    val m1 = Machine(false, 0, 0)
+    val (_, m2) = s.run(m1)
+    assert(m2 == Machine(false, 0, 0))
+  }
 }
