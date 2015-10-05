@@ -20,7 +20,7 @@ import State._
 
 def succ(n: Int): Int = modify[Int](_ + 1).run(n)._2
 
-println(succ(2))
+assert(succ(2) == 3)
 
 def succAndTwice(n: Int): (Int, Int) = (for {
   a <- get[Int]
@@ -28,7 +28,7 @@ def succAndTwice(n: Int): (Int, Int) = (for {
   _ <- modify[Int](_ * 2)
 } yield a).run(n)
 
-println(succAndTwice(5))
+assert(succAndTwice(5) == (5, 12))
 
 def succAndTwice2(n: Int): (Int, Int) = get[Int].flatMap { a =>
   set(a + 1).flatMap { _ =>
