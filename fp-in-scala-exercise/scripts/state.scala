@@ -43,29 +43,26 @@ assert(succAndTwice2(5) == (5, 12))
 
 // Stack
 
-case class Stack[A](as: List[A]) {
-  def pop: (A, Stack[A]) = (as.head, Stack(as.tail))
-  def push(a: A): (Unit, Stack[A]) = ((), Stack(a :: as))
-}
+type Stack[A] = List[A]
 
 object Stack {
-  def empty[A]: Stack[A] = Stack(Nil)
-  def pop[A]: State[Stack[A], A] = State(s => s.pop)
-  def push[A](a: A): State[Stack[A], Unit] = State(s => s.push(a))
+  def empty[A]: Stack[A] = Nil
+  def pop[A]: State[Stack[A], A] = State(s => (s.head, s.tail))
+  def push[A](a: A): State[Stack[A], Unit] = State(s => ((), a :: s))
 }
 
+import Stack._
+
 val stack1 = Stack.empty[Int]
-val (_, stack2) = stack1.push(1)
-val (_, stack3) = stack2.push(2)
-val (_, stack4) = stack3.push(3)
-val (a1, stack5) = stack4.pop
-val (a2, stack6) = stack5.pop
-val (a3, stack7) = stack6.pop
+val (_, stack2) = push(1).run(stack1)
+val (_, stack3) = push(2).run(stack2)
+val (_, stack4) = push(3).run(stack3)
+val (a1, stack5) = pop.run(stack4)
+val (a2, stack6) = pop.run(stack5)
+val (a3, stack7) = pop.run(stack6)
 val a = a1 * a2 + a3
 
 assert(a == 7)
-
-import Stack._
 
 val (b, _) = (for {
   _ <- push(1)
