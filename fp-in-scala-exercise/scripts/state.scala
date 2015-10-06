@@ -1,3 +1,4 @@
+import scala.language.higherKinds
 
 case class State[S, +A](run: S => (A, S)) {
   def map[B](f: A => B): State[S, B] = flatMap(a => State(s => (f(a), s)))
@@ -8,6 +9,7 @@ case class State[S, +A](run: S => (A, S)) {
 }
 
 object State {
+  def unit[S, A](a: A): State[S, A] = State(s => (a, s))
   def get[S]: State[S, S] = State(s => (s, s))
   def set[S](s: S): State[S, Unit] = State(_ => ((), s))
   def modify[S](f: S => S): State[S, Unit] = for {
@@ -75,3 +77,16 @@ val (b, _) = (for {
 
 assert(b == 7)
 
+// Monad
+
+trait Monad[F[_]] {
+  def unit[A](a: A): F[A]
+  def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
+  def map[A, B](fa: F[A])(f: A => B): F[B] = flatMap(fa)(a => unit(f(a)))
+  def map2[A, B, C](fa: F[A], fb: F[B])(f: (A, B) => C): F[C] = flatMap(fa)(a => map(fb)(b => f(a, b)))
+}
+
+def stateMonad[S]: Monad[({ type F[A] = State[S, A] })#F] = new Monad[({ type F[A] = State[S, A] })#F] {
+  def unit[A](a: A): State[S, A] = State.unit(a)
+  def flatMap[A, B](fa: State[S, A])(f: A => State[S, B]): State[S, B] = fa flatMap f
+}
