@@ -86,6 +86,7 @@ assert(toInt(SUCC(THREE))     == 4)
 assert(toInt(ADD(TWO)(THREE)) == 5)
 assert(toInt(PRED(THREE))     == 2)
 assert(toInt(SUB(THREE)(TWO)) == 1)
+assert(toInt(SUB(ONE)(TWO))   == 0) //どんだけ引いても最小値は0
 assert(toInt(MUL(TWO)(THREE)) == 6)
 
 assert(toBoolean(IS_ZERO(ZERO)))
