@@ -19,6 +19,7 @@ SUB  = { m -> { n -> n(PRED)(m) }}
 MUL  = { m -> { n -> n(ADD(m))(ZERO) }}
 
 IS_ZERO = { n -> n({ x -> FALSE })(TRUE) }
+IS_LESS_EQUAL = { m -> { n -> IS_ZERO(SUB(m)(n)) }}
 
 //真偽値
 TRUE  = { t -> { f -> t }}
@@ -93,6 +94,10 @@ assert(toBoolean(IS_ZERO(ZERO)))
 assert(toBoolean(IS_ZERO(ONE))   == false)
 assert(toBoolean(IS_ZERO(TWO))   == false)
 assert(toBoolean(IS_ZERO(THREE)) == false)
+
+assert(toBoolean(IS_LESS_EQUAL(ONE)(TWO)))
+assert(toBoolean(IS_LESS_EQUAL(TWO)(TWO)))
+assert(toBoolean(IS_LESS_EQUAL(THREE)(TWO)) == false)
 
 //真偽値
 assert(toBoolean(TRUE))
