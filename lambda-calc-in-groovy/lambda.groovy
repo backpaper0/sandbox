@@ -20,11 +20,15 @@ MUL  = { m -> { n -> n(ADD(m))(ZERO) }}
 
 IS_ZERO = { n -> n({ x -> FALSE })(TRUE) }
 IS_LESS_EQUAL = { m -> { n -> IS_ZERO(SUB(m)(n)) }}
+IS_EQUAL = { m -> { n -> AND(IS_LESS_EQUAL(m)(n))(IS_LESS_EQUAL(n)(m)) }}
+IS_LESS_THAN = { m -> { n -> AND(IS_LESS_EQUAL(m)(n))(NOT(IS_EQUAL(m)(n))) }}
 
 //真偽値
 TRUE  = { t -> { f -> t }}
 FALSE = { t -> { f -> f }}
 IF    = { b -> { x -> { y -> b(x)(y) }}}
+AND   = { a -> { b -> a(b)(FALSE) }}
+NOT   = { b -> { t -> { f -> b(f)(t) }}}
 
 //ペア
 PAIR  = { l -> { r -> { f -> f(l)(r) }}}
@@ -99,11 +103,27 @@ assert(toBoolean(IS_LESS_EQUAL(ONE)(TWO)))
 assert(toBoolean(IS_LESS_EQUAL(TWO)(TWO)))
 assert(toBoolean(IS_LESS_EQUAL(THREE)(TWO)) == false)
 
+assert(toBoolean(IS_EQUAL(ONE)(TWO))   == false)
+assert(toBoolean(IS_EQUAL(TWO)(TWO)))
+assert(toBoolean(IS_EQUAL(THREE)(TWO)) == false)
+
+assert(toBoolean(IS_LESS_THAN(ONE)(TWO)))
+assert(toBoolean(IS_LESS_THAN(TWO)(TWO))   == false)
+assert(toBoolean(IS_LESS_THAN(THREE)(TWO)) == false)
+
 //真偽値
 assert(toBoolean(TRUE))
 assert(toBoolean(FALSE) == false)
 assert(toInt(IF(TRUE)(ONE)(TWO))  == 1)
 assert(toInt(IF(FALSE)(ONE)(TWO)) == 2)
+
+assert(toBoolean(NOT(TRUE)) == false)
+assert(toBoolean(NOT(FALSE)))
+
+assert(toBoolean(AND(TRUE)(TRUE)))
+assert(toBoolean(AND(TRUE)(FALSE))  == false)
+assert(toBoolean(AND(FALSE)(TRUE))  == false)
+assert(toBoolean(AND(FALSE)(FALSE)) == false)
 
 //ペア
 def p1 = PAIR(ONE)(TWO)
