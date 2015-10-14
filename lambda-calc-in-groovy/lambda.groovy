@@ -17,6 +17,11 @@ ADD  = { m -> { n -> { f -> { x -> m(f)(n(f)(x)) }}}}
 PRED = { n -> LEFT(n({ x -> PAIR(RIGHT(x))(SUCC(RIGHT(x))) })(PAIR(ZERO)(ZERO))) }
 SUB  = { m -> { n -> n(PRED)(m) }}
 MUL  = { m -> { n -> n(ADD(m))(ZERO) }}
+DIV  = { m -> { n ->
+    Z({ f -> { x -> { y ->
+        IF(IS_LESS_THAN(x)(n))(y)({ z -> f(SUB(x)(n))(SUCC(y))(z) }) 
+    }}})(m)(ZERO)
+}}
 
 IS_ZERO = { n -> n({ x -> FALSE })(TRUE) }
 IS_LESS_EQUAL = { m -> { n -> IS_ZERO(SUB(m)(n)) }}
@@ -93,6 +98,8 @@ assert(toInt(PRED(THREE))     == 2)
 assert(toInt(SUB(THREE)(TWO)) == 1)
 assert(toInt(SUB(ONE)(TWO))   == 0) //どんだけ引いても最小値は0
 assert(toInt(MUL(TWO)(THREE)) == 6)
+assert(toInt(DIV(THREE)(TWO)) == 1)
+assert(toInt(DIV(THREE)(ONE)) == 3)
 
 assert(toBoolean(IS_ZERO(ZERO)))
 assert(toBoolean(IS_ZERO(ONE))   == false)
