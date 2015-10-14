@@ -15,6 +15,7 @@ FIVE  = { f -> { x -> f(f(f(f(f(x))))) }}
 SUCC = { n -> { f -> { x -> f(n(f)(x)) }}}
 ADD  = { m -> { n -> { f -> { x -> m(f)(n(f)(x)) }}}}
 PRED = { n -> LEFT(n({ x -> PAIR(RIGHT(x))(SUCC(RIGHT(x))) })(PAIR(ZERO)(ZERO))) }
+SUB  = { m -> { n -> n(PRED)(m) }}
 
 IS_ZERO = { n -> n({ x -> FALSE })(TRUE) }
 
@@ -83,6 +84,7 @@ assert(toInt(THREE) == 3)
 assert(toInt(SUCC(THREE))     == 4)
 assert(toInt(ADD(TWO)(THREE)) == 5)
 assert(toInt(PRED(THREE))     == 2)
+assert(toInt(SUB(THREE)(TWO)) == 1)
 
 assert(toBoolean(IS_ZERO(ZERO)))
 assert(toBoolean(IS_ZERO(ONE))   == false)
