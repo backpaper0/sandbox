@@ -15,6 +15,8 @@ FIVE  = { f -> { x -> f(f(f(f(f(x))))) }}
 SUCC = { n -> { f -> { x -> f(n(f)(x)) }}}
 ADD  = { m -> { n -> { f -> { x -> m(f)(n(f)(x)) }}}}
 
+IS_ZERO = { n -> n({ x -> FALSE })(TRUE) }
+
 //真偽値
 TRUE  = { t -> { f -> t }}
 FALSE = { t -> { f -> f }}
@@ -79,6 +81,11 @@ assert(toInt(THREE) == 3)
 
 assert(toInt(SUCC(THREE))     == 4)
 assert(toInt(ADD(TWO)(THREE)) == 5)
+
+assert(toBoolean(IS_ZERO(ZERO)))
+assert(toBoolean(IS_ZERO(ONE))   == false)
+assert(toBoolean(IS_ZERO(TWO))   == false)
+assert(toBoolean(IS_ZERO(THREE)) == false)
 
 //真偽値
 assert(toBoolean(TRUE))
