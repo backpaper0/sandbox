@@ -1,9 +1,10 @@
 
-
-import static java.time.DayOfWeek.*;
-import static java.time.temporal.TemporalAdjusters.*;
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
+import static java.time.temporal.TemporalAdjusters.next;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
@@ -32,5 +33,11 @@ public class DateTimeExample {
 
         long between = ChronoUnit.DAYS.between(date, date2);
         System.out.println(between);
+    }
+
+    @Test
+    public void 今日の13時() throws Exception {
+        LocalDateTime dateTime = LocalDate.now().atTime(13, 0);
+        System.out.println(dateTime);
     }
 }
