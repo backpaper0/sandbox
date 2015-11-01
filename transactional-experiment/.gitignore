@@ -1,0 +1,6 @@
+/bin/
+/build/
+/.*
+!/.gitignore
+/target/
+/derby.log

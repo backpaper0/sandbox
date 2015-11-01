@@ -1,0 +1,63 @@
+# RULE TransactionManager.commit
+# INTERFACE javax.transaction.TransactionManager
+# METHOD commit
+# AT ENTRY
+# IF TRUE
+# DO traceln("TransactionManager.commit"), traceStack()
+# ENDRULE
+# 
+# RULE TransactionManager.rollback
+# INTERFACE javax.transaction.TransactionManager
+# METHOD rollback
+# AT ENTRY
+# IF TRUE
+# DO traceln("TransactionManage.rollback"), traceStack()
+# ENDRULE
+# 
+# RULE TransactionManager.setRollbackOnly
+# INTERFACE javax.transaction.TransactionManager
+# METHOD setRollbackOnly
+# AT ENTRY
+# IF TRUE
+# DO traceln("TransactionManager.setRollbackOnly"), traceStack()
+# ENDRULE
+# 
+# RULE Connection.commit
+# INTERFACE java.sql.Connection
+# METHOD commit
+# AT ENTRY
+# IF TRUE
+# DO traceln("Connection.commit"), traceStack()
+# ENDRULE
+# 
+# RULE Connection.rollback
+# INTERFACE java.sql.Connection
+# METHOD rollback
+# AT ENTRY
+# IF TRUE
+# DO traceln("Connection.rollback"), traceStack()
+# ENDRULE
+# 
+# RULE Transaction.enlistResource
+# INTERFACE javax.transaction.Transaction
+# METHOD enlistResource
+# AT ENTRY
+# IF TRUE
+# DO traceln("Transaction.enlistResource: " + $1), traceStack()
+# ENDRULE
+# 
+# RULE Connection.setAutoCommit
+# INTERFACE java.sql.Connection
+# METHOD setAutoCommit
+# AT ENTRY
+# IF TRUE
+# DO traceln("Connection.setAutoCommit(" + $1 + ")"), traceStack()
+# ENDRULE
+
+RULE JavaEETransactionManagerSimplified.enlistResource
+CLASS com.sun.enterprise.transaction.JavaEETransactionManagerSimplified
+METHOD enlistResource
+AT ENTRY
+IF TRUE
+DO traceln("JavaEETransactionManagerSimplified.enlistResource: " + $1 + ", " + $2), traceStack()
+ENDRULE

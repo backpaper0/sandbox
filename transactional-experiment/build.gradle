@@ -1,0 +1,33 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    options.encoding = 'UTF-8'
+}
+
+war.archiveName = 'sample.war'
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    providedCompile 'javax:javaee-api:7.0'
+    compile 'com.h2database:h2:1.4.190'
+    archives 'fish.payara.extras:payara-micro:4.1.1.154'
+    archives 'org.jboss.byteman:byteman:3.0.2'
+}
+
+task run(type:Exec) {
+    def payaraJar = configurations.archives.find { it.name ==~ /payara-micro.*/ }
+    def bytemanJar = configurations.archives.find { it.name ==~ /byteman.*/ }
+    def warFile = war.archivePath
+
+    commandLine 'java', "-javaagent:$bytemanJar=script:debug.btm", '-jar', "$payaraJar", '--deploy', "$warFile"
+}
+
+run.dependsOn war
