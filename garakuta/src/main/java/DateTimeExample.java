@@ -1,11 +1,11 @@
 
-import static java.time.DayOfWeek.MONDAY;
-import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
-import static java.time.temporal.TemporalAdjusters.next;
+import static java.time.DayOfWeek.*;
+import static java.time.temporal.TemporalAdjusters.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 import org.junit.Test;
@@ -39,5 +39,12 @@ public class DateTimeExample {
     public void 今日の13時() throws Exception {
         LocalDateTime dateTime = LocalDate.now().atTime(13, 0);
         System.out.println(dateTime);
+    }
+
+    @Test
+    public void testParse() throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate date = LocalDate.parse("2015/11/28", formatter);
+        System.out.println(date);
     }
 }
