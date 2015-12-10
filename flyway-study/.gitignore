@@ -1,0 +1,8 @@
+/bin/
+/build/
+/derby.log
+/.*
+!/.gitignore
+/*.iml
+/*.ipr
+/*.iws
