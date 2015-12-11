@@ -19,30 +19,29 @@ public class ZipEntryIterator implements Iterator<ZipEntry> {
 
     public ZipEntryIterator(ZipInputStream in) {
         this.in = in;
-        this.entry = getNextEntry();
     }
 
-    private ZipEntry getNextEntry() {
+    @Override
+    public boolean hasNext() {
+        if (entry != null) {
+            return true;
+        }
         try {
-            return in.getNextEntry();
+            entry = in.getNextEntry();
+            return entry != null;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
     @Override
-    public boolean hasNext() {
-        return entry != null;
-    }
-
-    @Override
     public ZipEntry next() {
-        ZipEntry temp = entry;
-        if (temp == null) {
-            throw new NoSuchElementException();
+        if (entry != null || hasNext()) {
+            ZipEntry temp = entry;
+            entry = null;
+            return temp;
         }
-        entry = getNextEntry();
-        return temp;
+        throw new NoSuchElementException();
     }
 
     public static Stream<ZipEntry> toStream(ZipInputStream in) {
