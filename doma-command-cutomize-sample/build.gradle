@@ -1,0 +1,59 @@
+buildscript {
+    ext {
+        springBootVersion = '1.3.0.RELEASE'
+    }
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+apply plugin: 'eclipse'
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    options.encoding = 'UTF-8'
+}
+
+compileJava.dependsOn processResources
+processResources.destinationDir = compileJava.destinationDir
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.seasar.doma:doma:2.5.1'
+        compile 'com.h2database:h2:1.4.190'
+}
+
+eclipse.jdt.file {
+    beforeMerged {
+        file('.settings/org.eclipse.jdt.apt.core.prefs').withWriter('UTF-8') { out ->
+            def props = [
+                'eclipse.preferences.version'         : '1'
+               ,'org.eclipse.jdt.apt.aptEnabled'      : 'true'
+               ,'org.eclipse.jdt.apt.genSrcDir'       : '.apt_generated'
+               ,'org.eclipse.jdt.apt.reconcileEnabled': 'true'
+            ] as Properties
+            props.store(out, '')
+        }
+        file('.factorypath').withWriter('UTF-8') { out ->
+            new groovy.xml.MarkupBuilder(out).factorypath {
+                factorypathentry(
+                    kind: 'EXTJAR',
+                    id: configurations.compile.find { it.name ==~ /doma.*/ }.absolutePath,
+                    enabled: true,
+                    runInBatchMode: false)
+            }
+        }
+    }
+    withProperties { props ->
+        props['org.eclipse.jdt.core.compiler.processAnnotations'] = 'enabled'
+    }
+}
