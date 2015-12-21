@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Notification Sample</title>
+    </head>
+    <body>
+        <p><button onclick="tryNotify()">Notify</button></p>
+        <script>
+var index = 0;
+function tryNotify() {
+    console.log(Notification.permission);
+    if (Notification.permission == 'default') {
+        Notification.requestPermission(function(status) {
+            if (status == 'granted') {
+                notify();
+            }
+        });
+    } else if (Notification.permission == 'granted') {
+        notify();
+    }
+}
+
+function notify() {
+    setTimeout(function() {
+        var n = new Notification('Hello, world! #' + (index++));
+        setTimeout(function() {
+            n.close();
+        }, 5000);
+    }, 1000);
+}
+        </script>
+    </body>
+</html>
