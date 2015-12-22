@@ -22,7 +22,9 @@ function tryNotify() {
 
 function notify() {
     setTimeout(function() {
-        var n = new Notification('Hello, world! #' + (index++));
+        var n = new Notification('Hello, world! #' + (index++), {
+            icon : 'http://backpaper0.github.io/_images/backpaper0.png'
+        });
         setTimeout(function() {
             n.close();
         }, 5000);
