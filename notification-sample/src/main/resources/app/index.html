@@ -8,7 +8,6 @@
         <script>
 var index = 0;
 function tryNotify() {
-    console.log(Notification.permission);
     if (Notification.permission == 'default') {
         Notification.requestPermission(function(status) {
             if (status == 'granted') {
