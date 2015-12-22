@@ -22,9 +22,11 @@ function tryNotify() {
 
 function notify() {
     setTimeout(function() {
-        var n = new Notification('Hello, world! #' + (index++), {
-            icon : 'http://backpaper0.github.io/_images/backpaper0.png'
+        var n = new Notification('Hello, world! #' + index, {
+            icon : 'http://backpaper0.github.io/_images/backpaper0.png',
+            body : 'Notification Sample #' + index
         });
+        index++;
         setTimeout(function() {
             n.close();
         }, 5000);
