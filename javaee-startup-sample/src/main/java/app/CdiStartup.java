@@ -7,6 +7,11 @@ import javax.enterprise.inject.spi.AfterTypeDiscovery;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 
+/*
+ * CDIのライフサイクルイベントで起動処理。
+ * JSR 346の11.5. Container lifecycle eventsを参照。
+ *
+ */
 public class CdiStartup implements Extension {
 
     public void handle(@Observes BeforeBeanDiscovery event) {
