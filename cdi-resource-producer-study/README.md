@@ -51,3 +51,4 @@ com.sun.gjc.spi.jdbc40.DataSource40@1036485846
 `EntityManager` も `ApplicationScoped` で良いような気がしてきた。
 ラッパークラスっぽいし。
 
+よくよく考えたら[こんな実験してた](https://github.com/backpaper0/sandbox/tree/master/jpa-entitymanager-instance-experiment)。
