@@ -12,7 +12,7 @@
 `@ApplicationScoped` を付けたリソースクラスを用意して `@PersistenceContext`
 で `EntityManager` をインジェクションしています。
 リソースメソッドではインジェクションした `EntityManager` そのものと
-`EntityManager.getDelegate` で取得したインスタンスに対してクラス名とハッシュコードを繋げた文字列を返しています。
+`EntityManager.getDelegate` で取得したインスタンスに対してクラス名と `System.identityHashCode` で得たハッシュコードを繋げた文字列を返しています。
 なお `EntityManager.getDelegate` は3回呼び出しています。
 
 このAPIを何度か叩いてハッシュコードを確認します。
@@ -68,9 +68,9 @@ org.eclipse.persistence.internal.jpa.EntityManagerImpl@345443677
 
 ## まとめ
 
-結果をご覧の通り、CDI管理ビーンに実際にインジェクションされているのは
+結果をご覧の通り、CDI管理ビーンにインジェクションされているのは
 `EntityManagerWrapper` というラッパーで、
-実際は `EntityManagerImpl` が使われているようです。
+実際は `EntityManagerImpl` に委譲されているようです。
 そして `EntityManagerWrapper` から取得される `EntityManagerImpl`
 は同一リクエスト内では同一インスタンスですが、異なるリクエストでは異なるインスタンスとなるようです。
 
