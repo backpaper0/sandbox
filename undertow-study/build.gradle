@@ -13,5 +13,6 @@ repositories {
 
 dependencies {
     compile 'io.undertow:undertow-core:1.3.11.Final'
+    compile 'org.glassfish.jersey.core:jersey-server:2.22.1'
     testCompile 'junit:junit:4.12'
 }
