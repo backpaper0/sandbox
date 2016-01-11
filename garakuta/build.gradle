@@ -12,5 +12,6 @@ repositories {
 
 dependencies {
     testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:3.3.0'
     compile 'org.glassfish:javax.el:3.0.0'
 }
