@@ -16,8 +16,9 @@ import java.util.Set;
 public class TypeAnnotation<@Hoge A, @Hoge B> extends @Hoge ArrayList<@Hoge String>
         implements @Hoge Serializable {
 
-    <@Hoge C> @Hoge Set<@Hoge String> method(@Hoge Map<@Hoge String, @Hoge List<@Hoge String>> map)
-            throws @Hoge IllegalArgumentException, @Hoge UncheckedIOException {
+    <@Hoge C> @Hoge Set<@Hoge String> method(@Fuga TypeAnnotation<@Fuga A, @Fuga B>this,
+            @Hoge Map<@Hoge String, @Hoge List<@Hoge String>> map)
+                    throws @Hoge IllegalArgumentException, @Hoge UncheckedIOException {
         @Hoge
         List<@Hoge String> list = new @Hoge ArrayList<@Hoge String>();
         Arrays.<@Hoge Number> asList(1, 2, 3);
@@ -28,4 +29,9 @@ public class TypeAnnotation<@Hoge A, @Hoge B> extends @Hoge ArrayList<@Hoge Stri
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE_USE)
 @interface Hoge {
+}
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE_USE)
+@interface Fuga {
 }
