@@ -2,6 +2,8 @@ package guice;
 
 import static org.assertj.core.api.Assertions.*;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.junit.Test;
@@ -45,7 +47,41 @@ public class ProvidesSample {
         assertThat(baz.bar).isNotSameAs(injector.getInstance(Bar.class));
     }
 
+    @Test
+    public void testNamed() throws Exception {
+        Injector injector = Guice.createInjector(new AbstractModule() {
+
+            @Override
+            protected void configure() {
+            }
+
+            @Provides
+            @Named("foo1")
+            Foo foo1() {
+                return new Foo("foo1");
+            }
+
+            @Provides
+            @Named("foo2")
+            Foo foo2() {
+                return new Foo("foo2");
+            }
+        });
+        Qux qux = injector.getInstance(Qux.class);
+        assertThat(qux.foo1.value).isEqualTo("foo1");
+        assertThat(qux.foo2.value).isEqualTo("foo2");
+    }
+
     public static class Foo {
+        public final String value;
+
+        public Foo() {
+            this("foo");
+        }
+
+        public Foo(String value) {
+            this.value = value;
+        }
     }
 
     public static class Bar {
@@ -60,5 +96,14 @@ public class ProvidesSample {
             this.foo = foo;
             this.bar = bar;
         }
+    }
+
+    public static class Qux {
+        @Inject
+        @Named("foo1")
+        public Foo foo1;
+        @Inject
+        @Named("foo2")
+        public Foo foo2;
     }
 }
