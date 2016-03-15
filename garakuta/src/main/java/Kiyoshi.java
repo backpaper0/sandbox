@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Predicate;
 
-public class Kiyoshi {
+public class Kiyoshi extends RuntimeException {
 
     public static void main(String[] args) {
         Kiyoshi k = new Kiyoshi();
@@ -11,6 +11,14 @@ public class Kiyoshi {
         } else {
             k.ドコ();
         }
+    }
+
+    public Kiyoshi() {
+        super();
+    }
+
+    public Kiyoshi(String message) {
+        super(message);
     }
 
     Random r = new Random();
@@ -27,7 +35,7 @@ public class Kiyoshi {
         StackTraceElement[] xs = new Throwable().getStackTrace();
         if (Arrays.stream(xs).skip(1).limit(4).map(StackTraceElement::getMethodName)
                 .filter(Predicate.isEqual("ズン")).count() == 4) {
-            throw new RuntimeException("キ・ヨ・シ！");
+            throw new Kiyoshi("キ・ヨ・シ！");
         } else if (r.nextBoolean()) {
             ズン();
         } else {
