@@ -27,15 +27,11 @@ public class Kiyoshi {
         StackTraceElement[] xs = new Throwable().getStackTrace();
         if (Arrays.stream(xs).skip(1).limit(4).map(StackTraceElement::getMethodName)
                 .filter(Predicate.isEqual("ズン")).count() == 4) {
-            キヨシ();
+            throw new RuntimeException("キ・ヨ・シ！");
         } else if (r.nextBoolean()) {
             ズン();
         } else {
             ドコ();
         }
-    }
-
-    void キヨシ() {
-        throw new RuntimeException();
     }
 }
