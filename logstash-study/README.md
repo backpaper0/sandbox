@@ -10,3 +10,7 @@ logstash -f <confファイル>
 
 * `echo.conf` - 標準入力をそのまま標準出力に返す設定
 
+## その他
+
+[Logstasのリファレンス](https://www.elastic.co/guide/en/logstash/current/index.html)
+
