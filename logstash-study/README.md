@@ -14,5 +14,5 @@ logstash -f <confファイル>
 
 ## その他
 
-[Logstasのリファレンス](https://www.elastic.co/guide/en/logstash/current/index.html)
+[Logstashのリファレンス](https://www.elastic.co/guide/en/logstash/current/index.html)
 
