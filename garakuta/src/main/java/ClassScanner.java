@@ -36,7 +36,7 @@ public class ClassScanner {
         return classes;
     }
 
-    private Set<Class<?>> scanClasses(ClassLoader cl, Path root) {
+    protected Set<Class<?>> scanClasses(ClassLoader cl, Path root) {
 
         Predicate<Path> isRegularFile = Files::isRegularFile;
         Predicate<Path> isClassFile = a -> a.getFileName().toString().endsWith(".class");
