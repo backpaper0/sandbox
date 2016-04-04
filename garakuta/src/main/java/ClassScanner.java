@@ -6,11 +6,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ClassScanner {
 
@@ -45,17 +47,20 @@ public class ClassScanner {
         Function<Path, String> toString = Path::toString;
         UnaryOperator<String> toClassName = a -> a.replace('/', '.').substring(0,
                 a.length() - ".class".length());
-        Function<String, Class<?>> loadClass = a -> {
+        Function<String, Optional<Class<?>>> loadClass = a -> {
             try {
-                return cl.loadClass(a);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                return Optional.of(cl.loadClass(a));
+            } catch (ClassNotFoundException | NoClassDefFoundError e) {
+                return Optional.empty();
             }
         };
-        Function<Path, Class<?>> mapper = toString.andThen(toClassName).andThen(loadClass);
+        Function<Optional<Class<?>>, Stream<Class<?>>> unwrap = a -> a.map(Stream::of)
+                .orElseGet(Stream::empty);
+        Function<Path, Stream<Class<?>>> mapper = toString.andThen(toClassName).andThen(loadClass)
+                .andThen(unwrap);
 
         try {
-            return Files.walk(root).filter(predicate).map(root::relativize).map(mapper)
+            return Files.walk(root).filter(predicate).map(root::relativize).flatMap(mapper)
                     .collect(Collectors.toSet());
         } catch (IOException e) {
             throw new RuntimeException(e);
