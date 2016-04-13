@@ -4,8 +4,11 @@ interface Foo {
     fun foobar() = hoge + fuga
 }
 
+//@ApplicationScoped
 class FooImpl(
+    //@Inject
     override val hoge: String,
+    //@Inject
     override val fuga: Int
 ) : Foo {
 }
