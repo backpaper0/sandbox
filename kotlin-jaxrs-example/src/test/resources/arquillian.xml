@@ -5,7 +5,7 @@
 
     <container qualifier="wildfly-managed" default="true">
         <configuration>
-            <property name="jbossHome">target/wildfly-8.1.0.Final</property>
+            <property name="jbossHome">target/wildfly-10.0.0.Final</property>
             <property name="outputToConsole">true</property>
         </configuration>
     </container>
