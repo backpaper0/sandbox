@@ -12,6 +12,8 @@ fun main(args: Array<String>) {
     "hello" x { len(it) } x { twice(it) } x { p2(it) }
 
     "hello" x (::len) x (::twice) x (::p2)
+
+    "hello".let(::len).let(::twice).let(::p2)
 }
 
 fun p(s: String) = println(s)
