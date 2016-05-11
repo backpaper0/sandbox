@@ -2,7 +2,9 @@ package sample;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import javax.enterprise.context.*;
 
+@RequestScoped
 @Path("")
 public class SampleApi {
     @GET
