@@ -2,18 +2,23 @@ package sample;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import javax.ws.rs.container.*;
 import javax.enterprise.context.*;
 import javax.inject.*;
+import javax.enterprise.concurrent.*;
+import javax.annotation.*;
 
 @RequestScoped
 @Path("")
 public class SampleApi {
     @Inject
     private SampleService service;
+    @Resource
+    private ManagedExecutorService executor;
     @GET
     @Produces("text/plain")
-    public String list() {
-        return service.list().toString();
+    public void list(@Suspended AsyncResponse ar) {
+        executor.submit(() -> ar.resume(service.list().toString()));
     }
     @Path("{id}")
     @GET
