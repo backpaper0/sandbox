@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html">
+<f:view transient="true">
+<h:head>
+  <title>ステートレスビュー</title>
+</h:head>
+<h:body>
+  <h:form prependId="false">
+    <h:panelGrid columns="1" >
+      <h:inputText value="#{statelessBean.input}" />
+      <h:commandButton action="#{statelessBean.echo}" value="echo">
+        <f:ajax execute="@form" render="@form"/>
+      </h:commandButton>
+      <h:outputText value="#{statelessBean.output}" />
+    </h:panelGrid>
+  </h:form>
+</h:body>
+</f:view>
+</html>
