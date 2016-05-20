@@ -1,12 +1,10 @@
 function word(x) {
-    return () => {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                console.log(x);
-                resolve();
-            }, 100);
-        });
-    }
+    return () => new Promise(resolve => {
+        setTimeout(() => {
+            console.log(x);
+            resolve();
+        }, 100);
+    });
 }
 
 var h = word('h');
