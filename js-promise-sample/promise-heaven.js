@@ -1,7 +1,7 @@
 function word(x) {
-    return function h() {
-        return new Promise(function(resolve) {
-            setTimeout(function() {
+    return () => {
+        return new Promise(resolve => {
+            setTimeout(() => {
                 console.log(x);
                 resolve();
             }, 100);
