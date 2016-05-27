@@ -1,0 +1,21 @@
+ext {
+    hk2Version = '2.5.0-b04'
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "org.glassfish.hk2:hk2:${hk2Version}"
+}
+
