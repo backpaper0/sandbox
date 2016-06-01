@@ -1,0 +1,36 @@
+ext {
+    deltaspikeVersion = '1.6.1'
+    javaeeVersion = '7.0'
+    payaraVersion = '4.1.1.162'
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.apache.deltaspike.modules:deltaspike-data-module-api:${deltaspikeVersion}"
+    runtime "org.apache.deltaspike.modules:deltaspike-data-module-impl:${deltaspikeVersion}"
+    providedCompile "javax:javaee-api:${javaeeVersion}"
+    archives "fish.payara.extras:payara-micro:${payaraVersion}"
+}
+
+task run(type:Exec) {
+    def payaraJar = configurations.archives.find { it.name == "payara-micro-${payaraVersion}.jar" }
+    def warFile = war.archivePath
+    commandLine 'java', '-jar', "${payaraJar}", '--noCluster', '--deploy', "${warFile}"
+}
+
+run.dependsOn war
+
