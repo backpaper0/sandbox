@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 @Path("hello")
 public class HelloApi {
 
-    @Resource(lookup = "java:global/jdbc/sample")
+    @Inject
     private DataSource dataSource;
 
     @GET
