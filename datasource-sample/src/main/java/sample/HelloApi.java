@@ -1,9 +1,10 @@
 package sample;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
+import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -23,11 +24,10 @@ public class HelloApi {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String get() throws SQLException {
-        try (Connection con = dataSource.getConnection();
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery("select 'hello world'")) {
-            rs.next();
-            return rs.getString(1);
+        try (Connection con = dataSource.getConnection()) {
+            DatabaseMetaData md = con.getMetaData();
+            return Stream.of(md.getURL(), md.getUserName())
+                    .collect(Collectors.joining(System.lineSeparator()));
         }
     }
 }

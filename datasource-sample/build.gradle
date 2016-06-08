@@ -28,7 +28,7 @@ dependencies {
 task run(type:Exec) {
     def payaraJar = configurations.archives.find { it.name == "payara-micro-${payaraVersion}.jar" }
     def warFile = war.archivePath
-    commandLine 'java', '-jar', "${payaraJar}", '--noCluster', '--deploy', "${warFile}"
+    commandLine 'java', '-Dds.url=jdbc:h2:mem:sample;DB_CLOSE_DELAY=-1', '-jar', "${payaraJar}", '--noCluster', '--deploy', "${warFile}"
 }
 
 run.dependsOn war
