@@ -1,7 +1,7 @@
 package sample;
 
+import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -30,10 +30,10 @@ public class SampleResource {
     }
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String findAll() {
-        return service.findAll().stream().map(Objects::toString)
-                .collect(Collectors.joining(", ", "[", "]"));
+    @Produces(MediaType.TEXT_HTML)
+    public Jsp findAll() {
+        List<Sample> model = service.findAll();
+        return new Jsp("WEB-INF/templates/list.jsp", model);
     }
 
     @POST
