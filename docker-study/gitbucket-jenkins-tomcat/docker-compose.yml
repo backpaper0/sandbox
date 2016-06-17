@@ -1,12 +1,14 @@
-jenkins:
-    image: jenkins
-    ports:
-        - "8000:8080"
-gitbucket:
-    image: takezoe/gitbucket
-    ports:
-        - "8888:8080"
-tomcat:
-    image: tomcat:8.0.36
-    ports:
-        - "8080:8080"
+version: "2"
+services:
+    jenkins:
+        image: jenkins
+        ports:
+            - "8000:8080"
+    gitbucket:
+        image: takezoe/gitbucket
+        ports:
+            - "8888:8080"
+    tomcat:
+        image: tomcat:8.0.36
+        ports:
+            - "8080:8080"
