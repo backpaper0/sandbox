@@ -1,7 +1,7 @@
 version: "2"
 services:
     jenkins:
-        image: jenkins
+        image: jenkinsci/jenkins
         ports:
             - "8000:8080"
     gitbucket:
