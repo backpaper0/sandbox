@@ -1,0 +1,12 @@
+version: "2"
+services:
+    jenkins:
+        image: jenkinsci/jenkins
+        environment:
+            - JENKINS_OPTS=--prefix=/jenkins
+    nginx:
+        build: nginx
+        ports:
+            - "8080:8080"
+        links:
+            - jenkins
