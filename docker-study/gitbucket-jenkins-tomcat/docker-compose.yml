@@ -1,13 +1,15 @@
 version: "2"
 services:
-    jenkins:
-        image: jenkinsci/jenkins
-        ports:
-            - "8000:8080"
     gitbucket:
         image: takezoe/gitbucket
         ports:
             - "8888:8080"
+    jenkins:
+        image: jenkinsci/jenkins
+        ports:
+            - "8000:8080"
+        links:
+            - gitbucket
     tomcat:
         build: tomcat
         ports:
