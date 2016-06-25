@@ -54,10 +54,10 @@ public class ClassScanner {
                 return Optional.empty();
             }
         };
-        Function<Optional<Class<?>>, Stream<Class<?>>> unwrap = a -> a.map(Stream::of)
+        Function<Optional<Class<?>>, Stream<? extends Class<?>>> unwrap = a -> a.map(Stream::of)
                 .orElseGet(Stream::empty);
-        Function<Path, Stream<Class<?>>> mapper = toString.andThen(toClassName).andThen(loadClass)
-                .andThen(unwrap);
+        Function<Path, Stream<? extends Class<?>>> mapper = toString.andThen(toClassName)
+                .andThen(loadClass).andThen(unwrap);
 
         try {
             return Files.walk(root).filter(predicate).map(root::relativize).flatMap(mapper)
