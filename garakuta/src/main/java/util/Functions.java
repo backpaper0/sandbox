@@ -39,6 +39,7 @@ public final class Functions {
      * @return
      * @see Stream#flatMap(Function)
      */
+    //TODO もっと良い名前つけたい
     public static <T, R> Function<T, Stream<R>> filterMap(Predicate<? super T> predicate,
             Function<? super T, ? extends R> mapper) {
         return t -> predicate.test(t) ? Stream.of(mapper.apply(t)) : Stream.empty();
@@ -57,6 +58,7 @@ public final class Functions {
      * @return
      * @see Stream#map(Function)
      */
+    //TODO もっと良い名前つけたい
     public static <T, U, R> Function<U, R> applyPartial(
             BiFunction<? super T, ? super U, ? extends R> mapper, T t) {
         return u -> mapper.apply(t, u);
