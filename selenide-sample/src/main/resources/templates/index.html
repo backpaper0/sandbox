@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Selenide Sample</title>
+        <script data-th-src="@{'/webjars/jquery/1.8.3/jquery.js'}"></script>
+        <script>
+            $(function() {
+                $('#calc').on('click', function() {
+                    var params = {};
+                    params.a = $('#a').val();
+                    params.b = $('#b').val();
+                    $.post('calc', params).then(function(data) {
+                        $('#answer').text(data);
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <p>
+            <input type="text" id="a" name="a"/>
+            +
+            <input type="text" id="b" name="b"/>
+            =
+            <span id="answer"></span>
+        </p>
+        <p>
+            <button id="calc">calc</button>
+        </p>
+    </body>
+</html>
