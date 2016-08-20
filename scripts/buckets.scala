@@ -12,17 +12,17 @@ case class Bucket(name: String, capacity: Int, value: Int) {
     (add(0 - x), other.add(x))
   }
   private def add(addMe: Int) = copy(value = value + addMe)
-  override def toString = s"$name($value/$capacity)"
+  override def toString = s"$name($value)"
 }
 
 type State = (Bucket, Bucket)
 
 type Action = (String, State => State)
 
-case class Step(action: Action, prev: State, next: State) {
-  private val (name, _) = action
-  def contains(state: State) = state == prev || state == next
-  override def toString = s"$prev -> $next : $name"
+case class Step(name: String, state: State) {
+  private val (a, b) = state
+  def contains(s: State) = s == state
+  override def toString = s"$name : $a $b"
 }
 
 case class History(value: List[Step]) {
@@ -33,20 +33,20 @@ case class History(value: List[Step]) {
 object Buckets {
   def actAll(state: State, history: History): Option[History] = {
     val actions = Stream[Action](
-      ("Fill A", { case (a, b) => (a.fill, b) }),
-      ("Fill B", { case (a, b) => (a, b.fill) }),
-      ("Dump A", { case (a, b) => (a.dump, b) }),
-      ("Dump B", { case (a, b) => (a, b.dump) }),
-      ("Pour from A to B", { case (a, b) => a.pourTo(b) }),
-      ("Pour from B to A", { case (a, b) => b.pourTo(a).swap })
+      (" Fill A", { case (a, b) => (a.fill, b) }),
+      (" Fill B", { case (a, b) => (a, b.fill) }),
+      (" Dump A", { case (a, b) => (a.dump, b) }),
+      (" Dump B", { case (a, b) => (a, b.dump) }),
+      (" A -> B", { case (a, b) => a.pourTo(b) }),
+      (" A <- B", { case (a, b) => b.pourTo(a).swap })
     )
     actions.flatMap(act(state, history, _)).headOption
   }
 
   def act(state: State, history: History, action: Action): Option[History] = {
-    val (_, f) = action
+    val (name, f) = action
     val newState = f(state)
-    val newHistory = history.add(Step(action, state, newState))
+    val newHistory = history.add(Step(name, newState))
     if (satisfied(newState))
       Option(newHistory)
     else if (history.contains(newState))
@@ -61,14 +61,21 @@ object Buckets {
 }
 
 val state = (Bucket("A", capacityA, 0), Bucket("B", capacityB, 0))
-val history = History(List.empty)
+val history = History(List(Step("   Init", state)))
 val result = Buckets.actAll(state, history)
 
+val header = state match {
+  case (a, b) => s"Buckets : ${a.fill} ${b.fill}"
+}
+val border = "--------:----------"
 val output = result match {
   case Some(History(value)) => value
     .reverse
-    .foldLeft("Initial : " + state) { _ + System.lineSeparator() + _ }
+    .map(_.toString)
+    .reduce(_ + System.lineSeparator() + _)
   case _ => "x"
 }
+println(header)
+println(border)
 println(output)
 
