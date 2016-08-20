@@ -1,7 +1,10 @@
+val capacityA = 5
+val capacityB = 3
+val target = 4
 
 case class Bucket(name: String, capacity: Int, value: Int) {
   private val free = capacity - value
-  val satisfied = value == 4
+  val satisfied = value == target
   def fill = copy(value = capacity)
   def dump = copy(value = 0)
   def pourTo(other: Bucket) = {
@@ -57,7 +60,7 @@ object Buckets {
   }
 }
 
-val state = (Bucket("A", 5, 0), Bucket("B", 3, 0))
+val state = (Bucket("A", capacityA, 0), Bucket("B", capacityB, 0))
 val history = History(List.empty)
 val result = Buckets.actAll(state, history)
 
