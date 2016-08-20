@@ -32,12 +32,12 @@ case class History(value: List[Step]) {
 object Buckets {
   def actAll(state: State, history: History): Option[History] = {
     val actions = Stream(
-      Action("Fill A", prev => prev match { case (a, b) => (a.fill, b) }),
-      Action("Fill B", prev => prev match { case (a, b) => (a, b.fill) }),
-      Action("Dump A", prev => prev match { case (a, b) => (a.dump, b) }),
-      Action("Dump B", prev => prev match { case (a, b) => (a, b.dump) }),
-      Action("Pour from A to B", prev => prev match { case (a, b) => a.pourTo(b) }),
-      Action("Pour from B to A", prev => prev match { case (a, b) => b.pourTo(a).swap })
+      Action("Fill A", { case (a, b) => (a.fill, b) }),
+      Action("Fill B", { case (a, b) => (a, b.fill) }),
+      Action("Dump A", { case (a, b) => (a.dump, b) }),
+      Action("Dump B", { case (a, b) => (a, b.dump) }),
+      Action("Pour from A to B", { case (a, b) => a.pourTo(b) }),
+      Action("Pour from B to A", { case (a, b) => b.pourTo(a).swap })
     )
     actions.flatMap(action => act(state, history, action)).headOption
   }
