@@ -30,12 +30,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-task jsx << {
-    if(! file('node_modules').exists()) {
-        "npm install babel-cli babel-plugin-transform-react-jsx".execute().text
-    }
-    def code = "./node_modules/.bin/babel hello.jsx".execute().text
-    file('hello.js').write(code)
-}
+jar.archiveName = 'app.jar'
 
-classes.dependsOn jsx
