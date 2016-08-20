@@ -17,7 +17,7 @@ type State = (Bucket, Bucket)
 type Action = (String, State => State)
 
 case class Step(action: Action, prev: State, next: State) {
-  val (name, _) = action
+  private val (name, _) = action
   def contains(state: State) = state == prev || state == next
   override def toString = s"$prev -> $next : $name"
 }
@@ -52,7 +52,7 @@ object Buckets {
       actAll(newState, newHistory)
   }
 
-  def satisfied(state: State) = state match {
+  private def satisfied(state: State) = state match {
     case (a, b) => a.satisfied || b.satisfied
   }
 }
