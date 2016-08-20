@@ -1,8 +1,8 @@
 {
   "name": "react-ssr-study",
   "scripts": {
-    "watch": "./node_modules/.bin/babel -w src/main/jsx -d .",
-    "build": "./node_modules/.bin/babel src/main/jsx -d ."
+    "watch": "babel -w src/main/jsx -d .",
+    "build": "babel src/main/jsx -d ."
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
