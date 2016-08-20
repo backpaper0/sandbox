@@ -14,14 +14,12 @@ case class Bucket(name: String, capacity: Int, value: Int) {
 
 type State = (Bucket, Bucket)
 
-case class Action(name: String, f: State => State) {
-  def apply(state: State) = f(state)
-  override def toString = name
-}
+type Action = (String, State => State)
 
 case class Step(action: Action, prev: State, next: State) {
+  val (name, _) = action
   def contains(state: State) = state == prev || state == next
-  override def toString = s"$prev -> $next : $action"
+  override def toString = s"$prev -> $next : $name"
 }
 
 case class History(value: List[Step]) {
@@ -31,19 +29,20 @@ case class History(value: List[Step]) {
 
 object Buckets {
   def actAll(state: State, history: History): Option[History] = {
-    val actions = Stream(
-      Action("Fill A", { case (a, b) => (a.fill, b) }),
-      Action("Fill B", { case (a, b) => (a, b.fill) }),
-      Action("Dump A", { case (a, b) => (a.dump, b) }),
-      Action("Dump B", { case (a, b) => (a, b.dump) }),
-      Action("Pour from A to B", { case (a, b) => a.pourTo(b) }),
-      Action("Pour from B to A", { case (a, b) => b.pourTo(a).swap })
+    val actions = Stream[Action](
+      ("Fill A", { case (a, b) => (a.fill, b) }),
+      ("Fill B", { case (a, b) => (a, b.fill) }),
+      ("Dump A", { case (a, b) => (a.dump, b) }),
+      ("Dump B", { case (a, b) => (a, b.dump) }),
+      ("Pour from A to B", { case (a, b) => a.pourTo(b) }),
+      ("Pour from B to A", { case (a, b) => b.pourTo(a).swap })
     )
     actions.flatMap(act(state, history, _)).headOption
   }
 
   def act(state: State, history: History, action: Action): Option[History] = {
-    val newState = action(state)
+    val (_, f) = action
+    val newState = f(state)
     val newHistory = history.add(Step(action, state, newState))
     if (satisfied(newState))
       Option(newHistory)
