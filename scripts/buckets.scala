@@ -26,7 +26,7 @@ case class Step(action: Action, prev: State, next: State) {
 
 case class History(value: List[Step]) {
   def add(step: Step) = History(step :: value)
-  def contains(state: State) = value.exists(step => step.contains(state))
+  def contains(state: State) = value.exists(_.contains(state))
 }
 
 object Buckets {
@@ -39,7 +39,7 @@ object Buckets {
       Action("Pour from A to B", { case (a, b) => a.pourTo(b) }),
       Action("Pour from B to A", { case (a, b) => b.pourTo(a).swap })
     )
-    actions.flatMap(action => act(state, history, action)).headOption
+    actions.flatMap(act(state, history, _)).headOption
   }
 
   def act(state: State, history: History, action: Action): Option[History] = {
@@ -65,7 +65,7 @@ val result = Buckets.actAll(state, history)
 val output = result match {
   case Some(History(value)) => value
     .reverse
-    .foldLeft("Initial : " + state) { (x, y) => x + System.lineSeparator() + y }
+    .foldLeft("Initial : " + state) { _ + System.lineSeparator() + _ }
   case _ => "x"
 }
 println(output)
