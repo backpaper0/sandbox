@@ -1,6 +1,7 @@
-val capacityA = 5
-val capacityB = 3
-val target = 4
+val (capacityA, capacityB, target) = args.toList match {
+  case a :: b :: c :: Nil => (a.toInt, b.toInt, c.toInt)
+  case _ => (5, 3, 4)
+}
 
 case class Bucket(name: String, capacity: Int, value: Int) {
   private val free = capacity - value
