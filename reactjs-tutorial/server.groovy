@@ -16,6 +16,13 @@ class Controller {
         new File('index.html').text
     }
 
+    @Path('bundle.js')
+    @GET
+    @Produces('text/javascript')
+    String bundlejs() {
+        new File('bundle.js').text
+    }
+
     @Path('api/comments')
     @GET
     @Produces('application/json')
