@@ -4,6 +4,19 @@
 
 * https://facebook.github.io/react/docs/tutorial-ja-JP.html
 
+JavaScriptはwebpackでビルドするようにした。
+次のコマンドで準備する。
+
+```
+npm install
+```
+
+次のコマンドでビルドする。
+
+```
+npm run build
+```
+
 JSONをアレするサーバはJAX-RS使ってGroovyで書いてみた。
 
 サーバの起動方法は以下
