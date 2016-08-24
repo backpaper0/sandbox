@@ -41,7 +41,9 @@ object Buckets {
       (" A -> B", { case (a, b) => a.pourTo(b) }),
       (" A <- B", { case (a, b) => b.pourTo(a).swap })
     )
-    actions.flatMap(act(state, history, _)).headOption
+    actions.flatMap(act(state, history, _)).sortBy {
+      case History(value) => value.size
+    }.headOption
   }
 
   def act(state: State, history: History, action: Action): Option[History] = {
