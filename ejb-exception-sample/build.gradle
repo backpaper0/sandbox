@@ -1,0 +1,41 @@
+ext {
+    javaeeVersion = '7.0'
+    payaraVersion = '4.1.1.163'
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    providedCompile "javax:javaee-api:${javaeeVersion}"
+    archives "fish.payara.extras:payara-micro:${payaraVersion}"
+}
+
+war.archiveName = 'sample.war'
+
+task run(type:Exec) {
+    def payaraJar = configurations.archives.find { it.name == "payara-micro-${payaraVersion}.jar" }
+    def warFile = war.archivePath
+    commandLine 'java', '-Ddb.url=jdbc:h2:file:./build/data', '-jar', "${payaraJar}", '--noCluster', '--deploy', "${warFile}"
+}
+
+run.dependsOn war
+
+task uberJar(type: Exec) {
+    def payaraJar = configurations.archives.find { it.name == "payara-micro-${payaraVersion}.jar" }
+    def warFile = war.archivePath
+    commandLine 'java', '-jar', "${payaraJar}", '--deploy', "${warFile}", '--outputUberJar', "${buildDir}/${war.baseName}.jar"
+}
+
+uberJar.dependsOn war
