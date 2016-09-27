@@ -34,6 +34,28 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        var phoneNumber = document.getElementById('phoneNumber');
+        function showPhoneNumber() {
+            if (window.plugins.sim.hasReadPermission) {
+                window.plugins.sim.hasReadPermission(function(result) {
+                    if (result) {
+                        window.plugins.sim.getSimInfo(function(result) {
+                            var phoneNumber = document.getElementById('phoneNumber');
+                            phoneNumber.innerText = result['phoneNumber'];
+                        });
+                    } else {
+                        window.plugins.sim.requestReadPermission();
+                        setTimeout(showPhoneNumber, 1000);
+                    }
+                });
+            } else {
+                window.plugins.sim.getSimInfo(function(result) {
+                    var phoneNumber = document.getElementById('phoneNumber');
+                    phoneNumber.innerText = result['phoneNumber'];
+                });
+            }
+        }
+        showPhoneNumber();
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
