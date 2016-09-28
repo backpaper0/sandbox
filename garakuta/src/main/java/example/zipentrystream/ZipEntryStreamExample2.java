@@ -16,7 +16,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-public class Main2 {
+public class ZipEntryStreamExample2 {
 
     public static void main(String[] args) throws IOException {
 

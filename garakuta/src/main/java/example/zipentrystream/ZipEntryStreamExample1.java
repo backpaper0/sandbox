@@ -8,7 +8,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-public class Main {
+public class ZipEntryStreamExample1 {
 
     public static void main(String[] args) throws IOException {
 
