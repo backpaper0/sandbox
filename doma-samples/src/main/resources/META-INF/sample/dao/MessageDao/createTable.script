@@ -1,0 +1,4 @@
+create table Message (
+	id identity,
+	text varchar(1000)
+)

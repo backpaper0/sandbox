@@ -1,0 +1,34 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.1.RELEASE'
+        domaVersion = '2.12.1'
+	}
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply from: 'eclipse.gradle'
+apply plugin: 'spring-boot'
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    options.encoding = 'UTF-8'
+}
+
+compileJava.dependsOn processResources
+processResources.destinationDir = compileJava.destinationDir
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "org.seasar.doma:doma:${domaVersion}"
+    compile 'com.h2database:h2:1.4.190'
+}
