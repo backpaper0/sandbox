@@ -30,5 +30,5 @@ repositories {
 
 dependencies {
     compile "org.seasar.doma:doma:${domaVersion}"
-    compile 'com.h2database:h2:1.4.190'
+    compile 'org.postgresql:postgresql:9.4.1211'
 }
