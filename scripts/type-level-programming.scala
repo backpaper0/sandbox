@@ -2,10 +2,13 @@ import scala.language.higherKinds
 
 sealed trait Bool
 
-class True extends Bool
+sealed trait True extends Bool {
+  type Not = False
+}
 
-class False extends Bool
-
+sealed trait False extends Bool {
+  type Not = True
+}
 
 object ToBool {
   def apply[A <: Bool](implicit x: ToBool[A]) = x()
@@ -26,3 +29,5 @@ implicit val toFalse = new ToBool[False] {
 println(ToBool[True])
 println(ToBool[False])
 
+println(ToBool[True#Not])
+println(ToBool[False#Not])
