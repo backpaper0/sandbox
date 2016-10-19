@@ -2,14 +2,20 @@ import scala.language.higherKinds
 
 sealed trait Bool {
   type Not <: Bool
+  type And[A <: Bool] <: Bool
+  type Or[A <: Bool] <: Bool
 }
 
 sealed trait True extends Bool {
   type Not = False
+  type And[A <: Bool] = A
+  type Or[A <: Bool] = True
 }
 
 sealed trait False extends Bool {
   type Not = True
+  type And[A <: Bool] = False
+  type Or[A <: Bool] = A
 }
 
 object Bool {
@@ -37,8 +43,18 @@ import Bool._
 println(ToBool[True])
 println(ToBool[False])
 
-println(ToBool[True#Not])
-println(ToBool[False#Not])
+//println(ToBool[True#Not])
+//println(ToBool[False#Not])
 
-println(ToBool[![True]])
-println(ToBool[![False]])
+println("!true  = " + ToBool[![True]])
+println("!false = " + ToBool[![False]])
+
+println("true  && true  = " + ToBool[True#And[True]])
+println("true  && false = " + ToBool[True#And[False]])
+println("false && true  = " + ToBool[False#And[True]])
+println("false && false = " + ToBool[False#And[False]])
+
+println("true  || true  = " + ToBool[True#Or[True]])
+println("true  || false = " + ToBool[True#Or[False]])
+println("false || true  = " + ToBool[False#Or[True]])
+println("false || false = " + ToBool[False#Or[False]])
