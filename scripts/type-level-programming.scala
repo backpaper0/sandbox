@@ -20,6 +20,8 @@ sealed trait False extends Bool {
 
 object Bool {
   type ![A <: Bool] = A#Not
+  type &&[A <: Bool, B <: Bool] = A#And[B]
+  type ||[A <: Bool, B <: Bool] = A#Or[B]
 }
 
 object ToBool {
@@ -49,12 +51,23 @@ println(ToBool[False])
 println("!true  = " + ToBool[![True]])
 println("!false = " + ToBool[![False]])
 
-println("true  && true  = " + ToBool[True#And[True]])
-println("true  && false = " + ToBool[True#And[False]])
-println("false && true  = " + ToBool[False#And[True]])
-println("false && false = " + ToBool[False#And[False]])
+//println("true  && true  = " + ToBool[True#And[True]])
+//println("true  && false = " + ToBool[True#And[False]])
+//println("false && true  = " + ToBool[False#And[True]])
+//println("false && false = " + ToBool[False#And[False]])
 
-println("true  || true  = " + ToBool[True#Or[True]])
-println("true  || false = " + ToBool[True#Or[False]])
-println("false || true  = " + ToBool[False#Or[True]])
-println("false || false = " + ToBool[False#Or[False]])
+println("true  && true  = " + ToBool[True  && True])
+println("true  && false = " + ToBool[True  && False])
+println("false && true  = " + ToBool[False && True])
+println("false && false = " + ToBool[False && False])
+
+//println("true  || true  = " + ToBool[True#Or[True]])
+//println("true  || false = " + ToBool[True#Or[False]])
+//println("false || true  = " + ToBool[False#Or[True]])
+//println("false || false = " + ToBool[False#Or[False]])
+
+println("true  || true  = " + ToBool[True  || True])
+println("true  || false = " + ToBool[True  || False])
+println("false || true  = " + ToBool[False || True])
+println("false || false = " + ToBool[False || False])
+
