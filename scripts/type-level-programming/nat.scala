@@ -3,11 +3,13 @@ import scala.language.higherKinds
 sealed trait Nat {
   type increment <: Nat
   type add[A <: Nat] <: Nat
+  type mul[A <: Nat] <: Nat
 }
 
 sealed trait _0 extends Nat {
   type increment = succ[_0]
   type add[A <: Nat] = A
+  type mul[A <: Nat] = _0
 }
 
 sealed trait succ[A <: Nat] extends Nat {
@@ -22,17 +24,19 @@ sealed trait succ[A <: Nat] extends Nat {
   // _0#add[_0]#increment#increment#increment
   // _0#increment#increment#increment
   // _3
+  type mul[B <: Nat] = A#mul[B]#add[B]
 }
 
 type _1 = succ[_0]
-
 type _2 = succ[_1]
-
 type _3 = succ[_2]
+type _4 = succ[_3]
+type _5 = succ[_4]
 
 object Nat {
   type ++[A <: Nat] = A#increment
   type +[A <: Nat, B <: Nat] = A#add[B]
+  type *[A <: Nat, B <: Nat] = A#mul[B]
 }
 
 def toInt[A <: Nat](implicit x: ToInt[A]) = x()
@@ -59,3 +63,7 @@ println(toInt[_3])
 println("++3 = " + toInt[++[_3]])
 
 println("2 + 3 = " + toInt[_2 + _3])
+
+println("2 * 3 = " + toInt[_2 * _3])
+
+println("1 * 2 * 3 * 4 * 5 = " + toInt[_1 * _2 * _3 * _4 * _5])
