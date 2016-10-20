@@ -1,18 +1,18 @@
 import scala.language.higherKinds
 
-sealed trait int {
-  type increment <: int
-  type add[A <: int] <: int
+sealed trait Nat {
+  type increment <: Nat
+  type add[A <: Nat] <: Nat
 }
 
-sealed trait _0 extends int {
+sealed trait _0 extends Nat {
   type increment = succ[_0]
-  type add[A <: int] = A
+  type add[A <: Nat] = A
 }
 
-sealed trait succ[A <: int] extends int {
+sealed trait succ[A <: Nat] extends Nat {
   type increment = succ[succ[A]]
-  type add[B <: int] = B#add[A]#increment
+  type add[B <: Nat] = B#add[A]#increment
   // _2#add[_1]
   // succ[_1]#add[_1]
   // _1#add[_1]#increment
@@ -30,14 +30,14 @@ type _2 = succ[_1]
 
 type _3 = succ[_2]
 
-object int {
-  type ++[A <: int] = A#increment
-  type +[A <: int, B <: int] = A#add[B]
+object Nat {
+  type ++[A <: Nat] = A#increment
+  type +[A <: Nat, B <: Nat] = A#add[B]
 }
 
-def toInt[A <: int](implicit x: ToInt[A]) = x()
+def toInt[A <: Nat](implicit x: ToInt[A]) = x()
 
-sealed trait ToInt[A <: int] {
+sealed trait ToInt[A <: Nat] {
   def apply(): Int
 }
 
@@ -45,11 +45,11 @@ implicit def to0 = new ToInt[_0] {
   def apply() = 0
 }
 
-implicit def toSucc[B <: int](implicit x: ToInt[B]) = new ToInt[succ[B]] {
+implicit def toSucc[B <: Nat](implicit x: ToInt[B]) = new ToInt[succ[B]] {
   def apply() = 1 + x()
 }
 
-import int._
+import Nat._
 
 println(toInt[_0])
 println(toInt[_1])
