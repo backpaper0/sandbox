@@ -4,24 +4,28 @@ sealed trait Bool {
   type Not <: Bool
   type And[A <: Bool] <: Bool
   type Or[A <: Bool] <: Bool
+  type If[Then <: A, Else <: A, A] <: A
 }
 
 sealed trait True extends Bool {
   type Not = False
   type And[A <: Bool] = A
   type Or[A <: Bool] = True
+  type If[Then <: A, Else <: A, A] = Then
 }
 
 sealed trait False extends Bool {
   type Not = True
   type And[A <: Bool] = False
   type Or[A <: Bool] = A
+  type If[Then <: A, Else <: A, A] = Else
 }
 
 object Bool {
   type ![A <: Bool] = A#Not
   type &&[A <: Bool, B <: Bool] = A#And[B]
   type ||[A <: Bool, B <: Bool] = A#Or[B]
+  type If[Cond <: Bool, Then <: A, Else <: A, A] = Cond#If[Then, Else, A]
 }
 
 object ToBool {
@@ -71,3 +75,4 @@ println("true  || false = " + ToBool[True  || False])
 println("false || true  = " + ToBool[False || True])
 println("false || false = " + ToBool[False || False])
 
+println("if(true) false else true = " + ToBool[If[True, False, True, Bool]])
