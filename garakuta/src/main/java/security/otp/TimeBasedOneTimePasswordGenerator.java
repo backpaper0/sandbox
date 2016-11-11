@@ -6,7 +6,7 @@ package security.otp;
  * @see https://tools.ietf.org/html/rfc6238
  * 
  */
-public class TimeBasedOneTimePasswordGenerator {
+public final class TimeBasedOneTimePasswordGenerator {
 
     private final HmacBasedOneTimePasswordGenerator generator;
     private final long x;
