@@ -11,9 +11,8 @@ public class CsvLexerTest {
 
     @Test
     public void test() throws Exception {
-        StringBuilder buf = new StringBuilder();
-        buf.append("foo,\"b\"\"a,r\"\r\nbaz,qux\r\n,\"\"");
-        Reader in = new StringReader(buf.toString());
+        String s = "foo,\"b\"\"a,r\"\r\nbaz,qux\r\n,\"\"";
+        Reader in = new StringReader(s);
         CsvLexer lexer = new CsvLexer(in);
         assertEquals(CsvToken.field("foo"), lexer.next());
         assertEquals(CsvToken.SEPARATOR, lexer.next());

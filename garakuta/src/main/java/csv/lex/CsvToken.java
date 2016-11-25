@@ -20,6 +20,18 @@ public final class CsvToken {
         return new CsvToken(CsvTokenType.FIELD, text);
     }
 
+    public boolean isEof() {
+        return type == CsvTokenType.EOF;
+    }
+
+    public boolean isLineBreak() {
+        return type == CsvTokenType.LINE_BREAK;
+    }
+
+    public boolean isSeparator() {
+        return type == CsvTokenType.SEPARATOR;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(type, text);

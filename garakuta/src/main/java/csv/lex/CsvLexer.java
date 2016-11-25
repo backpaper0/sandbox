@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Objects;
 
-public final class CsvLexer {
+public class CsvLexer {
 
     private static final char EOF = (char) -1;
     private static final char CR = '\r';
