@@ -1,6 +1,13 @@
 var app = new Vue({
     el : '#app',
     data : {
-        message : 'Hello, world!'
+        username : '',
+        password : ''
+    },
+    methods : {
+        login : function() {
+            console.log(this.username);
+            console.log(this.password);
+        }
     }
 });
