@@ -13,9 +13,15 @@
 export default {
   name: 'home',
   data () {
-    return {
-      message: 'Hello, world!'
+    var data = {
+      message: 'Now loading...'
     }
+    this.$http
+      .get('/userinfo')
+      .then(response => {
+        data.message = 'Hello, ' + response.data.name + '!'
+      })
+    return data
   }
 }
 </script>

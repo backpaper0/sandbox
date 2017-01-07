@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import axios from 'axios'
 
 import Home from './Home.vue'
 import Login from './Login.vue'
@@ -9,9 +10,14 @@ import 'font-awesome/css/font-awesome.css'
 
 Vue.use(VueRouter)
 
+axios.defaults.baseURL = 'http://localhost:8000/api'
+axios.defaults.withCredentials = true
+
+Vue.prototype.$http = axios
+
 const router = new VueRouter({
   routes: [
-    { path: '/', name: 'home', component: Home  },
+    { path: '/home', name: 'home', component: Home  },
     { path: '/login', name: 'login', component: Login }
   ]
 })
@@ -20,4 +26,10 @@ new Vue({
   router
 }).$mount('#app')
 
-router.replace({ name: 'login' })
+axios.get('/userinfo')
+  .then(() => {
+    router.replace({ name: 'home' })
+  })
+  .catch(e => {
+    router.replace({ name: 'login' })
+  })

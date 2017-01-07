@@ -2,6 +2,10 @@
   <div id="home" class="container">
     <div class="section">
       <h1 class="title">Login</h1>
+      <div class="notification is-danger" v-if="hasError">
+        <button class="delete" @click="hideError"></button>
+        Error!!!
+      </div>
       <p class="control has-icon">
         <input class="input" type="text" placeholder="Username" v-model="username">
         <span class="icon is-small">
@@ -30,15 +34,37 @@ export default {
     return {
       username: 'backpaper0',
       password: 'secret',
-      loading: false
+      loading: false,
+      hasError: false
     }
   },
   methods: {
     login () {
       this.loading = true
-      setTimeout(() => {
-        this.$router.replace({ name: 'home' })
-      }, 3000)
+      var params = new URLSearchParams()
+      params.append( 'username', this.username)
+      params.append('password', this.password)
+      params.append('remember-me', 'yes')
+      //リダイレクトの際にCORS設定が効いていない？？？
+      this.$http
+        .post('/login', params)
+        .then(response => {
+          this.loading = false
+          this.$router.replace({ name: 'home' })
+        })
+        .catch(error => {
+          this.$http.get('/userinfo')
+            .then(response => {
+              this.loading = false
+              this.$router.replace({ name: 'home' })
+            }).catch(error => {
+              this.loading = false
+              this.hasError = true
+            })
+        })
+    },
+    hideError () {
+      this.hasError = false
     }
   }
 }
