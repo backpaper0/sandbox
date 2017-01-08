@@ -4,6 +4,7 @@
       <h1 class="title">Home</h1>
       <ul>
         <li><router-link :to="{ name: 'list' }">Messages</router-link></li>
+        <li><router-link :to="{ name: 'sample2' }">Sample2</router-link></li>
       </ul>
     </div>
   </div>
