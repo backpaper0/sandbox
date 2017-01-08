@@ -6,7 +6,7 @@
   </head>
   <body>
     <div id="app">
-      <p><router-link to="/" class="button is-info">Home</router-link></p>
+        <p><router-link :to="{ name: 'home' }" class="button is-info">Home</router-link></p>
       <router-view></router-view>
     </div>
     <script src="/dist/build.js"></script>

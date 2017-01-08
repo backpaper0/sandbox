@@ -5,6 +5,7 @@
       <ul>
         <li><router-link :to="{ name: 'list' }">Messages</router-link></li>
         <li><router-link :to="{ name: 'sample2' }">Sample2</router-link></li>
+        <li><router-link :to="{ name: 'sample3a' }">Sample3</router-link></li>
       </ul>
     </div>
   </div>
