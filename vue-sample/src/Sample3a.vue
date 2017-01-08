@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     next () {
-      this.$store.commit('updateMessage', this.message)
+      this.$store.dispatch('updateMessage', this.message)
       this.$router.push({ name: 'sample3b' })
     }
   }
