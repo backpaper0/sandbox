@@ -12,17 +12,17 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'sample',
   data () {
     return {
     }
   },
-  computed: {
-    message () {
-      return this.$store.state.message
-    }
-  },
+  computed: mapState({
+    message: state => state.message
+  }),
   methods: {
     prev () {
       this.$router.back()
