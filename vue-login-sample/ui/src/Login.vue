@@ -45,7 +45,6 @@ export default {
       params.append( 'username', this.username)
       params.append('password', this.password)
       params.append('remember-me', 'yes')
-      //リダイレクトの際にCORS設定が効いていない？？？
       this.$http
         .post('/login', params)
         .then(response => {
@@ -53,14 +52,8 @@ export default {
           this.$router.replace({ name: 'home' })
         })
         .catch(error => {
-          this.$http.get('/userinfo')
-            .then(response => {
-              this.loading = false
-              this.$router.replace({ name: 'home' })
-            }).catch(error => {
-              this.loading = false
-              this.hasError = true
-            })
+          this.loading = false
+          this.hasError = true
         })
     },
     hideError () {
