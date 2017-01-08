@@ -12,7 +12,8 @@
     "axios": "^0.15.3",
     "bulma": "^0.3.0",
     "vue": "^2.1.8",
-    "vue-router": "^2.1.1"
+    "vue-router": "^2.1.1",
+    "vuex": "^2.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
