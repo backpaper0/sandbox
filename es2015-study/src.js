@@ -37,3 +37,12 @@ class Bar extends HogeMixin(Foo) {}
 
 const bar = new Bar();
 bar.showThis();
+
+
+function findMax(...args) {
+  return args.sort()[args.length - 1]
+}
+
+console.log(findMax(1, 2, 3, 4, 5));
+console.log(findMax(1, 2, 3));
+
