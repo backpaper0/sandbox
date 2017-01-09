@@ -23,6 +23,17 @@ class Person {
   }
 }
 
-const p = new Person('backpaper0')
-console.log(p.name)
-console.log(p.hello())
+const p = new Person('backpaper0');
+console.log(p.name);
+console.log(p.hello());
+
+const HogeMixin = x => class extends x {
+  showThis() {
+    console.log(this)
+  }
+}
+class Foo {}
+class Bar extends HogeMixin(Foo) {}
+
+const bar = new Bar();
+bar.showThis();
