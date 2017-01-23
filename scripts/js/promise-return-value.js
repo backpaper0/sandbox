@@ -1,0 +1,5 @@
+const executor = resolve => setTimeout(() => resolve('foo'), 1000)
+const p = new Promise(executor)
+p.then(x => x + ' bar')
+ .then(x => x + ' baz')
+ .then(x => console.log(x))
