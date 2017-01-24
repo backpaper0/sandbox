@@ -1,1 +1,3 @@
-console.log(123)
+import hoge from './foobar.hoge'
+
+hoge()
