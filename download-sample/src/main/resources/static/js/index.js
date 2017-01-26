@@ -7,6 +7,12 @@ function download(event) {
   let req = new Request(url, { method: 'POST', headers, credentials: 'same-origin' })
   fetch(req).then(res => res.text())
     .then(name => {
+      let p = document.createElement('p');
+      let a = document.createElement('a');
+      a.setAttribute('href', location.origin + url + '/' + name);
+      a.appendChild(document.createTextNode(a.getAttribute('href')));
+      p.appendChild(a);
+      document.getElementById('filename').appendChild(p);
       location.href = url + '/' + name
     })
 }
