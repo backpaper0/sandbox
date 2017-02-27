@@ -1,0 +1,13 @@
+/.*
+!/.gitignore
+!/.gitattributes
+!/.mvn/
+/bin/
+/build/
+/target/
+/*.log
+/*.iml
+/*.ipr
+/*.iws
+/src/main/webapp/WEB-INF/classes/
+
