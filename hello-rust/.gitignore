@@ -1,1 +1,2 @@
-main
+/target/
+/Cargo.lock
