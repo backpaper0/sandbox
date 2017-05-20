@@ -1,3 +1,6 @@
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -6,6 +9,29 @@ public class TailRecSample {
 
     public static void main(String[] args) {
         System.out.println(sum(1000000));
+        System.out.println(fib(new BigInteger("10000")));
+    }
+
+    static BigInteger fib(BigInteger n) {
+        Map<BigInteger, BigInteger> cache = new HashMap<>();
+        return fibRec(n, cache).result();
+    }
+
+    static TailRec<BigInteger> fibRec(BigInteger n, Map<BigInteger, BigInteger> cache) {
+        if (n.compareTo(new BigInteger("2")) < 0) {
+            return TailRec.done(n);
+        }
+        BigInteger value = cache.get(n);
+        if (value != null) {
+            return TailRec.done(value);
+        }
+        return TailRec.call(() -> fibRec(n.subtract(new BigInteger("2")), cache)
+                .flatMap(a -> fibRec(n.subtract(new BigInteger("1")), cache)
+                        .map(b -> {
+                            BigInteger c = a.add(b);
+                            cache.put(n, c);
+                            return c;
+                        })));
     }
 
     static int sum(int n) {
