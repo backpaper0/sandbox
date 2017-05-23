@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class TailRecSample {
 
@@ -57,14 +58,11 @@ public class TailRecSample {
             IsDone<T> isDone = new IsDone<>();
             GetResult<T> getResult = new GetResult<>();
             GetTailRec<T> getTailRec = new GetTailRec<>();
-            TailRec<T> tr = this;
-            while (true) {
-                Boolean done = tr.accept(isDone);
-                if (done) {
-                    return tr.accept(getResult);
-                }
-                tr = tr.accept(getTailRec);
-            }
+            return Stream.iterate(this, a -> a.accept(getTailRec))
+                    .filter(a -> a.accept(isDone))
+                    .findFirst()
+                    .map(a -> a.accept(getResult))
+                    .get(); //どうしてもgetを消せない(´･_･`)
         }
 
         static <T> TailRec<T> call(Supplier<TailRec<T>> supplier) {
