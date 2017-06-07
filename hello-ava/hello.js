@@ -1,5 +1,9 @@
 
-const hello = name => `Hello, ${name}!`
+class Hello {
+  hello(name) {
+    return `Hello, ${name}!`
+  }
+}
 
-export default hello
+export default Hello
 

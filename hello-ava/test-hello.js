@@ -1,6 +1,7 @@
 import test from 'ava'
-import hello from './hello.js'
+import Hello from './hello.js'
 
 test('hello', t => {
-  t.is(hello('world'), 'Hello, world!')
+  const a = new Hello()
+  t.is(a.hello('world'), 'Hello, world!')
 })
