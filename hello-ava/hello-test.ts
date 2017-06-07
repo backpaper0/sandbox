@@ -1,5 +1,5 @@
 import test from 'ava'
-import Hello from './hello.js'
+import Hello from './hello'
 
 test('hello', t => {
   const a = new Hello()
