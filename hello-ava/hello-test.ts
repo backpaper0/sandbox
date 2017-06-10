@@ -1,12 +1,14 @@
 import test from 'ava'
 import Hello from './hello'
 
+test.beforeEach(t => {
+  t.context = new Hello()
+})
+
 test('hello default', t => {
-  const a = new Hello()
-  t.is(a.hello(), 'Hello, world!')
+  t.is(t.context.hello(), 'Hello, world!')
 })
 
 test('hello with arg', t => {
-  const a = new Hello()
-  t.is(a.hello('ava'), 'Hello, ava!')
+  t.is(t.context.hello('ava'), 'Hello, ava!')
 })
