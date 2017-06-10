@@ -1,61 +1,60 @@
 package algorithm.sort;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class HeapSort {
 
-    public static void main(String[] args) {
-
-        List<Integer> list = IntStream.rangeClosed(1, 30)
-                .mapToObj(x -> x)
-                .collect(Collectors.toList());
-
-        Collections.shuffle(list, new Random(1L));
-
-        System.out.println(list);
-
-        sort(list);
-
-        System.out.println(list);
-    }
-
-    static <T extends Comparable<T>> void sort(List<T> list) {
-        buildHeap(list);
-        for (int i = list.size() - 1; i >= 1; i--) {
-            swap(list, 0, i);
-            heapify(list, 0, i);
+    public static void main(final String[] args) {
+        final int size = 100;
+        final List<Integer> list = IntStream.range(0, size).boxed().collect(Collectors.toList());
+        Collections.shuffle(list);
+        final int[] value = list.stream().mapToInt(i -> i).toArray();
+        System.out.println(Arrays.toString(value));
+        sort(value);
+        System.out.println(Arrays.toString(value));
+        if (Arrays.equals(value, IntStream.range(0, size).toArray()) == false) {
+            throw new AssertionError();
         }
     }
 
-    static <T extends Comparable<T>> void buildHeap(List<T> list) {
-        int size = list.size();
+    static void sort(final int[] value) {
+        buildHeap(value);
+        for (int i = value.length - 1; i >= 1; i--) {
+            swap(value, 0, i);
+            heapify(value, 0, i);
+        }
+    }
+
+    static void buildHeap(final int[] value) {
+        final int size = value.length;
         for (int i = (size / 2) - 1; i >= 0; i--) {
-            heapify(list, i, size);
+            heapify(value, i, size);
         }
     }
 
-    static <T extends Comparable<T>> void heapify(List<T> list, int index, int size) {
+    static void heapify(final int[] value, final int index, final int size) {
         int parent = index;
         final int left = index * 2 + 1;
         final int right = index * 2 + 2;
-        if (left < size && list.get(left).compareTo(list.get(parent)) > 0) {
+        if (left < size && value[left] > value[parent]) {
             parent = left;
         }
-        if (right < size && list.get(right).compareTo(list.get(parent)) > 0) {
+        if (right < size && value[right] > value[parent]) {
             parent = right;
         }
         if (parent != index) {
-            swap(list, parent, index);
-            heapify(list, parent, size);
+            swap(value, parent, index);
+            heapify(value, parent, size);
         }
     }
-    static <T> void swap(List<T> list, int left, int right) {
-        T temp = list.get(left);
-        list.set(left, list.get(right));
-        list.set(right, temp);
+
+    static void swap(final int[] value, final int i, final int j) {
+        final int temp = value[i];
+        value[i] = value[j];
+        value[j] = temp;
     }
 }
