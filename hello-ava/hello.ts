@@ -1,6 +1,6 @@
 
 class Hello {
-  hello(name: string): string {
+  hello(name: string = 'world'): string {
     return `Hello, ${name}!`
   }
 }
