@@ -1,24 +1,9 @@
 package algorithm.sort;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 public class BubbleSort {
 
     public static void main(final String[] args) {
-        final int size = 100;
-        final List<Integer> list = IntStream.range(0, size).boxed().collect(Collectors.toList());
-        Collections.shuffle(list);
-        final int[] value = list.stream().mapToInt(i -> i).toArray();
-        System.out.println(Arrays.toString(value));
-        sort(value);
-        System.out.println(Arrays.toString(value));
-        if (Arrays.equals(value, IntStream.range(0, size).toArray()) == false) {
-            throw new AssertionError();
-        }
+        Sorts.sort(BubbleSort::sort);
     }
 
     static void sort(final int[] value) {
