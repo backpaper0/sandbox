@@ -1,12 +1,2 @@
 {
-    "compilerOptions": {
-        "allowJs": true
-    },
-    "include": [
-        "src/**/*"
-    ],
-    "exclude": [
-        "node_modules",
-        "**/*.spec.ts"
-    ]
 }
