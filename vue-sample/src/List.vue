@@ -9,7 +9,7 @@
           </router-link>
         </li>
       </ul>
-      <p><router-link to="/" class="button is-info">Home</router-link>
+      <p><router-link to="/" class="button is-info">Home</router-link></p>
     </div>
   </div>
 </template>

@@ -30,7 +30,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif|svg|eot|svg|ttf|woff|woff2)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
@@ -39,6 +39,26 @@ module.exports = {
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader'
+      },
+      {
+        test: /\.sass$/,
+        loader: 'sass-loader'
+      },
+      {
+        test: require.resolve('numbro'),
+        loader: 'expose-loader?numbro'
+      },
+      {
+        test: require.resolve('moment'),
+        loader: 'expose-loader?moment'
+      },
+      {
+        test: require.resolve('pikaday'),
+        loader: 'expose-loader?Pikaday'
+      },
+      {
+        test: require.resolve('zeroclipboard'),
+        loader: 'expose-loader?ZeroClipboard'
       }
     ]
   },
