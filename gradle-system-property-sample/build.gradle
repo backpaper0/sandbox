@@ -1,0 +1,5 @@
+task hello {
+    doLast {
+        println "${System.getProperty('message')}"
+    }
+}
