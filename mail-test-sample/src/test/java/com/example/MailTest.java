@@ -3,16 +3,15 @@ package com.example;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 
-import org.apache.commons.mail.SimpleEmail;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.subethamail.wiser.Wiser;
+import org.subethamail.wiser.WiserMessage;
 
 public class MailTest {
 
@@ -20,21 +19,18 @@ public class MailTest {
 
     @Test
     public void test() throws Exception {
-        assertThat(wiser.getMessages().size(), is(0));
+        final List<WiserMessage> messages = wiser.getMessages();
+        assertThat(messages.size(), is(0));
 
-        final SimpleEmail email = new SimpleEmail();
-        email.setHostName("localhost");
-        email.setSmtpPort(8025);
-        email.setSubject("hello");
-        email.setMsg("Hello, world!");
-        email.setFrom("test@example.com");
-        email.addTo("backpaper0@gmail.com");
-        email.setSentDate(Timestamp.valueOf(LocalDateTime.now()));
-        final String messageId = email.send();
+        final String messageId = new Mail().send();
 
-        assertThat(wiser.getMessages().size(), is(1));
+        assertThat(messages.size(), is(1));
 
-        final MimeMessage msg = wiser.getMessages().get(0).getMimeMessage();
+        final WiserMessage message = messages.get(0);
+        assertThat(message.getEnvelopeSender(), is("test@example.com"));
+        assertThat(message.getEnvelopeReceiver(), is("backpaper0@gmail.com"));
+
+        final MimeMessage msg = message.getMimeMessage();
         assertThat(msg.getMessageID(), is(messageId));
     }
 
