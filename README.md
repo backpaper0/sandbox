@@ -6,5 +6,5 @@
 
 ## ライセンス
 
-[Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+[The MIT License](https://opensource.org/licenses/MIT)
 
