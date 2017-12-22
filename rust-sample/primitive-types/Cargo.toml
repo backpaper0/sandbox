@@ -1,0 +1,6 @@
+[package]
+name = "primitive-types"
+version = "0.1.0"
+authors = ["Taichi Uragami <backpaper0@gmail.com>"]
+
+[dependencies]
