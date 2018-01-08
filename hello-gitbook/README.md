@@ -18,3 +18,8 @@ gitbook init
 gitbook build
 ```
 
+## ローカルで確認する
+
+```console
+gitbook serve
+```
