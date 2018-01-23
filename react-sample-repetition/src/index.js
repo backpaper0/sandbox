@@ -16,17 +16,19 @@ const cs = [
 
 const App = ({ contents }) => (
     <div>
-        <Foo contents={contents} />
+        <Foo contents={contents}>
+            {contents.map(x => <Bar key={x.id} content={x} />)}
+        </Foo>
     </div>
 );
 
-//FooがBarに依存している
-const Foo = ({ contents }) => (
+const Foo = ({ children }) => (
     <ul>
-        {contents.map(x => <Bar key={x.id} content={x} />)}
+        {children}
     </ul>
 );
 
+//Barがli要素を含んでいる、つまり繰り返されることを想定しておりポータビリティが低い。
 const Bar = ({ content }) => (
     <li>
         <span id={content.id}>{content.text}</span>
