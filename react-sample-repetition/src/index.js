@@ -24,15 +24,17 @@ const App = ({ contents }) => (
 
 const Foo = ({ children }) => (
     <ul>
-        {children}
+        {children.map(x => (
+            //子に渡されるpropsの詳細を知った上でkeyを設定しており依存を断ち切れていない
+            <li key={x.props.content.id}>
+                {x}
+            </li>
+        ))}
     </ul>
 );
 
-//Barがli要素を含んでいる、つまり繰り返されることを想定しておりポータビリティが低い。
 const Bar = ({ content }) => (
-    <li>
-        <span id={content.id}>{content.text}</span>
-    </li>
+    <span id={content.id}>{content.text}</span>
 );
 
 ReactDOM.render(<App contents={cs} />, document.getElementById('root'));
