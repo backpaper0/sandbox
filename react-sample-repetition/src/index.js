@@ -17,7 +17,7 @@ const cs = [
 const App = ({ contents }) => (
     <div>
         <Foo contents={contents}>
-            {contents.map(x => <Bar key={x.id} content={x} />)}
+            {contents.map(x => <Bar key={x.id} relayedKey={x.id} content={x} />)}
         </Foo>
     </div>
 );
@@ -25,8 +25,8 @@ const App = ({ contents }) => (
 const Foo = ({ children }) => (
     <ul>
         {children.map(x => (
-            //子に渡されるpropsの詳細を知った上でkeyを設定しており依存を断ち切れていない
-            <li key={x.props.content.id}>
+            //relayedKeyという名前で外側のコンポーネントからkeyになり得る値を引き渡すようにした
+            <li key={x.props.relayedKey}>
                 {x}
             </li>
         ))}
