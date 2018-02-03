@@ -1,4 +1,4 @@
-import sort, { insertionSort2, search } from './insertion-sort';
+import sort, { insertionSort2, search, sum } from './insertion-sort';
 
 test('ソートされる', () => {
     const a = [5, 2, 4, 6, 1, 3];
@@ -73,5 +73,32 @@ describe('2.1-3 探索問題', () => {
 
     test('空の配列', () => {
         expect(search([], 0)).toBeNull();
+    });
+});
+
+describe('2.1-4 nビットの2進数の和', () => {
+
+    test('和を求める', () => {
+        const a = [1, 0, 1, 0];
+        const b = [0, 1, 1, 0];
+        const c = Array(5);
+        sum(a, b, c);
+        expect(c).toEqual([1, 1, 0, 1, 0]);
+    });
+
+    test('繰り上がりまくる', () => {
+        const a = [1, 1, 1];
+        const b = [1, 1, 1];
+        const c = Array(4);
+        sum(a, b, c);
+        expect(c).toEqual([0, 1, 1, 1]);
+    });
+
+    test('空の配列', () => {
+        const a = [];
+        const b = [];
+        const c = Array(1);
+        sum(a, b, c);
+        expect(c).toEqual([0]);
     });
 });

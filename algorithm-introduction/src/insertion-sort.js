@@ -35,3 +35,13 @@ export const search = (a, v) => {
     }
     return null;
 };
+
+export const sum = (a, b, c) => {
+    let t = 0;
+    for (let i = 0; i < a.length; i++) {
+        t = a[i] + b[i] + t;
+        c[i] = t % 2;
+        t = Number.parseInt(t / 2);
+    }
+    c[a.length] = t;
+};
