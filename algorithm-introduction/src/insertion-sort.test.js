@@ -1,4 +1,4 @@
-import sort, { insertionSort2 } from './insertion-sort';
+import sort, { insertionSort2, search } from './insertion-sort';
 
 test('ソートされる', () => {
     const a = [5, 2, 4, 6, 1, 3];
@@ -58,5 +58,20 @@ describe('2.1-2 非増加順', () => {
         expect(a).toEqual([1, 2, 3, 4, 5, 6]);
 
         expect(iterator.next().done).toBeTruthy();
+    });
+});
+
+describe('2.1-3 探索問題', () => {
+
+    test('探索できる', () => {
+        expect(search([5, 2, 4, 6, 1, 3], 6)).toEqual(3);
+    });
+
+    test('存在しない', () => {
+        expect(search([5, 2, 4, 6, 1, 3], 7)).toBeNull();
+    });
+
+    test('空の配列', () => {
+        expect(search([], 0)).toBeNull();
     });
 });

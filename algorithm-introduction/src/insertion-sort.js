@@ -24,3 +24,14 @@ export const insertionSort2 = function* (a) {
         yield;
     }
 };
+
+//ループ不変条件
+//  a[0..i - 1]にはvと等価な要素は存在しない
+export const search = (a, v) => {
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] == v) {
+            return i;
+        }
+    }
+    return null;
+};
