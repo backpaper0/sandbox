@@ -1,9 +1,13 @@
 {
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
+    "flow-bin": "^0.64.0",
     "jest": "^22.1.4"
   },
   "scripts": {
-    "test": "jest"
+    "test": "flow && jest",
+    "build": "flow && babel sum.js"
   }
 }
