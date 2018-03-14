@@ -1,0 +1,9 @@
+RULE create task
+CLASS com.example.Task
+METHOD create
+AT ENTRY
+BIND content = $1
+IF true
+DO traceln(content), traceStack()
+ENDRULE
+
