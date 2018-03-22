@@ -19,25 +19,40 @@ class Page2 extends React.Component {
     }
 }
 
-let CurrentPage = Page1;
+let listeners = [];
 
-const Routing = () => {
-    return <CurrentPage />
+const changePage = x => {
+    currentPage = x;
+    listeners.forEach(listener => {
+        listener(currentPage);
+    });
 };
 
-const changePage = Page => {
-    CurrentPage = Page;
-    ReactDOM.render(<App />, document.getElementById('root'));
-};
+class Route extends React.Component {
+    state = { page: 1 };
+    constructor({ match, component }) {
+        super();
+        this.match = match;
+        this.component = component;
+        listeners.push(page => this.setState({ page }));
+    }
+    render() {
+        const Page = this.component;
+        return (this.state.page === this.match) ? <Page /> : null;
+    }
+}
 
 const App = () => (
     <div>
         <ul>
-            <li><a href="#" onClick={() => changePage(Page1)}>Page 1</a></li>
-            <li><a href="#" onClick={() => changePage(Page2)}>Page 2</a></li>
+            <li><a href="#" onClick={() => changePage(1)}>Page 1</a></li>
+            <li><a href="#" onClick={() => changePage(2)}>Page 2</a></li>
         </ul>
-        <Routing />
-    </div>
+        <div>
+            <Route match={1} component={Page1} />
+            <Route match={2} component={Page2} />
+        </div>
+    </div >
 );
 
 
