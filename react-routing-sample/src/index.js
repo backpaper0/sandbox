@@ -22,9 +22,8 @@ class Page2 extends React.Component {
 let listeners = [];
 
 const changePage = x => {
-    currentPage = x;
     listeners.forEach(listener => {
-        listener(currentPage);
+        listener(x);
     });
 };
 
