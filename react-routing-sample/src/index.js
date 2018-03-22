@@ -10,14 +10,21 @@ class Page1 extends React.Component {
     }
 }
 
-class Page2 extends React.Component {
+class Lifecycle extends React.Component {
     render() {
-        return <h1>Page 2</h1>;
+        return <span />;
     }
     componentDidMount() {
-        console.log('Mounted 2');
+        console.log(this.props.message);
     }
 }
+
+const Page2 = () => (
+    <div>
+        <h1>Page 2</h1>
+        <Lifecycle message="Mounted 2" />
+    </div>
+);
 
 let listeners = [];
 
