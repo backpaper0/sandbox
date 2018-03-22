@@ -21,14 +21,15 @@ class Page2 extends React.Component {
 
 let listeners = [];
 
-const changePage = x => {
-    listeners.forEach(listener => {
-        listener(x);
-    });
+const changePage = (event, page) => {
+    event.preventDefault();
+    window.location = '#' + page;
+    listeners.forEach(listener => listener(page));
+    return false;
 };
 
 class Route extends React.Component {
-    state = { page: 1 };
+    state = { page: window.location.hash.substring(1) };
     constructor({ match, component }) {
         super();
         this.match = match;
@@ -44,12 +45,12 @@ class Route extends React.Component {
 const App = () => (
     <div>
         <ul>
-            <li><a href="#" onClick={() => changePage(1)}>Page 1</a></li>
-            <li><a href="#" onClick={() => changePage(2)}>Page 2</a></li>
+            <li><a href="/1" onClick={event => changePage(event, "/1")}>Page 1</a></li>
+            <li><a href="/2" onClick={event => changePage(event, "/2")}>Page 2</a></li>
         </ul>
         <div>
-            <Route match={1} component={Page1} />
-            <Route match={2} component={Page2} />
+            <Route match="/1" component={Page1} />
+            <Route match="/2" component={Page2} />
         </div>
     </div >
 );
