@@ -10,18 +10,24 @@ groups:
   jobs: [integration]
 
 resources:
-- name: index
+- name: code-base
   source:
     interval: 60s
   type: time
-  webhook_token: abcxyz
+  webhook_token: asdf
   check_every: 24h
 
+- name: integration
+  source:
+    interval: 60s
+  type: time
+  webhook_token: zxcv
+  check_every: 24h
 jobs:
 
 - name: ui
   plan:
-  - get: index
+  - get: code-base
     trigger: true
   - task: unit
     config:
@@ -37,7 +43,7 @@ jobs:
 
 - name: api
   plan:
-  - get: index
+  - get: code-base
     trigger: true
   - task: unit
     config:
@@ -53,7 +59,9 @@ jobs:
 
 - name: integration
   plan:
-  - get: index
+  - get: integration
+    trigger: true
+  - get: code-base
     trigger: true
     passed: [ui, api]
   - task: integration
