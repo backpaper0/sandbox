@@ -1,0 +1,28 @@
+resources:
+- name: sealion
+  type: git
+  source:
+    uri: https://github.com/backpaper0/sealion.git
+    branch: master
+
+jobs:
+- name: test-sealion
+  plan:
+  - get: sealion
+    trigger: true
+  - task: tests
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: openjdk
+          tags: 8-jdk
+      inputs:
+      - name: sealion
+      run:
+        path: ./sealion/gradlew
+        args: ["--no-daemon", "-g", "./gradle_home", "--console", "plain", "-p", "sealion", "build"]
+      caches:
+      - path: ./gradle_home
+

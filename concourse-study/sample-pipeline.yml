@@ -1,0 +1,70 @@
+groups:
+
+- name: all
+  jobs: [ui, api, integration]
+
+- name: unit
+  jobs: [ui, api]
+
+- name: integration
+  jobs: [integration]
+
+resources:
+- name: index
+  source:
+    interval: 60s
+  type: time
+  webhook_token: abcxyz
+  check_every: 24h
+
+jobs:
+
+- name: ui
+  plan:
+  - get: index
+    trigger: true
+  - task: unit
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: alpine
+          tags: edge
+      run:
+        path: sleep
+        args: ["3"]
+
+- name: api
+  plan:
+  - get: index
+    trigger: true
+  - task: unit
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: alpine
+          tags: edge
+      run:
+        path: sleep
+        args: ["5"]
+
+- name: integration
+  plan:
+  - get: index
+    trigger: true
+    passed: [ui, api]
+  - task: integration
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: alpine
+          tags: edge
+      run:
+        path: sleep
+        args: ["8"]
+
