@@ -34,4 +34,4 @@ services:
     command: worker
     volumes: ["./keys/worker:/concourse-keys"]
     environment:
-      CONCOURSE_TSA_HOST: concourse-web
+      CONCOURSE_TSA_HOST: concourse-web:2222
