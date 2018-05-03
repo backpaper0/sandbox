@@ -10,7 +10,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
-public class App {
+public class ProducerMain {
 
     private final static String QUEUE_NAME = "hello";
 
