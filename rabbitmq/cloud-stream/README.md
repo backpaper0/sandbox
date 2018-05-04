@@ -52,7 +52,7 @@ curl localhost:8080 -d name=hoge
 exchangeへ送信されたメッセージはバインドされているキューへ送信される。
 
 キューはデフォルトだと`sink-app`のインスタンス毎に1つ用意されるが、グループが設定されている場合はグループ毎に1つ用意される。
-グループは`application.properties`の`spring.cloud.stream.bindings.output.group`と`spring.cloud.stream.bindings.input.group`の値で設定される。
+グループは`application.properties`の`spring.cloud.stream.bindings.input.group`の値で設定される。
 
 キューがどのexchangeへバインドされるかは`application.properties`に書かれた`spring.cloud.stream.bindings.input.destination`の値で設定される。
 デフォルトだとbinding target name、つまり今回だと`input`になる。
