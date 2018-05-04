@@ -12,6 +12,8 @@ docker run -d --name mq -h usaq -p 5672:5672 -p 15672:15672 rabbitmq:3-managemen
 
 - http://localhost:15672/
 
+ユーザー名・パスワードはデフォルトだとどちらも`guest`。
+
 ## メッセージ送信側アプリケーションを起動する
 
 HTTPで受け取った名前を`Person`にセットしてキューへ送信するアプリケーション。
