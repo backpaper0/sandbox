@@ -1,5 +1,8 @@
 package com.example.three;
 
+import java.util.Arrays;
+
+import com.rabbitmq.client.Address;
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -11,8 +14,9 @@ public class EmitLog {
 
     public static void main(final String[] argv) throws Exception {
         final ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        final Connection connection = factory.newConnection();
+        //        factory.setHost("localhost");
+        final Connection connection = factory.newConnection(
+                Arrays.asList(new Address("localhost", 5672), new Address("localhost", 5673)));
         final Channel channel = connection.createChannel();
 
         channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
