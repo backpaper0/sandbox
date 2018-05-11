@@ -1,10 +1,14 @@
 package com.example;
 
+import java.util.Objects;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @SpringBootApplication
 @EnableBinding(Sink.class)
@@ -16,23 +20,26 @@ public class SinkApp {
 
     @StreamListener(Sink.INPUT)
     public void handle(final Person person) {
-        System.out.println("Received: " + person);
+        System.out.printf("[%s]Received: %s%n",
+                Thread.currentThread().getName(),
+                person);
     }
 
     public static class Person {
-        private String name;
+
+        private final String name;
+
+        public Person(@JsonProperty("name") String name) {
+            this.name = Objects.requireNonNull(name);
+        }
 
         public String getName() {
             return name;
         }
 
-        public void setName(final String name) {
-            this.name = name;
-        }
-
         @Override
         public String toString() {
-            return this.name;
+            return name;
         }
     }
 }

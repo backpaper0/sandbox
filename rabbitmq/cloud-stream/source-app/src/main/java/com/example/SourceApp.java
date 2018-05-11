@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.Objects;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -22,31 +24,31 @@ public class SourceApp {
     }
 
     public SourceApp(final Source source) {
-        this.source = source;
+        this.source = Objects.requireNonNull(source);
     }
 
     @PostMapping
     public void handle(@RequestParam final String name) {
-        final Person person = new Person();
-        person.setName(name);
+        final Person person = new Person(name);
         final Message<?> message = MessageBuilder.withPayload(person).build();
         source.output().send(message);
     }
 
     public static class Person {
-        private String name;
+
+        private final String name;
+
+        public Person(String name) {
+            this.name = Objects.requireNonNull(name);
+        }
 
         public String getName() {
             return name;
         }
 
-        public void setName(final String name) {
-            this.name = name;
-        }
-
         @Override
         public String toString() {
-            return this.name;
+            return name;
         }
     }
 }
