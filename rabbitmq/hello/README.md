@@ -25,9 +25,9 @@ rabbitmq-plugins enable rabbitmq_management
 # rabbitmq-server -detached
 # rabbitmqctl cluster_status
 rabbitmqctl stop_app
-rabbitmqctl reset
+# rabbitmqctl reset
 rabbitmqctl join_cluster rabbit@usaq1
 rabbitmqctl start_app
 # rabbitmqctl cluster_status
+rabbitmqctl set_policy ha-two "^sample" '{"ha-mode":"exactly","ha-params":2,"ha-sync-mode":"automatic"}'
 ```
-
