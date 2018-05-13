@@ -1,18 +1,31 @@
 package parser.combinator.example;
 
+import parser.combinator.ParseException;
 import parser.combinator.Parser;
 import parser.combinator.ParserCombinator;
 
 public class ExpressionParser extends ParserCombinator {
 
     public static void main(final String[] args) {
-        final Parser parser = new ExpressionParser().expression();
+        final Parser parser = new ExpressionParser().parser();
         System.out.println(parser.parse("0"));
         System.out.println(parser.parse("1"));
         System.out.println(parser.parse("2345"));
         System.out.println(parser.parse("12+34"));
         System.out.println(parser.parse("1+2*3-4/5"));
         System.out.println(parser.parse("(1+2)*(3456-789)"));
+
+        try {
+            parser.parse("12 34");
+        } catch (final ParseException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            parser.parse("abc");
+        } catch (final ParseException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /*
@@ -33,7 +46,11 @@ public class ExpressionParser extends ParserCombinator {
      * 
      */
 
-    public Parser expression() {
+    public Parser parser() {
+        return and(additive(), eof()).to(Converters.removeEof());
+    }
+
+    Parser expression() {
         return additive();
     }
 

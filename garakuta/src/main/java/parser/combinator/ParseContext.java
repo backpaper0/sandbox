@@ -25,7 +25,12 @@ public class ParseContext {
         if (getChar() == expected) {
             consume();
         } else {
-            throw new ParseException();
+            if (expected == EOF) {
+                throw new ParseException(this,
+                        String.format("expected EOF, but was '%s'", getChar()));
+            }
+            throw new ParseException(this,
+                    String.format("expected '%s', but was '%s'", expected, getChar()));
         }
     }
 
@@ -35,5 +40,9 @@ public class ParseContext {
 
     public void setPosition(final int savePoint) {
         this.position = savePoint;
+    }
+
+    public String getInput() {
+        return input;
     }
 }

@@ -56,4 +56,8 @@ class Converters {
             return new ExpressionNode.ValueNode(value);
         };
     }
+
+    public static Converter removeEof() {
+        return x -> ((List<Object>) x).get(0);
+    }
 }

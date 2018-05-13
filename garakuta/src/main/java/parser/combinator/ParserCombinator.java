@@ -1,8 +1,11 @@
 package parser.combinator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ParserCombinator {
 
@@ -45,6 +48,11 @@ public class ParserCombinator {
             }
             return text;
         }
+
+        @Override
+        public String toString() {
+            return String.format("'%s'", text);
+        }
     }
 
     private static class RepeatParser implements Parser {
@@ -68,6 +76,11 @@ public class ParserCombinator {
                 }
             }
         }
+
+        @Override
+        public String toString() {
+            return String.format("{ %s }", parser);
+        }
     }
 
     private static class OrParser implements Parser {
@@ -88,7 +101,14 @@ public class ParserCombinator {
                     context.setPosition(savePoint);
                 }
             }
-            throw new ParseException();
+            throw new ParseException(context,
+                    String.format("no rule matched in %s", Arrays.asList(parsers)));
+        }
+
+        @Override
+        public String toString() {
+            return Arrays.stream(parsers).map(Objects::toString)
+                    .collect(Collectors.joining(" | ", "(", ")"));
         }
     }
 
@@ -107,6 +127,12 @@ public class ParserCombinator {
                 list.add(parser.parse(context));
             }
             return list;
+        }
+
+        @Override
+        public String toString() {
+            return Arrays.stream(parsers).map(Objects::toString)
+                    .collect(Collectors.joining(" ", "(", ")"));
         }
     }
 
@@ -136,5 +162,9 @@ public class ParserCombinator {
             return parser.parse(context);
         }
 
+        @Override
+        public String toString() {
+            return "<lazy>";
+        }
     }
 }
