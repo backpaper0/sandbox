@@ -1,5 +1,8 @@
 package parser.expression;
 
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
 public class ExpressionParser extends Parser {
 
     public static void main(final String[] args) {
@@ -43,78 +46,66 @@ public class ExpressionParser extends Parser {
     }
 
     private ExpressionNode additive() {
-        ExpressionNode node = multitive();
-        for (;;) {
-            final int savePoint1 = getPosition();
-            try {
-                match('+');
-                node = ExpressionNode.add(node, multitive());
-            } catch (final ParseException e1) {
-                setPosition(savePoint1);
-                final int savePoint2 = getPosition();
-                try {
+        return additive(multitive());
+    }
+
+    private ExpressionNode additive(final ExpressionNode node) {
+        final Stream<Supplier<ExpressionNode>> stream = Stream.of(
+                () -> {
+                    match('+');
+                    return ExpressionNode.add(node, multitive());
+                },
+                () -> {
                     match('-');
-                    node = ExpressionNode.sub(node, multitive());
-                } catch (final ParseException e2) {
-                    setPosition(savePoint2);
-                    return node;
-                }
-            }
-        }
+                    return ExpressionNode.sub(node, multitive());
+                });
+        return stream.map(this::tryParse)
+                .flatMap(a -> a.map(Stream::of).orElseGet(Stream::empty))
+                .map(this::additive)
+                .findFirst()
+                .orElse(node);
     }
 
     private ExpressionNode multitive() {
-        ExpressionNode node = primary();
-        for (;;) {
-            final int savePoint1 = getPosition();
-            try {
-                match('*');
-                node = ExpressionNode.mul(node, primary());
-            } catch (final ParseException e1) {
-                setPosition(savePoint1);
-                final int savePoint2 = getPosition();
-                try {
+        return multitive(primary());
+    }
+
+    private ExpressionNode multitive(final ExpressionNode node) {
+        final Stream<Supplier<ExpressionNode>> stream = Stream.of(
+                () -> {
+                    match('*');
+                    return ExpressionNode.mul(node, primary());
+                },
+                () -> {
                     match('/');
-                    node = ExpressionNode.div(node, primary());
-                } catch (final ParseException e2) {
-                    setPosition(savePoint2);
-                    return node;
-                }
-            }
-        }
+                    return ExpressionNode.div(node, primary());
+                });
+        return stream.map(this::tryParse)
+                .flatMap(a -> a.map(Stream::of).orElseGet(Stream::empty))
+                .map(this::multitive)
+                .findFirst()
+                .orElse(node);
     }
 
     private ExpressionNode primary() {
-        final int savePoint = getPosition();
-        try {
+        return tryParse(() -> {
             match('(');
             final ExpressionNode node = expression();
             match(')');
             return node;
-        } catch (final ParseException e) {
-            setPosition(savePoint);
-        }
-        return integer();
+        }).orElseGet(this::integer);
     }
 
     private ExpressionNode integer() {
-        final int savePoint1 = getPosition();
-        try {
-            return ExpressionNode.val(zero());
-        } catch (final ParseException e1) {
-            setPosition(savePoint1);
+        final int value = tryParse(() -> zero())
+                .orElseGet(() -> digitRest(digitFirst()));
+        return ExpressionNode.val(value);
+    }
 
-            int value = digitFirst();
-            for (;;) {
-                final int savePoint2 = getPosition();
-                try {
-                    value = value * 10 + digitRest();
-                } catch (final ParseException e2) {
-                    setPosition(savePoint2);
-                    return ExpressionNode.val(value);
-                }
-            }
-        }
+    private int digitRest(final int value) {
+        return tryParse(() -> value * 10 + digitRest())
+                .map(this::digitRest)
+                .orElse(value);
     }
 
     private int zero() {

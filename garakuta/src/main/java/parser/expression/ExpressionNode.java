@@ -6,23 +6,23 @@ public abstract class ExpressionNode {
 
     public abstract <A, R> R accept(Visitor<A, R> visitor, A argument);
 
-    public static Addition add(final ExpressionNode left, final ExpressionNode right) {
+    public static ExpressionNode add(final ExpressionNode left, final ExpressionNode right) {
         return new Addition(left, right);
     }
 
-    public static Subtraction sub(final ExpressionNode left, final ExpressionNode right) {
+    public static ExpressionNode sub(final ExpressionNode left, final ExpressionNode right) {
         return new Subtraction(left, right);
     }
 
-    public static Multiplication mul(final ExpressionNode left, final ExpressionNode right) {
+    public static ExpressionNode mul(final ExpressionNode left, final ExpressionNode right) {
         return new Multiplication(left, right);
     }
 
-    public static Division div(final ExpressionNode left, final ExpressionNode right) {
+    public static ExpressionNode div(final ExpressionNode left, final ExpressionNode right) {
         return new Division(left, right);
     }
 
-    public static Value val(final int value) {
+    public static ExpressionNode val(final int value) {
         return new Value(value);
     }
 

@@ -1,5 +1,8 @@
 package parser.expression;
 
+import java.util.Optional;
+import java.util.function.Supplier;
+
 public abstract class Parser {
 
     protected static final char EOF = (char) -1;
@@ -29,11 +32,22 @@ public abstract class Parser {
         }
     }
 
-    protected int getPosition() {
-        return position;
-    }
+    //    protected int getPosition() {
+    //        return position;
+    //    }
+    //
+    //    protected void setPosition(final int position) {
+    //        this.position = position;
+    //    }
 
-    protected void setPosition(final int position) {
-        this.position = position;
+    protected <T> Optional<T> tryParse(final Supplier<T> supplier) {
+        final int savePoint = position;
+        try {
+            final T t = supplier.get();
+            return Optional.of(t);
+        } catch (final ParseException e) {
+            position = savePoint;
+            return Optional.empty();
+        }
     }
 }
