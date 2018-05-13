@@ -40,6 +40,7 @@ public class JsonParser extends ParserCombinator {
         System.out.println(
                 parser.parse("{\"foo\":[\"hello\",12345,true,null],\"bar\":{},\"baz\":null}"));
         System.out.println(parser.parse("[1,2,3,4,5]"));
+        System.out.println(parser.parse("{\"a\":1,\"b\":2,\"c\":3}"));
     }
 
     /*
@@ -56,7 +57,7 @@ public class JsonParser extends ParserCombinator {
      */
 
     public Parser parser() {
-        return and(jvalue(), eof());
+        return and(jvalue(), eof()).left();
     }
 
     Parser jvalue() {
@@ -65,15 +66,20 @@ public class JsonParser extends ParserCombinator {
 
     Parser jobject() {
         return and(literal("{"),
-                option(and(jstring(), literal(":"), lazy(this::jvalue),
-                        repeat(and(literal(","), jstring(), literal(":"), lazy(this::jvalue))))),
-                literal("}")).to(Converters::jobject);
+                option(and(and(jstring(), literal(":"), lazy(this::jvalue)).to(Converters::entry),
+                        repeat(and(literal(","),
+                                and(jstring(), literal(":"), lazy(this::jvalue))
+                                        .to(Converters::entry)).right())))
+                                                .flatten().flatten(),
+                literal("}")).dropBothEnds().to(Converters::jobject);
     }
 
     Parser jarray() {
         return and(literal("["),
-                option(and(lazy(this::jvalue), repeat(and(literal(","), lazy(this::jvalue))))),
-                literal("]")).to(Converters::jarray);
+                option(and(lazy(this::jvalue),
+                        repeat(and(literal(","), lazy(this::jvalue)).right()))
+                                .flatten()).flatten(),
+                literal("]")).dropBothEnds().to(Converters::jarray);
     }
 
     Parser jboolean() {

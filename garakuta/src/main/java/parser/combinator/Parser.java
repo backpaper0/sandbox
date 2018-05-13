@@ -12,29 +12,19 @@ public interface Parser {
         return new WithConverter(this, converter);
     }
 
-    class WithConverter implements Parser {
+    default Parser dropBothEnds() {
+        return new DropBothEnds(this);
+    }
 
-        private final Parser parser;
-        private final Converter converter;
+    default Parser flatten() {
+        return new Flatten(this);
+    }
 
-        private WithConverter(final Parser parser, final Converter converter) {
-            this.parser = parser;
-            this.converter = converter;
-        }
+    default Parser right() {
+        return new Right(this);
+    }
 
-        @Override
-        public Object parse(final ParseContext context) {
-            return converter.to(parser.parse(context));
-        }
-
-        @Override
-        public Parser to(final Converter converter) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public String toString() {
-            return parser.toString();
-        }
+    default Parser left() {
+        return new Left(this);
     }
 }
