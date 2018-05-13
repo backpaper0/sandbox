@@ -151,7 +151,7 @@ public class ParserCombinator {
         }
 
         @Override
-        public Object parse(final ParseContext context) {
+        public List<Object> parse(final ParseContext context) {
             final List<Object> list = new ArrayList<>();
             for (final Parser parser : parsers) {
                 list.add(parser.parse(context));

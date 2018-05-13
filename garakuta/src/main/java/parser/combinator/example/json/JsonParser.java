@@ -39,6 +39,7 @@ public class JsonParser extends ParserCombinator {
         System.out.println(parser.parse("{\"a\":[true,false,{\"bb\":\"c\"}]}"));
         System.out.println(
                 parser.parse("{\"foo\":[\"hello\",12345,true,null],\"bar\":{},\"baz\":null}"));
+        System.out.println(parser.parse("[1,2,3,4,5]"));
     }
 
     /*
@@ -66,29 +67,30 @@ public class JsonParser extends ParserCombinator {
         return and(literal("{"),
                 option(and(jstring(), literal(":"), lazy(this::jvalue),
                         repeat(and(literal(","), jstring(), literal(":"), lazy(this::jvalue))))),
-                literal("}"));
+                literal("}")).to(Converters::jobject);
     }
 
     Parser jarray() {
         return and(literal("["),
                 option(and(lazy(this::jvalue), repeat(and(literal(","), lazy(this::jvalue))))),
-                literal("]"));
+                literal("]")).to(Converters::jarray);
     }
 
     Parser jboolean() {
-        return or(literal("true"), literal("false"));
+        return or(literal("true"), literal("false")).to(Converters::jboolean);
     }
 
     Parser jnull() {
-        return literal("null");
+        return literal("null").to(Converters::jnull);
     }
 
     Parser jstring() {
-        return and(literal("\""), this::string, literal("\""));
+        return and(literal("\""), this::string, literal("\"")).to(Converters::jstring);
     }
 
     Parser jnumber() {
-        return this::integer;
+        final Parser parser = this::integer;
+        return parser.to(Converters::jnumber);
     }
 
     Object string(final ParseContext context) {
