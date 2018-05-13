@@ -5,14 +5,6 @@ import java.util.stream.Stream;
 
 public class ExpressionParser extends Parser {
 
-    public static void main(final String[] args) {
-        System.out.println(new ExpressionParser("0").parse());
-        System.out.println(new ExpressionParser("1").parse());
-        System.out.println(new ExpressionParser("234567890").parse());
-        System.out.println(new ExpressionParser("1+2*3-4/5").parse());
-        System.out.println(new ExpressionParser("(1+2)*(3-4)/5").parse());
-    }
-
     public ExpressionParser(final String input) {
         super(input);
     }
