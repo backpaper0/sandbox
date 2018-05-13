@@ -17,6 +17,10 @@ public class ParserCombinator {
         return new RepeatParser(parser);
     }
 
+    public Parser option(final Parser parser) {
+        return new OptionParser(parser);
+    }
+
     public Parser or(final Parser... parsers) {
         return new OrParser(parsers);
     }
@@ -80,6 +84,32 @@ public class ParserCombinator {
         @Override
         public String toString() {
             return String.format("{ %s }", parser);
+        }
+    }
+
+    private static class OptionParser implements Parser {
+
+        private final Parser parser;
+
+        public OptionParser(final Parser parser) {
+            this.parser = parser;
+        }
+
+        @Override
+        public Object parse(final ParseContext context) {
+            final List<Object> list = new ArrayList<>();
+            final int savePoint = context.getPosition();
+            try {
+                list.add(parser.parse(context));
+            } catch (final ParseException e) {
+                context.setPosition(savePoint);
+            }
+            return list;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("[ %s ]", parser);
         }
     }
 
