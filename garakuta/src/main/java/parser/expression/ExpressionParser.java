@@ -101,25 +101,14 @@ public class ExpressionParser extends Parser {
     }
 
     private int zero() {
-        match('0');
-        return 0;
+        return match('0') - '0';
     }
 
     private int digitFirst() {
-        final char c = getChar();
-        if ('1' <= c && c <= '9') {
-            consume();
-            return c - '0';
-        }
-        throw new ParseException();
+        return match(c -> '1' <= c && c <= '9') - '0';
     }
 
     private int digitRest() {
-        final char c = getChar();
-        if ('0' <= c && c <= '9') {
-            consume();
-            return c - '0';
-        }
-        throw new ParseException();
+        return match(c -> '0' <= c && c <= '9') - '0';
     }
 }

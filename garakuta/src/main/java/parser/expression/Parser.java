@@ -1,6 +1,7 @@
 package parser.expression;
 
 import java.util.Optional;
+import java.util.function.IntPredicate;
 import java.util.function.Supplier;
 
 public abstract class Parser {
@@ -13,32 +14,34 @@ public abstract class Parser {
         this.input = input;
     }
 
-    protected char getChar() {
+    private char getChar() {
         if (position < input.length()) {
             return input.charAt(position);
         }
         return EOF;
     }
 
-    protected void consume() {
+    private void consume() {
         position++;
     }
 
-    protected void match(final char expected) {
-        if (getChar() == expected) {
+    protected char match(final char expected) {
+        final char c = getChar();
+        if (c == expected) {
             consume();
-        } else {
-            throw new ParseException();
+            return c;
         }
+        throw new ParseException();
     }
 
-    //    protected int getPosition() {
-    //        return position;
-    //    }
-    //
-    //    protected void setPosition(final int position) {
-    //        this.position = position;
-    //    }
+    protected char match(final IntPredicate expected) {
+        final char c = getChar();
+        if (expected.test(c)) {
+            consume();
+            return c;
+        }
+        throw new ParseException();
+    }
 
     protected <T> Optional<T> tryParse(final Supplier<T> supplier) {
         final int savePoint = position;
