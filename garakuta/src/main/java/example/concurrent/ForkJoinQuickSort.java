@@ -7,13 +7,13 @@ import java.util.stream.IntStream;
 
 public class ForkJoinQuickSort extends RecursiveAction {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
         final int size = 100;
 
-        Random r = new Random();
-        int[] value = IntStream.range(0, size).boxed()
-                .sorted((a, b) -> r.nextInt()).mapToInt(Integer::intValue)
+        final Random r = new Random();
+        final int[] value = IntStream.range(0, size).boxed()
+                .sorted((a, b) -> r.nextInt(3) - 1).mapToInt(Integer::intValue)
                 .toArray();
         System.out.printf("%s%n", Arrays.toString(value));
 
@@ -29,7 +29,7 @@ public class ForkJoinQuickSort extends RecursiveAction {
     private final int from;
     private final int to;
 
-    public ForkJoinQuickSort(int[] value, int from, int to) {
+    public ForkJoinQuickSort(final int[] value, final int from, final int to) {
         this.value = value;
         this.from = from;
         this.to = to;
@@ -40,9 +40,9 @@ public class ForkJoinQuickSort extends RecursiveAction {
         sort(value, from, to);
     }
 
-    static void sort(int[] value, int from, int to) {
+    static void sort(final int[] value, final int from, final int to) {
         if (from < to) {
-            int pivot = value[from];
+            final int pivot = value[from];
             int left = from;
             int right = to;
             while (true) {
@@ -55,13 +55,13 @@ public class ForkJoinQuickSort extends RecursiveAction {
                 if (left >= right) {
                     break;
                 }
-                int temp = value[left];
+                final int temp = value[left];
                 value[left] = value[right];
                 value[right] = temp;
                 left++;
                 right--;
             }
-            ForkJoinQuickSort task = new ForkJoinQuickSort(value, right + 1, to);
+            final ForkJoinQuickSort task = new ForkJoinQuickSort(value, right + 1, to);
             task.fork();
             sort(value, from, left - 1);
             task.join();
