@@ -38,4 +38,31 @@ public class CsvTest {
                 + "456,bar\r\n"
                 + "789,baz\r\n", csv);
     }
+
+    @Test
+    public void testTsv() throws Exception {
+        final CsvMapper mapper = new CsvMapper();
+
+        final CsvSchema schema = CsvSchema.builder()
+                .addColumn("id", ColumnType.NUMBER)
+                .addColumn("content", ColumnType.STRING)
+                .setUseHeader(true)
+                .setLineSeparator("\r\n")
+                .setColumnSeparator('\t')
+                .build();
+
+        final StringWriter out = new StringWriter();
+        try (final SequenceWriter writer = mapper.writer().with(schema).writeValues(out)) {
+            writer.write(new Message(123, "foo"));
+            writer.write(new Message(456, "bar"));
+            writer.write(new Message(789, "baz"));
+        }
+
+        final String tsv = out.toString();
+        System.out.println(tsv);
+        assertEquals("id\tcontent\r\n"
+                + "123\tfoo\r\n"
+                + "456\tbar\r\n"
+                + "789\tbaz\r\n", tsv);
+    }
 }
