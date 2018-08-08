@@ -10,31 +10,31 @@ import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
-import reactor.rx.Streams;
+import reactor.core.publisher.Flux;
 
 public class ReactorStudy {
 
     @Test
     public void test() throws Exception {
 
-        Publisher<String> p = Streams.just("foo", "bar", "baz");
+        final Publisher<String> p = Flux.just("foo", "bar", "baz");
 
-        List<String> list = new ArrayList<>();
+        final List<String> list = new ArrayList<>();
 
         p.subscribe(new Subscriber<String>() {
 
             @Override
-            public void onSubscribe(Subscription s) {
+            public void onSubscribe(final Subscription s) {
                 s.request(3);
             }
 
             @Override
-            public void onNext(String t) {
+            public void onNext(final String t) {
                 list.add(t);
             }
 
             @Override
-            public void onError(Throwable t) {
+            public void onError(final Throwable t) {
             }
 
             @Override
