@@ -5,9 +5,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ReorderExample4 implements Runnable {
 
-    public static void main(String[] args) throws Exception {
-        ReorderExample4 r = new ReorderExample4();
-        Thread t = new Thread(r);
+    public static void main(final String[] args) throws Exception {
+        final ReorderExample4 r = new ReorderExample4();
+        final Thread t = new Thread(r);
         t.start();
 
         TimeUnit.SECONDS.sleep(1);
@@ -31,7 +31,7 @@ public class ReorderExample4 implements Runnable {
     }
 
     public void stop() {
-        System.out.println("stop");
         alive.set(false);
+        System.out.println("stop");
     }
 }

@@ -44,7 +44,6 @@ public class ReorderExample6 implements Runnable {
     }
 
     public void stop() {
-        System.out.println("stop");
         //書き込みロックを取得して処理を行う
         final long stamp = lock.writeLock();
         try {
@@ -52,5 +51,6 @@ public class ReorderExample6 implements Runnable {
         } finally {
             lock.unlockWrite(stamp);
         }
+        System.out.println("stop");
     }
 }

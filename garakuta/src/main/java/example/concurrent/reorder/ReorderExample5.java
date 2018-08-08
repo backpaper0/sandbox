@@ -39,7 +39,6 @@ public class ReorderExample5 implements Runnable {
     }
 
     public void stop() {
-        System.out.println("stop");
         final Lock lock = rwl.writeLock();
         lock.lock();
         try {
@@ -47,5 +46,6 @@ public class ReorderExample5 implements Runnable {
         } finally {
             lock.unlock();
         }
+        System.out.println("stop");
     }
 }

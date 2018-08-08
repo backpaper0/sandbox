@@ -4,9 +4,9 @@ import java.util.concurrent.TimeUnit;
 
 public class ReorderExample1 implements Runnable {
 
-    public static void main(String[] args) throws Exception {
-        ReorderExample1 r = new ReorderExample1();
-        Thread t = new Thread(r);
+    public static void main(final String[] args) throws Exception {
+        final ReorderExample1 r = new ReorderExample1();
+        final Thread t = new Thread(r);
         t.start();
 
         TimeUnit.SECONDS.sleep(1);
@@ -29,7 +29,7 @@ public class ReorderExample1 implements Runnable {
     }
 
     public void stop() {
-        System.out.println("stop");
         alive = false;
+        System.out.println("stop");
     }
 }
