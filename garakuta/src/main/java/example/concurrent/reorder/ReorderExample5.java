@@ -1,4 +1,4 @@
-package example.concurrent;
+package example.concurrent.reorder;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;

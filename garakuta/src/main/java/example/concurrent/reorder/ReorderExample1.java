@@ -1,11 +1,11 @@
-package example.concurrent;
+package example.concurrent.reorder;
 
 import java.util.concurrent.TimeUnit;
 
-public class ReorderExample2 implements Runnable {
+public class ReorderExample1 implements Runnable {
 
     public static void main(String[] args) throws Exception {
-        ReorderExample2 r = new ReorderExample2();
+        ReorderExample1 r = new ReorderExample1();
         Thread t = new Thread(r);
         t.start();
 
@@ -13,8 +13,7 @@ public class ReorderExample2 implements Runnable {
         r.stop();
     }
 
-    //volatileを付けてaliveを使用するときは必ずメモリを同期する
-    private volatile boolean alive = true;
+    private boolean alive = true;
 
     @Override
     public void run() {

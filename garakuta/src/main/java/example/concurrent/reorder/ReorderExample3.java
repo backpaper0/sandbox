@@ -1,12 +1,11 @@
-package example.concurrent;
+package example.concurrent.reorder;
 
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ReorderExample4 implements Runnable {
+public class ReorderExample3 implements Runnable {
 
     public static void main(String[] args) throws Exception {
-        ReorderExample4 r = new ReorderExample4();
+        ReorderExample3 r = new ReorderExample3();
         Thread t = new Thread(r);
         t.start();
 
@@ -14,8 +13,7 @@ public class ReorderExample4 implements Runnable {
         r.stop();
     }
 
-    //AtomicBooleanを使ってもメモリの同期はなされる
-    private final AtomicBoolean alive = new AtomicBoolean(true);
+    private boolean alive = true;
 
     @Override
     public void run() {
@@ -26,12 +24,16 @@ public class ReorderExample4 implements Runnable {
         System.out.printf("%,d", counter);
     }
 
-    public boolean isAlive() {
-        return alive.get();
+    //aliveを使用している箇所をsynchronizedメソッド/ブロックにしてメモリを同期する
+
+    private synchronized boolean isAlive() {
+        return alive;
     }
 
     public void stop() {
         System.out.println("stop");
-        alive.set(false);
+        synchronized (this) {
+            alive = false;
+        }
     }
 }
