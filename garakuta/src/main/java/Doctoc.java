@@ -55,8 +55,8 @@ public class Doctoc {
         final Iterator<String> it = lines.iterator();
         while (it.hasNext()) {
             final String line = it.next();
-            if (line.startsWith("##")) {
-                final Heading heading = Heading.parse(line);
+            final Heading heading = Heading.tryParse(line);
+            if (heading != null) {
                 headings.add(heading);
             } else if (line.startsWith("```")) {
                 while (it.hasNext()) {
@@ -69,7 +69,7 @@ public class Doctoc {
         return headings;
     }
 
-    static class Heading {
+    private static class Heading {
 
         private static final Pattern p1 = Pattern
                 .compile("^(##+)\\s+<a\\s*name\\s*=\\s*\"([^\"]+)\"[^>]*>\\s*([^<]+)\\s*</a>\\s*$");
@@ -95,7 +95,7 @@ public class Doctoc {
             return buf.toString();
         }
 
-        public static Heading parse(final String line) {
+        public static Heading tryParse(final String line) {
             final Matcher m1 = p1.matcher(line);
             if (m1.matches()) {
                 return new Heading(m1.group(1).length(), m1.group(2), m1.group(3));
@@ -104,7 +104,7 @@ public class Doctoc {
             if (m2.matches()) {
                 return new Heading(m2.group(1).length(), m2.group(2), m2.group(2));
             }
-            throw new RuntimeException(line);
+            return null;
         }
     }
 }
