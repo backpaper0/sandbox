@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 // Inspired from https://github.com/thlorenz/doctoc
 public class Doctoc {
@@ -22,29 +24,39 @@ public class Doctoc {
 
         final Iterator<String> it = lines.iterator();
         while (it.hasNext()) {
-            final String line = it.next();
-            newLines.add(line);
-            if (line.contains("<!-- START doctoc -->")) {
-                break;
-            }
-        }
-
-        newLines.add("");
-        for (final Heading heading : headings) {
-            newLines.add(heading.toMarkdown());
-        }
-        newLines.add("");
-
-        while (it.hasNext()) {
-            final String line = it.next();
-            if (line.contains("<!-- END doctoc -->")) {
+            boolean insertDoc = false;
+            while (it.hasNext()) {
+                final String line = it.next();
                 newLines.add(line);
-                break;
+                if (line.startsWith("```")) {
+                    while (it.hasNext()) {
+                        final String line2 = it.next();
+                        newLines.add(line2);
+                        if (line2.startsWith("```")) {
+                            break;
+                        }
+                    }
+                } else if (line.contains("<!-- START doctoc -->")) {
+                    insertDoc = true;
+                    break;
+                }
             }
-        }
 
-        while (it.hasNext()) {
-            newLines.add(it.next());
+            if (insertDoc) {
+                newLines.add("");
+                for (final Heading heading : headings) {
+                    newLines.add(heading.toMarkdown());
+                }
+                newLines.add("");
+
+                while (it.hasNext()) {
+                    final String line = it.next();
+                    if (line.contains("<!-- END doctoc -->")) {
+                        newLines.add(line);
+                        break;
+                    }
+                }
+            }
         }
 
         Files.write(file, newLines);
@@ -75,6 +87,7 @@ public class Doctoc {
                 .compile("^(##+)\\s+<a\\s*name\\s*=\\s*\"([^\"]+)\"[^>]*>\\s*([^<]+)\\s*</a>\\s*$");
         private static final Pattern p2 = Pattern
                 .compile("^(##+)\\s+(.+)\\s*$");
+        private static final int ROOT_LEVEL = 2;
 
         private final int level;
         private final String id;
@@ -87,22 +100,25 @@ public class Doctoc {
         }
 
         public String toMarkdown() {
-            final StringBuilder buf = new StringBuilder();
-            for (int i = 0; i < (level - 2); i++) {
-                buf.append("  ");
-            }
-            buf.append("- [").append(text).append("](#").append(id).append(")");
-            return buf.toString();
+            final String indent = IntStream.range(ROOT_LEVEL, level).mapToObj(a -> "  ")
+                    .collect(Collectors.joining());
+            return String.format("%1$s- [%2$s](#%3$s)", indent, text, id);
         }
 
         public static Heading tryParse(final String line) {
             final Matcher m1 = p1.matcher(line);
             if (m1.matches()) {
-                return new Heading(m1.group(1).length(), m1.group(2), m1.group(3));
+                final int level = m1.group(1).length();
+                final String id = m1.group(2);
+                final String text = m1.group(3);
+                return new Heading(level, id, text);
             }
             final Matcher m2 = p2.matcher(line);
             if (m2.matches()) {
-                return new Heading(m2.group(1).length(), m2.group(2), m2.group(2));
+                final int level = m2.group(1).length();
+                final String id = m2.group(2);
+                final String text = id;
+                return new Heading(level, id, text);
             }
             return null;
         }
