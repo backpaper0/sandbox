@@ -13,4 +13,5 @@
 /src/main/webapp/WEB-INF/classes/
 /node_modules/
 /Cargo.lock
+/elm-stuff/
 

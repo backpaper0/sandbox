@@ -1,5 +1,8 @@
 /.*
 !/.gitignore
+!/.gitattributes
+!/.mvn/
+!/.babelrc
 /bin/
 /build/
 /target/
@@ -7,3 +10,8 @@
 /*.iml
 /*.ipr
 /*.iws
+/src/main/webapp/WEB-INF/classes/
+/node_modules/
+/Cargo.lock
+/elm-stuff/
+

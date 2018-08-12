@@ -1,6 +1,17 @@
 /.*
-/target/
-/src/main/webapp/WEB-INF/classes/
 !/.gitignore
-/tomcat.8080/
+!/.gitattributes
+!/.mvn/
+!/.babelrc
+/bin/
+/build/
+/target/
+/*.log
+/*.iml
+/*.ipr
+/*.iws
+/src/main/webapp/WEB-INF/classes/
+/node_modules/
+/Cargo.lock
+/elm-stuff/
 

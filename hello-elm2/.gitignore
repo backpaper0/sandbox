@@ -1,14 +1,17 @@
-# Distribution
-build/
+/.*
+!/.gitignore
+!/.gitattributes
+!/.mvn/
+!/.babelrc
+/bin/
+/build/
+/target/
+/*.log
+/*.iml
+/*.ipr
+/*.iws
+/src/main/webapp/WEB-INF/classes/
+/node_modules/
+/Cargo.lock
+/elm-stuff/
 
-# elm-package generated files
-elm-stuff
-
-# elm-repl generated files
-repl-temp-*
-
-# Dependency directories
-node_modules
-
-# Desktop Services Store on macOS
-.DS_Store

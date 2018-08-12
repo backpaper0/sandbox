@@ -1,24 +1,17 @@
-target/
-!.mvn/wrapper/maven-wrapper.jar
+/.*
+!/.gitignore
+!/.gitattributes
+!/.mvn/
+!/.babelrc
+/bin/
+/build/
+/target/
+/*.log
+/*.iml
+/*.ipr
+/*.iws
+/src/main/webapp/WEB-INF/classes/
+/node_modules/
+/Cargo.lock
+/elm-stuff/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/

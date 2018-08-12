@@ -1,21 +1,17 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+/.*
+!/.gitignore
+!/.gitattributes
+!/.mvn/
+!/.babelrc
+/bin/
+/build/
+/target/
+/*.log
+/*.iml
+/*.ipr
+/*.iws
+/src/main/webapp/WEB-INF/classes/
+/node_modules/
+/Cargo.lock
+/elm-stuff/
 
-# dependencies
-/node_modules
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
