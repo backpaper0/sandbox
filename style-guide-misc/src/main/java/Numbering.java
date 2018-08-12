@@ -18,9 +18,9 @@ public class Numbering {
 
     public static void main(final String[] args) throws Exception {
 
-        final Numbering n = new Numbering();
+        final Path file = Paths.get(args[0]);
 
-        final Path file = Paths.get("target", "README.md");
+        final Numbering n = new Numbering(Boolean.parseBoolean(args[1]));
 
         final List<String> lines = Files.readAllLines(file);
 
@@ -52,7 +52,11 @@ public class Numbering {
 
     private final List<Integer> numbers = new ArrayList<>();
 
-    private static final boolean ADD_NAME = false;
+    private final boolean addName;
+
+    public Numbering(final boolean addName) {
+        this.addName = addName;
+    }
 
     String convert(final String heading) {
         final Matcher m = p.matcher(heading);
@@ -106,7 +110,7 @@ public class Numbering {
         final String name = numbers.stream().map(a -> a.toString())
                 .collect(Collectors.joining("-", "no", ""));
 
-        if (ADD_NAME) {
+        if (addName) {
             return String.format("%1$s <a name=\"%2$s\">%3$s%4$s</a>", mark, name, no, text);
         }
         return String.format("%1$s %2$s%3$s", mark, no, text);

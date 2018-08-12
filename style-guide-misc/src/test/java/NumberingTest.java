@@ -2,11 +2,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class NumberingTest extends Numbering {
+class NumberingTest {
 
     @Test
     void test() {
-        final Numbering n = new Numbering();
+        final Numbering n = new Numbering(true);
         assertEquals("## <a name=\"no1\">1.foo</a>", n.convert("## foo"));
         assertEquals("### <a name=\"no1-1\">1.1.bar</a>", n.convert("### bar"));
         assertEquals("### <a name=\"no1-2\">1.2.baz</a>", n.convert("### baz"));
@@ -16,5 +16,4 @@ class NumberingTest extends Numbering {
         assertEquals("### <a name=\"no3-2\">3.2.piyo</a>",
                 n.convert("### <a name=\"no4-10\">piyo</a>"));
     }
-
 }

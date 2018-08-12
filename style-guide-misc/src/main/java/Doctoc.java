@@ -14,7 +14,7 @@ public class Doctoc {
 
     public static void main(final String[] args) throws Exception {
 
-        final Path file = Paths.get("target", "README.md");
+        final Path file = Paths.get(args[0]);
 
         final List<String> lines = Files.readAllLines(file);
 
