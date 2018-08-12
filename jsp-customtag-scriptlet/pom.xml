@@ -11,8 +11,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <jetty.version>9.4.9.v20180320</jetty.version>
     </properties>
 
     <dependencies>
@@ -29,7 +30,7 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.4.9.v20180320</version>
+                <version>${jetty.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -42,7 +43,7 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-jspc-maven-plugin</artifactId>
-                <version>9.4.9.v20180320</version>
+                <version>${jetty.version}</version>
                 <configuration>
                     <keepSources>true</keepSources>
                 </configuration>
