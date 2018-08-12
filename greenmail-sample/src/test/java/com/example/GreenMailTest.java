@@ -25,7 +25,7 @@ import org.junit.Test;
 import com.icegreen.greenmail.junit.GreenMailRule;
 import com.icegreen.greenmail.util.ServerSetup;
 
-public class GreenMailSample {
+public class GreenMailTest {
 
     @Rule
     public GreenMailRule greenMail = new GreenMailRule(new ServerSetup[] {
