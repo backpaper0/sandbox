@@ -1,9 +1,10 @@
 package app;
 
 import java.net.URI;
+import java.util.logging.Level;
 
-import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
+import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 public class Main {
@@ -22,7 +23,8 @@ public class Main {
         config.packages(true, "app");
 
         //リクエストとレスポンスに関する情報をログ出力するフィルターを登録する
-        config.register(LoggingFilter.class);
+        config.property(LoggingFeature.LOGGING_FEATURE_LOGGER_LEVEL, Level.INFO.getName());
+        config.register(LoggingFeature.class);
 
         //サーバー起動
         JdkHttpServerFactory.createHttpServer(uri, config);
