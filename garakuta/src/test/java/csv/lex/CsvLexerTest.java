@@ -1,19 +1,19 @@
 package csv.lex;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.Reader;
 import java.io.StringReader;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CsvLexerTest {
+class CsvLexerTest {
 
     @Test
-    public void test() throws Exception {
-        String s = "foo,\"b\"\"a,r\"\r\nbaz,qux\r\n,\"\"";
-        Reader in = new StringReader(s);
-        CsvLexer lexer = new CsvLexer(in);
+    void test() throws Exception {
+        final String s = "foo,\"b\"\"a,r\"\r\nbaz,qux\r\n,\"\"";
+        final Reader in = new StringReader(s);
+        final CsvLexer lexer = new CsvLexer(in);
         assertEquals(CsvToken.field("foo"), lexer.next());
         assertEquals(CsvToken.SEPARATOR, lexer.next());
         assertEquals(CsvToken.field("b\"a,r"), lexer.next());
