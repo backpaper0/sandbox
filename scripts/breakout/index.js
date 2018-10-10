@@ -7,8 +7,9 @@ const ctx = canvas.getContext("2d");
 //ボール
 let x = canvas.width / 2;
 let y = canvas.height - 30;
-let dx = 2;
-let dy = -2;
+const speed = 4;
+let dx = speed;
+let dy = -speed;
 const ballRadius = 10;
 
 //パドル
@@ -36,6 +37,12 @@ for(let c = 0; c < brickColumnCount; c++) {
     bricks[c][r] = { x: 0, y: 0, status: 1 };
   }
 }
+
+//スコア
+let score = 0;
+
+//ライフ
+let lives = 3;
 
 //////////////////////////////////////////////////
 // 関数
@@ -82,10 +89,27 @@ const collisionDetection = () => {
         if(x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
           dy = -dy;
           b.status = 0;
+          score++;
+          if(score == brickRowCount*brickColumnCount) {
+            alert("YOU WIN, CONGRATULATIONS!");
+            document.location.reload();
+          }
         }
       }
     }
   }
+};
+
+const drawScore = () => {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText(`Score: ${score}`, 8, 20);
+};
+
+const drawLives = () => {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
 };
 
 //////////////////////////////////////////////////
@@ -138,9 +162,17 @@ const draw = () => {
     if(x > paddleX && x < paddleX + paddleWidth) {
       dy = -dy;
     } else {
-      clearInterval(timer);
-      alert("GAME OVER");
-      document.location.reload();
+      lives--;
+      if(!lives) {
+        alert("GAME OVER");
+        document.location.reload();
+      } else {
+        x = canvas.width / 2;
+        y = canvas.height - 30;
+        dx = speed;
+        dy = -speed;
+        paddleX = (canvas.width - paddleWidth) / 2;
+      }
     }
   }
 
@@ -148,7 +180,11 @@ const draw = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBall();
   drawPaddle();
+  drawScore();
+  drawLives();
   drawBricks();
+
+  requestAnimationFrame(draw);
 };
 
-const timer = setInterval(draw, 10);
+draw();
