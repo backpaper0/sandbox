@@ -1,29 +1,11 @@
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
-
-//ctx.beginPath();
-//ctx.rect(20, 40, 50, 50);
-//ctx.fillStyle = "#FF0000";
-//ctx.fill();
-//ctx.closePath();
-//
-//ctx.beginPath();
-//ctx.arc(240, 160, 20, 0, Math.PI*2, false);
-//ctx.fillStyle = "green";
-//ctx.fill();
-//ctx.closePath();
-//
-//ctx.beginPath();
-//ctx.rect(160, 10, 100, 40);
-//ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
-//ctx.stroke();
-//ctx.closePath();
+const canvas = document.getElementById("myCanvas");
+const ctx = canvas.getContext("2d");
 
 let x = canvas.width / 2;
 let y = canvas.height - 30;
 let dx = 2;
 let dy = -2;
-let ballRadius = 10;
+const ballRadius = 10;
 
 const drawBall = () => {
   ctx.beginPath();
@@ -33,8 +15,8 @@ const drawBall = () => {
   ctx.closePath();
 };
 
-let paddleHeight = 10;
-let paddleWidth = 75;
+const paddleHeight = 10;
+const paddleWidth = 75;
 let paddleX = (canvas.width - paddleWidth) / 2;
 
 const drawPaddle = () => {
@@ -67,15 +49,15 @@ const keyUpHandler = e => {
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
-let brickRowCount = 3;
-let brickColumnCount = 5;
-let brickWidth = 75;
-let brickHeight = 20;
-let brickPadding = 10;
-let brickOffsetTop = 30;
-let brickOffsetLeft = 30;
+const brickRowCount = 3;
+const brickColumnCount = 5;
+const brickWidth = 75;
+const brickHeight = 20;
+const brickPadding = 10;
+const brickOffsetTop = 30;
+const brickOffsetLeft = 30;
 
-let bricks = [];
+const bricks = [];
 for(let c = 0; c < brickColumnCount; c++) {
   bricks[c] = [];
   for(let r = 0; r < brickRowCount; r++) {
@@ -151,4 +133,4 @@ const draw = () => {
   }
 };
 
-let timer = setInterval(draw, 10);
+const timer = setInterval(draw, 10);
