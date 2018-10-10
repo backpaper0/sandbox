@@ -1,54 +1,26 @@
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 
+//////////////////////////////////////////////////
+// 状態
+
+//ボール
 let x = canvas.width / 2;
 let y = canvas.height - 30;
 let dx = 2;
 let dy = -2;
 const ballRadius = 10;
 
-const drawBall = () => {
-  ctx.beginPath();
-  ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "#0095DD";
-  ctx.fill();
-  ctx.closePath();
-};
-
+//パドル
 const paddleHeight = 10;
 const paddleWidth = 75;
 let paddleX = (canvas.width - paddleWidth) / 2;
 
-const drawPaddle = () => {
-  ctx.beginPath();
-  ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-  ctx.fillStyle = "#0095DD";
-  ctx.fill();
-  ctx.closePath();
-};
-
+//キー操作
 let rightPressed = false;
 let leftPressed = false;
 
-const keyDownHandler = e => {
-  if(e.keyCode == 39) {
-    rightPressed = true;
-  } else if(e.keyCode == 37) {
-    leftPressed = true;
-  }
-};
-
-const keyUpHandler = e => {
-  if(e.keyCode == 39) {
-    rightPressed = false;
-  } else if(e.keyCode == 37) {
-    leftPressed = false;
-  }
-};
-
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
-
+//ブロック
 const brickRowCount = 3;
 const brickColumnCount = 5;
 const brickWidth = 75;
@@ -64,6 +36,25 @@ for(let c = 0; c < brickColumnCount; c++) {
     bricks[c][r] = { x: 0, y: 0, status: 1 };
   }
 }
+
+//////////////////////////////////////////////////
+// 関数
+
+const drawBall = () => {
+  ctx.beginPath();
+  ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+  ctx.fillStyle = "#0095DD";
+  ctx.fill();
+  ctx.closePath();
+};
+
+const drawPaddle = () => {
+  ctx.beginPath();
+  ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+  ctx.fillStyle = "#0095DD";
+  ctx.fill();
+  ctx.closePath();
+};
 
 const drawBricks = () => {
   for(let c = 0; c < brickColumnCount; c++) {
@@ -97,15 +88,43 @@ const collisionDetection = () => {
   }
 };
 
-//描画ループ
-const draw = () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBall();
-  drawPaddle();
-  collisionDetection(); 
-  drawBricks();
+//////////////////////////////////////////////////
+// イベントハンドラ
 
-  //ボール
+const keyDownHandler = e => {
+  if(e.keyCode == 39) {
+    rightPressed = true;
+  } else if(e.keyCode == 37) {
+    leftPressed = true;
+  }
+};
+
+const keyUpHandler = e => {
+  if(e.keyCode == 39) {
+    rightPressed = false;
+  } else if(e.keyCode == 37) {
+    leftPressed = false;
+  }
+};
+
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+//////////////////////////////////////////////////
+// 描画ループ
+const draw = () => {
+
+  //衝突判定・ブロックの状態変更
+  collisionDetection(); 
+
+  //パドルの状態変更
+  if(rightPressed && paddleX < canvas.width - paddleWidth) {
+    paddleX += 7;
+  } else if(leftPressed && paddleX > 0) {
+    paddleX -= 7;
+  }
+
+  //ボールの状態変更
   x += dx;
   y += dy;
 
@@ -125,12 +144,11 @@ const draw = () => {
     }
   }
 
-  //パドル
-  if(rightPressed && paddleX < canvas.width - paddleWidth) {
-    paddleX += 7;
-  } else if(leftPressed && paddleX > 0) {
-    paddleX -= 7;
-  }
+  //描画
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBall();
+  drawPaddle();
+  drawBricks();
 };
 
 const timer = setInterval(draw, 10);
