@@ -1,4 +1,4 @@
-package com.exampl;
+package com.example;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
