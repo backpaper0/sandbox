@@ -1,5 +1,5 @@
 
-const fn = async (success, message) => new Promise((resolve, reject) => setTimeout(() => success ? resolve(message) : reject(message), 100));
+const fn = (success, message) => new Promise((resolve, reject) => setTimeout(() => success ? resolve(message) : reject(message), 100));
 
 const run1 = () => {
   fn(true, '1').then(a => console.log(a));
