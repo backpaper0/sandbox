@@ -31,10 +31,21 @@ const getTasks = sprintId => new Promise(resolve => {
 
 
 
-getSprints().then(sprints => {
-  return Promise.all(sprints.map(({ id, name}) => {
-    return getTasks(id).then(tasks => {
-      return { sprintIt: id, name, tasks };
-    });
-  }));
-}).then(a => console.log(JSON.stringify(a, null, '  ')));
+//getSprints().then(sprints => {
+//  return Promise.all(sprints.map(({ id, name }) => {
+//    return getTasks(id).then(tasks => {
+//      return { sprintId: id, name, tasks };
+//    });
+//  }));
+//}).then(a => console.log(JSON.stringify(a, null, '  ')));
+
+const run = async () => {
+  const sprints = await getSprints();
+  const tasks = await Promise.all(sprints.map(async ({ id, name }) => {
+    const tasks = await getTasks(id);
+    return { sprintId: id, name, tasks };
+  }))
+  console.log(JSON.stringify(tasks, null, '  '));
+};
+
+run();
