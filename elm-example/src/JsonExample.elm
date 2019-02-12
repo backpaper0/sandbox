@@ -51,24 +51,11 @@ userDecoder =
         rolesDecoder
 
 
-init =
+model =
     Decode.decodeString userDecoder jsonString
 
 
 main =
-    Browser.sandbox
-        { init = init
-        , view = view
-        , update = update
-        }
-
-
-update () model =
-    model
-
-
-view : Result Decode.Error User -> Html ()
-view model =
     case model of
         Ok user ->
             div []
