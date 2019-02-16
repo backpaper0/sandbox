@@ -47,7 +47,7 @@ public class ExpressionParser extends ParserCombinator {
      */
 
     public Parser parser() {
-        return and(additive(), eof()).to(Converters.removeEof());
+        return and(expression(), eof()).to(Converters.removeEof());
     }
 
     Parser expression() {
