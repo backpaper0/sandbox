@@ -8,8 +8,8 @@ import Html.Events exposing (..)
 ---- MODEL ----
 
 
-type alias Model = {
-        message : String
+type alias Model =
+    { message : String
     }
 
 
@@ -29,7 +29,8 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        UpdateText message -> ( { model | message = message }, Cmd.none )
+        UpdateText message ->
+            ( { model | message = message }, Cmd.none )
 
 
 
@@ -37,11 +38,10 @@ update msg model =
 
 
 view : Model -> Html Msg
-view { message }  =
+view { message } =
     div []
-        [ 
-        h1 [] [ text message ],
-        input [ type_ "text", autofocus True, onInput UpdateText][ text message ]
+        [ h1 [] [ text message ]
+        , input [ type_ "text", autofocus True, onInput UpdateText ] [ text message ]
         ]
 
 
