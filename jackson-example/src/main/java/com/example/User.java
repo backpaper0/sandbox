@@ -2,8 +2,6 @@ package com.example;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,7 +21,7 @@ public class User {
     }
 
     public User(final String username, final String... roles) {
-        this(username, Stream.of(roles).collect(Collectors.toSet()));
+        this(username, Set.of(roles));
     }
 
     public String getUsername() {

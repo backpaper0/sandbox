@@ -2,8 +2,11 @@ package com.example;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
@@ -26,5 +29,22 @@ public class XmlTest {
         final Message message = mapper.readValue(xml, Message.class);
         System.out.println(message);
         assertEquals(new Message(123, "foobar"), message);
+    }
+
+    @Test
+    public void testReadMessages() throws Exception {
+        final ObjectMapper mapper = new XmlMapper();
+
+        final String xml = "<Messages>"
+                + "<Message><id>1</id><content>foo</content></Message>"
+                + "<Message><id>2</id><content>bar</content></Message>"
+                + "<Message><id>3</id><content>baz</content></Message>"
+                + "</Messages>";
+        final TypeReference<List<Message>> ref = new TypeReference<>() {
+        };
+        final List<Message> messages = mapper.readValue(xml, ref);
+        System.out.println(messages);
+        assertEquals(List.of(new Message(1, "foo"), new Message(2, "bar"), new Message(3, "baz")),
+                messages);
     }
 }
