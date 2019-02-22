@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+
+  demo1:
+    image: openjdk:11
+    command: java -jar /app.jar
+    volumes: ["./demo/target/app.jar:/app.jar"]
+
+  demo2:
+    image: openjdk:11
+    command: java -jar /app.jar
+    volumes: ["./demo/target/app.jar:/app.jar"]
+
+  lb:
+    image: nginx
+    volumes: ["./nginx-conf:/etc/nginx/conf.d"]
+    ports: ["8080:80"]
+    depends_on: [demo1, demo2]
+
