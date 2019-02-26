@@ -1,12 +1,14 @@
 version: '3'
 
 services:
-  reverse-proxy:
+
+  proxy:
     image: nginx
     ports: ["8080:80"]
-    volumes: ["./conf.d:/etc/nginx/conf.d"]
+    volumes: ["./proxy/nginx.conf:/etc/nginx/conf.d/default.conf"]
 
   api:
     image: openjdk:11
-    entrypoint: ["java", "-jar", "/opt/api/api.jar"]
-    volumes: ["./api/target:/opt/api"]
+    entrypoint: ["java", "-jar", "/app/api.jar"]
+    volumes: ["./api/target/api.jar:/app/api.jar"]
+
