@@ -2,10 +2,14 @@ version: '3'
 
 services:
 
-  proxy:
+  proxy1:
     image: nginx
     ports: ["8080:80"]
-    volumes: ["./proxy/nginx.conf:/etc/nginx/conf.d/default.conf"]
+    volumes: ["./proxy/proxy1.conf:/etc/nginx/conf.d/default.conf"]
+
+  proxy2:
+    image: nginx
+    volumes: ["./proxy/proxy2.conf:/etc/nginx/conf.d/default.conf"]
 
   api:
     image: openjdk:11
