@@ -6,6 +6,6 @@ docker-compose up -d
 ```
 
 ```
-curl localhost:8080/api/hello
+curl localhost:8080/hello
 ```
 
