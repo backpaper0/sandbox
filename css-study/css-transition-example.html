@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>CSS Transition Example</title>
+    <style>
+      .title1 {
+        opacity: 1;
+        transition: all 1s linear;
+      }
+      .title2 {
+        opacity: 0;
+        transition: all 1s linear;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="title1">Hello, CSS Transitions!</h1>
+    <p><button id="toggleTitle">Toggle title</button></p>
+    <script>
+      const toggleTitle = document.querySelector('#toggleTitle');
+      toggleTitle.addEventListener('click', () => {
+        const title1 = document.querySelector('.title1');
+        if (title1) {
+          title1.className = 'title2';
+        } else{
+          const title2 = document.querySelector('.title2');
+          title2.className = 'title1';
+        }
+      }, false);
+    </script>
+  </body>
+</html>
