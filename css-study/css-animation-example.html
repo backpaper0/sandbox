@@ -25,6 +25,10 @@
         const li = document.createElement('li');
         li.innerText = 'Element #' + (list.querySelectorAll('li').length + 1);
         li.className = 'element1';
+        const listener = ({ type, elapsedTime }) => console.log(`${type}: elapsedTime=${elapsedTime}`);
+        li.addEventListener('animationstart', listener, false);
+        li.addEventListener('animationend', listener, false);
+        li.addEventListener('animationiteration', listener, false);
         list.appendChild(li);
       }, false);
     </script>
