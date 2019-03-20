@@ -6,10 +6,12 @@
     <style>
       .title1 {
         opacity: 1;
+        color: #009;
         transition: all 1s linear;
       }
       .title2 {
         opacity: 0;
+        color: #900;
         transition: all 1s linear;
       }
     </style>
@@ -19,6 +21,11 @@
     <h1 class="title1">Hello, CSS Transitions!</h1>
     <p><button id="toggleTitle">Toggle title</button></p>
     <script>
+      const title = document.querySelector('h1');
+      title.addEventListener('transitionend', ({ propertyName, elapsedTime }) => {
+        console.log(`propertyName=${propertyName}, elapsedTime=${elapsedTime}`);
+      }, false);
+
       const toggleTitle = document.querySelector('#toggleTitle');
       toggleTitle.addEventListener('click', () => {
         const title1 = document.querySelector('.title1');
