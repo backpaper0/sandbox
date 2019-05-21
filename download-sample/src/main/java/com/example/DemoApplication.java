@@ -73,8 +73,7 @@ class DownloadController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("plain", "text"));
         headers.setContentDispositionFormData("filename",
-                UUID.randomUUID().toString() + ".txt",
-                StandardCharsets.UTF_8);
+                UUID.randomUUID().toString() + ".txt");
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(body);
