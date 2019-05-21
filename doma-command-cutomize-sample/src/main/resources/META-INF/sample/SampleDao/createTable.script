@@ -1,4 +1,0 @@
-create table Sample (
-	id identity
-	,message varchar(1000)
-);

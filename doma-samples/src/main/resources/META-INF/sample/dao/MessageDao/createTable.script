@@ -1,6 +1,0 @@
-create sequence message_seq;
-
-create table Message (
-	id bigint primary key,
-	text varchar(1000)
-);
