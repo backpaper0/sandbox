@@ -1,14 +1,13 @@
 package example;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ReferenceTest {
 
@@ -32,9 +31,9 @@ public class ReferenceTest {
          * 弱い参照にする
          * ソフト参照だとこの規模だとGCされなかった
          */
-        WeakReference<Date> ref = new WeakReference<Date>(date);
+        final WeakReference<Date> ref = new WeakReference<Date>(date);
 
-        assertThat(ref.get(), sameInstance(date));
+        assertSame(date, ref.get());
 
         //強い参照があるとGCされないのでnullを
         //突っ込んで強い参照を断ち切る
@@ -42,7 +41,7 @@ public class ReferenceTest {
 
         gc();
 
-        assertThat(ref.get(), nullValue());
+        assertNull(ref.get());
 
         //finalizeが呼ばれてカウントダウンされるのを待つ
         //いつまで経っても終わらないと困るので
@@ -55,7 +54,7 @@ public class ReferenceTest {
         long beforeFreeMemory = Runtime.getRuntime().freeMemory();
         while (true) {
             System.gc();
-            long freeMemory = Runtime.getRuntime().freeMemory();
+            final long freeMemory = Runtime.getRuntime().freeMemory();
             if (beforeFreeMemory == freeMemory) {
                 break;
             }
