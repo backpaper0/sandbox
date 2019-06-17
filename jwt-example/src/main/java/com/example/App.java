@@ -15,7 +15,7 @@ public class App {
 
         final String token = Jwts.builder()
                 .setSubject("hello world")
-                .signWith(SignatureAlgorithm.RS256, keyPair.getPrivate())
+                .signWith(keyPair.getPrivate(), SignatureAlgorithm.RS256)
                 .compact();
 
         System.out.println(token);
