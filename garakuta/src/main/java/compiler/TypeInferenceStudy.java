@@ -705,7 +705,7 @@ public class TypeInferenceStudy {
                 Id id2 = id();
                 match(TokenType.EQ_OP);
                 Expr expr2 = expr();
-                list.add(new LetExpr.One(rec, id2.name, expr2));
+                list.add(new LetExpr.One(rec2, id2.name, expr2));
             }
             match(TokenType.IN);
             Expr expr3 = expr();
