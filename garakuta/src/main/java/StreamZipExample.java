@@ -47,7 +47,7 @@ public class StreamZipExample {
             Stream<U> second) {
         Iterator<T> it1 = Spliterators.iterator(first.spliterator());
         Iterator<U> it2 = Spliterators.iterator(second.spliterator());
-        Spliterator<Pair<T, U>> spliterator = new AbstractSpliterator<Pair<T, U>>(
+        Spliterator<Pair<T, U>> spliterator = new AbstractSpliterator<>(
                 Long.MAX_VALUE, 0) {
 
             @Override

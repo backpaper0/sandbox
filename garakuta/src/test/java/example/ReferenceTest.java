@@ -31,7 +31,7 @@ public class ReferenceTest {
          * 弱い参照にする
          * ソフト参照だとこの規模だとGCされなかった
          */
-        final WeakReference<Date> ref = new WeakReference<Date>(date);
+        final WeakReference<Date> ref = new WeakReference<>(date);
 
         assertSame(date, ref.get());
 

@@ -22,7 +22,7 @@ public class ReferenceTest {
         /*
          * 弱い参照
          */
-        Reference<Object> ref = new WeakReference<Object>(new Object() {
+        Reference<Object> ref = new WeakReference<>(new Object() {
 
             @Override
             protected void finalize() throws Throwable {

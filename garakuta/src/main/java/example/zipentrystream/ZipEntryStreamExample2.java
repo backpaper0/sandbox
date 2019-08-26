@@ -43,7 +43,7 @@ public class ZipEntryStreamExample2 {
     }
 
     static Stream<InputStream> toStream(ZipInputStream in) {
-        Spliterator<InputStream> spliterator = new AbstractSpliterator<InputStream>(
+        Spliterator<InputStream> spliterator = new AbstractSpliterator<>(
                 Long.MAX_VALUE, 0) {
 
             @Override

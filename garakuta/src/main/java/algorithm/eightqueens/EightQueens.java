@@ -42,7 +42,7 @@ public class EightQueens implements Iterable<NQueens> {
 
     @Override
     public Iterator<NQueens> iterator() {
-        return new Iterator<NQueens>() {
+        return new Iterator<>() {
 
             private int cursor;
             private NQueens next;

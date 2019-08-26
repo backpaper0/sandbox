@@ -20,7 +20,7 @@ public class StreamZipExample2 {
         Spliterator<U> sp2 = s2.spliterator();
         long est = Long.min(sp1.estimateSize(), sp2.estimateSize());
         int additionalCharacteristics = sp1.characteristics() & sp2.characteristics();
-        Spliterator<V> spliterator = new AbstractSpliterator<V>(est, additionalCharacteristics) {
+        Spliterator<V> spliterator = new AbstractSpliterator<>(est, additionalCharacteristics) {
 
             @Override
             public boolean tryAdvance(Consumer<? super V> action) {

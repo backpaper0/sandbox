@@ -61,7 +61,7 @@ public class GetLastStatusSample2 {
         boolean isDone() {
             Comparator<Event> comparator = Comparator
                     .comparing(event -> event.timestamp);
-            EventVisitor<Void, Optional<StatusEvent>> visitor = new EventVisitor<Void, Optional<StatusEvent>>() {
+            EventVisitor<Void, Optional<StatusEvent>> visitor = new EventVisitor<>() {
 
                 @Override
                 public Optional<StatusEvent> visit(StatusEvent event, Void param) {

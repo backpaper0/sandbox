@@ -18,7 +18,7 @@ public class Calc {
         Lexer lexer = new Lexer(source);
         Parser parser = new Parser(lexer);
         Ast ast = parser.parse();
-        AstVisitor<Void, Integer> visitor = new AstVisitor<Void, Integer>() {
+        AstVisitor<Void, Integer> visitor = new AstVisitor<>() {
 
             @Override
             public Integer visit(Num ast, Void param) {

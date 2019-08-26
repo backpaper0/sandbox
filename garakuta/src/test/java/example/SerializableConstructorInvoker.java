@@ -12,7 +12,7 @@ public final class SerializableConstructorInvoker {
         try {
             factory = ObjectStreamClass.class.getDeclaredMethod(
                     "getSerializableConstructor", Class.class);
-            if (factory.isAccessible() == false) {
+            if (factory.canAccess(null) == false) {
                 factory.setAccessible(true);
             }
         } catch (final ReflectiveOperationException e) {
