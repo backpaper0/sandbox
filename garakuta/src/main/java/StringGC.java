@@ -59,8 +59,7 @@ public class StringGC {
                 false, loader);
         assert clazz.getClassLoader() == loader;
         Field field = clazz.getDeclaredField("literal");
-        list.add(new StringGC("リテラルその2", (String) clazz.getDeclaredField(
-                "literal").get(null), q));
+        list.add(new StringGC("リテラルその2", clazz.getDeclaredField("literal").get(null), q));
         list.add(new StringGC("リテラルその2のクラスローダー", loader, q));
         loader = null;
         list.add(new StringGC("リテラルその2のクラス", clazz, q));
