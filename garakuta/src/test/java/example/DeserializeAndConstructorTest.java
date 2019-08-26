@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 
 import org.junit.jupiter.api.Test;
 
-class DeserializeAndConstructorTest extends DeserializeAndConstructor {
+class DeserializeAndConstructorTest {
 
     @Test
     void test() throws Exception {
