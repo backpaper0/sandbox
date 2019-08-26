@@ -12,23 +12,23 @@ import java.util.stream.Collectors;
 
 public class Buckets {
 
-    public static void main(String[] args) {
-        State state = State.empty();
-        History history = History.empty();
-        Optional<History> opt = actAll(state, history);
+    public static void main(final String[] args) {
+        final State state = State.empty();
+        final History history = History.empty();
+        final Optional<History> opt = actAll(state, history);
         System.out.println(opt.map(Objects::toString).orElse("x"));
     }
 
-    static Optional<History> actAll(State state, History history) {
-        List<Action> actions = new ArrayList<>();
+    static Optional<History> actAll(final State state, final History history) {
+        final List<Action> actions = new ArrayList<>();
         actions.add(new Action("Fill A", State::fill5));
         actions.add(new Action("Fill B", State::fill3));
         actions.add(new Action("Dump A", State::dump5));
         actions.add(new Action("Dump B", State::dump3));
         actions.add(new Action("Pour from A to B", State::pour5to3));
         actions.add(new Action("Pour from B to A", State::pour3to5));
-        for (Action action : actions) {
-            Optional<History> opt = act(state, history, action);
+        for (final Action action : actions) {
+            final Optional<History> opt = act(state, history, action);
             if (opt.isPresent()) {
                 return opt;
             }
@@ -36,9 +36,9 @@ public class Buckets {
         return Optional.empty();
     }
 
-    static Optional<History> act(State state, History history, Action action) {
-        State newState = action.act(state);
-        History newHistory = history.add(action, newState);
+    static Optional<History> act(final State state, final History history, final Action action) {
+        final State newState = action.act(state);
+        final History newHistory = history.add(action, newState);
         if (newState.five == 4) {
             return Optional.of(newHistory);
         }
@@ -52,12 +52,12 @@ public class Buckets {
         final String name;
         final UnaryOperator<State> operator;
 
-        public Action(String name, UnaryOperator<State> operator) {
+        public Action(final String name, final UnaryOperator<State> operator) {
             this.name = name;
             this.operator = operator;
         }
 
-        State act(State state) {
+        State act(final State state) {
             return operator.apply(state);
         }
 
@@ -71,12 +71,12 @@ public class Buckets {
         final Action action;
         final State state;
 
-        public Step(Action action, State state) {
+        public Step(final Action action, final State state) {
             this.action = action;
             this.state = state;
         }
 
-        public boolean contains(State state) {
+        public boolean contains(final State state) {
             return this.state.equals(state);
         }
 
@@ -89,7 +89,7 @@ public class Buckets {
     static class History {
         final List<Step> value;
 
-        public History(List<Step> value) {
+        public History(final List<Step> value) {
             this.value = Collections.unmodifiableList(value);
         }
 
@@ -97,13 +97,13 @@ public class Buckets {
             return new History(Collections.emptyList());
         }
 
-        History add(Action action, State state) {
-            List<Step> newValue = new ArrayList<>(value);
+        History add(final Action action, final State state) {
+            final List<Step> newValue = new ArrayList<>(value);
             newValue.add(new Step(action, state));
             return new History(newValue);
         }
 
-        boolean contains(State state) {
+        boolean contains(final State state) {
             return value.stream().anyMatch(step -> step.contains(state));
         }
 
@@ -118,7 +118,7 @@ public class Buckets {
         final int five;
         final int three;
 
-        public State(int five, int three) {
+        public State(final int five, final int three) {
             this.five = five;
             this.three = three;
         }
@@ -144,12 +144,12 @@ public class Buckets {
         }
 
         State pour5to3() {
-            int x = Math.min(3 - three, five);
+            final int x = Math.min(3 - three, five);
             return new State(five - x, three + x);
         }
 
         State pour3to5() {
-            int x = Math.min(5 - five, three);
+            final int x = Math.min(5 - five, three);
             return new State(five + x, three - x);
         }
 
@@ -159,7 +159,7 @@ public class Buckets {
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             return obj instanceof State
                     && five == ((State) obj).five
                     && three == ((State) obj).three;

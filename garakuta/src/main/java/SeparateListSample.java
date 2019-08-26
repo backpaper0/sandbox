@@ -6,17 +6,17 @@ import java.util.stream.IntStream;
 
 public class SeparateListSample {
 
-    public static void main(String[] args) {
-        List<Integer> list = IntStream.range(0, 10).boxed().collect(Collectors.toList());
+    public static void main(final String[] args) {
+        final List<Integer> list = IntStream.range(0, 10).boxed().collect(Collectors.toList());
 
-        List<List<Integer>> result = list.stream().collect(separate(3));
+        final List<List<Integer>> result = list.stream().collect(separate(3));
 
         System.out.println(result);
     }
 
-    static <T> Collector<T, ?, List<List<T>>> separate(int size) {
+    static <T> Collector<T, ?, List<List<T>>> separate(final int size) {
         return Collector.of(() -> {
-            List<List<T>> acc = new ArrayList<>();
+            final List<List<T>> acc = new ArrayList<>();
             acc.add(new ArrayList<>());
             return acc;
         }, (acc, x) -> {

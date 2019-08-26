@@ -16,26 +16,26 @@ public final class HmacBasedOneTimePasswordGenerator {
     private final String algorithm;
     private final int digit;
 
-    private HmacBasedOneTimePasswordGenerator(Builder builder) {
+    private HmacBasedOneTimePasswordGenerator(final Builder builder) {
         this.algorithm = builder.algorithm;
         this.digit = builder.digit;
     }
 
-    public int generate(byte[] key, byte[] value) {
+    public int generate(final byte[] key, final byte[] value) {
 
         Mac mac;
         try {
             mac = Mac.getInstance(algorithm);
             mac.init(new SecretKeySpec(key, algorithm));
-        } catch (GeneralSecurityException e) {
+        } catch (final GeneralSecurityException e) {
             throw new RuntimeException(e);
         }
 
-        byte[] hash = mac.doFinal(value);
+        final byte[] hash = mac.doFinal(value);
 
-        int offset = hash[hash.length - 1] & 0xf;
+        final int offset = hash[hash.length - 1] & 0xf;
 
-        int code = ((hash[offset] & 0x7f) << 24)
+        final int code = ((hash[offset] & 0x7f) << 24)
                 | ((hash[offset + 1] & 0xff) << 16)
                 | ((hash[offset + 2] & 0xff) << 8)
                 | (hash[offset + 3] & 0xff);
@@ -57,11 +57,11 @@ public final class HmacBasedOneTimePasswordGenerator {
         private int digit = 6;
         private Builder() {
         }
-        public Builder algorithm(String algorithm) {
+        public Builder algorithm(final String algorithm) {
             this.algorithm = algorithm;
             return this;
         }
-        public Builder digit(int digit) {
+        public Builder digit(final int digit) {
             this.digit = digit;
             return this;
         }

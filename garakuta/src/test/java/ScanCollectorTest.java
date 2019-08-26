@@ -24,15 +24,15 @@ public class ScanCollectorTest {
 
     @Test
     public void test() throws Exception {
-        Stream<Integer> xs = IntStream.rangeClosed(1, 5).boxed();
-        List<Integer> actual = xs.collect(scan(0, Integer::sum));
+        final Stream<Integer> xs = IntStream.rangeClosed(1, 5).boxed();
+        final List<Integer> actual = xs.collect(scan(0, Integer::sum));
         assertThat(actual, is(Arrays.asList(0, 1, 3, 6, 10, 15)));
     }
 
     @Test
     public void testEmptyStream() throws Exception {
-        Stream<Integer> xs = Stream.empty();
-        List<Integer> actual = xs.collect(scan(0, Integer::sum));
+        final Stream<Integer> xs = Stream.empty();
+        final List<Integer> actual = xs.collect(scan(0, Integer::sum));
         assertThat(actual, is(Arrays.asList(0)));
     }
 
@@ -54,23 +54,23 @@ public class ScanCollectorTest {
      * @param fn
      * @return
      */
-    public static <T, R> Collector<T, ?, List<R>> scan(R init,
-            BiFunction<R, T, R> fn) {
+    public static <T, R> Collector<T, ?, List<R>> scan(final R init,
+            final BiFunction<R, T, R> fn) {
 
-        Supplier<LinkedList<R>> supplier = () -> new LinkedList<>(
+        final Supplier<LinkedList<R>> supplier = () -> new LinkedList<>(
                 Collections.singletonList(init));
 
-        BiConsumer<LinkedList<R>, T> accumulator = (acc, t) -> acc.add(fn
+        final BiConsumer<LinkedList<R>, T> accumulator = (acc, t) -> acc.add(fn
                 .apply(acc.getLast(), t));
 
-        BinaryOperator<LinkedList<R>> combiner = (acc1, acc2) -> {
+        final BinaryOperator<LinkedList<R>> combiner = (acc1, acc2) -> {
             acc1.addAll(acc2);
             return acc1;
         };
 
-        Function<LinkedList<R>, List<R>> finisher = acc -> acc;
+        final Function<LinkedList<R>, List<R>> finisher = acc -> acc;
 
-        Characteristics characteristics = Characteristics.IDENTITY_FINISH;
+        final Characteristics characteristics = Characteristics.IDENTITY_FINISH;
 
         return Collector.of(supplier, accumulator, combiner, finisher,
                 characteristics);

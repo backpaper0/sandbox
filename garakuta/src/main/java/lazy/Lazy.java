@@ -11,12 +11,12 @@ public class Lazy<T> implements Function<Supplier<T>, T> {
     private volatile T value;
 
     @Override
-    public T apply(Supplier<T> supplier) {
+    public T apply(final Supplier<T> supplier) {
         final T result = value; // Just one volatile read 
         return result == null ? maybeCompute(supplier) : result;
     }
 
-    private synchronized T maybeCompute(Supplier<T> supplier) {
+    private synchronized T maybeCompute(final Supplier<T> supplier) {
         if (value == null) {
             value = Objects.requireNonNull(supplier.get());
         }

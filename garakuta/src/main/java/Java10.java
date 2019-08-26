@@ -7,7 +7,7 @@ public class Java10 {
             @Override
             public void println() {
                 println(getMessage());
-            };
+            }
         };
         try (bar) {
             bar.println();

@@ -6,10 +6,10 @@ public class BitBomberman {
     private static final int WIDTH = 6;
     private static final int HEIGHT = 5;
 
-    public String bomb(String src) {
-        String[] s = src.split("/");
-        int wall = Integer.parseUnsignedInt(s[0], 16);
-        int bomb = Integer.parseUnsignedInt(s[1], 16);
+    public String bomb(final String src) {
+        final String[] s = src.split("/");
+        final int wall = Integer.parseUnsignedInt(s[0], 16);
+        final int bomb = Integer.parseUnsignedInt(s[1], 16);
         int stage = 0;
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
@@ -33,11 +33,11 @@ public class BitBomberman {
         return String.format("%08x", stage);
     }
 
-    private int get(int stage, int x, int y) {
+    private int get(final int stage, final int x, final int y) {
         return stage >> (31 - (x + y * WIDTH)) & 1;
     }
 
-    private int set(int stage, int x, int y) {
+    private int set(final int stage, final int x, final int y) {
         return stage | 1 << (31 - (x + y * WIDTH));
     }
 }

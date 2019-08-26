@@ -71,13 +71,13 @@ public class SHA256 {
         0xbef9a3f7,
         0xc67178f2 };
 
-    public static byte[] hash(byte[] src) {
+    public static byte[] hash(final byte[] src) {
         return hash(new ByteArrayInputStream(src));
     }
 
-    public static byte[] hash(InputStream in) {
-        Blocks blocks = new Blocks(64, 8, in);
-        int[] hash =
+    public static byte[] hash(final InputStream in) {
+        final Blocks blocks = new Blocks(64, 8, in);
+        final int[] hash =
             {
                 0x6a09e667,
                 0xbb67ae85,
@@ -87,8 +87,8 @@ public class SHA256 {
                 0x9b05688c,
                 0x1f83d9ab,
                 0x5be0cd19 };
-        for (byte[] bs : blocks) {
-            int[] w = new int[64];
+        for (final byte[] bs : blocks) {
+            final int[] w = new int[64];
             for (int t = 0; t < 16; t++) {
                 w[t] =
                     ((bs[t * 4] & 0xff) << 24)
@@ -108,8 +108,8 @@ public class SHA256 {
             int g = hash[6];
             int h = hash[7];
             for (int t = 0; t < 64; t++) {
-                int temp1 = h + upperSigma1(e) + ch(e, f, g) + K[t] + w[t];
-                int temp2 = upperSigma0(a) + maj(a, b, c);
+                final int temp1 = h + upperSigma1(e) + ch(e, f, g) + K[t] + w[t];
+                final int temp2 = upperSigma0(a) + maj(a, b, c);
                 h = g;
                 g = f;
                 f = e;
@@ -128,7 +128,7 @@ public class SHA256 {
             hash[6] = g + hash[6];
             hash[7] = h + hash[7];
         }
-        byte[] dest = new byte[32];
+        final byte[] dest = new byte[32];
         for (int i = 0; i < 8; i++) {
             dest[i * 4 + 0] = (byte) (hash[i] >>> 24);
             dest[i * 4 + 1] = (byte) (hash[i] >>> 16);
@@ -138,31 +138,31 @@ public class SHA256 {
         return dest;
     }
 
-    private static int ch(int x, int y, int z) {
+    private static int ch(final int x, final int y, final int z) {
         return (x & y) ^ (~x & z);
     }
 
-    private static int maj(int x, int y, int z) {
+    private static int maj(final int x, final int y, final int z) {
         return (x & y) ^ (x & z) ^ (y & z);
     }
 
-    private static int rotr(int n, int x) {
+    private static int rotr(final int n, final int x) {
         return (x >>> n) | (x << (32 - n));
     }
 
-    private static int upperSigma0(int x) {
+    private static int upperSigma0(final int x) {
         return rotr(2, x) ^ rotr(13, x) ^ rotr(22, x);
     }
 
-    private static int upperSigma1(int x) {
+    private static int upperSigma1(final int x) {
         return rotr(6, x) ^ rotr(11, x) ^ rotr(25, x);
     }
 
-    private static int lowerSigma0(int x) {
+    private static int lowerSigma0(final int x) {
         return rotr(7, x) ^ rotr(18, x) ^ (x >>> 3);
     }
 
-    private static int lowerSigma1(int x) {
+    private static int lowerSigma1(final int x) {
         return rotr(17, x) ^ rotr(19, x) ^ (x >>> 10);
     }
 }

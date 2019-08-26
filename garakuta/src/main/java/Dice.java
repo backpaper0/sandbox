@@ -13,9 +13,9 @@ public class Dice {
     private final static int EAST = 5;
     private final static int TEMP = 6;
 
-    public String solve(String src) {
-        char[] cs = "162534x".toCharArray();
-        StringBuilder buf = new StringBuilder();
+    public String solve(final String src) {
+        final char[] cs = "162534x".toCharArray();
+        final StringBuilder buf = new StringBuilder();
         buf.append(cs[TOP]);
         src.chars().forEach(c -> {
             Direction.of(c).indexes.forEach(i -> {
@@ -30,7 +30,7 @@ public class Dice {
         final int first;
         final int second;
 
-        public IntPair(int first, int second) {
+        public IntPair(final int first, final int second) {
             this.first = first;
             this.second = second;
         }
@@ -41,7 +41,7 @@ public class Dice {
 
         final List<IntPair> indexes;
 
-        Direction(int _1, int _3) {
+        Direction(final int _1, final int _3) {
             indexes = new ArrayList<>();
             IntStream.of(TEMP, TOP, _1, BOTTOM, _3, TEMP).reduce((f, s) -> {
                 indexes.add(new IntPair(f, s));
@@ -49,7 +49,7 @@ public class Dice {
             });
         }
 
-        static Direction of(int c) {
+        static Direction of(final int c) {
             return Arrays.stream(values()).filter(d -> d.name().charAt(0) == c)
                     .findFirst().get();
         }

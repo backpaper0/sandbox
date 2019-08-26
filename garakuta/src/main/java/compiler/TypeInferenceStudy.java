@@ -26,7 +26,7 @@ import compiler.TypeInferenceStudy.Ast.LetExpr;
  */
 public class TypeInferenceStudy {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         eval("3;;");
         eval("true;;");
         eval("x;;");
@@ -44,18 +44,18 @@ public class TypeInferenceStudy {
         eval("let rec sum = fun x -> if 10 < x then 0 else x + (sum (x + 1)) in sum 0;;");
     }
 
-    private static void eval(String source) {
+    private static void eval(final String source) {
         System.out.println(source);
-        Lexer lexer = new Lexer(source);
-        Parser parser = new Parser(lexer);
-        Ast ast = parser.parse();
-        Evaluator evaluator = new Evaluator();
+        final Lexer lexer = new Lexer(source);
+        final Parser parser = new Parser(lexer);
+        final Ast ast = parser.parse();
+        final Evaluator evaluator = new Evaluator();
         try {
             System.out.println(ast);
             ast.accept(evaluator);
             System.out.println(evaluator.getEnvironment());
             System.out.println(evaluator.getResultValue());
-        } catch (Exception e) {
+        } catch (final Exception e) {
             System.out.printf("%s: %s%n", e.getClass(), e.getMessage());
         }
         System.out.println();
@@ -67,7 +67,7 @@ public class TypeInferenceStudy {
         Deque<Map<String, Object>> envs = new LinkedList<>();
 
         public Evaluator() {
-            Map<String, Object> env = new HashMap<>();
+            final Map<String, Object> env = new HashMap<>();
             env.put("x", 10);
             env.put("x'", 2);
             env.put("x1", 5);
@@ -83,10 +83,10 @@ public class TypeInferenceStudy {
         }
 
         @Override
-        public void visit(Id expr) {
-            for (Map<String, Object> env : envs) {
+        public void visit(final Id expr) {
+            for (final Map<String, Object> env : envs) {
                 if (env.containsKey(expr.name)) {
-                    Object value = env.get(expr.name);
+                    final Object value = env.get(expr.name);
                     stack.push(value);
                     return;
                 }
@@ -95,21 +95,21 @@ public class TypeInferenceStudy {
         }
 
         @Override
-        public void visit(Int expr) {
+        public void visit(final Int expr) {
             stack.push(expr.value);
         }
 
         @Override
-        public void visit(Bool expr) {
+        public void visit(final Bool expr) {
             stack.push(expr.value);
         }
 
         @Override
-        public void visit(BinOp expr) {
+        public void visit(final BinOp expr) {
             expr.left.accept(this);
-            Object left = stack.pop();
+            final Object left = stack.pop();
             expr.right.accept(this);
-            Object right = stack.pop();
+            final Object right = stack.pop();
             switch (expr.binOpType) {
             case ADD:
                 stack.push(((int) left) + ((int) right));
@@ -130,9 +130,9 @@ public class TypeInferenceStudy {
         }
 
         @Override
-        public void visit(IfThenElse expr) {
+        public void visit(final IfThenElse expr) {
             expr.cond.accept(this);
-            boolean cond = (boolean) stack.pop();
+            final boolean cond = (boolean) stack.pop();
             if (cond) {
                 expr.then.accept(this);
             } else {
@@ -141,11 +141,11 @@ public class TypeInferenceStudy {
         }
 
         @Override
-        public void visit(LetExpr expr) {
-            Map<String, Object> env = new HashMap<>();
-            for (LetExpr.One let : expr.list) {
+        public void visit(final LetExpr expr) {
+            final Map<String, Object> env = new HashMap<>();
+            for (final LetExpr.One let : expr.list) {
                 let.expr.accept(this);
-                Object a = stack.pop();
+                final Object a = stack.pop();
                 if (let.rec && a instanceof Invoker) {
                     ((Invoker) a).envs.add(env);
                 }
@@ -157,30 +157,30 @@ public class TypeInferenceStudy {
         }
 
         @Override
-        public void visit(LetDef expr) {
-            for (LetDef.One let : expr.list) {
+        public void visit(final LetDef expr) {
+            for (final LetDef.One let : expr.list) {
                 let.expr.accept(this);
                 envs.getFirst().put(let.name, stack.pop());
             }
         }
 
         @Override
-        public void visit(Fun fun) {
-            Invoker inv = new Invoker();
+        public void visit(final Fun fun) {
+            final Invoker inv = new Invoker();
             inv.fun = fun;
             inv.envs.addAll(envs);
             stack.push(inv);
         }
 
         @Override
-        public void visit(App app) {
+        public void visit(final App app) {
             app.expr1.accept(this);
-            Invoker inv = (Invoker) stack.pop();
+            final Invoker inv = (Invoker) stack.pop();
             app.expr2.accept(this);
-            Deque<Map<String, Object>> original = envs;
+            final Deque<Map<String, Object>> original = envs;
             envs = inv.envs;
-            Map<String, Object> env = new HashMap<>();
-            Object parameter = stack.pop();
+            final Map<String, Object> env = new HashMap<>();
+            final Object parameter = stack.pop();
             env.put(inv.fun.id.name, parameter);
             envs.push(env);
             inv.fun.expr.accept(this);
@@ -202,7 +202,7 @@ public class TypeInferenceStudy {
     static class Token {
         TokenType tokenType;
         String text;
-        public Token(TokenType tokenType, String text) {
+        public Token(final TokenType tokenType, final String text) {
             this.tokenType = tokenType;
             this.text = text;
         }
@@ -215,11 +215,11 @@ public class TypeInferenceStudy {
     static class Lexer {
 
         static char EOF = (char) -1;
-        private String source;
+        private final String source;
         int index;
         char c;
 
-        public Lexer(String source) {
+        public Lexer(final String source) {
             this.source = source;
             index = 0;
             consume();
@@ -285,7 +285,7 @@ public class TypeInferenceStudy {
                 throw new RuntimeException();
             default:
                 if ('0' <= c && c <= '9') {
-                    StringBuilder buf = new StringBuilder();
+                    final StringBuilder buf = new StringBuilder();
                     do {
                         buf.append(c);
                         consume();
@@ -293,12 +293,12 @@ public class TypeInferenceStudy {
                     return new Token(TokenType.INT, buf.toString());
                 }
                 if ('a' <= c && c <= 'z') {
-                    StringBuilder buf = new StringBuilder();
+                    final StringBuilder buf = new StringBuilder();
                     do {
                         buf.append(c);
                         consume();
                     } while (('a' <= c && c <= 'z') || ('0' <= c && c <= '9') || c == '\'');
-                    String text = buf.toString();
+                    final String text = buf.toString();
                     switch (text) {
                     case "if":
                         return new Token(TokenType.IF, text);
@@ -333,11 +333,11 @@ public class TypeInferenceStudy {
 
         static class Id implements Expr {
             String name;
-            public Id(String name) {
+            public Id(final String name) {
                 this.name = name;
             }
             @Override
-            public void accept(Visitor visitor) {
+            public void accept(final Visitor visitor) {
                 visitor.visit(this);
             }
             @Override
@@ -348,11 +348,11 @@ public class TypeInferenceStudy {
 
         static class Int implements Expr {
             int value;
-            public Int(int value) {
+            public Int(final int value) {
                 this.value = value;
             }
             @Override
-            public void accept(Visitor visitor) {
+            public void accept(final Visitor visitor) {
                 visitor.visit(this);
             }
             @Override
@@ -363,11 +363,11 @@ public class TypeInferenceStudy {
 
         static class Bool implements Expr {
             boolean value;
-            public Bool(boolean value) {
+            public Bool(final boolean value) {
                 this.value = value;
             }
             @Override
-            public void accept(Visitor visitor) {
+            public void accept(final Visitor visitor) {
                 visitor.visit(this);
             }
             @Override
@@ -384,13 +384,13 @@ public class TypeInferenceStudy {
             BinOpType binOpType;
             Expr left;
             Expr right;
-            public BinOp(BinOpType binOpType, Expr left, Expr right) {
+            public BinOp(final BinOpType binOpType, final Expr left, final Expr right) {
                 this.binOpType = binOpType;
                 this.left = left;
                 this.right = right;
             }
             @Override
-            public void accept(Visitor visitor) {
+            public void accept(final Visitor visitor) {
                 visitor.visit(this);
             }
             @Override
@@ -403,13 +403,13 @@ public class TypeInferenceStudy {
             Expr cond;
             Expr then;
             Expr else_;
-            public IfThenElse(Expr cond, Expr then, Expr else_) {
+            public IfThenElse(final Expr cond, final Expr then, final Expr else_) {
                 this.cond = cond;
                 this.then = then;
                 this.else_ = else_;
             }
             @Override
-            public void accept(Visitor visitor) {
+            public void accept(final Visitor visitor) {
                 visitor.visit(this);
             }
             @Override
@@ -421,12 +421,12 @@ public class TypeInferenceStudy {
         static class LetExpr implements Expr {
             List<LetExpr.One> list;
             Expr expr;
-            public LetExpr(List<LetExpr.One> list, Expr expr) {
+            public LetExpr(final List<LetExpr.One> list, final Expr expr) {
                 this.list = list;
                 this.expr = expr;
             }
             @Override
-            public void accept(Visitor visitor) {
+            public void accept(final Visitor visitor) {
                 visitor.visit(this);
             }
             @Override
@@ -438,7 +438,7 @@ public class TypeInferenceStudy {
                 String name;
                 Expr expr;
                 boolean rec;
-                public One(boolean rec, String name, Expr expr) {
+                public One(final boolean rec, final String name, final Expr expr) {
                     this.rec = rec;
                     this.name = name;
                     this.expr = expr;
@@ -452,11 +452,11 @@ public class TypeInferenceStudy {
 
         static class LetDef implements Ast {
             List<LetDef.One> list;
-            public LetDef(List<LetDef.One> list) {
+            public LetDef(final List<LetDef.One> list) {
                 this.list = list;
             }
             @Override
-            public void accept(Visitor visitor) {
+            public void accept(final Visitor visitor) {
                 visitor.visit(this);
             }
             @Override
@@ -468,7 +468,7 @@ public class TypeInferenceStudy {
                 String name;
                 Expr expr;
                 boolean rec;
-                public One(boolean rec, String name, Expr expr) {
+                public One(final boolean rec, final String name, final Expr expr) {
                     this.rec = rec;
                     this.name = name;
                     this.expr = expr;
@@ -483,12 +483,12 @@ public class TypeInferenceStudy {
         static class Fun implements Expr {
             Id id;
             Expr expr;
-            public Fun(Id id, Expr expr) {
+            public Fun(final Id id, final Expr expr) {
                 this.id = id;
                 this.expr = expr;
             }
             @Override
-            public void accept(Visitor visitor) {
+            public void accept(final Visitor visitor) {
                 visitor.visit(this);
             }
             @Override
@@ -500,12 +500,12 @@ public class TypeInferenceStudy {
         static class App implements Expr {
             Expr expr1;
             Expr expr2;
-            public App(Expr expr1, Expr expr2) {
+            public App(final Expr expr1, final Expr expr2) {
                 this.expr1 = expr1;
                 this.expr2 = expr2;
             }
             @Override
-            public void accept(Visitor visitor) {
+            public void accept(final Visitor visitor) {
                 visitor.visit(this);
             }
             @Override
@@ -534,7 +534,7 @@ public class TypeInferenceStudy {
         Token token;
         List<Token> tokens = new ArrayList<>();
         int index;
-        public Parser(Lexer lexer) {
+        public Parser(final Lexer lexer) {
             this.lexer = lexer;
             consume();
         }
@@ -546,32 +546,32 @@ public class TypeInferenceStudy {
             }
             index++;
         }
-        void rollback(int index) {
+        void rollback(final int index) {
             this.index = index - 1;
             consume();
         }
         Ast parse() {
             try {
-                int index = this.index;
+                final int index = this.index;
                 try {
-                    Expr expr = expr();
+                    final Expr expr = expr();
                     match(TokenType.SEMICOLON);
                     match(TokenType.SEMICOLON);
                     match(TokenType.EOF);
                     return expr;
-                } catch (ParseException e) {
+                } catch (final ParseException e) {
                     rollback(index);
                 }
-                LetDef let = letDef();
+                final LetDef let = letDef();
                 match(TokenType.SEMICOLON);
                 match(TokenType.SEMICOLON);
                 match(TokenType.EOF);
                 return let;
-            } catch (ParseException e) {
+            } catch (final ParseException e) {
                 throw new RuntimeException(e);
             }
         }
-        private void match(TokenType expected) throws ParseException {
+        private void match(final TokenType expected) throws ParseException {
             if (token.tokenType == expected) {
                 consume();
             } else {
@@ -579,24 +579,24 @@ public class TypeInferenceStudy {
             }
         }
         Expr expr() throws ParseException {
-            int index = this.index;
+            final int index = this.index;
             try {
                 return app();
-            } catch (ParseException e) {
+            } catch (final ParseException e) {
                 rollback(index);
             }
             return or();
         }
         App app() throws ParseException {
-            Expr expr1 = or();
-            Expr expr2 = or();
+            final Expr expr1 = or();
+            final Expr expr2 = or();
             return new App(expr1, expr2);
         }
         Expr or() throws ParseException {
             Expr left = and();
             while (token.tokenType == TokenType.OR_OP) {
                 consume();
-                Expr right = and();
+                final Expr right = and();
                 left = new BinOp(BinOpType.OR, left, right);
             }
             return left;
@@ -605,7 +605,7 @@ public class TypeInferenceStudy {
             Expr left = lessThan();
             while (token.tokenType == TokenType.AND_OP) {
                 consume();
-                Expr right = lessThan();
+                final Expr right = lessThan();
                 left = new BinOp(BinOpType.AND, left, right);
             }
             return left;
@@ -614,7 +614,7 @@ public class TypeInferenceStudy {
             Expr left = add();
             while (token.tokenType == TokenType.LT_OP) {
                 consume();
-                Expr right = add();
+                final Expr right = add();
                 left = new BinOp(BinOpType.LT, left, right);
             }
             return left;
@@ -623,7 +623,7 @@ public class TypeInferenceStudy {
             Expr left = mul();
             while (token.tokenType == TokenType.ADD_OP) {
                 consume();
-                Expr right = mul();
+                final Expr right = mul();
                 left = new BinOp(BinOpType.ADD, left, right);
             }
             return left;
@@ -632,7 +632,7 @@ public class TypeInferenceStudy {
             Expr left = other();
             while (token.tokenType == TokenType.MUL_OP) {
                 consume();
-                Expr right = other();
+                final Expr right = other();
                 left = new BinOp(BinOpType.MUL, left, right);
             }
             return left;
@@ -640,7 +640,7 @@ public class TypeInferenceStudy {
         Expr other() throws ParseException {
             switch (token.tokenType) {
             case BOOL: {
-                boolean value = Boolean.parseBoolean(token.text);
+                final boolean value = Boolean.parseBoolean(token.text);
                 consume();
                 return new Bool(value);
             }
@@ -649,21 +649,21 @@ public class TypeInferenceStudy {
             }
             case IF: {
                 consume();
-                Expr cond = expr();
+                final Expr cond = expr();
                 match(TokenType.THEN);
-                Expr then = expr();
+                final Expr then = expr();
                 match(TokenType.ELSE);
-                Expr else_ = expr();
+                final Expr else_ = expr();
                 return new IfThenElse(cond, then, else_);
             }
             case INT: {
-                int value = Integer.parseInt(token.text);
+                final int value = Integer.parseInt(token.text);
                 consume();
                 return new Int(value);
             }
             case L_PAREN: {
                 consume();
-                Expr expr = expr();
+                final Expr expr = expr();
                 match(TokenType.R_PAREN);
                 return expr;
             }
@@ -680,21 +680,21 @@ public class TypeInferenceStudy {
 
         private Fun fun() throws ParseException {
             match(TokenType.FUN);
-            Id id = id();
+            final Id id = id();
             match(TokenType.ARROW);
-            Expr expr = expr();
+            final Expr expr = expr();
             return new Fun(id, expr);
         }
         LetExpr letExpr() throws ParseException {
-            List<LetExpr.One> list = new ArrayList<>();
+            final List<LetExpr.One> list = new ArrayList<>();
             match(TokenType.LET);
             boolean rec;
             if (rec = (token.tokenType == TokenType.REC)) {
                 consume();
             }
-            Id id = id();
+            final Id id = id();
             match(TokenType.EQ_OP);
-            Expr expr1 = expr();
+            final Expr expr1 = expr();
             list.add(new LetExpr.One(rec, id.name, expr1));
             while (token.tokenType == TokenType.AND) {
                 match(TokenType.AND);
@@ -702,34 +702,34 @@ public class TypeInferenceStudy {
                 if (rec2 = (token.tokenType == TokenType.REC)) {
                     consume();
                 }
-                Id id2 = id();
+                final Id id2 = id();
                 match(TokenType.EQ_OP);
-                Expr expr2 = expr();
+                final Expr expr2 = expr();
                 list.add(new LetExpr.One(rec2, id2.name, expr2));
             }
             match(TokenType.IN);
-            Expr expr3 = expr();
+            final Expr expr3 = expr();
             return new LetExpr(list, expr3);
         }
 
         Id id() throws ParseException {
-            String name = token.text;
+            final String name = token.text;
             match(TokenType.ID);
             return new Id(name);
         }
 
         LetDef letDef() throws ParseException {
-            List<LetDef.One> list = new ArrayList<>();
+            final List<LetDef.One> list = new ArrayList<>();
             do {
                 match(TokenType.LET);
                 boolean rec;
                 if (rec = (token.tokenType == TokenType.REC)) {
                     consume();
                 }
-                String name = token.text;
+                final String name = token.text;
                 match(TokenType.ID);
                 match(TokenType.EQ_OP);
-                Expr expr = expr();
+                final Expr expr = expr();
                 list.add(new LetDef.One(rec, name, expr));
             } while (token.tokenType == TokenType.LET);
             return new LetDef(list);

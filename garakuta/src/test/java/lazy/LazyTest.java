@@ -33,24 +33,24 @@ public class LazyTest<T> {
         test(FutureTaskLazy::new);
     }
 
-    static void test(Supplier<Function<Supplier<String>, String>> supplier) throws Exception {
-        int size = 100;
-        int unit = 4;
-        CountDownLatch ready = new CountDownLatch(size);
-        CountDownLatch gate = new CountDownLatch(1);
+    static void test(final Supplier<Function<Supplier<String>, String>> supplier) throws Exception {
+        final int size = 100;
+        final int unit = 4;
+        final CountDownLatch ready = new CountDownLatch(size);
+        final CountDownLatch gate = new CountDownLatch(1);
 
-        List<Function<Supplier<String>, String>> list = IntStream.range(0, unit)
+        final List<Function<Supplier<String>, String>> list = IntStream.range(0, unit)
                 .mapToObj(i -> supplier.get()).collect(toList());
 
-        ExecutorService executor = Executors.newFixedThreadPool(size);
+        final ExecutorService executor = Executors.newFixedThreadPool(size);
         try {
 
-            List<Future<String>> futures = IntStream.range(0, size)
+            final List<Future<String>> futures = IntStream.range(0, size)
                     .mapToObj(index -> executor.submit(() -> {
                         ready.countDown();
                         gate.await(10, TimeUnit.SECONDS);
                         return list.get(index % unit).apply(() -> x(() -> {
-                            String s = "#" + index;
+                            final String s = "#" + index;
                             System.out.println(s);
                             TimeUnit.SECONDS.sleep(1);
                             return s;
@@ -67,10 +67,10 @@ public class LazyTest<T> {
         }
     }
 
-    static <T> T x(Callable<T> c) {
+    static <T> T x(final Callable<T> c) {
         try {
             return c.call();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
     }

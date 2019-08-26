@@ -2,7 +2,7 @@ import java.text.BreakIterator;
 
 public interface SurrogatePair {
 
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         final String s = "𩸽を食べたい";
         System.out.println(s.length());
         System.out.println(s.codePointCount(0, s.length()));

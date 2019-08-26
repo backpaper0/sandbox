@@ -5,29 +5,29 @@ import java.util.function.Supplier;
 
 public class CircuitMain {
 
-    static int nand(int a, int b) {
+    static int nand(final int a, final int b) {
         return 1 - (a & b);
     }
-    static int not(int a) {
+    static int not(final int a) {
         return nand(a, 1);
     }
-    static int and(int a, int b) {
+    static int and(final int a, final int b) {
         return nand(nand(a, b), 1);
     }
-    static int or(int a, int b) {
+    static int or(final int a, final int b) {
         return nand(not(a), not(b));
     }
-    static int xor(int a, int b) {
+    static int xor(final int a, final int b) {
         return and(nand(a, b), or(a, b));
     }
-    static int mux(int a, int b, int sel) {
+    static int mux(final int a, final int b, final int sel) {
         return or(and(a, not(sel)), and(b, sel));
     }
-    static int[] dmux(int in, int sel) {
+    static int[] dmux(final int in, final int sel) {
         return new int[] { and(in, not(sel)), and(in, sel) };
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         System.out.println("Nand");
         test(() -> nand(0, 0), 1);
         test(() -> nand(0, 1), 1);
@@ -72,14 +72,14 @@ public class CircuitMain {
         test2(() -> dmux(0, 1), 0, 0);
         test2(() -> dmux(1, 1), 0, 1);
     }
-    static void test(IntSupplier supplier, int expected) {
-        int actual = supplier.getAsInt();
+    static void test(final IntSupplier supplier, final int expected) {
+        final int actual = supplier.getAsInt();
         if (actual != expected) {
             throw new AssertionError(String.format("%s != %s", actual, expected));
         }
     }
-    static void test2(Supplier<int[]> supplier, int expected1, int expected2) {
-        int[] actual = supplier.get();
+    static void test2(final Supplier<int[]> supplier, final int expected1, final int expected2) {
+        final int[] actual = supplier.get();
         if (actual[0] != expected1 || actual[1] != expected2) {
             throw new AssertionError(String.format("(%s, %s) != (%s, %s)", actual[0], actual[1],
                     expected1, expected2));

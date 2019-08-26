@@ -15,7 +15,7 @@ public class NioExample {
 
     static AtomicBoolean loop = new AtomicBoolean(true);
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
         try (final Selector sel = Selector.open();
                 ServerSocketChannel ssc = ServerSocketChannel.open()) {
             ssc.configureBlocking(false);
@@ -30,7 +30,7 @@ public class NioExample {
                 public void run() {
                     try {
                         System.in.read();
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         e.printStackTrace();
                     }
                     loop.set(false);
@@ -39,13 +39,13 @@ public class NioExample {
             }).start();
             while (loop.get()) {
                 System.out.printf("count: %d%n", ++counter);
-                int select = sel.select(10000);
+                final int select = sel.select(10000);
                 if (select > -1) {
-                    for (Iterator<SelectionKey> it = sel.selectedKeys()
+                    for (final Iterator<SelectionKey> it = sel.selectedKeys()
                             .iterator(); it.hasNext();) {
-                        SelectionKey key = it.next();
+                        final SelectionKey key = it.next();
                         it.remove();
-                        Handler h = (Handler) key.attachment();
+                        final Handler h = (Handler) key.attachment();
                         h.handle(key);
                     }
                 }
@@ -62,10 +62,10 @@ public class NioExample {
     static class AcceptHandler implements Handler {
 
         @Override
-        public void handle(SelectionKey key) throws IOException {
-            ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
+        public void handle(final SelectionKey key) throws IOException {
+            final ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
             System.out.printf("accept: %s%n", ssc);
-            SocketChannel sc = ssc.accept();
+            final SocketChannel sc = ssc.accept();
             sc.configureBlocking(false);
             sc.register(key.selector(), SelectionKey.OP_READ, new IOHandler());
         }
@@ -76,12 +76,12 @@ public class NioExample {
         Queue<ByteBuffer> bs = new LinkedList<>();
 
         @Override
-        public void handle(SelectionKey key) throws IOException {
-            SocketChannel sc = (SocketChannel) key.channel();
+        public void handle(final SelectionKey key) throws IOException {
+            final SocketChannel sc = (SocketChannel) key.channel();
             int i = -1;
             if (key.isReadable()) {
                 System.out.printf("read: %s%n", sc);
-                ByteBuffer b = ByteBuffer.allocate(5);
+                final ByteBuffer b = ByteBuffer.allocate(5);
                 i = sc.read(b);
                 if (i > -1) {
                     b.flip();

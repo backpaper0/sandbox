@@ -13,13 +13,13 @@ public class CsvLexer {
     private final char separator;
     private char c;
 
-    public CsvLexer(Reader in, char separator) throws IOException {
+    public CsvLexer(final Reader in, final char separator) throws IOException {
         this.separator = separator;
         this.in = Objects.requireNonNull(in);
         consume();
     }
 
-    public CsvLexer(Reader in) throws IOException {
+    public CsvLexer(final Reader in) throws IOException {
         this(in, ',');
     }
 
@@ -42,7 +42,7 @@ public class CsvLexer {
             return CsvToken.LINE_BREAK;
 
         } else if (c == '"') {
-            StringBuilder buf = new StringBuilder();
+            final StringBuilder buf = new StringBuilder();
             while (true) {
                 consume();
                 if (c == '"') {
@@ -56,7 +56,7 @@ public class CsvLexer {
             return CsvToken.field(buf.toString());
         }
 
-        StringBuilder buf = new StringBuilder();
+        final StringBuilder buf = new StringBuilder();
         do {
             buf.append(c);
             consume();

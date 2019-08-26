@@ -14,7 +14,7 @@ public class CsvParser {
     private final CsvLexer lexer;
     private CsvToken token;
 
-    public CsvParser(CsvLexer lexer) throws IOException {
+    public CsvParser(final CsvLexer lexer) throws IOException {
         this.lexer = Objects.requireNonNull(lexer);
         consume();
     }
@@ -27,7 +27,7 @@ public class CsvParser {
         if (token.isEof()) {
             return Optional.empty();
         }
-        List<String> fields = new ArrayList<>();
+        final List<String> fields = new ArrayList<>();
         if (token.isLineBreak()) {
             consume();
             return Optional.of(fields);

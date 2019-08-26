@@ -13,7 +13,7 @@ public final class Base64 {
         throw new UnsupportedOperationException();
     }
 
-    public static void encode(InputStream in, Writer out) throws IOException {
+    public static void encode(final InputStream in, final Writer out) throws IOException {
         int read;
         int index;
         int written = 0;
@@ -58,7 +58,7 @@ public final class Base64 {
         }
     }
 
-    public static void decode(Reader in, OutputStream out) throws IOException {
+    public static void decode(final Reader in, final OutputStream out) throws IOException {
         int read;
         int index;
         int b;
@@ -98,7 +98,7 @@ public final class Base64 {
         while (-1 != in.read());
     }
 
-    private static int toIndex(int c) {
+    private static int toIndex(final int c) {
         if (c == '+') {
             return 62;
         } else if (c == '/') {

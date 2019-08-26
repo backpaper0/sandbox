@@ -8,10 +8,10 @@ import java.util.stream.StreamSupport;
 
 public class SpliteratorStudy {
 
-    public static void main(String[] args) {
-        Stream<Integer> stream = StreamSupport.stream(new CountSpliterator(),
+    public static void main(final String[] args) {
+        final Stream<Integer> stream = StreamSupport.stream(new CountSpliterator(),
                 true);
-        String s = stream.parallel().limit(100).map(Object::toString)
+        final String s = stream.parallel().limit(100).map(Object::toString)
                 .collect(Collectors.joining(","));
         System.out.println(s);
     }
@@ -25,7 +25,7 @@ public class SpliteratorStudy {
             this(new AtomicInteger(0), false);
         }
 
-        public CountSpliterator(AtomicInteger counter, boolean splitted) {
+        public CountSpliterator(final AtomicInteger counter, final boolean splitted) {
             super(Long.MAX_VALUE, Spliterator.CONCURRENT | Spliterator.DISTINCT
                     | Spliterator.NONNULL);
             this.counter = counter;
@@ -33,7 +33,7 @@ public class SpliteratorStudy {
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super Integer> action) {
+        public boolean tryAdvance(final Consumer<? super Integer> action) {
             action.accept(counter.getAndIncrement());
             return true;
         }

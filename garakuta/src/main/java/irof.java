@@ -29,7 +29,7 @@ public class irof implements Runnable, Cloneable {
     //EDTからしかアクセスしない
     private static final ArrayList<JFrame> いろふ族 = new ArrayList<>();
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
         アイコンのデータ = decodeBase64(BASE64でエンコードしたアイコンのデータ);
 
         マスターいろふ = new irof();
@@ -58,15 +58,15 @@ public class irof implements Runnable, Cloneable {
 
     //EDT
     private void 増えろふ() {
-        irof 新しいろふ = clone();
-        long delay = 気まぐれ.nextInt(3);
-        TimeUnit unit = TimeUnit.SECONDS;
+        final irof 新しいろふ = clone();
+        final long delay = 気まぐれ.nextInt(3);
+        final TimeUnit unit = TimeUnit.SECONDS;
         増やすよ.schedule(新しいろふ, delay, unit);
     }
 
     //EDT
     private void 表示しろふ() {
-        JLabel ラベろふ = new JLabel(new ImageIcon(アイコンのデータ));
+        final JLabel ラベろふ = new JLabel(new ImageIcon(アイコンのデータ));
         final JFrame いろフレーム = new JFrame();
         if (this != マスターいろふ) {
             いろふ族.add(いろフレーム);
@@ -76,7 +76,7 @@ public class irof implements Runnable, Cloneable {
         いろフレーム.addWindowListener(new WindowAdapter() {
 
             @Override
-            public void windowClosed(WindowEvent e) {
+            public void windowClosed(final WindowEvent e) {
                 if (irof.this == マスターいろふ) {
                     終わろふ();
                 } else {
@@ -85,14 +85,14 @@ public class irof implements Runnable, Cloneable {
             }
         });
         いろフレーム.pack();
-        Rectangle ディスプレイのサイズ的な何か =
+        final Rectangle ディスプレイのサイズ的な何か =
             GraphicsEnvironment
                 .getLocalGraphicsEnvironment()
                 .getDefaultScreenDevice()
                 .getDefaultConfiguration()
                 .getBounds();
-        int x = 気まぐれ.nextInt(ディスプレイのサイズ的な何か.width);
-        int y = 気まぐれ.nextInt(ディスプレイのサイズ的な何か.height);
+        final int x = 気まぐれ.nextInt(ディスプレイのサイズ的な何か.width);
+        final int y = 気まぐれ.nextInt(ディスプレイのサイズ的な何か.height);
         いろフレーム.setLocation(x, y);
         いろフレーム.setVisible(true);
     }
@@ -102,7 +102,7 @@ public class irof implements Runnable, Cloneable {
         try {
             return (irof) super.clone();
 
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             //例外が起きたらおかしい
             throw new Error(e);
         }
@@ -110,20 +110,20 @@ public class irof implements Runnable, Cloneable {
 
     //EDT
     protected void 終わろふ() {
-        for (JFrame いろフレーム : いろふ族) {
+        for (final JFrame いろフレーム : いろふ族) {
             いろフレーム.dispose();
         }
         いろふ族.clear();
         増やすよ.shutdownNow();
     }
 
-    private static byte[] decodeBase64(String text) {
-        char[] cs = text.toCharArray();
-        int q = cs.length / 4;
-        byte[] bs = new byte[q * 3];
+    private static byte[] decodeBase64(final String text) {
+        final char[] cs = text.toCharArray();
+        final int q = cs.length / 4;
+        final byte[] bs = new byte[q * 3];
         int index = 0;
         for (int i = 0; i < q; i++) {
-            int a =
+            final int a =
                 indexOf(cs[i * 4]) << 18
                     | indexOf(cs[i * 4 + 1]) << 12
                     | indexOf(cs[i * 4 + 2]) << 6
@@ -137,7 +137,7 @@ public class irof implements Runnable, Cloneable {
         return Arrays.copyOf(bs, index + 1);
     }
 
-    private static int indexOf(char c) {
+    private static int indexOf(final char c) {
         if (c == '+') {
             return 62;
         } else if (c == '/') {

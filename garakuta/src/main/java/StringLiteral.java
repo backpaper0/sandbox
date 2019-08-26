@@ -19,7 +19,7 @@ public class StringLiteral {
         public static String literal = "Hello";
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
         MyClassLoader loader = new MyClassLoader();
         Class<?> clazz = Class.forName("StringLiteral$B", false, loader);
@@ -32,7 +32,7 @@ public class StringLiteral {
         field = null;
 
         //空きメモリが増えなくなるなるまでGCしまくる
-        LongSupplier f = () -> Runtime.getRuntime().freeMemory();
+        final LongSupplier f = () -> Runtime.getRuntime().freeMemory();
         long freeMemory = f.getAsLong();
         do {
             System.gc();
@@ -45,27 +45,27 @@ public class StringLiteral {
     public static class MyClassLoader extends ClassLoader {
 
         @Override
-        protected Class<?> loadClass(String name, boolean resolve)
+        protected Class<?> loadClass(final String name, final boolean resolve)
                 throws ClassNotFoundException {
             if (name.equals("StringLiteral$B") == false) {
                 return super.loadClass(name, resolve);
             }
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            final ByteArrayOutputStream out = new ByteArrayOutputStream();
             try {
-                URL url = getResource(name.replace('.', '/') + ".class");
-                URLConnection conn = url.openConnection();
+                final URL url = getResource(name.replace('.', '/') + ".class");
+                final URLConnection conn = url.openConnection();
                 try (InputStream in = url.openStream()) {
-                    byte[] b = new byte[conn.getContentLength()];
+                    final byte[] b = new byte[conn.getContentLength()];
                     int i;
                     while (-1 != (i = in.read(b))) {
                         out.write(b, 0, i);
                     }
                 }
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new UncheckedIOException(e);
             }
-            byte[] b = out.toByteArray();
-            Class<?> c = defineClass(name, b, 0, b.length);
+            final byte[] b = out.toByteArray();
+            final Class<?> c = defineClass(name, b, 0, b.length);
             if (resolve) {
                 resolveClass(c);
             }

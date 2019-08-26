@@ -6,14 +6,14 @@ public class NullPo {
 
     @Test(expected = NullPointerException.class)
     public void testFor() throws Exception {
-        int[] xs = null;
-        for (int x : xs) {
+        final int[] xs = null;
+        for (final int x : xs) {
         }
     }
 
     @Test(expected = NullPointerException.class)
     public void testSwitch() throws Exception {
-        String x = null;
+        final String x = null;
         switch (x) {
         }
     }
@@ -26,19 +26,19 @@ public class NullPo {
 
     @Test(expected = NullPointerException.class)
     public void testUnboxing() throws Exception {
-        Integer x = null;
-        int y = x;
+        final Integer x = null;
+        final int y = x;
     }
 
     @Test(expected = NullPointerException.class)
     public void testThrow() throws Exception {
-        UnsupportedOperationException e = null;
+        final UnsupportedOperationException e = null;
         throw e;
     }
 
     @Test
     public void testStaticMethod() throws Exception {
-        Hoge x = null;
+        final Hoge x = null;
         x.foobar();
     }
 
@@ -51,7 +51,7 @@ public class NullPo {
 
         final String x;
 
-        public Hoge(Consumer<Hoge> c) {
+        public Hoge(final Consumer<Hoge> c) {
             c.accept(this);
             this.x = "hoge";
         }

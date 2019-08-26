@@ -3,7 +3,7 @@ import java.util.function.Function;
 
 public class MonaMona {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         System.out.println(Maybe.just(100).fmap(a -> a * 2));
         System.out.println(Maybe.<Integer> nothing().fmap(a -> a * 2));
 
@@ -19,11 +19,11 @@ public class MonaMona {
 
         List<A> tail();
 
-        static <A> List<A> of(A... values) {
+        static <A> List<A> of(final A... values) {
             return of((List<A>) Nil.INSTANCE, values.length - 1, values);
         }
 
-        static <A> List<A> of(List<A> as, int index, A... values) {
+        static <A> List<A> of(final List<A> as, final int index, final A... values) {
             return index < 0 ? as
                     : of(new Cons<>(values[index], as), index - 1, values);
         }
@@ -33,13 +33,13 @@ public class MonaMona {
         private final A head;
         private final List<A> tail;
 
-        public Cons(A head, List<A> tail) {
+        public Cons(final A head, final List<A> tail) {
             this.head = head;
             this.tail = tail;
         }
 
         @Override
-        public <B> List<B> fmap(Function<A, B> f) {
+        public <B> List<B> fmap(final Function<A, B> f) {
             return new Cons<>(f.apply(head), tail.fmap(f));
         }
 
@@ -62,7 +62,7 @@ public class MonaMona {
     enum Nil implements List<Object> {
         INSTANCE;
         @Override
-        public <B> List<B> fmap(Function<Object, B> f) {
+        public <B> List<B> fmap(final Function<Object, B> f) {
             return (List<B>) this;
         }
 
@@ -83,7 +83,7 @@ public class MonaMona {
     }
 
     interface Maybe<A> extends Functor<A, Maybe<?>> {
-        static <A> Maybe<A> just(A value) {
+        static <A> Maybe<A> just(final A value) {
             return new Just<>(value);
         }
 
@@ -96,12 +96,12 @@ public class MonaMona {
 
         private final A value;
 
-        public Just(A value) {
+        public Just(final A value) {
             this.value = Objects.requireNonNull(value);
         }
 
         @Override
-        public <B> Maybe<B> fmap(Function<A, B> f) {
+        public <B> Maybe<B> fmap(final Function<A, B> f) {
             return new Just<>(f.apply(value));
         }
 
@@ -114,7 +114,7 @@ public class MonaMona {
     enum Nothing implements Maybe<Object> {
         INSTANCE;
         @Override
-        public <B> Maybe<B> fmap(Function<Object, B> f) {
+        public <B> Maybe<B> fmap(final Function<Object, B> f) {
             return (Maybe<B>) this;
         }
 

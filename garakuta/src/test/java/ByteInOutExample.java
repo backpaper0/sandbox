@@ -9,7 +9,7 @@ public class ByteInOutExample {
     public void testInt() throws Exception {
         final long value1 = 1234567890987654321L;
 
-        byte[] bs = new byte[8];
+        final byte[] bs = new byte[8];
         bs[0] = (byte) ((value1 >>> 56) & 0xff);
         bs[1] = (byte) ((value1 >>> 48) & 0xff);
         bs[2] = (byte) ((value1 >>> 40) & 0xff);

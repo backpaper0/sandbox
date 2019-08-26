@@ -16,20 +16,20 @@ import java.util.stream.Stream;
 
 public class ClassScanner {
 
-    public static void main(String[] args) {
-        ClassScanner cs = new ClassScanner();
-        Set<Class<?>> classes = cs.scanClasses(cs.getClass().getClassLoader());
+    public static void main(final String[] args) {
+        final ClassScanner cs = new ClassScanner();
+        final Set<Class<?>> classes = cs.scanClasses(cs.getClass().getClassLoader());
         classes.forEach(System.out::println);
     }
 
-    public Set<Class<?>> scanClasses(ClassLoader cl) {
-        Set<Class<?>> classes = new HashSet<>();
+    public Set<Class<?>> scanClasses(final ClassLoader cl) {
+        final Set<Class<?>> classes = new HashSet<>();
         try {
-            Enumeration<URL> resources = cl.getResources("");
+            final Enumeration<URL> resources = cl.getResources("");
             while (resources.hasMoreElements()) {
-                URL resource = resources.nextElement();
-                Path root = Paths.get(resource.toURI());
-                Set<Class<?>> cs = scanClasses(cl, root);
+                final URL resource = resources.nextElement();
+                final Path root = Paths.get(resource.toURI());
+                final Set<Class<?>> cs = scanClasses(cl, root);
                 classes.addAll(cs);
             }
         } catch (IOException | URISyntaxException e) {
@@ -38,31 +38,31 @@ public class ClassScanner {
         return classes;
     }
 
-    protected Set<Class<?>> scanClasses(ClassLoader cl, Path root) {
+    protected Set<Class<?>> scanClasses(final ClassLoader cl, final Path root) {
 
-        Predicate<Path> isRegularFile = Files::isRegularFile;
-        Predicate<Path> isClassFile = a -> a.getFileName().toString().endsWith(".class");
-        Predicate<Path> predicate = isRegularFile.and(isClassFile);
+        final Predicate<Path> isRegularFile = Files::isRegularFile;
+        final Predicate<Path> isClassFile = a -> a.getFileName().toString().endsWith(".class");
+        final Predicate<Path> predicate = isRegularFile.and(isClassFile);
 
-        Function<Path, String> toString = Path::toString;
-        UnaryOperator<String> toClassName = a -> a.replace('/', '.').substring(0,
+        final Function<Path, String> toString = Path::toString;
+        final UnaryOperator<String> toClassName = a -> a.replace('/', '.').substring(0,
                 a.length() - ".class".length());
-        Function<String, Optional<Class<?>>> loadClass = a -> {
+        final Function<String, Optional<Class<?>>> loadClass = a -> {
             try {
                 return Optional.of(cl.loadClass(a));
             } catch (ClassNotFoundException | NoClassDefFoundError e) {
                 return Optional.empty();
             }
         };
-        Function<Optional<Class<?>>, Stream<? extends Class<?>>> unwrap = a -> a.map(Stream::of)
+        final Function<Optional<Class<?>>, Stream<? extends Class<?>>> unwrap = a -> a.map(Stream::of)
                 .orElseGet(Stream::empty);
-        Function<Path, Stream<? extends Class<?>>> mapper = toString.andThen(toClassName)
+        final Function<Path, Stream<? extends Class<?>>> mapper = toString.andThen(toClassName)
                 .andThen(loadClass).andThen(unwrap);
 
         try {
             return Files.walk(root).filter(predicate).map(root::relativize).flatMap(mapper)
                     .collect(Collectors.toSet());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }

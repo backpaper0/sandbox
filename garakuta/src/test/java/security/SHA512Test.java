@@ -12,9 +12,9 @@ public class SHA512Test {
 
     @Test
     public void test_hash_one_block_message() throws Exception {
-        byte[] src = "abc".getBytes();
-        byte[] actual = SHA512.hash(src);
-        byte[] expected =
+        final byte[] src = "abc".getBytes();
+        final byte[] actual = SHA512.hash(src);
+        final byte[] expected =
             bytes(
                 0xddaf35a193617abaL,
                 0xcc417349ae204131L,
@@ -29,11 +29,11 @@ public class SHA512Test {
 
     @Test
     public void test_hash_multi_block_message() throws Exception {
-        byte[] src =
+        final byte[] src =
             "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu"
                 .getBytes();
-        byte[] actual = SHA512.hash(src);
-        byte[] expected =
+        final byte[] actual = SHA512.hash(src);
+        final byte[] expected =
             bytes(
                 0x8e959b75dae313daL,
                 0x8cf4f72814fc143fL,
@@ -48,10 +48,10 @@ public class SHA512Test {
 
     @Test
     public void test_hash_long_message() throws Exception {
-        byte[] src = new byte[1_000_000];
+        final byte[] src = new byte[1_000_000];
         Arrays.fill(src, (byte) 'a');
-        byte[] actual = SHA512.hash(src);
-        byte[] expected =
+        final byte[] actual = SHA512.hash(src);
+        final byte[] expected =
             bytes(
                 0xe718483d0ce76964L,
                 0x4e2e42c7bc15b463L,
@@ -64,9 +64,9 @@ public class SHA512Test {
         assertThat(actual, is(expected));
     }
 
-    private static byte[] bytes(long... ls) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        for (long l : ls) {
+    private static byte[] bytes(final long... ls) {
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        for (final long l : ls) {
             for (long j = 0L; j < 8L; j++) {
                 out.write((int) ((l >>> (56L - j * 8L)) & 0xffL));
             }

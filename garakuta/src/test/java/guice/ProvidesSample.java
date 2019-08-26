@@ -17,7 +17,7 @@ public class ProvidesSample {
 
     @Test
     public void test() throws Exception {
-        Injector injector = Guice.createInjector(new AbstractModule() {
+        final Injector injector = Guice.createInjector(new AbstractModule() {
 
             @Override
             protected void configure() {
@@ -35,21 +35,21 @@ public class ProvidesSample {
             }
 
             @Provides
-            Baz baz(Foo foo, Bar bar) {
+            Baz baz(final Foo foo, final Bar bar) {
                 return new Baz(foo, bar);
             }
         });
 
         assertThat(injector.getInstance(Foo.class)).isSameAs(injector.getInstance(Foo.class));
         assertThat(injector.getInstance(Bar.class)).isNotSameAs(injector.getInstance(Bar.class));
-        Baz baz = injector.getInstance(Baz.class);
+        final Baz baz = injector.getInstance(Baz.class);
         assertThat(baz.foo).isSameAs(injector.getInstance(Foo.class));
         assertThat(baz.bar).isNotSameAs(injector.getInstance(Bar.class));
     }
 
     @Test
     public void testNamed() throws Exception {
-        Injector injector = Guice.createInjector(new AbstractModule() {
+        final Injector injector = Guice.createInjector(new AbstractModule() {
 
             @Override
             protected void configure() {
@@ -67,7 +67,7 @@ public class ProvidesSample {
                 return new Foo("foo2");
             }
         });
-        Qux qux = injector.getInstance(Qux.class);
+        final Qux qux = injector.getInstance(Qux.class);
         assertThat(qux.foo1.value).isEqualTo("foo1");
         assertThat(qux.foo2.value).isEqualTo("foo2");
     }
@@ -79,7 +79,7 @@ public class ProvidesSample {
             this("foo");
         }
 
-        public Foo(String value) {
+        public Foo(final String value) {
             this.value = value;
         }
     }
@@ -92,7 +92,7 @@ public class ProvidesSample {
         public final Foo foo;
         public final Bar bar;
 
-        public Baz(Foo foo, Bar bar) {
+        public Baz(final Foo foo, final Bar bar) {
             this.foo = foo;
             this.bar = bar;
         }

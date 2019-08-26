@@ -14,21 +14,21 @@ public class DiceTest {
     private final String expected;
     private final Dice dice = new Dice();
 
-    public DiceTest(int disuse, String src, String expected) {
+    public DiceTest(final int disuse, final String src, final String expected) {
         this.src = src;
         this.expected = expected;
     }
 
     @Test
     public void test() throws Exception {
-        String actual = dice.solve(src);
+        final String actual = dice.solve(src);
         assertThat(actual, is(expected));
     }
 
     @Parameters(name = "{0}: {1} -> {2}")
     public static Collection<Object[]> parameters() {
-        Collection<Object[]> ps = new ArrayList<>();
-        BiConsumer<String, String> fn = (src, expected) -> ps.add(new Object[] {
+        final Collection<Object[]> ps = new ArrayList<>();
+        final BiConsumer<String, String> fn = (src, expected) -> ps.add(new Object[] {
                 ps.size(), src, expected });
         /*0*/fn.accept("NNESWWS", "15635624");
         /*1*/fn.accept("EEEE", "13641");

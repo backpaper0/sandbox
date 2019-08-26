@@ -2,17 +2,17 @@ import java.util.Arrays;
 
 public class Sha1 {
 
-    public static byte[] hash(byte[] src) {
-        byte[] bs = padding(src);
+    public static byte[] hash(final byte[] src) {
+        final byte[] bs = padding(src);
 
-        int[] hash = { 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476,
+        final int[] hash = { 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476,
                 0xc3d2e1f0 };
 
         for (int i = 0; i < bs.length / 64; i++) {
 
-            int[] w = new int[80];
+            final int[] w = new int[80];
             for (int t = 0; t < 16; t++) {
-                int base = i * 64 + t * 4;
+                final int base = i * 64 + t * 4;
                 w[t] = ((bs[base] & 0xff) << 24)
                         | ((bs[base + 1] & 0xff) << 16)
                         | ((bs[base + 2] & 0xff) << 8) | (bs[base + 3] & 0xff);
@@ -28,7 +28,7 @@ public class Sha1 {
             int e = hash[4];
 
             for (int t = 0; t < 80; t++) {
-                int temp = rotl(5, a) + f(t, b, c, d) + e + k(t) + w[t];
+                final int temp = rotl(5, a) + f(t, b, c, d) + e + k(t) + w[t];
                 e = d;
                 d = c;
                 c = rotl(30, b);
@@ -43,9 +43,9 @@ public class Sha1 {
             hash[4] = e + hash[4];
         }
 
-        byte[] dest = new byte[20];
+        final byte[] dest = new byte[20];
         for (int i = 0; i < 5; i++) {
-            int base = i * 4;
+            final int base = i * 4;
             dest[base] = (byte) (hash[i] >> 24);
             dest[base + 1] = (byte) (hash[i] >> 16);
             dest[base + 2] = (byte) (hash[i] >> 8);
@@ -54,12 +54,12 @@ public class Sha1 {
         return dest;
     }
 
-    private static byte[] padding(byte[] src) {
+    private static byte[] padding(final byte[] src) {
         int padLength = 64 - (src.length % 64);
         if (padLength < 9) {
             padLength += 64;
         }
-        byte[] bs = Arrays.copyOf(src, src.length + padLength);
+        final byte[] bs = Arrays.copyOf(src, src.length + padLength);
         bs[src.length] = (byte) 0x80;
         bs[bs.length - 4] = (byte) (src.length * 8 >> 24);
         bs[bs.length - 3] = (byte) (src.length * 8 >> 16);
@@ -68,11 +68,11 @@ public class Sha1 {
         return bs;
     }
 
-    private static int rotl(int n, int x) {
+    private static int rotl(final int n, final int x) {
         return (x << n) | (x >>> (32 - n));
     }
 
-    private static int f(int t, int x, int y, int z) {
+    private static int f(final int t, final int x, final int y, final int z) {
         if (t < 20) {
             return (x & y) ^ (~x & z);
         } else if (t < 40) {
@@ -83,7 +83,7 @@ public class Sha1 {
         return x ^ y ^ z;
     }
 
-    private static int k(int t) {
+    private static int k(final int t) {
         if (t < 20) {
             return 0x5a827999;
         } else if (t < 40) {

@@ -12,9 +12,9 @@ import java.util.Optional;
  */
 public class GetLastStatusSample3 {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
-        List<Event> events = new ArrayList<>();
+        final List<Event> events = new ArrayList<>();
         events.add(createStatusEvent(LocalDateTime.of(2015, 8, 11, 17, 27, 00),
                 Status.TODO));
         events.add(createOtherEvent(LocalDateTime.of(2015, 8, 11, 17, 28, 00)));
@@ -24,21 +24,21 @@ public class GetLastStatusSample3 {
         events.add(createStatusEvent(LocalDateTime.of(2015, 8, 11, 17, 31, 00),
                 Status.DONE));
 
-        Todo todo = new Todo();
+        final Todo todo = new Todo();
         todo.events = events;
 
         System.out.println(todo.isDone());
     }
 
-    static StatusEvent createStatusEvent(LocalDateTime timestamp, Status status) {
-        StatusEvent event = new StatusEvent();
+    static StatusEvent createStatusEvent(final LocalDateTime timestamp, final Status status) {
+        final StatusEvent event = new StatusEvent();
         event.timestamp = timestamp;
         event.status = status;
         return event;
     }
 
-    static OtherEvent createOtherEvent(LocalDateTime timestamp) {
-        OtherEvent event = new OtherEvent();
+    static OtherEvent createOtherEvent(final LocalDateTime timestamp) {
+        final OtherEvent event = new OtherEvent();
         event.timestamp = timestamp;
         return event;
     }
@@ -47,7 +47,7 @@ public class GetLastStatusSample3 {
         List<Event> events;
 
         boolean isDone() {
-            Comparator<Event> comparator = Comparator
+            final Comparator<Event> comparator = Comparator
                     .comparing(event -> event.timestamp);
             return events.stream().sorted(comparator.reversed())
                     .map(event -> event.tryToStatusEvent())

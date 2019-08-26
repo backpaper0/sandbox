@@ -19,7 +19,7 @@ public class BlocksIterator implements Iterator<byte[]> {
 
     private final Length length;
 
-    public BlocksIterator(int blockSize, int suffixSize, InputStream in) {
+    public BlocksIterator(final int blockSize, final int suffixSize, final InputStream in) {
         this.blockSize = blockSize;
         this.suffixSize = suffixSize;
         this.in = in;
@@ -37,7 +37,7 @@ public class BlocksIterator implements Iterator<byte[]> {
             throw new NoSuchElementException();
         }
         try {
-            byte[] bs = new byte[blockSize];
+            final byte[] bs = new byte[blockSize];
             int i;
             int index = 0;
             while (-1 != (i = in.read())) {
@@ -56,7 +56,7 @@ public class BlocksIterator implements Iterator<byte[]> {
                 processedLastBlock = true;
             }
             return bs;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }

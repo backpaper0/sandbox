@@ -28,13 +28,13 @@ import misc.DelegateStream;
  */
 public class StreamZipExample {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
-        Stream<Integer> first = Stream.of(1, 2, 3, 4, 5);
+        final Stream<Integer> first = Stream.of(1, 2, 3, 4, 5);
 
-        Stream<String> second = Stream.of("foo", "bar", "baz");
+        final Stream<String> second = Stream.of("foo", "bar", "baz");
 
-        String result = zip(first, second)
+        final String result = zip(first, second)
                 //Pair.getFirstが奇数だけに絞る
                 .filter((f, s) -> f % 2 == 1)
                 //文字列にする
@@ -43,25 +43,25 @@ public class StreamZipExample {
         System.out.println(result);
     }
 
-    public static <T, U> ZippedStream<T, U> zip(Stream<T> first,
-            Stream<U> second) {
-        Iterator<T> it1 = Spliterators.iterator(first.spliterator());
-        Iterator<U> it2 = Spliterators.iterator(second.spliterator());
-        Spliterator<Pair<T, U>> spliterator = new AbstractSpliterator<>(
+    public static <T, U> ZippedStream<T, U> zip(final Stream<T> first,
+            final Stream<U> second) {
+        final Iterator<T> it1 = Spliterators.iterator(first.spliterator());
+        final Iterator<U> it2 = Spliterators.iterator(second.spliterator());
+        final Spliterator<Pair<T, U>> spliterator = new AbstractSpliterator<>(
                 Long.MAX_VALUE, 0) {
 
             @Override
-            public boolean tryAdvance(Consumer<? super Pair<T, U>> action) {
+            public boolean tryAdvance(final Consumer<? super Pair<T, U>> action) {
                 if (it1.hasNext() && it2.hasNext()) {
-                    T value1 = it1.next();
-                    U value2 = it2.next();
+                    final T value1 = it1.next();
+                    final U value2 = it2.next();
                     action.accept(new Pair<>(value1, value2));
                     return true;
                 }
                 return false;
             }
         };
-        Stream<Pair<T, U>> stream = StreamSupport.stream(spliterator, false);
+        final Stream<Pair<T, U>> stream = StreamSupport.stream(spliterator, false);
         return new ZippedStreamImpl<>(stream);
     }
 
@@ -69,7 +69,7 @@ public class StreamZipExample {
         private final T first;
         private final U second;
 
-        public Pair(T first, U second) {
+        public Pair(final T first, final U second) {
             this.first = first;
             this.second = second;
         }
@@ -96,24 +96,24 @@ public class StreamZipExample {
     private static class ZippedStreamImpl<T, U>
             extends DelegateStream<Pair<T, U>>implements ZippedStream<T, U> {
 
-        public ZippedStreamImpl(Stream<Pair<T, U>> stream) {
+        public ZippedStreamImpl(final Stream<Pair<T, U>> stream) {
             super(stream);
         }
 
         @Override
-        public <R> Stream<R> map(BiFunction<T, U, ? extends R> mapper) {
+        public <R> Stream<R> map(final BiFunction<T, U, ? extends R> mapper) {
             return stream.map(a -> mapper.apply(a.getFirst(), a.getSecond()));
         }
 
         @Override
         public <R> Stream<R> flatMap(
-                BiFunction<T, U, ? extends Stream<? extends R>> mapper) {
+                final BiFunction<T, U, ? extends Stream<? extends R>> mapper) {
             return stream
                     .flatMap(a -> mapper.apply(a.getFirst(), a.getSecond()));
         }
 
         @Override
-        public ZippedStream<T, U> filter(BiPredicate<T, U> predicate) {
+        public ZippedStream<T, U> filter(final BiPredicate<T, U> predicate) {
             return new ZippedStreamImpl<>(stream
                     .filter(a -> predicate.test(a.getFirst(), a.getSecond())));
         }

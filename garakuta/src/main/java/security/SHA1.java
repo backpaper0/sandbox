@@ -5,15 +5,15 @@ import java.io.InputStream;
 
 public class SHA1 {
 
-    public static byte[] hash(byte[] src) {
+    public static byte[] hash(final byte[] src) {
         return hash(new ByteArrayInputStream(src));
     }
 
-    public static byte[] hash(InputStream in) {
-        Blocks blocks = new Blocks(64, 8, in);
-        int[] hash = { 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0 };
-        for (byte[] bs : blocks) {
-            int[] w = new int[80];
+    public static byte[] hash(final InputStream in) {
+        final Blocks blocks = new Blocks(64, 8, in);
+        final int[] hash = { 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0 };
+        for (final byte[] bs : blocks) {
+            final int[] w = new int[80];
             for (int t = 0; t < 16; t++) {
                 w[t] =
                     ((bs[t * 4] & 0xff) << 24)
@@ -30,7 +30,7 @@ public class SHA1 {
             int d = hash[3];
             int e = hash[4];
             for (int t = 0; t < 80; t++) {
-                int temp = rotl(5, a) + f(t, b, c, d) + e + k(t) + w[t];
+                final int temp = rotl(5, a) + f(t, b, c, d) + e + k(t) + w[t];
                 e = d;
                 d = c;
                 c = rotl(30, b);
@@ -43,7 +43,7 @@ public class SHA1 {
             hash[3] = d + hash[3];
             hash[4] = e + hash[4];
         }
-        byte[] dest = new byte[20];
+        final byte[] dest = new byte[20];
         for (int i = 0; i < 5; i++) {
             dest[i * 4 + 0] = (byte) (hash[i] >>> 24);
             dest[i * 4 + 1] = (byte) (hash[i] >>> 16);
@@ -53,11 +53,11 @@ public class SHA1 {
         return dest;
     }
 
-    private static int rotl(int n, int x) {
+    private static int rotl(final int n, final int x) {
         return (x << n) | (x >>> (32 - n));
     }
 
-    private static int f(int t, int x, int y, int z) {
+    private static int f(final int t, final int x, final int y, final int z) {
         if (t < 20) {
             return (x & y) ^ (~x & z);
         } else if (t < 40) {
@@ -68,7 +68,7 @@ public class SHA1 {
         return x ^ y ^ z;
     }
 
-    private static int k(int t) {
+    private static int k(final int t) {
         if (t < 20) {
             return 0x5a827999;
         } else if (t < 40) {

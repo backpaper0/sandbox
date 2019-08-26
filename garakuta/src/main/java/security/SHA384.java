@@ -87,13 +87,13 @@ public class SHA384 {
         0x5fcb6fab3ad6faecL,
         0x6c44198c4a475817L };
 
-    public static byte[] hash(byte[] src) {
+    public static byte[] hash(final byte[] src) {
         return hash(new ByteArrayInputStream(src));
     }
 
-    public static byte[] hash(InputStream in) {
-        Blocks blocks = new Blocks(128, 16, in);
-        long[] hash =
+    public static byte[] hash(final InputStream in) {
+        final Blocks blocks = new Blocks(128, 16, in);
+        final long[] hash =
             {
                 0xcbbb9d5dc1059ed8L,
                 0x629a292a367cd507L,
@@ -103,8 +103,8 @@ public class SHA384 {
                 0x8eb44a8768581511L,
                 0xdb0c2e0d64f98fa7L,
                 0x47b5481dbefa4fa4L };
-        for (byte[] bs : blocks) {
-            long[] w = new long[80];
+        for (final byte[] bs : blocks) {
+            final long[] w = new long[80];
             for (int t = 0; t < 16; t++) {
                 w[t] =
                     ((bs[t * 8] & 0xffL) << 56L)
@@ -128,8 +128,8 @@ public class SHA384 {
             long g = hash[6];
             long h = hash[7];
             for (int t = 0; t < 80; t++) {
-                long temp1 = h + upperSigma1(e) + ch(e, f, g) + K[t] + w[t];
-                long temp2 = upperSigma0(a) + maj(a, b, c);
+                final long temp1 = h + upperSigma1(e) + ch(e, f, g) + K[t] + w[t];
+                final long temp2 = upperSigma0(a) + maj(a, b, c);
                 h = g;
                 g = f;
                 f = e;
@@ -148,7 +148,7 @@ public class SHA384 {
             hash[6] = g + hash[6];
             hash[7] = h + hash[7];
         }
-        byte[] dest = new byte[48];
+        final byte[] dest = new byte[48];
         for (int i = 0; i < 6; i++) {
             dest[i * 8 + 0] = (byte) (hash[i] >>> 56L);
             dest[i * 8 + 1] = (byte) (hash[i] >>> 48L);
@@ -162,31 +162,31 @@ public class SHA384 {
         return dest;
     }
 
-    private static long ch(long x, long y, long z) {
+    private static long ch(final long x, final long y, final long z) {
         return (x & y) ^ (~x & z);
     }
 
-    private static long maj(long x, long y, long z) {
+    private static long maj(final long x, final long y, final long z) {
         return (x & y) ^ (x & z) ^ (y & z);
     }
 
-    private static long rotr(long n, long x) {
+    private static long rotr(final long n, final long x) {
         return (x >>> n) | (x << (64L - n));
     }
 
-    private static long upperSigma0(long x) {
+    private static long upperSigma0(final long x) {
         return rotr(28L, x) ^ rotr(34L, x) ^ rotr(39L, x);
     }
 
-    private static long upperSigma1(long x) {
+    private static long upperSigma1(final long x) {
         return rotr(14L, x) ^ rotr(18L, x) ^ rotr(41L, x);
     }
 
-    private static long lowerSigma0(long x) {
+    private static long lowerSigma0(final long x) {
         return rotr(1L, x) ^ rotr(8L, x) ^ (x >>> 7L);
     }
 
-    private static long lowerSigma1(long x) {
+    private static long lowerSigma1(final long x) {
         return rotr(19L, x) ^ rotr(61L, x) ^ (x >>> 6L);
     }
 }

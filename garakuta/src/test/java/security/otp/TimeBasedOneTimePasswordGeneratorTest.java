@@ -19,24 +19,24 @@ public class TimeBasedOneTimePasswordGeneratorTest {
 
     @Test
     public void test() throws Exception {
-        TimeBasedOneTimePasswordGenerator generator = TimeBasedOneTimePasswordGenerator
+        final TimeBasedOneTimePasswordGenerator generator = TimeBasedOneTimePasswordGenerator
                 .builder()
                 .algorithm(fixture.algorithm)
                 .digit(fixture.digit)
                 .build();
 
-        int otp = generator.generate(fixture.key, fixture.unixTime);
+        final int otp = generator.generate(fixture.key, fixture.unixTime);
 
         assertEquals(fixture.expected, otp);
     }
 
     @Parameters
     public static List<Fixture> parameters() {
-        byte[] key1 = "12345678901234567890".getBytes();
-        byte[] key2 = "12345678901234567890123456789012".getBytes();
-        byte[] key3 = "1234567890123456789012345678901234567890123456789012345678901234".getBytes();
+        final byte[] key1 = "12345678901234567890".getBytes();
+        final byte[] key2 = "12345678901234567890123456789012".getBytes();
+        final byte[] key3 = "1234567890123456789012345678901234567890123456789012345678901234".getBytes();
 
-        List<Fixture> ps = new ArrayList<>();
+        final List<Fixture> ps = new ArrayList<>();
 
         ps.add(new Fixture("HmacSHA1", 8, key1, 59L, 94287082));
         ps.add(new Fixture("HmacSHA256", 8, key2, 59L, 46119246));
@@ -66,7 +66,7 @@ public class TimeBasedOneTimePasswordGeneratorTest {
         byte[] key;
         long unixTime;
         int expected;
-        public Fixture(String algorithm, int digit, byte[] key, long unixTime, int expected) {
+        public Fixture(final String algorithm, final int digit, final byte[] key, final long unixTime, final int expected) {
             this.algorithm = algorithm;
             this.digit = digit;
             this.key = key;

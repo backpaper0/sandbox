@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public class EnumStaticFactorySample {
 
-    public static void main(String[] args) {
-        Status status = Status.of(2);
+    public static void main(final String[] args) {
+        final Status status = Status.of(2);
         System.out.println(status);
     }
 
@@ -13,7 +13,7 @@ public class EnumStaticFactorySample {
         TODO(0), DOING(1), DONE(2);
         private final int value;
 
-        private Status(int value) {
+        private Status(final int value) {
             this.value = value;
         }
 
@@ -21,7 +21,7 @@ public class EnumStaticFactorySample {
             return value;
         }
 
-        public static Status of(int value) {
+        public static Status of(final int value) {
 
             //Java 7まではこんな感じで書いてた
             // for (Status status : values()) {

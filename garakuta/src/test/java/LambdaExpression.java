@@ -22,7 +22,7 @@ public class LambdaExpression {
 
         @Test
         public void example1() throws Exception {
-            Optional<Integer> dest = src.flatMap(Function.identity());
+            final Optional<Integer> dest = src.flatMap(Function.identity());
             assertThat(dest.isPresent(), is(true));
             assertThat(dest.get(), is(123));
         }
@@ -36,7 +36,7 @@ public class LambdaExpression {
 
         @Test
         public void example1() throws Exception {
-            List<Integer> dest = src
+            final List<Integer> dest = src
                     .stream()
                     .flatMap(
                             opt -> opt.map(Stream::of).orElseGet(Stream::empty))
@@ -46,7 +46,7 @@ public class LambdaExpression {
 
         @Test
         public void example2() throws Exception {
-            List<Integer> dest = src.stream().filter(Optional::isPresent)
+            final List<Integer> dest = src.stream().filter(Optional::isPresent)
                     .map(Optional::get).collect(Collectors.toList());
             assertThat(dest, is(Arrays.asList(1, 2, 3)));
         }

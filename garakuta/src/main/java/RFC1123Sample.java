@@ -10,19 +10,19 @@ import java.util.TimeZone;
 
 public class RFC1123Sample {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
-        OffsetDateTime dateTime = LocalDateTime.now()
+        final OffsetDateTime dateTime = LocalDateTime.now()
                 .atOffset(ZoneOffset.ofHours(9));
         System.out.println(dateTime);
 
         System.out.println(dateTime.withOffsetSameInstant(ZoneOffset.UTC)
                 .format(DateTimeFormatter.RFC_1123_DATE_TIME));
 
-        Date date = Timestamp.valueOf(dateTime.toLocalDateTime());
+        final Date date = Timestamp.valueOf(dateTime.toLocalDateTime());
         System.out.println(date);
 
-        SimpleDateFormat sdf = new SimpleDateFormat(
+        final SimpleDateFormat sdf = new SimpleDateFormat(
                 "EEE, d MMM yyyy HH:mm:ss zzz", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         System.out.println(sdf.format(date));

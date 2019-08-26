@@ -11,7 +11,7 @@ import java.util.function.BiConsumer;
 
 public class TypeExample {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         //Class
         //GenericArrayType
         //ParameterizedType
@@ -22,25 +22,25 @@ public class TypeExample {
 
     <T, U extends T> void example(
             //Class
-            String a,
+            final String a,
             //GenericArrayType
-            T[] b,
+            final T[] b,
             //ParameterizedType < TypeVariable >
-            List<T> c,
+            final List<T> c,
             //ParameterizedType < WildcardType >
-            List<?> d,
+            final List<?> d,
             //ParameterizedType < GenericArrayType >
-            List<T[]> e,
+            final List<T[]> e,
             //ParameterizedType < WildcardType >
-            List<? extends T> f,
+            final List<? extends T> f,
             //ParameterizedType < TypeVariable >
-            List<U> g) {
-        Method method = Arrays.stream(getClass().getDeclaredMethods())
+            final List<U> g) {
+        final Method method = Arrays.stream(getClass().getDeclaredMethods())
                 .filter(x -> x.getName().equals("example")).findAny().get();
 
-        Type[] pt = method.getGenericParameterTypes();
+        final Type[] pt = method.getGenericParameterTypes();
 
-        BiConsumer<Type, Class<?>> fn = (t, u) -> {
+        final BiConsumer<Type, Class<?>> fn = (t, u) -> {
             if (u.isAssignableFrom(t.getClass()) == false) {
                 throw new RuntimeException();
             }

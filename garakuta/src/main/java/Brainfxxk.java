@@ -4,7 +4,7 @@ import java.io.OutputStream;
 
 public class Brainfxxk {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         new Brainfxxk().evaluate(
                 "+++++++++[>++++++++>+++++++++++>+++++<<<-]>.>++.+++++++..+++.>-.------------.<++++++++.--------.+++.------.--------.>+.");
         System.out.println();
@@ -24,15 +24,15 @@ public class Brainfxxk {
         this(System.in, System.out);
     }
 
-    public Brainfxxk(InputStream in, OutputStream out) {
+    public Brainfxxk(final InputStream in, final OutputStream out) {
         this.in = in;
         this.out = out;
     }
 
-    public void evaluate(String source) throws IOException {
-        char[] cs = source.toCharArray();
+    public void evaluate(final String source) throws IOException {
+        final char[] cs = source.toCharArray();
         for (int i = 0; i < cs.length; i++) {
-            char c = cs[i];
+            final char c = cs[i];
             switch (c) {
             case '>':
                 p = Math.min(p + 1, tape.length - 1);
@@ -67,12 +67,12 @@ public class Brainfxxk {
         out.flush();
     }
 
-    private static int jumpRight(int index, char[] cs) {
+    private static int jumpRight(final int index, final char[] cs) {
         int i = index;
         int counter = 0;
         while (i < cs.length) {
             i++;
-            char c = cs[i];
+            final char c = cs[i];
             switch (c) {
             case '[':
                 counter++;
@@ -88,12 +88,12 @@ public class Brainfxxk {
         return i;
     }
 
-    private static int jumpLeft(int index, char[] cs) {
+    private static int jumpLeft(final int index, final char[] cs) {
         int i = index;
         int counter = 0;
         while (i >= 0) {
             i--;
-            char c = cs[i];
+            final char c = cs[i];
             switch (c) {
             case ']':
                 counter++;

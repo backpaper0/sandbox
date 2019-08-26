@@ -12,7 +12,7 @@ public final class TimeBasedOneTimePasswordGenerator {
     private final long x;
     private final long t0;
 
-    private TimeBasedOneTimePasswordGenerator(Builder builder) {
+    private TimeBasedOneTimePasswordGenerator(final Builder builder) {
         this.generator = HmacBasedOneTimePasswordGenerator
                 .builder()
                 .algorithm(builder.algorithm)
@@ -22,13 +22,13 @@ public final class TimeBasedOneTimePasswordGenerator {
         this.t0 = builder.t0;
     }
 
-    public int generate(byte[] key) {
+    public int generate(final byte[] key) {
         return generate(key, System.currentTimeMillis() / 1000L);
     }
 
-    public int generate(byte[] key, long unixTime) {
+    public int generate(final byte[] key, final long unixTime) {
         long t = (unixTime - t0) / x;
-        byte[] value = new byte[8];
+        final byte[] value = new byte[8];
         for (int i = value.length - 1; i >= 0; i--) {
             value[i] = (byte) (t & 0xffL);
             t >>= 8L;
@@ -47,19 +47,19 @@ public final class TimeBasedOneTimePasswordGenerator {
         private long t0 = 0;
         private Builder() {
         }
-        public Builder algorithm(String algorithm) {
+        public Builder algorithm(final String algorithm) {
             this.algorithm = algorithm;
             return this;
         }
-        public Builder digit(int digit) {
+        public Builder digit(final int digit) {
             this.digit = digit;
             return this;
         }
-        public Builder x(long x) {
+        public Builder x(final long x) {
             this.x = x;
             return this;
         }
-        public Builder t0(long t0) {
+        public Builder t0(final long t0) {
             this.t0 = t0;
             return this;
         }

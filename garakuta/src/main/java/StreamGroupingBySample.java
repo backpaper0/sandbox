@@ -4,12 +4,12 @@ import java.util.stream.Stream;
 
 public class StreamGroupingBySample {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
-        Stream<Hoge> stream = Stream.of(new Hoge("x", "a"), new Hoge("x", "b"), new Hoge("x", "c"),
+        final Stream<Hoge> stream = Stream.of(new Hoge("x", "a"), new Hoge("x", "b"), new Hoge("x", "c"),
                 new Hoge("y", "a"), new Hoge("y", "d"));
 
-        Map<String, String> map = stream.collect(Collectors.groupingBy(x -> x.foo,
+        final Map<String, String> map = stream.collect(Collectors.groupingBy(x -> x.foo,
                 Collectors.reducing("", x -> x.bar, String::concat)));
 
         System.out.println(map);
@@ -19,7 +19,7 @@ public class StreamGroupingBySample {
         String foo;
         String bar;
 
-        public Hoge(String foo, String bar) {
+        public Hoge(final String foo, final String bar) {
             this.foo = foo;
             this.bar = bar;
         }

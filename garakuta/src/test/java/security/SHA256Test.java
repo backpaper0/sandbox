@@ -12,9 +12,9 @@ public class SHA256Test {
 
     @Test
     public void test_hash_one_block_message() throws Exception {
-        byte[] src = "abc".getBytes();
-        byte[] actual = SHA256.hash(src);
-        byte[] expected =
+        final byte[] src = "abc".getBytes();
+        final byte[] actual = SHA256.hash(src);
+        final byte[] expected =
             bytes(
                 0xba7816bf,
                 0x8f01cfea,
@@ -29,9 +29,9 @@ public class SHA256Test {
 
     @Test
     public void test_hash_multi_block_message() throws Exception {
-        byte[] src = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq".getBytes();
-        byte[] actual = SHA256.hash(src);
-        byte[] expected =
+        final byte[] src = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq".getBytes();
+        final byte[] actual = SHA256.hash(src);
+        final byte[] expected =
             bytes(
                 0x248d6a61,
                 0xd20638b8,
@@ -46,10 +46,10 @@ public class SHA256Test {
 
     @Test
     public void test_hash_long_message() throws Exception {
-        byte[] src = new byte[1_000_000];
+        final byte[] src = new byte[1_000_000];
         Arrays.fill(src, (byte) 'a');
-        byte[] actual = SHA256.hash(src);
-        byte[] expected =
+        final byte[] actual = SHA256.hash(src);
+        final byte[] expected =
             bytes(
                 0xcdc76e5c,
                 0x9914fb92,
@@ -62,9 +62,9 @@ public class SHA256Test {
         assertThat(actual, is(expected));
     }
 
-    private static byte[] bytes(int... is) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        for (int i : is) {
+    private static byte[] bytes(final int... is) {
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        for (final int i : is) {
             for (int j = 0; j < 4; j++) {
                 out.write((i >>> (24 - j * 8)) & 0xff);
             }

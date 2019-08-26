@@ -14,28 +14,28 @@ public class ZipEntrySpliterator extends AbstractSpliterator<ZipEntry> {
 
     private final ZipInputStream in;
 
-    public ZipEntrySpliterator(ZipInputStream in) {
+    public ZipEntrySpliterator(final ZipInputStream in) {
         super(Long.MAX_VALUE, 0);
         this.in = in;
     }
 
     @Override
-    public boolean tryAdvance(Consumer<? super ZipEntry> action) {
+    public boolean tryAdvance(final Consumer<? super ZipEntry> action) {
         try {
-            ZipEntry entry = in.getNextEntry();
+            final ZipEntry entry = in.getNextEntry();
             if (entry == null) {
                 return false;
             }
             action.accept(entry);
             in.closeEntry();
             return true;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    public static Stream<ZipEntry> toStream(ZipInputStream in) {
-        Spliterator<ZipEntry> spliterator = new ZipEntrySpliterator(in);
+    public static Stream<ZipEntry> toStream(final ZipInputStream in) {
+        final Spliterator<ZipEntry> spliterator = new ZipEntrySpliterator(in);
         return StreamSupport.stream(spliterator, false);
     }
 }

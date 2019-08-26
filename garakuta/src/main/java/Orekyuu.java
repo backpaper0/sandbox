@@ -3,8 +3,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class Orekyuu extends Throwable {
 
-    public static void main(String[] args) throws Throwable {
-        Throwable orekyuu = new Orekyuu();
+    public static void main(final String[] args) throws Throwable {
+        final Throwable orekyuu = new Orekyuu();
         throw orekyuu;
     }
 

@@ -11,24 +11,24 @@ import java.util.stream.Stream;
 
 public class DepthFirstSearchGraph {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
-        Node<String> ns = new Node<>("s");
-        Node<String> n1 = new Node<>("1");
-        Node<String> n2 = new Node<>("2");
-        Node<String> n3 = new Node<>("3");
-        Node<String> n4 = new Node<>("4");
-        Node<String> n5 = new Node<>("5");
-        Node<String> n6 = new Node<>("6");
-        Node<String> n7 = new Node<>("7");
-        Node<String> n8 = new Node<>("8");
-        Node<String> n9 = new Node<>("9");
-        Node<String> n10 = new Node<>("10");
-        Node<String> n11 = new Node<>("11");
-        Node<String> n12 = new Node<>("12");
-        Node<String> n13 = new Node<>("13");
-        Node<String> n14 = new Node<>("14");
-        Node<String> nt = new Node<>("t");
+        final Node<String> ns = new Node<>("s");
+        final Node<String> n1 = new Node<>("1");
+        final Node<String> n2 = new Node<>("2");
+        final Node<String> n3 = new Node<>("3");
+        final Node<String> n4 = new Node<>("4");
+        final Node<String> n5 = new Node<>("5");
+        final Node<String> n6 = new Node<>("6");
+        final Node<String> n7 = new Node<>("7");
+        final Node<String> n8 = new Node<>("8");
+        final Node<String> n9 = new Node<>("9");
+        final Node<String> n10 = new Node<>("10");
+        final Node<String> n11 = new Node<>("11");
+        final Node<String> n12 = new Node<>("12");
+        final Node<String> n13 = new Node<>("13");
+        final Node<String> n14 = new Node<>("14");
+        final Node<String> nt = new Node<>("t");
 
         ns.addNeighbors(n1, n6, n8);
         n1.addNeighbors(ns, n2, n3);
@@ -47,7 +47,7 @@ public class DepthFirstSearchGraph {
         n14.addNeighbors(n8);
         nt.addNeighbors(n9);
 
-        Graph<String> g = new Graph<>();
+        final Graph<String> g = new Graph<>();
         g.add(ns);
         g.add(n1);
         g.add(n2);
@@ -73,21 +73,21 @@ public class DepthFirstSearchGraph {
     static class Graph<T> {
         final List<Node<T>> nodes = new ArrayList<>();
         int counter;
-        void add(Node<T> node) {
+        void add(final Node<T> node) {
             nodes.add(node);
         }
         void search() {
             visit(nodes.get(0));
-            for (Node<T> node : nodes) {
+            for (final Node<T> node : nodes) {
                 if (node.color == Color.WHITE) {
                     visit(node);
                 }
             }
         }
-        void visit(Node<T> node) {
+        void visit(final Node<T> node) {
             node.color = Color.GRAY;
             node.discovered = ++counter;
-            for (Node<T> neighbor : node.neighbors) {
+            for (final Node<T> neighbor : node.neighbors) {
                 if (neighbor.color == Color.WHITE) {
                     neighbor.pred = node;
                     visit(neighbor);
@@ -99,11 +99,11 @@ public class DepthFirstSearchGraph {
 
         @Override
         public String toString() {
-            Stream<String> s1 = Stream.<String> builder()
+            final Stream<String> s1 = Stream.<String> builder()
                     .add("node pred discovered finished")
                     .add("---- ---- ---------- --------")
                     .build();
-            Stream<String> s2 = nodes
+            final Stream<String> s2 = nodes
                     .stream()
                     .map(Objects::toString);
             return Stream.concat(s1, s2).collect(Collectors.joining(System.lineSeparator()));
@@ -117,11 +117,11 @@ public class DepthFirstSearchGraph {
         Node<T> pred;
         int discovered;
         int finished;
-        public Node(T value) {
+        public Node(final T value) {
             this.value = value;
         }
         @SafeVarargs
-        final void addNeighbors(Node<T>... neighbors) {
+        final void addNeighbors(final Node<T>... neighbors) {
             this.neighbors.addAll(Arrays.asList(neighbors));
         }
         @Override

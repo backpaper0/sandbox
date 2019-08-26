@@ -11,11 +11,11 @@ public class LengthTest {
 
     @Test
     public void setBytes() throws Exception {
-        Length len = new Length(8);
+        final Length len = new Length(8);
         len.iValue = 0b10110011100011110000111110000011;
-        byte[] bs = new byte[10];
+        final byte[] bs = new byte[10];
         len.writeTo(bs, 1);
-        byte[] expected =
+        final byte[] expected =
             {
                 0,
                 0,
@@ -32,7 +32,7 @@ public class LengthTest {
 
     @Test
     public void increment() throws Exception {
-        Length len = new Length(8);
+        final Length len = new Length(8);
         len.iValue = Integer.MAX_VALUE - 9;
 
         assertThat(len.iValue, is(Integer.MAX_VALUE - 9));

@@ -6,8 +6,8 @@ import javax.el.ELProcessor;
 
 public class ELLambdaCalculus {
 
-    public static void main(String[] args) {
-        ELProcessor p = new ELProcessor();
+    public static void main(final String[] args) {
+        final ELProcessor p = new ELProcessor();
 
         //ラムダ計算をEL式で表現するサンプル
         p.eval("ZERO    = f -> x -> x");
@@ -27,7 +27,7 @@ public class ELLambdaCalculus {
         assertEquals(p.eval("toInt(FIFTEEN)"), 15L);
     }
 
-    private static void assertEquals(Object a, Object b) {
+    private static void assertEquals(final Object a, final Object b) {
         if (Objects.equals(a, b) == false) {
             throw new AssertionError(String.format(
                     "%s(%s) is not equal to %s(%s)", a, a.getClass()

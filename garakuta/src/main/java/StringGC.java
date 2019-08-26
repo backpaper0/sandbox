@@ -18,7 +18,7 @@ public class StringGC {
 
     WeakReference<?> ref;
 
-    public StringGC(String name, Object instance, ReferenceQueue<Object> q) {
+    public StringGC(final String name, final Object instance, final ReferenceQueue<Object> q) {
         this.name = name;
         this.instance = instance;
 
@@ -42,11 +42,11 @@ public class StringGC {
                 ? "されたよ╭( ・ㅂ・)و ̑̑ ｸﾞｯ ! " : "されてないよ");
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
-        ReferenceQueue<Object> q = new ReferenceQueue<>();
+        final ReferenceQueue<Object> q = new ReferenceQueue<>();
 
-        List<StringGC> list = new ArrayList<>();
+        final List<StringGC> list = new ArrayList<>();
 
         list.add(new StringGC("リテラル", "aaa", q));
         list.add(new StringGC("newしたやつ", new String("bbb"), q));
@@ -74,7 +74,7 @@ public class StringGC {
         list.forEach(StringGC::removeReference);
 
         //空きメモリが増えなくなるなるまでGCしまくる
-        LongSupplier f = () -> Runtime.getRuntime().freeMemory();
+        final LongSupplier f = () -> Runtime.getRuntime().freeMemory();
         long freeMemory = f.getAsLong();
         do {
             System.gc();
@@ -93,24 +93,24 @@ public class StringGC {
     public static class MyClassLoader extends ClassLoader {
 
         @Override
-        protected Class<?> loadClass(String name, boolean resolve)
+        protected Class<?> loadClass(final String name, final boolean resolve)
                 throws ClassNotFoundException {
             if (name.equals(StringGC.class.getName() + "$Literal") == false) {
                 return super.loadClass(name, resolve);
             }
             try {
-                URL url = getResource(name.replace('.', '/') + ".class");
-                URLConnection conn = url.openConnection();
+                final URL url = getResource(name.replace('.', '/') + ".class");
+                final URLConnection conn = url.openConnection();
                 try (InputStream in = url.openStream()) {
-                    byte[] b = new byte[conn.getContentLength()];
+                    final byte[] b = new byte[conn.getContentLength()];
                     in.read(b);
-                    Class<?> c = defineClass(name, b, 0, b.length);
+                    final Class<?> c = defineClass(name, b, 0, b.length);
                     if (resolve) {
                         resolveClass(c);
                     }
                     return c;
                 }
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new UncheckedIOException(e);
             }
         }

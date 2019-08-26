@@ -27,16 +27,16 @@ import java.util.stream.StreamSupport;
  */
 public class StreamDropWhileExample {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
         //1,2,3,4,5...みたいな無限ストリームを用意する。
-        Stream<Integer> original = Stream.iterate(1, a -> a + 1);
+        final Stream<Integer> original = Stream.iterate(1, a -> a + 1);
 
         //先頭から6でない値を飛ばす
-        Stream<Integer> stream = dropWhile(original, a -> a != 6);
+        final Stream<Integer> stream = dropWhile(original, a -> a != 6);
 
         //5つ取り出してカンマ区切りの文字列にする
-        String result = stream.map(Objects::toString).limit(5)
+        final String result = stream.map(Objects::toString).limit(5)
                 .collect(joining(", "));
 
         System.out.println(result);
@@ -46,19 +46,19 @@ public class StreamDropWhileExample {
                 .map(Objects::toString).limit(5).collect(joining(", ")));
     }
 
-    public static <T> Stream<T> dropWhile(Stream<T> stream,
-            Predicate<T> predicate) {
+    public static <T> Stream<T> dropWhile(final Stream<T> stream,
+            final Predicate<T> predicate) {
         //predicate.testの結果付きの値にして
         //要らない分をfilterで取り除いて
         //元の値をmapで取り出す
-        ElementSpliterator<T> sp = new ElementSpliterator<>(stream, predicate);
+        final ElementSpliterator<T> sp = new ElementSpliterator<>(stream, predicate);
         return StreamSupport.stream(sp, false).filter(Element::isNecessary)
                 .map(Element::get);
     }
 
-    public static <T> Stream<T> takeWhile(Stream<T> stream,
-            Predicate<T> predicate) {
-        TakeWhileSpliterator<T> sp = new TakeWhileSpliterator<>(stream,
+    public static <T> Stream<T> takeWhile(final Stream<T> stream,
+            final Predicate<T> predicate) {
+        final TakeWhileSpliterator<T> sp = new TakeWhileSpliterator<>(stream,
                 predicate);
         return StreamSupport.stream(sp, false).filter(Element::isNecessary)
                 .map(Element::get);
@@ -68,7 +68,7 @@ public class StreamDropWhileExample {
         private final boolean necessary;
         private final T value;
 
-        public Element(boolean necessary, T value) {
+        public Element(final boolean necessary, final T value) {
             this.necessary = necessary;
             this.value = value;
         }
@@ -89,16 +89,16 @@ public class StreamDropWhileExample {
         private final Predicate<T> predicate;
         private boolean necessary;
 
-        public ElementSpliterator(Stream<T> stream, Predicate<T> predicate) {
+        public ElementSpliterator(final Stream<T> stream, final Predicate<T> predicate) {
             super(Long.MAX_VALUE, 0);
             this.iterator = Spliterators.iterator(stream.spliterator());
             this.predicate = predicate;
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super Element<T>> action) {
+        public boolean tryAdvance(final Consumer<? super Element<T>> action) {
             if (iterator.hasNext()) {
-                T value = iterator.next();
+                final T value = iterator.next();
                 necessary = necessary || (predicate.test(value) == false);
                 action.accept(new Element<>(necessary, value));
                 return true;
@@ -114,16 +114,16 @@ public class StreamDropWhileExample {
         private final Predicate<T> predicate;
         private boolean necessary;
 
-        public TakeWhileSpliterator(Stream<T> stream, Predicate<T> predicate) {
+        public TakeWhileSpliterator(final Stream<T> stream, final Predicate<T> predicate) {
             super(Long.MAX_VALUE, 0);
             this.iterator = Spliterators.iterator(stream.spliterator());
             this.predicate = predicate;
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super Element<T>> action) {
+        public boolean tryAdvance(final Consumer<? super Element<T>> action) {
             if (iterator.hasNext()) {
-                T value = iterator.next();
+                final T value = iterator.next();
                 necessary = necessary || predicate.test(value);
                 action.accept(new Element<>(necessary, value));
                 return true;

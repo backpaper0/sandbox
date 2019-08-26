@@ -7,11 +7,11 @@ public class Blocks implements Iterable<byte[]> {
 
     private final InputStream in;
 
-    private int blockSize;
+    private final int blockSize;
 
-    private int suffixSize;
+    private final int suffixSize;
 
-    public Blocks(int blockSize, int suffixSize, InputStream in) {
+    public Blocks(final int blockSize, final int suffixSize, final InputStream in) {
         this.blockSize = blockSize;
         this.suffixSize = suffixSize;
         this.in = in;

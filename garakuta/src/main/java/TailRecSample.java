@@ -8,38 +8,38 @@ import java.util.stream.Stream;
 
 public class TailRecSample {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         System.out.println(sum(1000000));
         System.out.println(fib(new BigInteger("10000")));
     }
 
-    static BigInteger fib(BigInteger n) {
-        Map<BigInteger, BigInteger> cache = new HashMap<>();
+    static BigInteger fib(final BigInteger n) {
+        final Map<BigInteger, BigInteger> cache = new HashMap<>();
         return fibRec(n, cache).result();
     }
 
-    static TailRec<BigInteger> fibRec(BigInteger n, Map<BigInteger, BigInteger> cache) {
+    static TailRec<BigInteger> fibRec(final BigInteger n, final Map<BigInteger, BigInteger> cache) {
         if (n.compareTo(new BigInteger("2")) < 0) {
             return TailRec.done(n);
         }
-        BigInteger value = cache.get(n);
+        final BigInteger value = cache.get(n);
         if (value != null) {
             return TailRec.done(value);
         }
         return TailRec.call(() -> fibRec(n.subtract(new BigInteger("2")), cache)
                 .flatMap(a -> fibRec(n.subtract(new BigInteger("1")), cache)
                         .map(b -> {
-                            BigInteger c = a.add(b);
+                            final BigInteger c = a.add(b);
                             cache.put(n, c);
                             return c;
                         })));
     }
 
-    static int sum(int n) {
+    static int sum(final int n) {
         return sumRec(n).result();
     }
 
-    static TailRec<Integer> sumRec(Integer n) {
+    static TailRec<Integer> sumRec(final Integer n) {
         if (n < 1) {
             return TailRec.done(n);
         }
@@ -51,13 +51,13 @@ public class TailRecSample {
         <U> TailRec<U> flatMap(Function<T, TailRec<U>> mapper);
         <R> R accept(Visitor<T, R> visitor);
 
-        default <U> TailRec<U> map(Function<T, U> mapper) {
+        default <U> TailRec<U> map(final Function<T, U> mapper) {
             return flatMap(t -> TailRec.done(mapper.apply(t)));
         }
         default T result() {
-            IsDone<T> isDone = new IsDone<>();
-            GetResult<T> getResult = new GetResult<>();
-            GetTailRec<T> getTailRec = new GetTailRec<>();
+            final IsDone<T> isDone = new IsDone<>();
+            final GetResult<T> getResult = new GetResult<>();
+            final GetTailRec<T> getTailRec = new GetTailRec<>();
             return Stream.iterate(this, a -> a.accept(getTailRec))
                     .filter(a -> a.accept(isDone))
                     .findFirst()
@@ -65,25 +65,25 @@ public class TailRecSample {
                     .get(); //どうしてもgetを消せない(´･_･`)
         }
 
-        static <T> TailRec<T> call(Supplier<TailRec<T>> supplier) {
+        static <T> TailRec<T> call(final Supplier<TailRec<T>> supplier) {
             return new Call<>(supplier);
         }
-        static <T> TailRec<T> done(T result) {
+        static <T> TailRec<T> done(final T result) {
             return new Done<>(result);
         }
     }
 
     static class Call<T> implements TailRec<T> {
         private final Supplier<TailRec<T>> supplier;
-        public Call(Supplier<TailRec<T>> supplier) {
+        public Call(final Supplier<TailRec<T>> supplier) {
             this.supplier = Objects.requireNonNull(supplier);
         }
         @Override
-        public <U> TailRec<U> flatMap(Function<T, TailRec<U>> mapper) {
+        public <U> TailRec<U> flatMap(final Function<T, TailRec<U>> mapper) {
             return new Cont<>(supplier, mapper);
         }
         @Override
-        public <R> R accept(Visitor<T, R> visitor) {
+        public <R> R accept(final Visitor<T, R> visitor) {
             return visitor.visit(this);
         }
     }
@@ -91,31 +91,31 @@ public class TailRecSample {
     static class Cont<S, T> implements TailRec<T> {
         private final Supplier<TailRec<S>> supplier;
         private final Function<S, TailRec<T>> mapper;
-        public Cont(Supplier<TailRec<S>> supplier, Function<S, TailRec<T>> mapper) {
+        public Cont(final Supplier<TailRec<S>> supplier, final Function<S, TailRec<T>> mapper) {
             this.supplier = Objects.requireNonNull(supplier);
             this.mapper = Objects.requireNonNull(mapper);
         }
         @Override
-        public <U> TailRec<U> flatMap(Function<T, TailRec<U>> mapper) {
+        public <U> TailRec<U> flatMap(final Function<T, TailRec<U>> mapper) {
             return TailRec.call(supplier).flatMap(s -> this.mapper.apply(s).flatMap(mapper));
         }
         @Override
-        public <R> R accept(Visitor<T, R> visitor) {
+        public <R> R accept(final Visitor<T, R> visitor) {
             return visitor.visit(this);
         }
     }
 
     static class Done<T> implements TailRec<T> {
         private final T result;
-        public Done(T result) {
+        public Done(final T result) {
             this.result = Objects.requireNonNull(result);
         }
         @Override
-        public <U> TailRec<U> flatMap(Function<T, TailRec<U>> mapper) {
+        public <U> TailRec<U> flatMap(final Function<T, TailRec<U>> mapper) {
             return TailRec.call(() -> mapper.apply(result));
         }
         @Override
-        public <R> R accept(Visitor<T, R> visitor) {
+        public <R> R accept(final Visitor<T, R> visitor) {
             return visitor.visit(this);
         }
     }
@@ -128,45 +128,45 @@ public class TailRecSample {
 
     static class IsDone<T> implements Visitor<T, Boolean> {
         @Override
-        public Boolean visit(Call<T> call) {
+        public Boolean visit(final Call<T> call) {
             return false;
         }
         @Override
-        public Boolean visit(Done<T> done) {
+        public Boolean visit(final Done<T> done) {
             return true;
         }
         @Override
-        public <S> Boolean visit(Cont<S, T> cont) {
+        public <S> Boolean visit(final Cont<S, T> cont) {
             return false;
         }
     }
 
     static class GetResult<T> implements Visitor<T, T> {
         @Override
-        public T visit(Call<T> call) {
+        public T visit(final Call<T> call) {
             throw new UnsupportedOperationException();
         }
         @Override
-        public T visit(Done<T> done) {
+        public T visit(final Done<T> done) {
             return done.result;
         }
         @Override
-        public <S> T visit(Cont<S, T> cont) {
+        public <S> T visit(final Cont<S, T> cont) {
             throw new UnsupportedOperationException();
         }
     }
 
     static class GetTailRec<T> implements Visitor<T, TailRec<T>> {
         @Override
-        public TailRec<T> visit(Call<T> call) {
+        public TailRec<T> visit(final Call<T> call) {
             return call.supplier.get();
         }
         @Override
-        public TailRec<T> visit(Done<T> done) {
+        public TailRec<T> visit(final Done<T> done) {
             throw new UnsupportedOperationException();
         }
         @Override
-        public <S> TailRec<T> visit(Cont<S, T> cont) {
+        public <S> TailRec<T> visit(final Cont<S, T> cont) {
             return cont.supplier.get().flatMap(cont.mapper);
         }
     }

@@ -28,14 +28,14 @@ public class CalcTest {
 
         @Test
         public void test() throws Exception {
-            int actual = Calc.calc(fixture.source);
-            int expected = fixture.expected;
+            final int actual = Calc.calc(fixture.source);
+            final int expected = fixture.expected;
             assertThat(actual, is(expected));
         }
 
         @Parameters(name = "{0}")
         public static Iterable<Fixture> parameters() {
-            List<Fixture> fs = new ArrayList<>();
+            final List<Fixture> fs = new ArrayList<>();
             fs.add(new Fixture("1 + 2 + 3", 1 + 2 + 3));
             fs.add(new Fixture("1 * 2 * 3", 1 * 2 * 3));
             fs.add(new Fixture("3 - 2 - 1", 3 - 2 - 1));
@@ -56,7 +56,7 @@ public class CalcTest {
             final String source;
             final int expected;
 
-            public Fixture(String source, int expected) {
+            public Fixture(final String source, final int expected) {
                 super();
                 this.source = source;
                 this.expected = expected;
@@ -84,7 +84,7 @@ public class CalcTest {
 
         @Parameters(name = "{0}")
         public static Iterable<String> parameters() {
-            List<String> sources = new ArrayList<>();
+            final List<String> sources = new ArrayList<>();
             sources.add("+");
             sources.add("-");
             sources.add("*");

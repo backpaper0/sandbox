@@ -10,9 +10,9 @@ public class PathTest {
 
     @Test
     public void relativizeで相対パスを得られる() throws Exception {
-        Path a = Paths.get("opt", "foo", "bar", "baz");
-        Path b = Paths.get("opt", "foo");
-        Path c = b.relativize(a);
+        final Path a = Paths.get("opt", "foo", "bar", "baz");
+        final Path b = Paths.get("opt", "foo");
+        final Path c = b.relativize(a);
         assertThat(c, is(Paths.get("bar", "baz")));
     }
 }

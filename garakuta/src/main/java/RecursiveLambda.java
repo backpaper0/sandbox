@@ -15,11 +15,11 @@ public class RecursiveLambda {
      *  
      * すると次のようなコードで再帰できる。
      */
-    public static void main(String[] args) {
-        RecursiveUnaryOperator<Integer> sum = (f, n) -> (n > 0)
+    public static void main(final String[] args) {
+        final RecursiveUnaryOperator<Integer> sum = (f, n) -> (n > 0)
                 ? n + f.apply(n - 1) : 0;
 
-        Integer result = sum.apply(10);
+        final Integer result = sum.apply(10);
 
         //55
         System.out.println(result);
@@ -29,7 +29,7 @@ public class RecursiveLambda {
         T apply(UnaryOperator<T> self, T t);
 
         @Override
-        default T apply(T t) {
+        default T apply(final T t) {
             return apply(this, t);
         }
     }

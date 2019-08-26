@@ -18,18 +18,18 @@ import java.util.Optional;
 //
 public class LambdaRuntimeError {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         System.out.println(get3(new IfImpl("hoge")));
         System.out.println(get4(new Obj("fuga")));
         System.out.println(get1(new Obj("foo")));
         System.out.println(get2(new Obj("bar")));
     }
 
-    static String get1(Obj t) {
+    static String get1(final Obj t) {
         return Optional.of(t).map(If::get).orElse("empty");
     }
 
-    static <T extends Abs & If> String get2(T t) {
+    static <T extends Abs & If> String get2(final T t) {
         return Optional.of(t).map(If::get).orElse("empty");
     }
 
@@ -41,18 +41,18 @@ public class LambdaRuntimeError {
      * どうしようもない感じする。
      */
     //    static <T extends If2 & If> String get3(T t) {
-    static <T extends If & If2> String get3(T t) {
+    static <T extends If & If2> String get3(final T t) {
         return Optional.of(t).map(If::get).orElse("empty");
     }
 
-    static <T extends Abs & If> String get4(T t) {
+    static <T extends Abs & If> String get4(final T t) {
         return Optional.of(t).map(a -> a.get()).orElse("empty");
     }
 
     public static class Obj extends Abs implements If {
         private final String text;
 
-        public Obj(String text) {
+        public Obj(final String text) {
             this.text = text;
         }
 
@@ -75,7 +75,7 @@ public class LambdaRuntimeError {
     public static class IfImpl implements If, If2 {
         private final String text;
 
-        public IfImpl(String text) {
+        public IfImpl(final String text) {
             this.text = text;
         }
 

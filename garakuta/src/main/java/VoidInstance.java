@@ -6,10 +6,10 @@ import java.lang.reflect.Constructor;
  */
 public class VoidInstance {
 
-    public static void main(String[] args) throws Exception {
-        Constructor<Void> constructor = Void.class.getDeclaredConstructor();
+    public static void main(final String[] args) throws Exception {
+        final Constructor<Void> constructor = Void.class.getDeclaredConstructor();
         constructor.setAccessible(true);
-        Void instance = constructor.newInstance();
+        final Void instance = constructor.newInstance();
         System.out.println(instance);
     }
 }

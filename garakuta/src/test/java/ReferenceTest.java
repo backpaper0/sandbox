@@ -17,12 +17,12 @@ public class ReferenceTest {
         //finalizeが呼ばれることを確認するために使用するラッチ
         final CountDownLatch finalized = new CountDownLatch(1);
 
-        ReferenceQueue<Object> q = new ReferenceQueue<>();
+        final ReferenceQueue<Object> q = new ReferenceQueue<>();
 
         /*
          * 弱い参照
          */
-        Reference<Object> ref = new WeakReference<>(new Object() {
+        final Reference<Object> ref = new WeakReference<>(new Object() {
 
             @Override
             protected void finalize() throws Throwable {

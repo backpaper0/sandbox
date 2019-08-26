@@ -11,12 +11,12 @@ public final class CsvToken {
     private final CsvTokenType type;
     public final String text;
 
-    private CsvToken(CsvTokenType type, String text) {
+    private CsvToken(final CsvTokenType type, final String text) {
         this.type = Objects.requireNonNull(type);
         this.text = Objects.requireNonNull(text);
     }
 
-    public static CsvToken field(String text) {
+    public static CsvToken field(final String text) {
         return new CsvToken(CsvTokenType.FIELD, text);
     }
 
@@ -38,13 +38,13 @@ public final class CsvToken {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         } else if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        CsvToken other = (CsvToken) obj;
+        final CsvToken other = (CsvToken) obj;
         return text.equals(other.text) && type == other.type;
     }
 

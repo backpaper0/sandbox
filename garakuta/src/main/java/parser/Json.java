@@ -13,13 +13,13 @@ public class Json {
 
     private static final char[] NULL = "null".toCharArray();
 
-    private char[] cs;
+    private final char[] cs;
 
     private char c;
 
     private int index;
 
-    public Json(String text) {
+    public Json(final String text) {
         cs = text.toCharArray();
         c = cs[index = 0];
     }
@@ -46,7 +46,7 @@ public class Json {
         throw new JsonException(this);
     }
 
-    private void expect(char[] cs) throws JsonException {
+    private void expect(final char[] cs) throws JsonException {
         for (int i = 0; i < cs.length; i++) {
             if (c != cs[i]) {
                 throw new JsonException(this);
@@ -55,7 +55,7 @@ public class Json {
         }
     }
 
-    private void expect(char c) throws JsonException {
+    private void expect(final char c) throws JsonException {
         if (this.c != c) {
             throw new JsonException(this);
         }
@@ -63,18 +63,18 @@ public class Json {
     }
 
     private Map<String, Object> object() throws JsonException {
-        Map<String, Object> map = new HashMap<>();
+        final Map<String, Object> map = new HashMap<>();
         expect('{');
         skipWhitespace();
         while (c != '}') {
-            String key = string();
+            final String key = string();
             skipWhitespace();
             expect(':');
             skipWhitespace();
-            Object value = value();
+            final Object value = value();
             skipWhitespace();
             map.put(key, value);
-            boolean comma = (c == ',');
+            final boolean comma = (c == ',');
             if (comma) {
                 next();
             }
@@ -88,14 +88,14 @@ public class Json {
     }
 
     private List<Object> array() throws JsonException {
-        List<Object> list = new ArrayList<>();
+        final List<Object> list = new ArrayList<>();
         expect('[');
         skipWhitespace();
         while (c != ']') {
-            Object value = value();
+            final Object value = value();
             skipWhitespace();
             list.add(value);
-            boolean comma = (c == ',');
+            final boolean comma = (c == ',');
             if (comma) {
                 next();
             }
@@ -109,7 +109,7 @@ public class Json {
     }
 
     private String string() throws JsonException {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         expect('\"');
         while (c != '"') {
             if ((c == '\\')) {
@@ -140,7 +140,7 @@ public class Json {
                     next();
                 } else if (c == 'u') {
                     next();
-                    int cs[] = new int[4];
+                    final int cs[] = new int[4];
                     for (int i = 0; i < cs.length; i++) {
                         if ('0' <= c && c <= '9') {
                             cs[i] = (c - 48);
@@ -167,7 +167,7 @@ public class Json {
     }
 
     private double number() throws JsonException {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         if (c == '-') {
             sb.append(c);
             next();
@@ -228,14 +228,14 @@ public class Json {
         throw new JsonException(this);
     }
 
-    public static Object get(String text) throws JsonException {
-        Json json = new Json(text);
+    public static Object get(final String text) throws JsonException {
+        final Json json = new Json(text);
         return json.get();
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("Json(cs = ");
         sb.append(cs);
         sb.append(" index = ");
@@ -253,7 +253,7 @@ public class Json {
 
     public static class JsonException extends Exception {
 
-        public JsonException(Json json) {
+        public JsonException(final Json json) {
             super(json.toString());
         }
     }

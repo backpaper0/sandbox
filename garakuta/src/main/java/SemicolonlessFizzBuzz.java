@@ -5,15 +5,15 @@
  */
 public class SemicolonlessFizzBuzz {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         try {
             if (fizzbuzz(1, 1000) != null) {
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
         }
     }
 
-    static Void fizzbuzz(int cur, int end) {
+    static Void fizzbuzz(final int cur, final int end) {
         if (cur < end) {
             if (cur % 15 == 0) {
                 if (System.out.printf("FizzBuzz%n") != null) {

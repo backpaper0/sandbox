@@ -14,37 +14,37 @@ import java.util.stream.Stream;
 
 public class Calc {
 
-    public static int calc(String source) {
-        Lexer lexer = new Lexer(source);
-        Parser parser = new Parser(lexer);
-        Ast ast = parser.parse();
-        AstVisitor<Void, Integer> visitor = new AstVisitor<>() {
+    public static int calc(final String source) {
+        final Lexer lexer = new Lexer(source);
+        final Parser parser = new Parser(lexer);
+        final Ast ast = parser.parse();
+        final AstVisitor<Void, Integer> visitor = new AstVisitor<>() {
 
             @Override
-            public Integer visit(Num ast, Void param) {
+            public Integer visit(final Num ast, final Void param) {
                 return ast.value;
             }
 
             @Override
-            public Integer visit(AddOp ast, Void param) {
+            public Integer visit(final AddOp ast, final Void param) {
                 return ast.left.accept(this, param)
                         + ast.right.accept(this, param);
             }
 
             @Override
-            public Integer visit(SubOp ast, Void param) {
+            public Integer visit(final SubOp ast, final Void param) {
                 return ast.left.accept(this, param)
                         - ast.right.accept(this, param);
             }
 
             @Override
-            public Integer visit(MulOp ast, Void param) {
+            public Integer visit(final MulOp ast, final Void param) {
                 return ast.left.accept(this, param)
                         * ast.right.accept(this, param);
             }
 
             @Override
-            public Integer visit(DivOp ast, Void param) {
+            public Integer visit(final DivOp ast, final Void param) {
                 return ast.left.accept(this, param)
                         / ast.right.accept(this, param);
             }
@@ -56,7 +56,7 @@ public class Calc {
         public final TokenType type;
         public final String text;
 
-        public Token(TokenType type, String text) {
+        public Token(final TokenType type, final String text) {
             this.type = type;
             this.text = text;
         }
@@ -77,7 +77,7 @@ public class Calc {
         private int index = -1;
         private char c;
 
-        public Lexer(String source) {
+        public Lexer(final String source) {
             this.source = source;
             consume();
         }
@@ -116,7 +116,7 @@ public class Calc {
                 return new Token(TokenType.R_PAREN, ")");
             default:
                 if ('0' <= c && c <= '9') {
-                    StringBuilder buf = new StringBuilder();
+                    final StringBuilder buf = new StringBuilder();
                     do {
                         buf.append(c);
                         consume();
@@ -135,16 +135,16 @@ public class Calc {
     static class Num extends Ast {
         public final int value;
 
-        public Num(Token token) {
+        public Num(final Token token) {
             this(token, false);
         }
 
-        public Num(Token token, boolean negative) {
+        public Num(final Token token, final boolean negative) {
             value = Integer.parseInt(token.text) * (negative ? -1 : 1);
         }
 
         @Override
-        public <P, R> R accept(AstVisitor<P, R> visitor, P param) {
+        public <P, R> R accept(final AstVisitor<P, R> visitor, final P param) {
             return visitor.visit(this, param);
         }
 
@@ -157,13 +157,13 @@ public class Calc {
     static class AddOp extends Ast {
         public final Ast left, right;
 
-        public AddOp(Ast left, Ast right) {
+        public AddOp(final Ast left, final Ast right) {
             this.left = left;
             this.right = right;
         }
 
         @Override
-        public <P, R> R accept(AstVisitor<P, R> visitor, P param) {
+        public <P, R> R accept(final AstVisitor<P, R> visitor, final P param) {
             return visitor.visit(this, param);
         }
 
@@ -176,13 +176,13 @@ public class Calc {
     static class SubOp extends Ast {
         public final Ast left, right;
 
-        public SubOp(Ast left, Ast right) {
+        public SubOp(final Ast left, final Ast right) {
             this.left = left;
             this.right = right;
         }
 
         @Override
-        public <P, R> R accept(AstVisitor<P, R> visitor, P param) {
+        public <P, R> R accept(final AstVisitor<P, R> visitor, final P param) {
             return visitor.visit(this, param);
         }
 
@@ -195,13 +195,13 @@ public class Calc {
     static class MulOp extends Ast {
         public final Ast left, right;
 
-        public MulOp(Ast left, Ast right) {
+        public MulOp(final Ast left, final Ast right) {
             this.left = left;
             this.right = right;
         }
 
         @Override
-        public <P, R> R accept(AstVisitor<P, R> visitor, P param) {
+        public <P, R> R accept(final AstVisitor<P, R> visitor, final P param) {
             return visitor.visit(this, param);
         }
 
@@ -214,13 +214,13 @@ public class Calc {
     static class DivOp extends Ast {
         public final Ast left, right;
 
-        public DivOp(Ast left, Ast right) {
+        public DivOp(final Ast left, final Ast right) {
             this.left = left;
             this.right = right;
         }
 
         @Override
-        public <P, R> R accept(AstVisitor<P, R> visitor, P param) {
+        public <P, R> R accept(final AstVisitor<P, R> visitor, final P param) {
             return visitor.visit(this, param);
         }
 
@@ -248,7 +248,7 @@ public class Calc {
         private int index = -1;
         private final Deque<Integer> indexes = new LinkedList<>();
 
-        public Parser(Lexer lexer) {
+        public Parser(final Lexer lexer) {
             this.lexer = lexer;
             consume();
         }
@@ -264,7 +264,7 @@ public class Calc {
             return tokens.get(index);
         }
 
-        private void match(TokenType expected) {
+        private void match(final TokenType expected) {
             if (token().type == expected) {
                 consume();
             } else {
@@ -274,7 +274,7 @@ public class Calc {
         }
 
         public Ast parse() {
-            Ast ast = expr();
+            final Ast ast = expr();
             match(TokenType.EOF);
             return ast;
         }
@@ -287,19 +287,19 @@ public class Calc {
             return termRec(fact());
         }
 
-        protected Ast add(Ast left) {
+        protected Ast add(final Ast left) {
             return binOp(TokenType.ADD, AddOp::new, left, this::term);
         }
 
-        protected Ast sub(Ast left) {
+        protected Ast sub(final Ast left) {
             return binOp(TokenType.SUB, SubOp::new, left, this::term);
         }
 
-        protected Ast mul(Ast left) {
+        protected Ast mul(final Ast left) {
             return binOp(TokenType.MUL, MulOp::new, left, this::fact);
         }
 
-        protected Ast div(Ast left) {
+        protected Ast div(final Ast left) {
             return binOp(TokenType.DIV, DivOp::new, left, this::fact);
         }
 
@@ -309,49 +309,49 @@ public class Calc {
 
         protected Ast paren() {
             match(TokenType.L_PAREN);
-            Ast ast = expr();
+            final Ast ast = expr();
             match(TokenType.R_PAREN);
             return ast;
         }
 
         protected Ast number() {
-            Function<Boolean, Ast> f = negative -> {
-                Token token = token();
+            final Function<Boolean, Ast> f = negative -> {
+                final Token token = token();
                 match(TokenType.NUMBER);
                 return new Num(token, negative);
             };
-            Supplier<Optional<Ast>> tryPlus = () -> tryGet(() -> {
+            final Supplier<Optional<Ast>> tryPlus = () -> tryGet(() -> {
                 match(TokenType.ADD);
                 return f.apply(false);
             });
-            Supplier<Optional<Ast>> tryMinus = () -> tryGet(() -> {
+            final Supplier<Optional<Ast>> tryMinus = () -> tryGet(() -> {
                 match(TokenType.SUB);
                 return f.apply(true);
             });
-            Supplier<Ast> num = () -> f.apply(false);
+            final Supplier<Ast> num = () -> f.apply(false);
             return Stream.of(tryPlus, tryMinus).map(Supplier::get)
                     .filter(Optional::isPresent).map(Optional::get).findFirst()
                     .orElseGet(num);
         }
 
-        private Ast binOp(TokenType expected, BinaryOperator<Ast> op, Ast left,
-                Supplier<Ast> right) {
+        private Ast binOp(final TokenType expected, final BinaryOperator<Ast> op, final Ast left,
+                final Supplier<Ast> right) {
             match(expected);
             return op.apply(left, right.get());
         }
 
-        private Ast exprRec(Ast left) {
+        private Ast exprRec(final Ast left) {
             return tryRec(left, this::exprRec, this::add, this::sub);
         }
 
-        private Ast termRec(Ast left) {
+        private Ast termRec(final Ast left) {
             return tryRec(left, this::termRec, this::mul, this::div);
         }
 
         @SafeVarargs
-        private final Ast tryRec(Ast left, UnaryOperator<Ast> op,
-                UnaryOperator<Ast>... fs) {
-            Optional<Ast> opt = Arrays.stream(fs)
+        private final Ast tryRec(final Ast left, final UnaryOperator<Ast> op,
+                final UnaryOperator<Ast>... fs) {
+            final Optional<Ast> opt = Arrays.stream(fs)
                     .map(f -> tryGet(() -> f.apply(left)))
                     .filter(Optional::isPresent).map(Optional::get).findFirst();
             if (opt.isPresent()) {
@@ -360,13 +360,13 @@ public class Calc {
             return left;
         }
 
-        private <T> Optional<T> tryGet(Supplier<T> supplier) {
+        private <T> Optional<T> tryGet(final Supplier<T> supplier) {
             indexes.push(index);
             try {
-                T t = supplier.get();
+                final T t = supplier.get();
                 indexes.pop();
                 return Optional.of(t);
-            } catch (ParseException e) {
+            } catch (final ParseException e) {
                 index = indexes.pop();
                 return Optional.empty();
             }
@@ -375,7 +375,7 @@ public class Calc {
 
     static class ParseException extends RuntimeException {
 
-        public ParseException(String message) {
+        public ParseException(final String message) {
             super(message);
         }
     }

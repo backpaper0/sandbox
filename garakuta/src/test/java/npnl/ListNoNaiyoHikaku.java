@@ -24,11 +24,11 @@ public class ListNoNaiyoHikaku {
 
     @Test
     public void test() throws Exception {
-        StringWriter actual = new StringWriter();
+        final StringWriter actual = new StringWriter();
         listNoNaiyoHikaku(l, r, actual);
 
-        StringWriter expected = new StringWriter();
-        PrintWriter out = new PrintWriter(expected);
+        final StringWriter expected = new StringWriter();
+        final PrintWriter out = new PrintWriter(expected);
         out.println("[left only] [aaa, ccc, hhhh]");
         out.println("[right only] [ddd, fff, ggg, iiiii]");
         out.println("[both] [bbb, eee]");
@@ -38,11 +38,11 @@ public class ListNoNaiyoHikaku {
 
     @Test
     public void testName() throws Exception {
-        StringWriter actual = new StringWriter();
+        final StringWriter actual = new StringWriter();
         narabeteShutsuryoku(l, r, actual);
 
-        StringWriter expected = new StringWriter();
-        PrintWriter out = new PrintWriter(expected);
+        final StringWriter expected = new StringWriter();
+        final PrintWriter out = new PrintWriter(expected);
         out.println("aaa  | ");
         out.println("bbb  | bbb");
         out.println("ccc  | ");
@@ -56,15 +56,15 @@ public class ListNoNaiyoHikaku {
         assertThat(actual.toString(), is(expected.toString()));
     }
 
-    <T extends Comparable<T>> void narabeteShutsuryoku(List<T> l, List<T> r,
-            Writer out) {
+    <T extends Comparable<T>> void narabeteShutsuryoku(final List<T> l, final List<T> r,
+            final Writer out) {
         int length = 0;
-        for (T t : l) {
+        for (final T t : l) {
             length = Math.max(length, t.toString().length());
         }
-        PrintWriter pw = new PrintWriter(out);
-        Iterator<T> lit = new TreeSet<>(l).iterator();
-        Iterator<T> rit = new TreeSet<>(r).iterator();
+        final PrintWriter pw = new PrintWriter(out);
+        final Iterator<T> lit = new TreeSet<>(l).iterator();
+        final Iterator<T> rit = new TreeSet<>(r).iterator();
         T lt = null;
         T rt = null;
         while (true) {
@@ -77,8 +77,8 @@ public class ListNoNaiyoHikaku {
             if (lt == null && rt == null) {
                 break;
             }
-            int compared = lt != null ? rt != null ? lt.compareTo(rt) : -1 : 1;
-            StringBuilder sb = new StringBuilder();
+            final int compared = lt != null ? rt != null ? lt.compareTo(rt) : -1 : 1;
+            final StringBuilder sb = new StringBuilder();
             if (compared <= 0) {
                 sb.append(lt);
                 lt = null;
@@ -95,19 +95,19 @@ public class ListNoNaiyoHikaku {
         }
     }
 
-    <T extends Comparable<T>> void listNoNaiyoHikaku(List<T> l, List<T> r,
-            Writer out) {
-        PrintWriter pw = new PrintWriter(out);
+    <T extends Comparable<T>> void listNoNaiyoHikaku(final List<T> l, final List<T> r,
+            final Writer out) {
+        final PrintWriter pw = new PrintWriter(out);
 
-        TreeSet<T> ls = new TreeSet<>(l);
+        final TreeSet<T> ls = new TreeSet<>(l);
         ls.removeAll(r);
         pw.println("[left only] " + ls);
 
-        TreeSet<T> rs = new TreeSet<>(r);
+        final TreeSet<T> rs = new TreeSet<>(r);
         rs.removeAll(l);
         pw.println("[right only] " + rs);
 
-        TreeSet<T> both = new TreeSet<>(l);
+        final TreeSet<T> both = new TreeSet<>(l);
         both.retainAll(r);
         pw.println("[both] " + both);
     }

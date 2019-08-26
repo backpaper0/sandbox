@@ -10,7 +10,7 @@ public class ConcurrentHashMapLazy<T> implements Function<Supplier<T>, T> {
     private final ConcurrentHashMap<Integer, T> cache = new ConcurrentHashMap<>(1);
 
     @Override
-    public T apply(Supplier<T> t) {
+    public T apply(final Supplier<T> t) {
         return cache.computeIfAbsent(0, a -> Objects.requireNonNull(t.get()));
     }
 }

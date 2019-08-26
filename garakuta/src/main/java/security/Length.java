@@ -22,7 +22,7 @@ public class Length {
 
     private final int size;
 
-    public Length(int size) {
+    public Length(final int size) {
         this.size = size;
     }
 
@@ -56,7 +56,7 @@ public class Length {
         throw new IllegalStateException();
     }
 
-    private byte getByte(int index) {
+    private byte getByte(final int index) {
         switch (status) {
         case INT: {
             if (index < 4) {
@@ -77,7 +77,7 @@ public class Length {
         throw new IllegalStateException();
     }
 
-    public void writeTo(byte[] out, int index) {
+    public void writeTo(final byte[] out, final int index) {
         for (int i = 0; i < size; i++) {
             out[index + i] = getByte(size - 1 - i);
         }

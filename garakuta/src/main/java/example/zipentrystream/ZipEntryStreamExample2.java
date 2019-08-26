@@ -18,9 +18,9 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipEntryStreamExample2 {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (ZipOutputStream out = new ZipOutputStream(baos)) {
 
             out.putNextEntry(new ZipEntry("file1"));
@@ -42,21 +42,21 @@ public class ZipEntryStreamExample2 {
         }
     }
 
-    static Stream<InputStream> toStream(ZipInputStream in) {
-        Spliterator<InputStream> spliterator = new AbstractSpliterator<>(
+    static Stream<InputStream> toStream(final ZipInputStream in) {
+        final Spliterator<InputStream> spliterator = new AbstractSpliterator<>(
                 Long.MAX_VALUE, 0) {
 
             @Override
-            public boolean tryAdvance(Consumer<? super InputStream> action) {
+            public boolean tryAdvance(final Consumer<? super InputStream> action) {
                 try {
-                    ZipEntry entry = in.getNextEntry();
+                    final ZipEntry entry = in.getNextEntry();
                     if (entry == null) {
                         return false;
                     }
                     action.accept(in);
                     in.closeEntry();
                     return true;
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new UncheckedIOException(e);
                 }
             }
@@ -66,7 +66,7 @@ public class ZipEntryStreamExample2 {
 
     static class LoggingZipInputStream extends ZipInputStream {
 
-        public LoggingZipInputStream(InputStream in) {
+        public LoggingZipInputStream(final InputStream in) {
             super(in);
             System.out.println("***construct***");
         }

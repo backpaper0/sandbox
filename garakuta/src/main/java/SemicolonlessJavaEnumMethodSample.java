@@ -13,7 +13,7 @@ public class SemicolonlessJavaEnumMethodSample {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         if (Stream.of(0).peek(a -> Hoge.FOO.println()).count() > 0) {
         }
         if (Stream.of(0).peek(a -> Hoge.BAR.println()).count() > 0) {

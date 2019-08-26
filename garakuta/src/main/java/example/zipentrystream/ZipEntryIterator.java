@@ -17,7 +17,7 @@ public class ZipEntryIterator implements Iterator<ZipEntry> {
 
     private ZipEntry entry;
 
-    public ZipEntryIterator(ZipInputStream in) {
+    public ZipEntryIterator(final ZipInputStream in) {
         this.in = in;
     }
 
@@ -29,7 +29,7 @@ public class ZipEntryIterator implements Iterator<ZipEntry> {
         try {
             entry = in.getNextEntry();
             return entry != null;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UncheckedIOException(e);
         }
     }
@@ -37,16 +37,16 @@ public class ZipEntryIterator implements Iterator<ZipEntry> {
     @Override
     public ZipEntry next() {
         if (entry != null || hasNext()) {
-            ZipEntry temp = entry;
+            final ZipEntry temp = entry;
             entry = null;
             return temp;
         }
         throw new NoSuchElementException();
     }
 
-    public static Stream<ZipEntry> toStream(ZipInputStream in) {
-        Iterator<ZipEntry> iterator = new ZipEntryIterator(in);
-        Spliterator<ZipEntry> spliterator = Spliterators.spliterator(iterator,
+    public static Stream<ZipEntry> toStream(final ZipInputStream in) {
+        final Iterator<ZipEntry> iterator = new ZipEntryIterator(in);
+        final Spliterator<ZipEntry> spliterator = Spliterators.spliterator(iterator,
                 Long.MAX_VALUE, 0);
         return StreamSupport.stream(spliterator, false);
     }

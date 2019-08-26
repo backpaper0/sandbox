@@ -13,24 +13,24 @@ import java.util.stream.Stream;
 
 public class BreadthFirstSearchGraph {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
-        Node<String> ns = new Node<>("s");
-        Node<String> n1 = new Node<>("1");
-        Node<String> n2 = new Node<>("2");
-        Node<String> n3 = new Node<>("3");
-        Node<String> n4 = new Node<>("4");
-        Node<String> n5 = new Node<>("5");
-        Node<String> n6 = new Node<>("6");
-        Node<String> n7 = new Node<>("7");
-        Node<String> n8 = new Node<>("8");
-        Node<String> n9 = new Node<>("9");
-        Node<String> n10 = new Node<>("10");
-        Node<String> n11 = new Node<>("11");
-        Node<String> n12 = new Node<>("12");
-        Node<String> n13 = new Node<>("13");
-        Node<String> n14 = new Node<>("14");
-        Node<String> nt = new Node<>("t");
+        final Node<String> ns = new Node<>("s");
+        final Node<String> n1 = new Node<>("1");
+        final Node<String> n2 = new Node<>("2");
+        final Node<String> n3 = new Node<>("3");
+        final Node<String> n4 = new Node<>("4");
+        final Node<String> n5 = new Node<>("5");
+        final Node<String> n6 = new Node<>("6");
+        final Node<String> n7 = new Node<>("7");
+        final Node<String> n8 = new Node<>("8");
+        final Node<String> n9 = new Node<>("9");
+        final Node<String> n10 = new Node<>("10");
+        final Node<String> n11 = new Node<>("11");
+        final Node<String> n12 = new Node<>("12");
+        final Node<String> n13 = new Node<>("13");
+        final Node<String> n14 = new Node<>("14");
+        final Node<String> nt = new Node<>("t");
 
         ns.addNeighbors(n1, n6, n8);
         n1.addNeighbors(ns, n2, n3);
@@ -49,7 +49,7 @@ public class BreadthFirstSearchGraph {
         n14.addNeighbors(n8);
         nt.addNeighbors(n9);
 
-        Graph<String> g = new Graph<>();
+        final Graph<String> g = new Graph<>();
         g.add(ns);
         g.add(n1);
         g.add(n2);
@@ -76,17 +76,17 @@ public class BreadthFirstSearchGraph {
         final List<Node<T>> nodes = new ArrayList<>();
         int counter;
         PriorityQueue<Node<T>> queue = new PriorityQueue<>(Comparator.comparing(x -> x.distance));
-        void add(Node<T> node) {
+        void add(final Node<T> node) {
             nodes.add(node);
         }
         void search() {
-            Node<T> start = nodes.get(0);
+            final Node<T> start = nodes.get(0);
             start.color = Color.GRAY;
             start.distance = 0;
             queue.offer(start);
             while (queue.isEmpty() == false) {
-                Node<T> node = queue.peek();
-                for (Node<T> neighbor : node.neighbors) {
+                final Node<T> node = queue.peek();
+                for (final Node<T> neighbor : node.neighbors) {
                     if (neighbor.color == Color.WHITE) {
                         neighbor.distance = node.distance + 1;
                         neighbor.pred = node;
@@ -101,11 +101,11 @@ public class BreadthFirstSearchGraph {
 
         @Override
         public String toString() {
-            Stream<String> s1 = Stream.<String> builder()
+            final Stream<String> s1 = Stream.<String> builder()
                     .add("node ditance pred")
                     .add("---- ------- ----")
                     .build();
-            Stream<String> s2 = nodes
+            final Stream<String> s2 = nodes
                     .stream()
                     .map(Objects::toString);
             return Stream.concat(s1, s2).collect(Collectors.joining(System.lineSeparator()));
@@ -118,11 +118,11 @@ public class BreadthFirstSearchGraph {
         Color color = Color.WHITE;
         Node<T> pred;
         int distance;
-        public Node(T value) {
+        public Node(final T value) {
             this.value = value;
         }
         @SafeVarargs
-        final void addNeighbors(Node<T>... neighbors) {
+        final void addNeighbors(final Node<T>... neighbors) {
             this.neighbors.addAll(Arrays.asList(neighbors));
         }
         @Override

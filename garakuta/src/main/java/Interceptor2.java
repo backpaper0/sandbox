@@ -4,9 +4,9 @@ import java.util.List;
 
 public class Interceptor2 {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
-        EnhancedHoge hoge = new EnhancedHoge();
+        final EnhancedHoge hoge = new EnhancedHoge();
 
         hoge.addInterceptor(context -> {
             try {
@@ -26,7 +26,7 @@ public class Interceptor2 {
             }
         });
 
-        String s = hoge.echo("hello");
+        final String s = hoge.echo("hello");
 
         System.out.printf("result: %s%n", s);
     }
@@ -49,7 +49,7 @@ public class Interceptor2 {
     }
 
     static class Hoge {
-        public String echo(String s) {
+        public String echo(final String s) {
             System.out.println(s);
             return s;
         }
@@ -58,16 +58,16 @@ public class Interceptor2 {
     static class EnhancedHoge extends Hoge {
         private final List<Interceptor> interceptors = new ArrayList<>();
 
-        public boolean addInterceptor(Interceptor interceptor) {
+        public boolean addInterceptor(final Interceptor interceptor) {
             return interceptors.add(interceptor);
         }
 
         @Override
-        public String echo(String s) {
-            Iterator<Interceptor> it = interceptors.iterator();
+        public String echo(final String s) {
+            final Iterator<Interceptor> it = interceptors.iterator();
             //補助的な関数型インターフェースを噛ませることで
             //匿名クラスがなくなった。
-            RecursiveInterceptorContext context = self -> {
+            final RecursiveInterceptorContext context = self -> {
                 if (it.hasNext()) {
                     return it.next().invoke(self);
                 }

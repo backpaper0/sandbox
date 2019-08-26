@@ -1,7 +1,7 @@
 
 public class SemicolonlessJavaDefineMethodWithReturn {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         if (java.util.stream.Stream
                 .of((Hello) java.lang.reflect.Proxy.newProxyInstance(Hello.class.getClassLoader(),
                         new Class<?>[] { Hello.class }, (p, m, a) -> "Hello, " + a[0] + "!"))
@@ -11,7 +11,7 @@ public class SemicolonlessJavaDefineMethodWithReturn {
 
     public interface Hello {
 
-        default String say(String name) {
+        default String say(final String name) {
             while (true) {
             }
         }

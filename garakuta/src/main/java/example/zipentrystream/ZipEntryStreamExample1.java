@@ -10,9 +10,9 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipEntryStreamExample1 {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (ZipOutputStream out = new ZipOutputStream(baos)) {
 
             out.putNextEntry(new ZipEntry("file1"));
@@ -40,16 +40,16 @@ public class ZipEntryStreamExample1 {
         }
     }
 
-    static String toString(ZipInputStream in, ZipEntry entry) {
+    static String toString(final ZipInputStream in, final ZipEntry entry) {
         try {
-            byte[] b = new byte[1024];
+            final byte[] b = new byte[1024];
             int i;
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            final ByteArrayOutputStream out = new ByteArrayOutputStream();
             while (-1 != (i = in.read(b))) {
                 out.write(b, 0, i);
             }
             return entry.getName() + ": " + out.toString();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UncheckedIOException(e);
         }
     }

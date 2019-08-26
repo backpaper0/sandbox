@@ -1,7 +1,7 @@
 
 public class SemicolonlessJavaGuice extends java.util.HashMap<String, Object> {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         if (java.util.stream.Stream.of(com.google.inject.Guice.createInjector(binder -> {
             if (java.util.stream.Stream.of(1)
                     .peek(x -> binder.bindInterceptor(com.google.inject.matcher.Matchers.any(),
@@ -16,7 +16,7 @@ public class SemicolonlessJavaGuice extends java.util.HashMap<String, Object> {
     }
 
     @javax.inject.Inject
-    public SemicolonlessJavaGuice(Hoge hoge) {
+    public SemicolonlessJavaGuice(final Hoge hoge) {
         if (put("hoge", hoge) != null) {
         }
     }

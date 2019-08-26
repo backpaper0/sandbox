@@ -15,7 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class HmacSample {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
         sampleMacHmacSHA256();
 
@@ -28,13 +28,13 @@ public class HmacSample {
      * SHA-256をメッセージダイジェストアルゴリズムとするHmacSHA*アルゴリズム。
      */
     static void sampleMacHmacSHA256() throws Exception {
-        byte[] password = "secret".getBytes();
-        Key key = new SecretKeySpec(password, "HmacSHA256");
+        final byte[] password = "secret".getBytes();
+        final Key key = new SecretKeySpec(password, "HmacSHA256");
 
-        Mac mac = Mac.getInstance("HmacSHA256");
+        final Mac mac = Mac.getInstance("HmacSHA256");
         mac.init(key);
 
-        byte[] value = mac.doFinal("Hello, world!".getBytes());
+        final byte[] value = mac.doFinal("Hello, world!".getBytes());
         System.out.println(toString(value));
     }
 
@@ -42,21 +42,21 @@ public class HmacSample {
      * パスワードベースの暗号アルゴリズムによるメッセージ認証コード。
      */
     static void sampleMacPBEWithHmacSHA256() throws Exception {
-        byte[] password = "secret".getBytes();
-        Key key = new SecretKeySpec(password, "PBEWithHmacSHA256");
+        final byte[] password = "secret".getBytes();
+        final Key key = new SecretKeySpec(password, "PBEWithHmacSHA256");
 
         //Salt must be at least 8 bytes long
-        byte[] salt = "saltsalt".getBytes();
+        final byte[] salt = "saltsalt".getBytes();
 
         //ストレッチング回数
-        int iterationCount = 10000;
+        final int iterationCount = 10000;
 
-        AlgorithmParameterSpec params = new PBEParameterSpec(salt, iterationCount);
+        final AlgorithmParameterSpec params = new PBEParameterSpec(salt, iterationCount);
 
-        Mac mac = Mac.getInstance("PBEWithHmacSHA256");
+        final Mac mac = Mac.getInstance("PBEWithHmacSHA256");
         mac.init(key, params);
 
-        byte[] value = mac.doFinal("Hello, world!".getBytes());
+        final byte[] value = mac.doFinal("Hello, world!".getBytes());
         System.out.println(toString(value));
     }
 
@@ -65,24 +65,24 @@ public class HmacSample {
      * 擬似乱数関数にはHmacSHA256を使用。
      */
     static void sampleKeyPBKDF2WithHmacSHA256() throws Exception {
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        final SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
 
-        char[] password = "secret".toCharArray();
+        final char[] password = "secret".toCharArray();
 
-        byte[] salt = "salt".getBytes();
+        final byte[] salt = "salt".getBytes();
 
         //ストレッチング回数
-        int iterationCount = 10000;
+        final int iterationCount = 10000;
 
-        int keyLength = 256;
+        final int keyLength = 256;
 
-        KeySpec keySpec = new PBEKeySpec(password, salt, iterationCount, keyLength);
+        final KeySpec keySpec = new PBEKeySpec(password, salt, iterationCount, keyLength);
 
-        SecretKey key = factory.generateSecret(keySpec);
+        final SecretKey key = factory.generateSecret(keySpec);
         System.out.println(toString(key.getEncoded()));
     }
 
-    static String toString(byte[] bs) {
+    static String toString(final byte[] bs) {
         return IntStream.range(0, bs.length).mapToObj(i -> String.format("%02x", bs[i] & 0xff))
                 .collect(Collectors.joining());
     }

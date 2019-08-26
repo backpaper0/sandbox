@@ -16,7 +16,7 @@ public class GenericsTest {
 
     static class C extends ArrayList<String> {
 
-        private C(CopyOnWriteArrayList<String> p) {
+        private C(final CopyOnWriteArrayList<String> p) {
         }
     }
 
@@ -24,7 +24,7 @@ public class GenericsTest {
 
     @Test
     public void test_class() throws Exception {
-        ParameterizedType t =
+        final ParameterizedType t =
             (ParameterizedType) C.class.getGenericSuperclass();
 
         assertThat(t.getActualTypeArguments(), is(new Type[] { String.class }));
@@ -33,7 +33,7 @@ public class GenericsTest {
 
     @Test
     public void test_field() throws Exception {
-        ParameterizedType t =
+        final ParameterizedType t =
             (ParameterizedType) getClass()
                 .getDeclaredField("f")
                 .getGenericType();
@@ -44,7 +44,7 @@ public class GenericsTest {
 
     @Test
     public void test_method_parameter() throws Exception {
-        ParameterizedType t =
+        final ParameterizedType t =
             (ParameterizedType) getClass()
                 .getDeclaredMethod("m", List.class)
                 .getGenericParameterTypes()[0];
@@ -55,7 +55,7 @@ public class GenericsTest {
 
     @Test
     public void test_constructor_parameter() throws Exception {
-        ParameterizedType t =
+        final ParameterizedType t =
             (ParameterizedType) C.class.getDeclaredConstructor(
                 CopyOnWriteArrayList.class).getGenericParameterTypes()[0];
 
@@ -63,7 +63,7 @@ public class GenericsTest {
         assertTrue(t.getRawType() == CopyOnWriteArrayList.class);
     }
 
-    void m(List<String> p) {
+    void m(final List<String> p) {
     }
 
 }

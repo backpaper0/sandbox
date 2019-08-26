@@ -16,23 +16,23 @@ public class BitBombermanTest {
     private final String expected;
     private final BitBomberman bitBomberman = new BitBomberman();
 
-    public BitBombermanTest(int disuse, String src, String expected) {
+    public BitBombermanTest(final int disuse, final String src, final String expected) {
         this.src = src;
         this.expected = expected;
     }
 
     @Test
     public void test() throws Exception {
-        String actual = bitBomberman.bomb(src);
+        final String actual = bitBomberman.bomb(src);
         assertThat(actual, is(expected));
     }
 
     @Parameters(name = "{0}: {1} -> {2}")
     public static Collection<Object[]> parameters() {
 
-        List<Object[]> ps = new ArrayList<>();
+        final List<Object[]> ps = new ArrayList<>();
 
-        BiConsumer<String, String> fn = (src, expected) -> {
+        final BiConsumer<String, String> fn = (src, expected) -> {
             ps.add(new Object[] { ps.size(), src, expected });
         };
 
