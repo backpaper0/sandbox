@@ -15,8 +15,7 @@ public class SHA1 {
         for (final byte[] bs : blocks) {
             final int[] w = new int[80];
             for (int t = 0; t < 16; t++) {
-                w[t] =
-                    ((bs[t * 4] & 0xff) << 24)
+                w[t] = ((bs[t * 4] & 0xff) << 24)
                         | ((bs[t * 4 + 1] & 0xff) << 16)
                         | ((bs[t * 4 + 2] & 0xff) << 8)
                         | (bs[t * 4 + 3] & 0xff);

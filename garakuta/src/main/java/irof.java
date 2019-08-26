@@ -20,7 +20,7 @@ public class irof implements Runnable, Cloneable {
     private static final Random 気まぐれ = new Random();
 
     private static final ScheduledExecutorService 増やすよ = Executors
-        .newSingleThreadScheduledExecutor();
+            .newSingleThreadScheduledExecutor();
 
     private static irof マスターいろふ;
 
@@ -85,8 +85,7 @@ public class irof implements Runnable, Cloneable {
             }
         });
         いろフレーム.pack();
-        final Rectangle ディスプレイのサイズ的な何か =
-            GraphicsEnvironment
+        final Rectangle ディスプレイのサイズ的な何か = GraphicsEnvironment
                 .getLocalGraphicsEnvironment()
                 .getDefaultScreenDevice()
                 .getDefaultConfiguration()
@@ -123,8 +122,7 @@ public class irof implements Runnable, Cloneable {
         final byte[] bs = new byte[q * 3];
         int index = 0;
         for (int i = 0; i < q; i++) {
-            final int a =
-                indexOf(cs[i * 4]) << 18
+            final int a = indexOf(cs[i * 4]) << 18
                     | indexOf(cs[i * 4 + 1]) << 12
                     | indexOf(cs[i * 4 + 2]) << 6
                     | indexOf(cs[i * 4 + 3]);
@@ -152,8 +150,7 @@ public class irof implements Runnable, Cloneable {
         return 0;
     }
 
-    private static final String BASE64でエンコードしたアイコンのデータ =
-        "R0lGODlhkgCSAPcAAAAAAIAAAACAAICAAAAAgIAAgACAgICAgMDAwP8AAAD/AP//AAAA//8A/wD//////wAAAAAAAAAAAAAAAAAA"
+    private static final String BASE64でエンコードしたアイコンのデータ = "R0lGODlhkgCSAPcAAAAAAIAAAACAAICAAAAAgIAAgACAgICAgMDAwP8AAAD/AP//AAAA//8A/wD//////wAAAAAAAAAAAAAAAAAA"
             + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMwAAZgAAmQAAzAAA"
             + "/wAzAAAzMwAzZgAzmQAzzAAz/wBmAABmMwBmZgBmmQBmzABm/wCZAACZMwCZZgCZmQCZzACZ/wDMAADMMwDMZgDMmQDMzADM/wD/"
             + "AAD/MwD/ZgD/mQD/zAD//zMAADMAMzMAZjMAmTMAzDMA/zMzADMzMzMzZjMzmTMzzDMz/zNmADNmMzNmZjNmmTNmzDNm/zOZADOZ"

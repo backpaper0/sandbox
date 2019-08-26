@@ -11,7 +11,8 @@ public class BlocksIteratorTest {
 
     @Test
     public void test_512bit_one_block() throws Exception {
-        final BlocksIterator it = new BlocksIterator(64, 8, new ByteArrayInputStream("abc".getBytes()));
+        final BlocksIterator it = new BlocksIterator(64, 8,
+                new ByteArrayInputStream("abc".getBytes()));
         assertThat(it.hasNext(), is(true));
         final byte[] bs = new byte[64];
         bs[0] = 'a';
@@ -25,7 +26,8 @@ public class BlocksIteratorTest {
 
     @Test
     public void testName() throws Exception {
-        final BlocksIterator it = new BlocksIterator(128, 16, new ByteArrayInputStream("abc".getBytes()));
+        final BlocksIterator it = new BlocksIterator(128, 16,
+                new ByteArrayInputStream("abc".getBytes()));
         assertThat(it.hasNext(), is(true));
         final byte[] bs = new byte[128];
         bs[0] = 'a';

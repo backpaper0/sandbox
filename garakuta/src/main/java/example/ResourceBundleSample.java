@@ -25,10 +25,12 @@ public class ResourceBundleSample {
 
     private static abstract class ResourceBundleSkeleton extends ResourceBundle {
         protected abstract Object handleGetObjectInternal();
+
         @Override
         protected Object handleGetObject(final String key) {
             return Objects.equal(key, KEY) ? handleGetObjectInternal() : null;
         }
+
         @Override
         public Enumeration<String> getKeys() {
             return Collections.enumeration(Collections.singleton(KEY));

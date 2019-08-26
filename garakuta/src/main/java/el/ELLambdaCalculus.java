@@ -31,7 +31,8 @@ public class ELLambdaCalculus {
         if (Objects.equals(a, b) == false) {
             throw new AssertionError(String.format(
                     "%s(%s) is not equal to %s(%s)", a, a.getClass()
-                            .getSimpleName(), b, b.getClass().getSimpleName()));
+                            .getSimpleName(),
+                    b, b.getClass().getSimpleName()));
         }
     }
 }

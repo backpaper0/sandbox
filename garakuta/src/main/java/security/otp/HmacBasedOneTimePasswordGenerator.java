@@ -55,16 +55,20 @@ public final class HmacBasedOneTimePasswordGenerator {
     public static final class Builder {
         private String algorithm = "HmacSHA1";
         private int digit = 6;
+
         private Builder() {
         }
+
         public Builder algorithm(final String algorithm) {
             this.algorithm = algorithm;
             return this;
         }
+
         public Builder digit(final int digit) {
             this.digit = digit;
             return this;
         }
+
         public HmacBasedOneTimePasswordGenerator build() {
             return new HmacBasedOneTimePasswordGenerator(this);
         }

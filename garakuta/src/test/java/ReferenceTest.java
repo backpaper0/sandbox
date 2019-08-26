@@ -1,5 +1,4 @@
 
-
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import java.lang.ref.Reference;

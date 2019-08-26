@@ -18,11 +18,12 @@ public class JavaScriptSample {
         System.out.println(c);
         System.out.println(c.getClass());
 
-        final List<?> list = (List<?>) engine.eval("var list = new (Java.type('java.util.ArrayList'));"
-                + "list.add('hello');"
-                + "list.add(123);"
-                + "list.add(true);"
-                + "list;");
+        final List<?> list = (List<?>) engine
+                .eval("var list = new (Java.type('java.util.ArrayList'));"
+                        + "list.add('hello');"
+                        + "list.add(123);"
+                        + "list.add(true);"
+                        + "list;");
         list.forEach(System.out::println);
     }
 }

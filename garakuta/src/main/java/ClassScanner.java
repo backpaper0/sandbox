@@ -54,7 +54,8 @@ public class ClassScanner {
                 return Optional.empty();
             }
         };
-        final Function<Optional<Class<?>>, Stream<? extends Class<?>>> unwrap = a -> a.map(Stream::of)
+        final Function<Optional<Class<?>>, Stream<? extends Class<?>>> unwrap = a -> a
+                .map(Stream::of)
                 .orElseGet(Stream::empty);
         final Function<Path, Stream<? extends Class<?>>> mapper = toString.andThen(toClassName)
                 .andThen(loadClass).andThen(unwrap);

@@ -15,8 +15,7 @@ public class LengthTest {
         len.iValue = 0b10110011100011110000111110000011;
         final byte[] bs = new byte[10];
         len.writeTo(bs, 1);
-        final byte[] expected =
-            {
+        final byte[] expected = {
                 0,
                 0,
                 0,

@@ -32,7 +32,7 @@ public class IntStreamForSemicolonlessJava {
                                         .peek(a -> list.remove(0))
                                         .peek(a -> list
                                                 .add(a.add(BigInteger.ONE)))
-                                .findFirst().get().intValue()))
+                                        .findFirst().get().intValue()))
                 .findFirst().get().limit(100)
                 //
                 .mapToObj(String::valueOf).collect(Collectors.joining(" "));

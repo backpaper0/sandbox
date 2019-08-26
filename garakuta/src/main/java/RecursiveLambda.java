@@ -17,7 +17,8 @@ public class RecursiveLambda {
      */
     public static void main(final String[] args) {
         final RecursiveUnaryOperator<Integer> sum = (f, n) -> (n > 0)
-                ? n + f.apply(n - 1) : 0;
+                ? n + f.apply(n - 1)
+                : 0;
 
         final Integer result = sum.apply(10);
 

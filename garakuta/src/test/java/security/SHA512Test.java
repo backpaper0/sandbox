@@ -14,8 +14,7 @@ public class SHA512Test {
     public void test_hash_one_block_message() throws Exception {
         final byte[] src = "abc".getBytes();
         final byte[] actual = SHA512.hash(src);
-        final byte[] expected =
-            bytes(
+        final byte[] expected = bytes(
                 0xddaf35a193617abaL,
                 0xcc417349ae204131L,
                 0x12e6fa4e89a97ea2L,
@@ -29,12 +28,10 @@ public class SHA512Test {
 
     @Test
     public void test_hash_multi_block_message() throws Exception {
-        final byte[] src =
-            "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu"
+        final byte[] src = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu"
                 .getBytes();
         final byte[] actual = SHA512.hash(src);
-        final byte[] expected =
-            bytes(
+        final byte[] expected = bytes(
                 0x8e959b75dae313daL,
                 0x8cf4f72814fc143fL,
                 0x8f7779c6eb9f7fa1L,
@@ -51,8 +48,7 @@ public class SHA512Test {
         final byte[] src = new byte[1_000_000];
         Arrays.fill(src, (byte) 'a');
         final byte[] actual = SHA512.hash(src);
-        final byte[] expected =
-            bytes(
+        final byte[] expected = bytes(
                 0xe718483d0ce76964L,
                 0x4e2e42c7bc15b463L,
                 0x8e1f98b13b204428L,

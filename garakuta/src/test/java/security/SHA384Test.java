@@ -14,8 +14,7 @@ public class SHA384Test {
     public void test_hash_one_block_message() throws Exception {
         final byte[] src = "abc".getBytes();
         final byte[] actual = SHA384.hash(src);
-        final byte[] expected =
-            bytes(
+        final byte[] expected = bytes(
                 0xcb00753f45a35e8bL,
                 0xb5a03d699ac65007L,
                 0x272c32ab0eded163L,
@@ -27,12 +26,10 @@ public class SHA384Test {
 
     @Test
     public void test_hash_multi_block_message() throws Exception {
-        final byte[] src =
-            "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu"
+        final byte[] src = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu"
                 .getBytes();
         final byte[] actual = SHA384.hash(src);
-        final byte[] expected =
-            bytes(
+        final byte[] expected = bytes(
                 0x09330c33f71147e8L,
                 0x3d192fc782cd1b47L,
                 0x53111b173b3b05d2L,
@@ -47,8 +44,7 @@ public class SHA384Test {
         final byte[] src = new byte[1_000_000];
         Arrays.fill(src, (byte) 'a');
         final byte[] actual = SHA384.hash(src);
-        final byte[] expected =
-            bytes(
+        final byte[] expected = bytes(
                 0x9d0e1809716474cbL,
                 0x086e834e310a4a1cL,
                 0xed149e9c00f24852L,

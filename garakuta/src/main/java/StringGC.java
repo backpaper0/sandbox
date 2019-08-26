@@ -39,7 +39,8 @@ public class StringGC {
      */
     public void print() {
         System.out.printf("%s: GC%s%n", name, ref.isEnqueued()
-                ? "されたよ╭( ・ㅂ・)و ̑̑ ｸﾞｯ ! " : "されてないよ");
+                ? "されたよ╭( ・ㅂ・)و ̑̑ ｸﾞｯ ! "
+                : "されてないよ");
     }
 
     public static void main(final String[] args) throws Exception {

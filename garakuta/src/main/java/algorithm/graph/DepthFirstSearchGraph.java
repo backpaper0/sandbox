@@ -73,9 +73,11 @@ public class DepthFirstSearchGraph {
     static class Graph<T> {
         final List<Node<T>> nodes = new ArrayList<>();
         int counter;
+
         void add(final Node<T> node) {
             nodes.add(node);
         }
+
         void search() {
             visit(nodes.get(0));
             for (final Node<T> node : nodes) {
@@ -84,6 +86,7 @@ public class DepthFirstSearchGraph {
                 }
             }
         }
+
         void visit(final Node<T> node) {
             node.color = Color.GRAY;
             node.discovered = ++counter;
@@ -117,13 +120,16 @@ public class DepthFirstSearchGraph {
         Node<T> pred;
         int discovered;
         int finished;
+
         public Node(final T value) {
             this.value = value;
         }
+
         @SafeVarargs
         final void addNeighbors(final Node<T>... neighbors) {
             this.neighbors.addAll(Arrays.asList(neighbors));
         }
+
         @Override
         public String toString() {
             return String.format("%4s %4s %10s %8s", value, pred != null ? pred.value : "",

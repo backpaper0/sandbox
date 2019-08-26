@@ -14,8 +14,7 @@ public class SHA256Test {
     public void test_hash_one_block_message() throws Exception {
         final byte[] src = "abc".getBytes();
         final byte[] actual = SHA256.hash(src);
-        final byte[] expected =
-            bytes(
+        final byte[] expected = bytes(
                 0xba7816bf,
                 0x8f01cfea,
                 0x414140de,
@@ -31,8 +30,7 @@ public class SHA256Test {
     public void test_hash_multi_block_message() throws Exception {
         final byte[] src = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq".getBytes();
         final byte[] actual = SHA256.hash(src);
-        final byte[] expected =
-            bytes(
+        final byte[] expected = bytes(
                 0x248d6a61,
                 0xd20638b8,
                 0xe5c02693,
@@ -49,8 +47,7 @@ public class SHA256Test {
         final byte[] src = new byte[1_000_000];
         Arrays.fill(src, (byte) 'a');
         final byte[] actual = SHA256.hash(src);
-        final byte[] expected =
-            bytes(
+        final byte[] expected = bytes(
                 0xcdc76e5c,
                 0x9914fb92,
                 0x81a1c7e2,

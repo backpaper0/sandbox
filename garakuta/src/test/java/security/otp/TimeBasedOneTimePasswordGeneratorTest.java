@@ -34,7 +34,8 @@ public class TimeBasedOneTimePasswordGeneratorTest {
     public static List<Fixture> parameters() {
         final byte[] key1 = "12345678901234567890".getBytes();
         final byte[] key2 = "12345678901234567890123456789012".getBytes();
-        final byte[] key3 = "1234567890123456789012345678901234567890123456789012345678901234".getBytes();
+        final byte[] key3 = "1234567890123456789012345678901234567890123456789012345678901234"
+                .getBytes();
 
         final List<Fixture> ps = new ArrayList<>();
 
@@ -66,7 +67,9 @@ public class TimeBasedOneTimePasswordGeneratorTest {
         byte[] key;
         long unixTime;
         int expected;
-        public Fixture(final String algorithm, final int digit, final byte[] key, final long unixTime, final int expected) {
+
+        public Fixture(final String algorithm, final int digit, final byte[] key,
+                final long unixTime, final int expected) {
             this.algorithm = algorithm;
             this.digit = digit;
             this.key = key;

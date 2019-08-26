@@ -45,24 +45,30 @@ public final class TimeBasedOneTimePasswordGenerator {
         private int digit = 6;
         private long x = 30;
         private long t0 = 0;
+
         private Builder() {
         }
+
         public Builder algorithm(final String algorithm) {
             this.algorithm = algorithm;
             return this;
         }
+
         public Builder digit(final int digit) {
             this.digit = digit;
             return this;
         }
+
         public Builder x(final long x) {
             this.x = x;
             return this;
         }
+
         public Builder t0(final long t0) {
             this.t0 = t0;
             return this;
         }
+
         public TimeBasedOneTimePasswordGenerator build() {
             return new TimeBasedOneTimePasswordGenerator(this);
         }

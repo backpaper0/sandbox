@@ -94,7 +94,7 @@ public class StreamZipExample {
     }
 
     private static class ZippedStreamImpl<T, U>
-            extends DelegateStream<Pair<T, U>>implements ZippedStream<T, U> {
+            extends DelegateStream<Pair<T, U>> implements ZippedStream<T, U> {
 
         public ZippedStreamImpl(final Stream<Pair<T, U>> stream) {
             super(stream);

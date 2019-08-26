@@ -1,5 +1,4 @@
 
-
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
@@ -24,8 +23,7 @@ public class GenericsTest {
 
     @Test
     public void test_class() throws Exception {
-        final ParameterizedType t =
-            (ParameterizedType) C.class.getGenericSuperclass();
+        final ParameterizedType t = (ParameterizedType) C.class.getGenericSuperclass();
 
         assertThat(t.getActualTypeArguments(), is(new Type[] { String.class }));
         assertTrue(t.getRawType() == ArrayList.class);
@@ -33,8 +31,7 @@ public class GenericsTest {
 
     @Test
     public void test_field() throws Exception {
-        final ParameterizedType t =
-            (ParameterizedType) getClass()
+        final ParameterizedType t = (ParameterizedType) getClass()
                 .getDeclaredField("f")
                 .getGenericType();
 
@@ -44,8 +41,7 @@ public class GenericsTest {
 
     @Test
     public void test_method_parameter() throws Exception {
-        final ParameterizedType t =
-            (ParameterizedType) getClass()
+        final ParameterizedType t = (ParameterizedType) getClass()
                 .getDeclaredMethod("m", List.class)
                 .getGenericParameterTypes()[0];
 
@@ -55,8 +51,7 @@ public class GenericsTest {
 
     @Test
     public void test_constructor_parameter() throws Exception {
-        final ParameterizedType t =
-            (ParameterizedType) C.class.getDeclaredConstructor(
+        final ParameterizedType t = (ParameterizedType) C.class.getDeclaredConstructor(
                 CopyOnWriteArrayList.class).getGenericParameterTypes()[0];
 
         assertThat(t.getActualTypeArguments(), is(new Type[] { String.class }));

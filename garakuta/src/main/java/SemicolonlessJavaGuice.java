@@ -7,7 +7,8 @@ public class SemicolonlessJavaGuice extends java.util.HashMap<String, Object> {
                     .peek(x -> binder.bindInterceptor(com.google.inject.matcher.Matchers.any(),
                             com.google.inject.matcher.Matchers.returns(
                                     com.google.inject.matcher.Matchers.subclassesOf(String.class)),
-                    invocation -> "HELLO WORLD")).count() > 0) {
+                            invocation -> "HELLO WORLD"))
+                    .count() > 0) {
             }
         }).getInstance(SemicolonlessJavaGuice.class)).peek(SemicolonlessJavaGuice::println)
                 .map(a -> (Hoge) a.get("hoge")).peek(a -> System.out.println(a.hello()))

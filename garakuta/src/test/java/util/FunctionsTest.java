@@ -13,10 +13,12 @@ public class FunctionsTest {
     @Test
     public void test_by() throws Exception {
 
-        final Object[] os1 = Stream.of("foo", "hello", "hoge").filter(s -> s.length() == 5).toArray();
+        final Object[] os1 = Stream.of("foo", "hello", "hoge").filter(s -> s.length() == 5)
+                .toArray();
         assertThat(os1).contains("hello");
 
-        final Object[] os2 = Stream.of("foo", "hello", "hoge").filter(by(String::length, isEqual(5)))
+        final Object[] os2 = Stream.of("foo", "hello", "hoge")
+                .filter(by(String::length, isEqual(5)))
                 .toArray();
         assertThat(os2).contains("hello");
 

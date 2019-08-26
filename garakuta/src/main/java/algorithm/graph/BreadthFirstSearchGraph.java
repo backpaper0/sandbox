@@ -76,9 +76,11 @@ public class BreadthFirstSearchGraph {
         final List<Node<T>> nodes = new ArrayList<>();
         int counter;
         PriorityQueue<Node<T>> queue = new PriorityQueue<>(Comparator.comparing(x -> x.distance));
+
         void add(final Node<T> node) {
             nodes.add(node);
         }
+
         void search() {
             final Node<T> start = nodes.get(0);
             start.color = Color.GRAY;
@@ -118,13 +120,16 @@ public class BreadthFirstSearchGraph {
         Color color = Color.WHITE;
         Node<T> pred;
         int distance;
+
         public Node(final T value) {
             this.value = value;
         }
+
         @SafeVarargs
         final void addNeighbors(final Node<T>... neighbors) {
             this.neighbors.addAll(Arrays.asList(neighbors));
         }
+
         @Override
         public String toString() {
             return String.format("%4s %7s %4s", value, distance, pred != null ? pred.value : "");
