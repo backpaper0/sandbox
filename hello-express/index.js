@@ -1,19 +1,11 @@
-const express = require('express');
-const app = express();
+const express = require('express')
+const app = express()
+const port = 3000
 
-const logger = (req, res, next) => {
-  console.log('hoge');
-  next();
-};
+app.get('/', (req, res) => res.send('Hello World!'))
 
-app.get('/hello', (req, res) => {
-  res.send('hello world')
-});
+app.get('/users/:userId/books/:bookId', function (req, res) {
+  res.send(req.params)
+})
 
-app.use(logger);
-
-app.get('/foobar', function(req, res) {
-  res.send('foobar')
-});
-
-app.listen(3000);
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
