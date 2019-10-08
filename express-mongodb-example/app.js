@@ -7,6 +7,11 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var tasksRouter = require('./routes/tasks');
 
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/example', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.set('debug', true);
+
 var app = express();
 
 app.use(logger('dev'));
