@@ -4,7 +4,7 @@ var router = express.Router();
 const authn = require("../authn");
 
 /* GET users listing. */
-router.get('/', authn, function(req, res, next) {
+router.get('/', authn.bearer, function(req, res, next) {
   res.send('respond with a resource');
 });
 
