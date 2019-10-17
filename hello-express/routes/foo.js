@@ -6,12 +6,12 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get('/', (req, res, next) => {
-  res.send("GET foo");
-});
-
-router.post('/', (req, res, next) => {
-  res.send("POST foo");
-});
+router.route("/")
+  .get((req, res, next) => {
+    res.send("GET foo");
+  })
+  .post( (req, res, next) => {
+    res.send("POST foo");
+  });
 
 module.exports = router;
