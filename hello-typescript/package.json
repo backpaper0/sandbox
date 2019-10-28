@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-      "build":"tsc index.ts",
+    "build": "tsc index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^2.1.5"
+    "typescript": "^3.6.4"
   }
 }
