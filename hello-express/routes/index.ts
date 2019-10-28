@@ -1,9 +1,9 @@
-var express = require('express');
+import express = require('express');
 var router = express.Router();
 
-router.get("/", (req, res, next) => res.send("Hello, world!"));
+router.get("/", (req: express.Request, res: express.Response, next: express.NextFunction) => res.send("Hello, world!"));
 
-router.post('/', function(req, res, next) {
+router.post('/', function(req: express.Request, res: express.Response, next: express.NextFunction) {
   const { a } = req.body;
   if (a === "1") {
     throw "1";
