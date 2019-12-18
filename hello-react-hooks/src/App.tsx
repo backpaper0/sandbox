@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const App: React.FC = () => {
-  const countUp = () => {};
-  const count = 1;
+  const [count, setCount] = useState(0);
+  const countUp = () => setCount(count + 1);
   return (
     <div>
       <button onClick={countUp}>increase</button>
