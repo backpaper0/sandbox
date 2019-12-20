@@ -1,0 +1,25 @@
+body {
+  background-color: #CBC5FF;
+  color: #86A5D9;
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  padding: 1rem;
+}
+
+header {
+  background-color: #5F4BB6;
+  color: #9690FF;
+  width: 100%;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+header.fixed {
+  position: fixed;
+  top: 0;
+  margin-top: 0;
+}
