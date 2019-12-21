@@ -13,9 +13,11 @@ header {
   background-color: #5F4BB6;
   color: #9690FF;
   width: 100%;
-  padding: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+header a {
+  color: #9690FF;
 }
 
 header.fixed {
