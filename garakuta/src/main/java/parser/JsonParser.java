@@ -51,7 +51,7 @@ public class JsonParser {
             if (c != cs[i]) {
                 throw new JsonException(this);
             }
-            next();
+            consume();
         }
     }
 
@@ -59,7 +59,7 @@ public class JsonParser {
         if (this.c != c) {
             throw new JsonException(this);
         }
-        next();
+        consume();
     }
 
     private Map<String, Object> object() throws JsonException {
@@ -76,14 +76,14 @@ public class JsonParser {
             map.put(key, value);
             final boolean comma = (c == ',');
             if (comma) {
-                next();
+                consume();
             }
             skipWhitespace();
             if (comma == false && c != '}') {
                 throw new JsonException(this);
             }
         }
-        next();
+        consume();
         return map;
     }
 
@@ -97,14 +97,14 @@ public class JsonParser {
             list.add(value);
             final boolean comma = (c == ',');
             if (comma) {
-                next();
+                consume();
             }
             skipWhitespace();
             if (comma == false && c != ']') {
                 throw new JsonException(this);
             }
         }
-        next();
+        consume();
         return list;
     }
 
@@ -113,33 +113,33 @@ public class JsonParser {
         expect('\"');
         while (c != '"') {
             if ((c == '\\')) {
-                next();
+                consume();
                 if (c == '\"') {
                     sb.append('\"');
-                    next();
+                    consume();
                 } else if (c == '\\') {
                     sb.append('\\');
-                    next();
+                    consume();
                 } else if (c == '/') {
                     sb.append('/');
-                    next();
+                    consume();
                 } else if (c == 'b') {
                     sb.append('\b');
-                    next();
+                    consume();
                 } else if (c == 'f') {
                     sb.append('\f');
-                    next();
+                    consume();
                 } else if (c == 'n') {
                     sb.append('\n');
-                    next();
+                    consume();
                 } else if (c == 'r') {
                     sb.append('\r');
-                    next();
+                    consume();
                 } else if (c == 't') {
                     sb.append('\t');
-                    next();
+                    consume();
                 } else if (c == 'u') {
-                    next();
+                    consume();
                     final int cs[] = new int[4];
                     for (int i = 0; i < cs.length; i++) {
                         if ('0' <= c && c <= '9') {
@@ -151,7 +151,7 @@ public class JsonParser {
                         } else {
                             throw new JsonException(this);
                         }
-                        next();
+                        consume();
                     }
                     sb.append((char) (cs[0] << 0xc | cs[1] << 0x8 | cs[2] << 0x4 | cs[3]));
                 } else {
@@ -159,10 +159,10 @@ public class JsonParser {
                 }
             } else {
                 sb.append(c);
-                next();
+                consume();
             }
         }
-        next();
+        consume();
         return sb.toString();
     }
 
@@ -170,33 +170,33 @@ public class JsonParser {
         final StringBuilder sb = new StringBuilder();
         if (c == '-') {
             sb.append(c);
-            next();
+            consume();
         }
         while ('0' <= c && c <= '9') {
             sb.append(c - 48);
-            next();
+            consume();
         }
         if (c == '.') {
             sb.append(c);
-            next();
+            consume();
             if (('0' <= c && c <= '9') == false) {
                 throw new JsonException(this);
             }
             while ('0' <= c && c <= '9') {
                 sb.append(c - 48);
-                next();
+                consume();
             }
         }
         if (c == 'e' || c == 'E') {
             sb.append(c);
-            next();
+            consume();
             if (c == '+' || c == '-') {
                 sb.append(c);
-                next();
+                consume();
             }
             while ('0' <= c && c <= '9') {
                 sb.append(c - 48);
-                next();
+                consume();
             }
         }
         return Double.valueOf(sb.toString());
@@ -204,11 +204,11 @@ public class JsonParser {
 
     private void skipWhitespace() throws JsonException {
         while (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
-            next();
+            consume();
         }
     }
 
-    private void next() throws JsonException {
+    private void consume() throws JsonException {
         index++;
         if (index < cs.length) {
             c = cs[index];
@@ -218,7 +218,7 @@ public class JsonParser {
         }
     }
 
-    public Object get() throws JsonException {
+    public Object parse() throws JsonException {
         skipWhitespace();
         if (c == '{') {
             return object();
@@ -228,9 +228,9 @@ public class JsonParser {
         throw new JsonException(this);
     }
 
-    public static Object get(final String text) throws JsonException {
+    public static Object parse(final String text) throws JsonException {
         final JsonParser json = new JsonParser(text);
-        return json.get();
+        return json.parse();
     }
 
     @Override
