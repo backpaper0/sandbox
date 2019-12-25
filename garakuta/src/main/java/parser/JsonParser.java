@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Json {
+public class JsonParser {
 
     private static final char[] TRUE = "true".toCharArray();
 
@@ -19,7 +19,7 @@ public class Json {
 
     private int index;
 
-    public Json(final String text) {
+    public JsonParser(final String text) {
         cs = text.toCharArray();
         c = cs[index = 0];
     }
@@ -229,7 +229,7 @@ public class Json {
     }
 
     public static Object get(final String text) throws JsonException {
-        final Json json = new Json(text);
+        final JsonParser json = new JsonParser(text);
         return json.get();
     }
 
@@ -253,7 +253,7 @@ public class Json {
 
     public static class JsonException extends Exception {
 
-        public JsonException(final Json json) {
+        public JsonException(final JsonParser json) {
             super(json.toString());
         }
     }
