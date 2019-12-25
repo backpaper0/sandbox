@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import parser.JsonParser.JsonException;
+
 public class JsonParserTest {
 
     @Test
@@ -108,4 +110,9 @@ public class JsonParserTest {
         assertEquals("あ", map.get("a"));
     }
 
+    @Test
+    public void test_parse_error() throws Exception {
+        assertThrows(JsonException.class,
+                () -> JsonParser.parse("{\"a\":\"hello\",\"b\":123,\"c\":true}x"));
+    }
 }

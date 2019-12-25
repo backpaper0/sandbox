@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class JsonParser {
 
+    private static final char EOF = (char) -1;
+
     private static final char[] TRUE = "true".toCharArray();
 
     private static final char[] FALSE = "false".toCharArray();
@@ -21,7 +23,7 @@ public class JsonParser {
 
     public JsonParser(final String text) {
         cs = text.toCharArray();
-        c = cs[index = 0];
+        consume();
     }
 
     private Object value() throws JsonException {
@@ -208,22 +210,24 @@ public class JsonParser {
         }
     }
 
-    private void consume() throws JsonException {
-        index++;
+    private void consume() {
         if (index < cs.length) {
-            c = cs[index];
-        }
-        if (index > cs.length) {
-            throw new JsonException(this);
+            c = cs[index++];
+        } else {
+            c = EOF;
         }
     }
 
     public Object parse() throws JsonException {
         skipWhitespace();
         if (c == '{') {
-            return object();
+            final Map<String, Object> o = object();
+            expect(EOF);
+            return o;
         } else if (c == '[') {
-            return array();
+            final List<Object> a = array();
+            expect(EOF);
+            return a;
         }
         throw new JsonException(this);
     }
