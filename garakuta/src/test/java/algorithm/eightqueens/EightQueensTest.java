@@ -1,6 +1,7 @@
 package algorithm.eightqueens;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
 import java.util.stream.Stream;
 
@@ -19,10 +20,10 @@ class EightQueensTest {
 
     static Stream<Arguments> pow() {
         return Stream.of(
-                Arguments.of(3, 0, 1),
-                Arguments.of(3, 1, 3),
-                Arguments.of(3, 2, 3 * 3),
-                Arguments.of(3, 3, 3 * 3 * 3));
+                arguments(3, 0, 1),
+                arguments(3, 1, 3),
+                arguments(3, 2, 3 * 3),
+                arguments(3, 3, 3 * 3 * 3));
     }
 
     @ParameterizedTest
@@ -34,10 +35,10 @@ class EightQueensTest {
 
     static Stream<Arguments> validate() {
         return Stream.of(
-                Arguments.of(new int[] { 0, 0, 0, 0 }, false),
-                Arguments.of(new int[] { 0, 3, 1, 0 }, false),
-                Arguments.of(new int[] { 0, 1, 2, 3 }, false),
-                Arguments.of(new int[] { 0, 3, 1, 2 }, false),
-                Arguments.of(new int[] { 2, 0, 3, 1 }, true));
+                arguments(new int[] { 0, 0, 0, 0 }, false),
+                arguments(new int[] { 0, 3, 1, 0 }, false),
+                arguments(new int[] { 0, 1, 2, 3 }, false),
+                arguments(new int[] { 0, 3, 1, 2 }, false),
+                arguments(new int[] { 2, 0, 3, 1 }, true));
     }
 }

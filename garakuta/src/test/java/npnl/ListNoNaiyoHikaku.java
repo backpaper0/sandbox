@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
@@ -15,14 +14,14 @@ import org.junit.jupiter.api.Test;
 /**
  * @see <a href="http://npnl.hatenablog.jp/entry/20101023/1287835025">お題：リストの内容比較</a>
  */
-public class ListNoNaiyoHikaku {
+class ListNoNaiyoHikaku {
 
-    List<String> l = Arrays.asList("aaa bbb ccc bbb eee hhhh".split(" "));
+    List<String> l = List.of("aaa bbb ccc bbb eee hhhh".split(" "));
 
-    List<String> r = Arrays.asList("bbb ddd eee fff ggg iiiii".split(" "));
+    List<String> r = List.of("bbb ddd eee fff ggg iiiii".split(" "));
 
     @Test
-    public void test() throws Exception {
+    void test() throws Exception {
         final StringWriter actual = new StringWriter();
         listNoNaiyoHikaku(l, r, actual);
 
@@ -36,7 +35,7 @@ public class ListNoNaiyoHikaku {
     }
 
     @Test
-    public void testName() throws Exception {
+    void testName() throws Exception {
         final StringWriter actual = new StringWriter();
         narabeteShutsuryoku(l, r, actual);
 

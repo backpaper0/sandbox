@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import security.Length.Status;
 
-public class LengthTest {
+class LengthTest {
 
     @Test
-    public void setBytes() throws Exception {
+    void setBytes() throws Exception {
         final Length len = new Length(8);
         len.iValue = 0b10110011100011110000111110000011;
         final byte[] bs = new byte[10];
@@ -29,7 +29,7 @@ public class LengthTest {
     }
 
     @Test
-    public void increment() throws Exception {
+    void increment() throws Exception {
         final Length len = new Length(8);
         len.iValue = Integer.MAX_VALUE - 9;
 

@@ -1,6 +1,7 @@
 package parser.expression;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 import static parser.expression.ExpressionNode.*;
 
 import java.util.stream.Stream;
@@ -31,20 +32,20 @@ class ExpressionParserTest {
 
     static Stream<Arguments> fixtures() {
         return Stream.of(
-                Arguments.of("0", val(0), 0),
-                Arguments.of("1", val(1), 1),
-                Arguments.of("234567890", val(234567890), 234567890),
-                Arguments.of("1+2+3+4", add(add(add(val(1), val(2)), val(3)), val(4)),
+                arguments("0", val(0), 0),
+                arguments("1", val(1), 1),
+                arguments("234567890", val(234567890), 234567890),
+                arguments("1+2+3+4", add(add(add(val(1), val(2)), val(3)), val(4)),
                         1 + 2 + 3 + 4),
-                Arguments.of("9-1-2-3", sub(sub(sub(val(9), val(1)), val(2)), val(3)),
+                arguments("9-1-2-3", sub(sub(sub(val(9), val(1)), val(2)), val(3)),
                         9 - 1 - 2 - 3),
-                Arguments.of("1*2*3*4", mul(mul(mul(val(1), val(2)), val(3)), val(4)),
+                arguments("1*2*3*4", mul(mul(mul(val(1), val(2)), val(3)), val(4)),
                         1 * 2 * 3 * 4),
-                Arguments.of("210/5/3/2", div(div(div(val(210), val(5)), val(3)), val(2)),
+                arguments("210/5/3/2", div(div(div(val(210), val(5)), val(3)), val(2)),
                         210 / 5 / 3 / 2),
-                Arguments.of("1+2*3+4", add(add(val(1), mul(val(2), val(3))), val(4)),
+                arguments("1+2*3+4", add(add(val(1), mul(val(2), val(3))), val(4)),
                         1 + 2 * 3 + 4),
-                Arguments.of("(1+2)*(3+4)", mul(add(val(1), val(2)), add(val(3), val(4))),
+                arguments("(1+2)*(3+4)", mul(add(val(1), val(2)), add(val(3), val(4))),
                         (1 + 2) * (3 + 4)));
     }
 }

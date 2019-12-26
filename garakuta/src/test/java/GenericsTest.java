@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.junit.jupiter.api.Test;
 
-public class GenericsTest {
+class GenericsTest {
 
     static class C extends ArrayList<String> {
 
@@ -21,7 +21,7 @@ public class GenericsTest {
     LinkedList<String> f;
 
     @Test
-    public void test_class() throws Exception {
+    void test_class() throws Exception {
         final ParameterizedType t = (ParameterizedType) C.class.getGenericSuperclass();
 
         assertArrayEquals(new Type[] { String.class }, t.getActualTypeArguments());
@@ -29,7 +29,7 @@ public class GenericsTest {
     }
 
     @Test
-    public void test_field() throws Exception {
+    void test_field() throws Exception {
         final ParameterizedType t = (ParameterizedType) getClass()
                 .getDeclaredField("f")
                 .getGenericType();
@@ -39,7 +39,7 @@ public class GenericsTest {
     }
 
     @Test
-    public void test_method_parameter() throws Exception {
+    void test_method_parameter() throws Exception {
         final ParameterizedType t = (ParameterizedType) getClass()
                 .getDeclaredMethod("m", List.class)
                 .getGenericParameterTypes()[0];
@@ -49,7 +49,7 @@ public class GenericsTest {
     }
 
     @Test
-    public void test_constructor_parameter() throws Exception {
+    void test_constructor_parameter() throws Exception {
         final ParameterizedType t = (ParameterizedType) C.class.getDeclaredConstructor(
                 CopyOnWriteArrayList.class).getGenericParameterTypes()[0];
 

@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import parser.JsonParser.JsonException;
 
-public class JsonParserTest {
+class JsonParserTest {
 
     @Test
-    public void test_object() throws Exception {
+    void test_object() throws Exception {
         final Map<String, Object> map = (Map<String, Object>) JsonParser
                 .parse("{\"a\":\"hello\",\"b\":123,\"c\":true}");
         assertEquals(3, map.size());
@@ -22,7 +22,7 @@ public class JsonParserTest {
     }
 
     @Test
-    public void test_object_with_whitespace() throws Exception {
+    void test_object_with_whitespace() throws Exception {
         final Map<String, Object> map = (Map<String, Object>) JsonParser
                 .parse("{ \"a\" : \"hello\", \"b\" : 123, \"c\" : true }");
         assertEquals(3, map.size());
@@ -32,7 +32,7 @@ public class JsonParserTest {
     }
 
     @Test
-    public void test_nest() throws Exception {
+    void test_nest() throws Exception {
         final Map<String, Object> map = (Map<String, Object>) JsonParser
                 .parse("{ \"a\" : [\"b\", { \"c\" : null }] }");
         assertEquals(1, map.size());
@@ -45,21 +45,21 @@ public class JsonParserTest {
     }
 
     @Test
-    public void test_number_0() throws Exception {
+    void test_number_0() throws Exception {
         final Map<String, Object> map = (Map<String, Object>) JsonParser.parse("{\"a\":0}");
         assertEquals(1, map.size());
         assertEquals(0d, map.get("a"));
     }
 
     @Test
-    public void test_number_negative() throws Exception {
+    void test_number_negative() throws Exception {
         final Map<String, Object> map = (Map<String, Object>) JsonParser.parse("{\"a\":-456}");
         assertEquals(1, map.size());
         assertEquals(-456d, map.get("a"));
     }
 
     @Test
-    public void test_number_point() throws Exception {
+    void test_number_point() throws Exception {
         final Map<String, Object> map = (Map<String, Object>) JsonParser
                 .parse("{\"a\":12345.6789}");
         assertEquals(1, map.size());
@@ -67,28 +67,28 @@ public class JsonParserTest {
     }
 
     @Test
-    public void test_number_point_with_e() throws Exception {
+    void test_number_point_with_e() throws Exception {
         final Map<String, Object> map = (Map<String, Object>) JsonParser.parse("{\"a\":123e4}");
         assertEquals(1, map.size());
         assertEquals(123e4d, map.get("a"));
     }
 
     @Test
-    public void test_number_point_with_e_with_sign() throws Exception {
+    void test_number_point_with_e_with_sign() throws Exception {
         final Map<String, Object> map = (Map<String, Object>) JsonParser.parse("{\"a\":123e+4}");
         assertEquals(1, map.size());
         assertEquals(123e+4d, map.get("a"));
     }
 
     @Test
-    public void test_number_point_with_E() throws Exception {
+    void test_number_point_with_E() throws Exception {
         final Map<String, Object> map = (Map<String, Object>) JsonParser.parse("{\"a\":567E-8}");
         assertEquals(1, map.size());
         assertEquals(567E-8d, map.get("a"));
     }
 
     @Test
-    public void test_number_full() throws Exception {
+    void test_number_full() throws Exception {
         final Map<String, Object> map = (Map<String, Object>) JsonParser
                 .parse("{\"a\":-123.456e-7}");
         assertEquals(1, map.size());
@@ -96,14 +96,14 @@ public class JsonParserTest {
     }
 
     @Test
-    public void test_string_contains_double_quote() throws Exception {
+    void test_string_contains_double_quote() throws Exception {
         final Map<String, Object> map = (Map<String, Object>) JsonParser.parse("{\"a\":\"\\\"\"}");
         assertEquals(1, map.size());
         assertEquals("\"", map.get("a"));
     }
 
     @Test
-    public void test_string_unicode() throws Exception {
+    void test_string_unicode() throws Exception {
         final Map<String, Object> map = (Map<String, Object>) JsonParser
                 .parse("{\"a\":\"\\u3042\"}");
         assertEquals(1, map.size());
@@ -111,7 +111,7 @@ public class JsonParserTest {
     }
 
     @Test
-    public void test_parse_error() throws Exception {
+    void test_parse_error() throws Exception {
         assertThrows(JsonException.class,
                 () -> JsonParser.parse("{\"a\":\"hello\",\"b\":123,\"c\":true}x"));
     }

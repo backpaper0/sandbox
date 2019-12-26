@@ -10,10 +10,10 @@ import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Test;
 
-public class DateTimeExample {
+class DateTimeExample {
 
     @Test
-    public void testName() throws Exception {
+    void testName() throws Exception {
         final LocalDate date = LocalDate.now();
         System.out.println(date);
         final LocalDate date2 = date.plusYears(3);
@@ -36,13 +36,13 @@ public class DateTimeExample {
     }
 
     @Test
-    public void 今日の13時() throws Exception {
+    void 今日の13時() throws Exception {
         final LocalDateTime dateTime = LocalDate.now().atTime(13, 0);
         System.out.println(dateTime);
     }
 
     @Test
-    public void testParse() throws Exception {
+    void testParse() throws Exception {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         final LocalDate date = LocalDate.parse("2015/11/28", formatter);
         System.out.println(date);

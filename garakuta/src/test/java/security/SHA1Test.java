@@ -7,10 +7,10 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-public class SHA1Test {
+class SHA1Test {
 
     @Test
-    public void test_hash_one_block_message() throws Exception {
+    void test_hash_one_block_message() throws Exception {
         final byte[] src = "abc".getBytes();
         final byte[] actual = SHA1.hash(src);
         final byte[] expected = bytes(0xa9993e36, 0x4706816a, 0xba3e2571, 0x7850c26c, 0x9cd0d89d);
@@ -18,7 +18,7 @@ public class SHA1Test {
     }
 
     @Test
-    public void test_hash_multi_block_message() throws Exception {
+    void test_hash_multi_block_message() throws Exception {
         final byte[] src = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq".getBytes();
         final byte[] actual = SHA1.hash(src);
         final byte[] expected = bytes(0x84983e44, 0x1c3bd26e, 0xbaae4aa1, 0xf95129e5, 0xe54670f1);
@@ -26,7 +26,7 @@ public class SHA1Test {
     }
 
     @Test
-    public void test_hash_long_message() throws Exception {
+    void test_hash_long_message() throws Exception {
         final byte[] src = new byte[1_000_000];
         Arrays.fill(src, (byte) 'a');
         final byte[] actual = SHA1.hash(src);

@@ -12,10 +12,10 @@ import org.reactivestreams.Subscription;
 
 import reactor.core.publisher.Flux;
 
-public class ReactorStudy {
+class ReactorStudy {
 
     @Test
-    public void test() throws Exception {
+    void test() throws Exception {
 
         final Publisher<String> p = Flux.just("foo", "bar", "baz");
 

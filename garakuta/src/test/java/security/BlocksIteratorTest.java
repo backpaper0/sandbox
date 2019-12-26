@@ -6,10 +6,10 @@ import java.io.ByteArrayInputStream;
 
 import org.junit.jupiter.api.Test;
 
-public class BlocksIteratorTest {
+class BlocksIteratorTest {
 
     @Test
-    public void test_512bit_one_block() throws Exception {
+    void test_512bit_one_block() throws Exception {
         final BlocksIterator it = new BlocksIterator(64, 8,
                 new ByteArrayInputStream("abc".getBytes()));
         assertTrue(it.hasNext());
@@ -24,7 +24,7 @@ public class BlocksIteratorTest {
     }
 
     @Test
-    public void testName() throws Exception {
+    void testName() throws Exception {
         final BlocksIterator it = new BlocksIterator(128, 16,
                 new ByteArrayInputStream("abc".getBytes()));
         assertTrue(it.hasNext());

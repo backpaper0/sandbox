@@ -1,6 +1,5 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,20 +18,20 @@ import org.junit.jupiter.api.Test;
 /**
  * @see http://backpaper0.github.io/2014/10/04/stream_collect.html
  */
-public class ScanCollectorTest {
+class ScanCollectorTest {
 
     @Test
-    public void test() throws Exception {
+    void test() throws Exception {
         final Stream<Integer> xs = IntStream.rangeClosed(1, 5).boxed();
         final List<Integer> actual = xs.collect(scan(0, Integer::sum));
-        assertEquals(Arrays.asList(0, 1, 3, 6, 10, 15), actual);
+        assertEquals(List.of(0, 1, 3, 6, 10, 15), actual);
     }
 
     @Test
-    public void testEmptyStream() throws Exception {
+    void testEmptyStream() throws Exception {
         final Stream<Integer> xs = Stream.empty();
         final List<Integer> actual = xs.collect(scan(0, Integer::sum));
-        assertEquals(Arrays.asList(0), actual);
+        assertEquals(List.of(0), actual);
     }
 
     /**
@@ -53,7 +52,7 @@ public class ScanCollectorTest {
      * @param fn
      * @return
      */
-    public static <T, R> Collector<T, ?, List<R>> scan(final R init,
+    static <T, R> Collector<T, ?, List<R>> scan(final R init,
             final BiFunction<R, T, R> fn) {
 
         final Supplier<LinkedList<R>> supplier = () -> new LinkedList<>(

@@ -16,20 +16,20 @@ import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 
-public class LazyTest<T> {
+class LazyTest<T> {
 
     @Test
-    public void testLazy() throws Exception {
+    void testLazy() throws Exception {
         test(Lazy::new);
     }
 
     @Test
-    public void testConcurrentHashMapLazy() throws Exception {
+    void testConcurrentHashMapLazy() throws Exception {
         test(ConcurrentHashMapLazy::new);
     }
 
     @Test
-    public void testFutureTaskLazy() throws Exception {
+    void testFutureTaskLazy() throws Exception {
         test(FutureTaskLazy::new);
     }
 

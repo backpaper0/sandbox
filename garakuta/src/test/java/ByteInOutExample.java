@@ -2,10 +2,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class ByteInOutExample {
+class ByteInOutExample {
 
     @Test
-    public void testInt() throws Exception {
+    void testInt() throws Exception {
         final long value1 = 1234567890987654321L;
 
         final byte[] bs = new byte[8];

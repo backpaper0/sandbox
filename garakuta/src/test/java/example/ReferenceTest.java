@@ -9,10 +9,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
-public class ReferenceTest {
+class ReferenceTest {
 
     @Test
-    public void test_WeakReference() throws Exception {
+    void test_WeakReference() throws Exception {
 
         //finalizeが呼ばれることを確認するために使用するラッチ
         final CountDownLatch finalized = new CountDownLatch(1);

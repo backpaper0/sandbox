@@ -4,10 +4,10 @@ import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Test;
 
-public class NullPo {
+class NullPo {
 
     @Test
-    public void testFor() throws Exception {
+    void testFor() throws Exception {
         assertThrows(NullPointerException.class, () -> {
             final int[] xs = null;
             for (final int x : xs) {
@@ -16,7 +16,7 @@ public class NullPo {
     }
 
     @Test
-    public void testSwitch() throws Exception {
+    void testSwitch() throws Exception {
         assertThrows(NullPointerException.class, () -> {
             final String x = null;
             switch (x) {
@@ -25,13 +25,13 @@ public class NullPo {
     }
 
     @Test
-    public void testTryWithResource() throws Exception {
+    void testTryWithResource() throws Exception {
         try (AutoCloseable x = null) {
         }
     }
 
     @Test
-    public void testUnboxing() throws Exception {
+    void testUnboxing() throws Exception {
         assertThrows(NullPointerException.class, () -> {
             final Integer x = null;
             final int y = x;
@@ -47,7 +47,7 @@ public class NullPo {
     }
 
     @Test
-    public void testStaticMethod() throws Exception {
+    void testStaticMethod() throws Exception {
         final Hoge x = null;
         x.foobar();
     }

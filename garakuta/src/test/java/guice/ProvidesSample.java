@@ -13,10 +13,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 
-public class ProvidesSample {
+class ProvidesSample {
 
     @Test
-    public void test() throws Exception {
+    void test() throws Exception {
         final Injector injector = Guice.createInjector(new AbstractModule() {
 
             @Override
@@ -48,7 +48,7 @@ public class ProvidesSample {
     }
 
     @Test
-    public void testNamed() throws Exception {
+    void testNamed() throws Exception {
         final Injector injector = Guice.createInjector(new AbstractModule() {
 
             @Override
