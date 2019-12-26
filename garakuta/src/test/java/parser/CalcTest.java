@@ -1,40 +1,29 @@
 package parser;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import parser.Calc.ParseException;
 
-@RunWith(Enclosed.class)
 public class CalcTest {
 
-    @RunWith(Parameterized.class)
     public static class NormalTest {
 
-        @Parameter(0)
-        public Fixture fixture;
-
-        @Test
-        public void test() throws Exception {
+        @ParameterizedTest
+        @MethodSource("parameters")
+        public void test(final Fixture fixture) throws Exception {
             final int actual = Calc.calc(fixture.source);
             final int expected = fixture.expected;
-            assertThat(actual, is(expected));
+            assertEquals(expected, actual);
         }
 
-        @Parameters(name = "{0}")
-        public static Iterable<Fixture> parameters() {
+        public static Stream<Fixture> parameters() {
             final List<Fixture> fs = new ArrayList<>();
             fs.add(new Fixture("1 + 2 + 3", 1 + 2 + 3));
             fs.add(new Fixture("1 * 2 * 3", 1 * 2 * 3));
@@ -49,7 +38,7 @@ public class CalcTest {
             fs.add(new Fixture("1 + +123", 1 + +123));
             fs.add(new Fixture("1 + +    123", 1 + +/**/123));
             fs.add(new Fixture("2 * -    123", 2 * -/**/123));
-            return fs;
+            return fs.stream();
         }
 
         static class Fixture {
@@ -69,21 +58,15 @@ public class CalcTest {
         }
     }
 
-    @RunWith(Parameterized.class)
     public static class ParseErrorTest {
-        @Rule
-        public ExpectedException ee = ExpectedException.none();
-        @Parameter(0)
-        public String source;
 
-        @Test
-        public void test() throws Exception {
-            ee.expect(ParseException.class);
-            Calc.calc(source);
+        @ParameterizedTest
+        @MethodSource("parameters")
+        public void test(final String source) throws Exception {
+            assertThrows(ParseException.class, () -> Calc.calc(source));
         }
 
-        @Parameters(name = "{0}")
-        public static Iterable<String> parameters() {
+        public static Stream<String> parameters() {
             final List<String> sources = new ArrayList<>();
             sources.add("+");
             sources.add("-");
@@ -95,7 +78,7 @@ public class CalcTest {
             sources.add("1-");
             sources.add("1*");
             sources.add("1/");
-            return sources;
+            return sources.stream();
         }
     }
 }

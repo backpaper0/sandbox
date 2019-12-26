@@ -1,24 +1,19 @@
 package security.otp;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class TimeBasedOneTimePasswordGeneratorTest {
 
-    @Parameter(0)
-    public Fixture fixture;
-
-    @Test
-    public void test() throws Exception {
+    @ParameterizedTest
+    @MethodSource("parameters")
+    public void test(final Fixture fixture) throws Exception {
         final TimeBasedOneTimePasswordGenerator generator = TimeBasedOneTimePasswordGenerator
                 .builder()
                 .algorithm(fixture.algorithm)
@@ -30,8 +25,7 @@ public class TimeBasedOneTimePasswordGeneratorTest {
         assertEquals(fixture.expected, otp);
     }
 
-    @Parameters
-    public static List<Fixture> parameters() {
+    public static Stream<Fixture> parameters() {
         final byte[] key1 = "12345678901234567890".getBytes();
         final byte[] key2 = "12345678901234567890123456789012".getBytes();
         final byte[] key3 = "1234567890123456789012345678901234567890123456789012345678901234"
@@ -58,7 +52,7 @@ public class TimeBasedOneTimePasswordGeneratorTest {
         ps.add(new Fixture("HmacSHA256", 8, key2, 20000000000L, 77737706));
         ps.add(new Fixture("HmacSHA512", 8, key3, 20000000000L, 47863826));
 
-        return ps;
+        return ps.stream();
     }
 
     static class Fixture {

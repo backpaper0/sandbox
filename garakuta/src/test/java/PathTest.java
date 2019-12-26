@@ -1,10 +1,9 @@
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PathTest {
 
@@ -13,6 +12,6 @@ public class PathTest {
         final Path a = Paths.get("opt", "foo", "bar", "baz");
         final Path b = Paths.get("opt", "foo");
         final Path c = b.relativize(a);
-        assertThat(c, is(Paths.get("bar", "baz")));
+        assertEquals(Paths.get("bar", "baz"), c);
     }
 }

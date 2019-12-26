@@ -6,7 +6,7 @@ import static util.Functions.*;
 
 import java.util.stream.Stream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FunctionsTest {
 

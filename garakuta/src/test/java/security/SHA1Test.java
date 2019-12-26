@@ -1,12 +1,11 @@
 package security;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SHA1Test {
 
@@ -15,7 +14,7 @@ public class SHA1Test {
         final byte[] src = "abc".getBytes();
         final byte[] actual = SHA1.hash(src);
         final byte[] expected = bytes(0xa9993e36, 0x4706816a, 0xba3e2571, 0x7850c26c, 0x9cd0d89d);
-        assertThat(actual, is(expected));
+        assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -23,7 +22,7 @@ public class SHA1Test {
         final byte[] src = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq".getBytes();
         final byte[] actual = SHA1.hash(src);
         final byte[] expected = bytes(0x84983e44, 0x1c3bd26e, 0xbaae4aa1, 0xf95129e5, 0xe54670f1);
-        assertThat(actual, is(expected));
+        assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -32,7 +31,7 @@ public class SHA1Test {
         Arrays.fill(src, (byte) 'a');
         final byte[] actual = SHA1.hash(src);
         final byte[] expected = bytes(0x34aa973c, 0xd4c4daa4, 0xf61eeb2b, 0xdbad2731, 0x6534016f);
-        assertThat(actual, is(expected));
+        assertArrayEquals(expected, actual);
     }
 
     private static byte[] bytes(final int... is) {

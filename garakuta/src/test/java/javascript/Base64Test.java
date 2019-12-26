@@ -1,7 +1,6 @@
 package javascript;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -11,8 +10,8 @@ import java.util.Base64;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Base64Test {
 
@@ -22,11 +21,10 @@ public class Base64Test {
     public void test() throws Exception {
         final Object o = engine
                 .eval("encodeBase64('hello'.split('').map(function(a) { return a.charCodeAt(0); }))");
-        assertThat(o,
-                is(Base64.getEncoder().encodeToString("hello".getBytes())));
+        assertEquals(Base64.getEncoder().encodeToString("hello".getBytes()), o);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         final ScriptEngineManager manager = new ScriptEngineManager();
         engine = manager.getEngineByMimeType("application/javascript");

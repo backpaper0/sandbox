@@ -1,9 +1,8 @@
 package security;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import security.Length.Status;
 
@@ -26,7 +25,7 @@ public class LengthTest {
                 (byte) 0b00001111,
                 (byte) 0b10000011,
                 0 };
-        assertThat(bs, is(expected));
+        assertArrayEquals(expected, bs);
     }
 
     @Test
@@ -34,18 +33,18 @@ public class LengthTest {
         final Length len = new Length(8);
         len.iValue = Integer.MAX_VALUE - 9;
 
-        assertThat(len.iValue, is(Integer.MAX_VALUE - 9));
-        assertThat(len.lValue, is(0L));
-        assertThat(len.status, is(Status.INT));
+        assertEquals(Integer.MAX_VALUE - 9, len.iValue);
+        assertEquals(0L, len.lValue);
+        assertEquals(Status.INT, len.status);
 
         len.increment();
-        assertThat(len.iValue, is(Integer.MAX_VALUE - 1));
-        assertThat(len.lValue, is(0L));
-        assertThat(len.status, is(Status.INT));
+        assertEquals(Integer.MAX_VALUE - 1, len.iValue);
+        assertEquals(0L, len.lValue);
+        assertEquals(Status.INT, len.status);
 
         len.increment();
-        assertThat(len.iValue, is(Integer.MAX_VALUE - 1));
-        assertThat(len.lValue, is(Integer.MAX_VALUE + 7L));
-        assertThat(len.status, is(Status.LONG));
+        assertEquals(Integer.MAX_VALUE - 1, len.iValue);
+        assertEquals(Integer.MAX_VALUE + 7L, len.lValue);
+        assertEquals(Status.LONG, len.status);
     }
 }

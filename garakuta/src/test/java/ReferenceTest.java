@@ -1,12 +1,14 @@
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import org.junit.Test;
+import java.util.function.LongSupplier;
+
+import org.junit.jupiter.api.Test;
 
 public class ReferenceTest {
 
@@ -30,11 +32,17 @@ public class ReferenceTest {
             }
         }, q);
 
-        assertThat(ref.isEnqueued(), is(false));
+        assertFalse(ref.isEnqueued());
 
-        System.gc();
+        //空きメモリが増えなくなるなるまでGCしまくる
+        final LongSupplier f = () -> Runtime.getRuntime().freeMemory();
+        long freeMemory = f.getAsLong();
+        do {
+            System.gc();
+            System.out.println("GCしたよ");
+        } while (freeMemory < (freeMemory = f.getAsLong()));
 
-        assertThat(ref.isEnqueued(), is(true));
+        assertTrue(ref.isEnqueued());
 
         //finalizeが呼ばれてカウントダウンされるのを待つ
         //いつまで経っても終わらないと困るので

@@ -1,7 +1,6 @@
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ByteInOutExample {
 
@@ -27,6 +26,6 @@ public class ByteInOutExample {
                 + ((long) (bs[5] & 0xff) << 16L) + ((long) (bs[6] & 0xff) << 8L)
                 + ((long) (bs[7] & 0xff) << 0L);
 
-        assertThat(value2, is(value1));
+        assertEquals(value1, value2);
     }
 }

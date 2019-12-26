@@ -1,6 +1,5 @@
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -9,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GenericsTest {
 
@@ -25,7 +24,7 @@ public class GenericsTest {
     public void test_class() throws Exception {
         final ParameterizedType t = (ParameterizedType) C.class.getGenericSuperclass();
 
-        assertThat(t.getActualTypeArguments(), is(new Type[] { String.class }));
+        assertArrayEquals(new Type[] { String.class }, t.getActualTypeArguments());
         assertTrue(t.getRawType() == ArrayList.class);
     }
 
@@ -35,7 +34,7 @@ public class GenericsTest {
                 .getDeclaredField("f")
                 .getGenericType();
 
-        assertThat(t.getActualTypeArguments(), is(new Type[] { String.class }));
+        assertArrayEquals(new Type[] { String.class }, t.getActualTypeArguments());
         assertTrue(t.getRawType() == LinkedList.class);
     }
 
@@ -45,7 +44,7 @@ public class GenericsTest {
                 .getDeclaredMethod("m", List.class)
                 .getGenericParameterTypes()[0];
 
-        assertThat(t.getActualTypeArguments(), is(new Type[] { String.class }));
+        assertArrayEquals(new Type[] { String.class }, t.getActualTypeArguments());
         assertTrue(t.getRawType() == List.class);
     }
 
@@ -54,7 +53,7 @@ public class GenericsTest {
         final ParameterizedType t = (ParameterizedType) C.class.getDeclaredConstructor(
                 CopyOnWriteArrayList.class).getGenericParameterTypes()[0];
 
-        assertThat(t.getActualTypeArguments(), is(new Type[] { String.class }));
+        assertArrayEquals(new Type[] { String.class }, t.getActualTypeArguments());
         assertTrue(t.getRawType() == CopyOnWriteArrayList.class);
     }
 

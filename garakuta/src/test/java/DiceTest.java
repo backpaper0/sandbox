@@ -1,35 +1,28 @@
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.BiConsumer;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import java.util.stream.Stream;
 
-@RunWith(Parameterized.class)
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
 public class DiceTest {
-    private final String src;
-    private final String expected;
     private final Dice dice = new Dice();
 
-    public DiceTest(final int disuse, final String src, final String expected) {
-        this.src = src;
-        this.expected = expected;
-    }
-
-    @Test
-    public void test() throws Exception {
+    @ParameterizedTest
+    @MethodSource("parameters")
+    public void test(final String src, final String expected) throws Exception {
         final String actual = dice.solve(src);
-        assertThat(actual, is(expected));
+        assertEquals(expected, actual);
     }
 
-    @Parameters(name = "{0}: {1} -> {2}")
-    public static Collection<Object[]> parameters() {
-        final Collection<Object[]> ps = new ArrayList<>();
-        final BiConsumer<String, String> fn = (src, expected) -> ps.add(new Object[] {
-                ps.size(), src, expected });
+    public static Stream<Arguments> parameters() {
+        final Collection<Arguments> ps = new ArrayList<>();
+        final BiConsumer<String, String> fn = (src, expected) -> ps
+                .add(Arguments.arguments(src, expected));
         /*0*/fn.accept("NNESWWS", "15635624");
         /*1*/fn.accept("EEEE", "13641");
         /*2*/fn.accept("WWWW", "14631");
@@ -73,6 +66,6 @@ public class DiceTest {
         /*40*/fn.accept("NESEEN", "1531263");
         /*41*/fn.accept("WSW", "1426");
         /*42*/fn.accept("ENEWE", "135656");
-        return ps;
+        return ps.stream();
     }
 }

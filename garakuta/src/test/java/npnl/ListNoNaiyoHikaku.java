@@ -1,7 +1,6 @@
 package npnl;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -11,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @see <a href="http://npnl.hatenablog.jp/entry/20101023/1287835025">お題：リストの内容比較</a>
@@ -33,7 +32,7 @@ public class ListNoNaiyoHikaku {
         out.println("[right only] [ddd, fff, ggg, iiiii]");
         out.println("[both] [bbb, eee]");
 
-        assertThat(actual.toString(), is(expected.toString()));
+        assertEquals(expected.toString(), actual.toString());
     }
 
     @Test
@@ -53,7 +52,7 @@ public class ListNoNaiyoHikaku {
         out.println("hhhh | ");
         out.println("     | iiiii");
 
-        assertThat(actual.toString(), is(expected.toString()));
+        assertEquals(expected.toString(), actual.toString());
     }
 
     <T extends Comparable<T>> void narabeteShutsuryoku(final List<T> l, final List<T> r,

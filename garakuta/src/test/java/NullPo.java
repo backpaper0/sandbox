@@ -1,21 +1,27 @@
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.function.Consumer;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class NullPo {
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testFor() throws Exception {
-        final int[] xs = null;
-        for (final int x : xs) {
-        }
+        assertThrows(NullPointerException.class, () -> {
+            final int[] xs = null;
+            for (final int x : xs) {
+            }
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testSwitch() throws Exception {
-        final String x = null;
-        switch (x) {
-        }
+        assertThrows(NullPointerException.class, () -> {
+            final String x = null;
+            switch (x) {
+            }
+        });
     }
 
     @Test
@@ -24,16 +30,20 @@ public class NullPo {
         }
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testUnboxing() throws Exception {
-        final Integer x = null;
-        final int y = x;
+        assertThrows(NullPointerException.class, () -> {
+            final Integer x = null;
+            final int y = x;
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testThrow() throws Exception {
-        final UnsupportedOperationException e = null;
-        throw e;
+        assertThrows(NullPointerException.class, () -> {
+            final UnsupportedOperationException e = null;
+            throw e;
+        });
     }
 
     @Test
@@ -42,9 +52,11 @@ public class NullPo {
         x.foobar();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testInstantiation() throws Exception {
-        new Hoge(a -> a.x.length());
+        assertThrows(NullPointerException.class, () -> {
+            new Hoge(a -> a.x.length());
+        });
     }
 
     static class Hoge {

@@ -1,12 +1,11 @@
 package security;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SHA384Test {
 
@@ -21,7 +20,7 @@ public class SHA384Test {
                 0x1a8b605a43ff5bedL,
                 0x8086072ba1e7cc23L,
                 0x58baeca134c825a7L);
-        assertThat(actual, is(expected));
+        assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -36,7 +35,7 @@ public class SHA384Test {
                 0x2fa08086e3b0f712L,
                 0xfcc7c71a557e2db9L,
                 0x66c3e9fa91746039L);
-        assertThat(actual, is(expected));
+        assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -51,7 +50,7 @@ public class SHA384Test {
                 0x7972cec5704c2a5bL,
                 0x07b8b3dc38ecc4ebL,
                 0xae97ddd87f3d8985L);
-        assertThat(actual, is(expected));
+        assertArrayEquals(expected, actual);
     }
 
     private static byte[] bytes(final long... ls) {

@@ -1,39 +1,31 @@
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.BiConsumer;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import java.util.stream.Stream;
 
-@RunWith(Parameterized.class)
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
 public class BitBombermanTest {
 
-    private final String src;
-    private final String expected;
     private final BitBomberman bitBomberman = new BitBomberman();
 
-    public BitBombermanTest(final int disuse, final String src, final String expected) {
-        this.src = src;
-        this.expected = expected;
-    }
-
-    @Test
-    public void test() throws Exception {
+    @ParameterizedTest
+    @MethodSource("parameters")
+    public void test(final String src, final String expected) throws Exception {
         final String actual = bitBomberman.bomb(src);
-        assertThat(actual, is(expected));
+        assertEquals(expected, actual);
     }
 
-    @Parameters(name = "{0}: {1} -> {2}")
-    public static Collection<Object[]> parameters() {
+    public static Stream<Arguments> parameters() {
 
-        final List<Object[]> ps = new ArrayList<>();
+        final List<Arguments> ps = new ArrayList<>();
 
         final BiConsumer<String, String> fn = (src, expected) -> {
-            ps.add(new Object[] { ps.size(), src, expected });
+            ps.add(Arguments.arguments(src, expected));
         };
 
         /*0*/fn.accept("802b1200/01400c20", "53c40cfc");
@@ -67,6 +59,6 @@ public class BitBombermanTest {
         /*28*/fn.accept("10140140/44004a04", "eda3fe3c");
         /*29*/fn.accept("0c901d38/72602200", "f36da280");
 
-        return ps;
+        return ps.stream();
     }
 }
