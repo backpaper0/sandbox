@@ -1,5 +1,9 @@
 package parser;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,14 +19,18 @@ public class JsonParser {
 
     private static final char[] NULL = "null".toCharArray();
 
-    private final char[] cs;
+    private final Reader source;
 
     private char c;
 
     private int index;
 
     public JsonParser(final String text) {
-        cs = text.toCharArray();
+        this(new StringReader(text));
+    }
+
+    public JsonParser(final Reader source) {
+        this.source = source;
         consume();
     }
 
@@ -211,10 +219,10 @@ public class JsonParser {
     }
 
     private void consume() {
-        if (index < cs.length) {
-            c = cs[index++];
-        } else {
-            c = EOF;
+        try {
+            c = (char) source.read();
+        } catch (final IOException e) {
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -241,12 +249,12 @@ public class JsonParser {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("Json(cs = ");
-        sb.append(cs);
+        sb.append(source);
         sb.append(" index = ");
         sb.append(index);
         sb.append(")");
         sb.append("\n");
-        sb.append(cs);
+        sb.append(source);
         sb.append("\n");
         for (int i = 0; i < index; i++) {
             sb.append(' ');
