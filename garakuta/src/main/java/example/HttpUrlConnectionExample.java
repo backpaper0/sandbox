@@ -20,17 +20,15 @@ public class HttpUrlConnectionExample {
     void run() throws Exception {
         startServer();
 
-        for (int i = 0; i < 5; i++) {
-            TimeUnit.MILLISECONDS.sleep(500);
-            final URL url = new URL("http://localhost:6666");
-            final HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setConnectTimeout(10 * 1000);
-            con.setReadTimeout(1000);
-            System.out.println(con.getResponseCode());
-            System.out.println(con.getResponseMessage());
-            try (final InputStream in = (InputStream) con.getContent()) {
-                System.out.println(new String(in.readAllBytes(), StandardCharsets.UTF_8));
-            }
+        TimeUnit.MILLISECONDS.sleep(500);
+        final URL url = new URL("http://localhost:8888/foobar");
+        final HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setConnectTimeout(10 * 1000);
+        con.setReadTimeout(3 * 1000);
+        System.out.println(con.getResponseCode());
+        System.out.println(con.getResponseMessage());
+        try (final InputStream in = (InputStream) con.getContent()) {
+            System.out.println(new String(in.readAllBytes(), StandardCharsets.UTF_8));
         }
     }
 

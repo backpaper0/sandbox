@@ -29,9 +29,12 @@ public class RoughHttpServer {
     void runServer() {
         try (ServerSocket server = new ServerSocket()) {
             server.setReuseAddress(true);
-            server.bind(new InetSocketAddress(6666));
+            server.bind(new InetSocketAddress("0.0.0.0", 8888));
+            System.out.println("> Server Started: " + server.getLocalSocketAddress());
             while (true) {
+                System.out.println("> Wait...");
                 final Socket client = server.accept();
+                System.out.println("> Accept: " + client.getRemoteSocketAddress());
                 final Thread t = new Thread(() -> handleClient(client));
                 t.setDaemon(true);
                 t.start();
@@ -48,7 +51,7 @@ public class RoughHttpServer {
             final String requestLine = in.readLine();
             final Map<String, String> headers = new HashMap<>();
             String header;
-            while ((header = in.readLine()).isEmpty() == false) {
+            while ((header = in.readLine()) != null && header.isEmpty() == false) {
                 final int index = header.indexOf(':');
                 final String key = header.substring(0, index).trim().toLowerCase();
                 final String value = header.substring(index + 1).trim();
@@ -66,7 +69,7 @@ public class RoughHttpServer {
 
             final BufferedWriter out = new BufferedWriter(
                     new OutputStreamWriter(client.getOutputStream(), StandardCharsets.UTF_8));
-            out.write("HTTP/1.0 ");
+            out.write("HTTP/1.1 ");
             out.write(Integer.toString(response.getStatusCode()));
             out.write(" ");
             out.write(response.getStatusMessage());
