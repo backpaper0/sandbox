@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 //棒倒し法でダンジョン生成
@@ -89,6 +89,9 @@ const Setting: React.FC<SettingProps> = ({ generate }) => {
 };
 
 const App: React.FC = () => {
+	useEffect(() => {
+		document.title = "棒倒し法でダンジョン生成";
+	}, []);
   const [cellSize, setCellSize] = useState(initialCellSize);
 	const [fields, setFields] = useState(initialFields);
 	const generate: Generator = (width, height, cellSize) => {
