@@ -1,10 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const f: (x: number, y: number, leftIsWall: boolean) => [number, number] = (x, y, leftIsWall) => {
+const down: (x: number, y: number, leftIsWall: boolean) => [number, number] = (x, y, leftIsWall) => {
 	const isFirst = y === 2;
-	const a: number = Math.floor(Math.random() * ((leftIsWall ? 2 : 3) + (isFirst ? 1 : 0))) + (isFirst ? 0 : 1);
-	switch (a) {
+	//左が壁なら右と下の2方向、左が通路なら左右と下の3方向へ倒せる
+	//1行目なら上方向にも倒せる
+	const randomSize = (leftIsWall ? 2 : 3) + (isFirst ? 1 : 0);
+	const randomValue = Math.floor(Math.random() * randomSize);
+	//1行目でなければcase 1〜3で処理するため+1する
+	//こうすることで1行目とそれ以外でswitchを分ける必要がなくなる
+	switch (randomValue + (isFirst ? 0 : 1)) {
 		case 0:
 			return [x, y - 1];
 		case 1:
@@ -14,36 +19,26 @@ const f: (x: number, y: number, leftIsWall: boolean) => [number, number] = (x, y
 		case 3:
 			return [x - 1, y];
 	}
-	return [x, y];
+	throw "Unreachable";
 };
 
 const App: React.FC = () => {
-	const fields = [];
 	const height = 29;
 	const width = 49;
-	for (let y = 0; y < height; y++) {
-		const row = [];
-		for (let x = 0; x < width; x++) {
-			if (y === 0) {
-				row.push(true);
-			} else if (y === height - 1) {
-				row.push(true);
-			} else if (x === 0) {
-				row.push(true);
-			} else if (x === width - 1) {
-				row.push(true);
-			} else if (x % 2 === 0 && y % 2 === 0) {
-				row.push(true);
-			} else {
-				row.push(false);
-			}
+	const fields = Array.from((function*() {
+		for (let y = 0; y < height; y++) {
+			yield Array.from((function*() {
+				for (let x = 0; x < width; x++) {
+					//外周とxyが共に偶数の座標は壁
+					yield (y === 0) || (y === height - 1) || (x === 0) || (x === width - 1) || (x % 2 === 0 && y % 2 === 0);
+				}
+			})());
 		}
-		fields.push(row);
-	}
-	
+	})());
+	//棒倒しを行う	
 	for (let y = 2; y < height - 2; y += 2) {
 		for (let x = 2; x < width - 2; x += 2) {
-			const [x_, y_] = f(x, y, fields[y][x - 1]);
+			const [x_, y_] = down(x, y, fields[y][x - 1]);
 			fields[y_][x_] = true;
 		}
 	}
