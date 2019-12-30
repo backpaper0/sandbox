@@ -45,8 +45,8 @@ const generateFields = (width: number, height: number) => {
   return fields;
 };
 
-const initialHeight = 29;
-const initialWidth = 49;
+const initialHeight = 37;
+const initialWidth = 65;
 const initialCellSize = 10;
 const initialFields = generateFields(initialWidth, initialHeight);
 
@@ -64,7 +64,7 @@ const Setting: React.FC<SettingProps> = ({ generate }) => {
   const height = Number.parseInt(temporaryHeight);
   const cellSize = Number.parseInt(temporaryCellSize);
   if (invalid !== (Number.isNaN(width) || Number.isNaN(height) || Number.isNaN(cellSize)
-    || width < 5 || height < 5 || cellSize < 1
+    || width < 5 || height < 5 || cellSize < 2
     || width % 2 === 0 || height % 2 === 0)) {
     setInvalid(!invalid);
   }
@@ -105,7 +105,7 @@ const App: React.FC = () => {
     <Table>
     <tbody>
     {fields.map((row, y) => (<tr key={`${y}`}>
-      {row.map((isWall, x) => <Cell key={`${x}`} wall={isWall} cellSize={cellSize}/>)}
+      {row.map((isWall, x) => <Cell key={`${x}`} wall={isWall} cellSize={cellSize} x={x} y={y}/>)}
       </tr>))}
     </tbody>
     </Table>
@@ -122,11 +122,13 @@ const Table = styled.table`
 interface CellProps {
   wall: boolean
   cellSize: number
+  x: number
+  y: number
 }
 const Cell = styled.td<CellProps>`
   border: 0;
-  width: ${props => props.cellSize}px;
-  height: ${props => props.cellSize}px;
+  width: ${props => props.cellSize / (props.x % 2 === 0 ? 2 : 1)}px;
+  height: ${props => props.cellSize / (props.y % 2 === 0 ? 2 : 1)}px;
   background: ${props => props.wall ? "black" : "white"}
 `;
 
