@@ -25,39 +25,23 @@ const App: React.FC = () => {
 		fields.push(row);
 	}
 	
-	//最初の行
-	for (let x = 2; x < width - 2; x += 2) {
-		const y = 2;
-		const a = Math.floor(Math.random() * (fields[y][x - 1] ? 3 : 4));
-		switch (a) {
-			case 0:
-				fields[y - 1][x] = true;
-				break;
-			case 1:
-				fields[y + 1][x] = true;
-				break;
-			case 2:
-				fields[y][x + 1] = true;
-				break;
-			case 3:
-				fields[y][x - 1] = true;
-				break;
-		}
-	}
-	
-	for (let y = 4; y < height - 2; y += 2) {
+	for (let y = 2; y < height - 2; y += 2) {
 		for (let x = 2; x < width - 2; x += 2) {
-			const a = Math.floor(Math.random() * (fields[y][x - 1] ? 2 : 3));
+			const isFirst = y === 2;
+			const a: number = Math.floor(Math.random() * ((fields[y][x - 1] ? 2 : 3) + (isFirst ? 1 : 0))) + (isFirst ? 0 : 1);
 			switch (a) {
-			case 0:
-				fields[y + 1][x] = true;
-				break;
-			case 1:
-				fields[y][x + 1] = true;
-				break;
-			case 2:
-				fields[y][x - 1] = true;
-				break;
+				case 0:
+					fields[y - 1][x] = true;
+					break;
+				case 1:
+					fields[y + 1][x] = true;
+					break;
+				case 2:
+					fields[y][x + 1] = true;
+					break;
+				case 3:
+					fields[y][x - 1] = true;
+					break;
 			}
 		}
 	}
