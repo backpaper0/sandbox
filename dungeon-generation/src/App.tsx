@@ -21,7 +21,7 @@ const down: (x: number, y: number, leftIsWall: boolean) => [number, number] = (x
 		case 3:
 			return [x - 1, y];
 	}
-	throw "Unreachable";
+	throw new Error("Unreachable");
 };
 
 const generateFields = (width: number, height: number) => {
