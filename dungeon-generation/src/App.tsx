@@ -1,6 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const f: (x: number, y: number, leftIsWall: boolean) => [number, number] = (x, y, leftIsWall) => {
+	const isFirst = y === 2;
+	const a: number = Math.floor(Math.random() * ((leftIsWall ? 2 : 3) + (isFirst ? 1 : 0))) + (isFirst ? 0 : 1);
+	switch (a) {
+		case 0:
+			return [x, y - 1];
+		case 1:
+			return [x, y + 1];
+		case 2:
+			return[x + 1, y];
+		case 3:
+			return [x - 1, y];
+	}
+	return [x, y];
+};
+
 const App: React.FC = () => {
 	const fields = [];
 	const height = 29;
@@ -27,22 +43,8 @@ const App: React.FC = () => {
 	
 	for (let y = 2; y < height - 2; y += 2) {
 		for (let x = 2; x < width - 2; x += 2) {
-			const isFirst = y === 2;
-			const a: number = Math.floor(Math.random() * ((fields[y][x - 1] ? 2 : 3) + (isFirst ? 1 : 0))) + (isFirst ? 0 : 1);
-			switch (a) {
-				case 0:
-					fields[y - 1][x] = true;
-					break;
-				case 1:
-					fields[y + 1][x] = true;
-					break;
-				case 2:
-					fields[y][x + 1] = true;
-					break;
-				case 3:
-					fields[y][x - 1] = true;
-					break;
-			}
+			const [x_, y_] = f(x, y, fields[y][x - 1]);
+			fields[y_][x_] = true;
 		}
 	}
   return (
