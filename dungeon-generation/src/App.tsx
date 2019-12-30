@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+//棒倒し法でダンジョン生成
+
 const down: (x: number, y: number, leftIsWall: boolean) => [number, number] = (x, y, leftIsWall) => {
 	const isFirst = y === 2;
 	//左が壁なら右と下の2方向、左が通路なら左右と下の3方向へ倒せる
@@ -43,7 +45,6 @@ const generateFields = (width: number, height: number) => {
 	return fields;
 };
 
-
 const initialHeight = 29;
 const initialWidth = 49;
 const initialCellSize = 10;
@@ -58,10 +59,16 @@ const Setting: React.FC<SettingProps> = ({ generate }) => {
 	const [temporaryHeight, setTemporaryHeight] = useState(initialHeight.toString());
 	const [temporaryWidth, setTemporaryWidth] = useState(initialWidth.toString());
   const [temporaryCellSize, setTemporaryCellSize] = useState(initialCellSize.toString());
+	const [invalid, setInvalid] = useState(true);
+	const width = Number.parseInt(temporaryWidth);
+	const height = Number.parseInt(temporaryHeight);
+	const cellSize = Number.parseInt(temporaryCellSize);
+	if (invalid !== (Number.isNaN(width) || Number.isNaN(height) || Number.isNaN(cellSize)
+			|| width < 5 || height < 5 || cellSize < 1
+			|| width % 2 === 0 || height % 2 === 0)) {
+		setInvalid(!invalid);
+	}
 	const handleGenerate = () => {
-		const width = Number.parseInt(temporaryWidth);
-		const height = Number.parseInt(temporaryHeight);
-		const cellSize = Number.parseInt(temporaryCellSize);
 		generate(width, height, cellSize);
 	};
 	return (
@@ -74,7 +81,7 @@ const Setting: React.FC<SettingProps> = ({ generate }) => {
 					<td><input value={temporaryHeight} onChange={event => setTemporaryHeight(event.target.value)}/></td>
 					<th>セルサイズ</th>
 					<td><input value={temporaryCellSize} onChange={event => setTemporaryCellSize(event.target.value)}/></td>
-					<td><button onClick={event => handleGenerate()}>生成</button></td>
+					<td><button onClick={event => handleGenerate()} disabled={invalid}>生成</button></td>
 				</tr>
 			</tbody>
 		</table>
