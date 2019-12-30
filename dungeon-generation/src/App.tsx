@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const down: (x: number, y: number, leftIsWall: boolean) => [number, number] = (x, y, leftIsWall) => {
@@ -22,9 +22,7 @@ const down: (x: number, y: number, leftIsWall: boolean) => [number, number] = (x
 	throw "Unreachable";
 };
 
-const App: React.FC = () => {
-	const height = 29;
-	const width = 49;
+const generateFields = (width: number, height: number) => {
 	const fields = Array.from((function*() {
 		for (let y = 0; y < height; y++) {
 			yield Array.from((function*() {
@@ -42,12 +40,64 @@ const App: React.FC = () => {
 			fields[y_][x_] = true;
 		}
 	}
+	return fields;
+};
+
+
+const initialHeight = 29;
+const initialWidth = 49;
+const initialCellSize = 10;
+const initialFields = generateFields(initialWidth, initialHeight);
+
+type Generator = (width: number, height: number, cellSize: number) => void;
+interface SettingProps {
+	generate: Generator;
+}
+
+const Setting: React.FC<SettingProps> = ({ generate }) => {
+	const [temporaryHeight, setTemporaryHeight] = useState(initialHeight.toString());
+	const [temporaryWidth, setTemporaryWidth] = useState(initialWidth.toString());
+  const [temporaryCellSize, setTemporaryCellSize] = useState(initialCellSize.toString());
+	const handleGenerate = () => {
+		const width = Number.parseInt(temporaryWidth);
+		const height = Number.parseInt(temporaryHeight);
+		const cellSize = Number.parseInt(temporaryCellSize);
+		generate(width, height, cellSize);
+	};
+	return (
+		<table>
+			<tbody>
+				<tr>
+					<th>幅</th>
+					<td><input value={temporaryWidth} onChange={event => setTemporaryWidth(event.target.value)}/></td>
+					<th>高さ</th>
+					<td><input value={temporaryHeight} onChange={event => setTemporaryHeight(event.target.value)}/></td>
+					<th>セルサイズ</th>
+					<td><input value={temporaryCellSize} onChange={event => setTemporaryCellSize(event.target.value)}/></td>
+					<td><button onClick={event => handleGenerate()}>生成</button></td>
+				</tr>
+			</tbody>
+		</table>
+	);
+};
+
+const App: React.FC = () => {
+  const [cellSize, setCellSize] = useState(initialCellSize);
+	const [fields, setFields] = useState(initialFields);
+	const generate: Generator = (width, height, cellSize) => {
+		setCellSize(cellSize);
+		const fields = generateFields(width, height);
+		setFields(fields);
+	};
   return (
     <div>
+			<Setting generate={generate}/>
 			<Table>
-				{fields.map(row => (<tr>
-					{row.map(a => <Cell wall={a}/>)}
-				</tr>))}
+				<tbody>
+					{fields.map((row, y) => (<tr key={`${y}`}>
+						{row.map((isWall, x) => <Cell key={`${x}`} wall={isWall} cellSize={cellSize}/>)}
+					</tr>))}
+				</tbody>
 			</Table>
     </div>
   );
@@ -61,12 +111,12 @@ const Table = styled.table`
 
 interface CellProps {
 	wall: boolean
+	cellSize: number
 }
-const cellLength = 10;
 const Cell = styled.td<CellProps>`
 	border: 0;
-	width: ${cellLength}px;
-	height: ${cellLength}px;
+	width: ${props => props.cellSize}px;
+	height: ${props => props.cellSize}px;
 	background: ${props => props.wall ? "black" : "white"}
 `;
 
