@@ -18,10 +18,36 @@ const Wrapper = styled.section`
 
 const App: React.FC = () => {
   return (
-		<Wrapper>
-			<Title>Hello World, this is my first styled component!</Title>
-		</Wrapper>
+    <div>
+      <Wrapper>
+        <Title>Hello World, this is my first styled component!</Title>
+      </Wrapper>
+      <div>
+        <Button primary={false}>Normal</Button>
+        <Button primary={true}>Primary</Button>
+      </div>
+    </div>
   );
 }
+
+
+
+interface ButtonProps {
+  primary: boolean;
+}
+
+const Button = styled.button<ButtonProps>`
+  /* Adapt the colors based on primary prop */
+  background: ${props => props.primary ? "palevioletred" : "white"};
+  color: ${props => props.primary ? "white" : "palevioletred"};
+
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+`;
+
+
 
 export default App;
