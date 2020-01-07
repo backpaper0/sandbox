@@ -16,7 +16,7 @@ const Wrapper = styled.section`
   background: papayawhip;
 `;
 
-function App() {
+const App: React.FC = () => {
   return (
 		<Wrapper>
 			<Title>Hello World, this is my first styled component!</Title>
