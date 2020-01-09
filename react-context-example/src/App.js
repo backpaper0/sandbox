@@ -1,26 +1,18 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Context from './context';
 import Message from './Message';
 
-class App extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      message: 'foo',
-      setState: this.setState.bind(this)
-    };
-  }
-
-  render() {
-    return (
-      <Context.Provider value={this.state}>
-        <Message/>
-      </Context.Provider>
-    );
-  }
-}
-
-App.contextType = Context;
+const App = () => {
+  const [message, setMessage] = useState("foo");
+  const state = {
+    message,
+    setState: ({ message }) => setMessage(message)
+  };
+  return (
+    <Context.Provider value={state}>
+      <Message/>
+    </Context.Provider>
+  );
+};
 
 export default App;
