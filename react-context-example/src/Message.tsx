@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import Context from './context';
 
 const Message: React.FC = () => {
-  const { message, setState } = useContext(Context);
-  const handleClick = () => setState({ message: "bar" });
+  const { message, setMessage } = useContext(Context);
+  const handleClick = () => setMessage("bar");
   return (
     <div>
       <button onClick={handleClick}>Click me</button>

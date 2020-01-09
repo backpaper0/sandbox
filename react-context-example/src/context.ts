@@ -1,12 +1,11 @@
 import React from 'react';
 
-export interface SetStateType {
-  (state : { message: string }): void;
-}
-
-export interface ContextType {
+interface ContextType {
   message: string;
-  setState: SetStateType;
+  setMessage: (message: string) => void;
 }
 
-export default React.createContext<ContextType>({ message: "", setState: state => {} });
+export default React.createContext<ContextType>({
+  message: "",
+  setMessage: message => {}
+});
