@@ -28,7 +28,7 @@ public class MessagingEndPoint {
             } catch (final IOException e) {
                 throw new UncheckedIOException(e);
             }
-        }, 0, 5, TimeUnit.SECONDS);
+        }, 0, 3, TimeUnit.SECONDS);
         session.getUserProperties().put("future", future);
     }
 
