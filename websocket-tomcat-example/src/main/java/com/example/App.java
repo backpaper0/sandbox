@@ -15,7 +15,6 @@ public class App {
     public static void main(final String[] args) throws Exception {
 
         final Tomcat tomcat = new Tomcat();
-        //        tomcat.setHostname("0.0.0.0");
         tomcat.setPort(8080);
 
         final Context context = tomcat.addWebapp("", Files
