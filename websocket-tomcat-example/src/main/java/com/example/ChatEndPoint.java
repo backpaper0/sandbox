@@ -10,18 +10,29 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import javax.websocket.server.ServerEndpointConfig;
 
-@ServerEndpoint("/chat")
+import com.example.ChatEndPoint.ChatEndPointConfigurator;
+
+@ServerEndpoint(value = "/chat", configurator = ChatEndPointConfigurator.class)
 public class ChatEndPoint {
 
-    private static final Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
+    public static class ChatEndPointConfigurator extends ServerEndpointConfig.Configurator {
 
-    private static void sendText(final Session session, final String text) throws IOException {
-        synchronized (clients) {
-            for (final Session client : clients) {
-                if (client.isOpen() && client != session) {
-                    client.getBasicRemote().sendText(text);
-                }
+        private static ChatEndPoint instance = new ChatEndPoint();
+
+        @Override
+        public <T> T getEndpointInstance(final Class<T> clazz) throws InstantiationException {
+            return (T) instance;
+        }
+    }
+
+    private final Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
+
+    private void sendText(final Session session, final String text) throws IOException {
+        for (final Session client : clients) {
+            if (client.isOpen() && client != session) {
+                client.getBasicRemote().sendText(text);
             }
         }
     }
@@ -36,7 +47,9 @@ public class ChatEndPoint {
 
     @OnMessage
     public void onMessage(final Session session, final String text) throws IOException {
-        sendText(session, String.format("%s: %s", session, text));
+        synchronized (clients) {
+            sendText(session, String.format("%s: %s", session, text));
+        }
     }
 
     @OnClose
