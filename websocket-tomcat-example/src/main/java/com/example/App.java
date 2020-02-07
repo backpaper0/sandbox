@@ -14,6 +14,14 @@ public class App {
 
     public static void main(final String[] args) throws Exception {
 
+        new App().start();
+
+        System.out.println("Tomcat started");
+
+        TimeUnit.DAYS.sleep(1);
+    }
+
+    public Server start() throws Exception {
         final Tomcat tomcat = new Tomcat();
         tomcat.setPort(8080);
 
@@ -31,8 +39,19 @@ public class App {
 
         tomcat.start();
 
-        System.out.println("Tomcat started");
+        return new Server(tomcat);
+    }
 
-        TimeUnit.DAYS.sleep(1);
+    public static class Server {
+
+        private final Tomcat tomcat;
+
+        public Server(final Tomcat tomcat) {
+            this.tomcat = tomcat;
+        }
+
+        public void stop() throws Exception {
+            tomcat.stop();
+        }
     }
 }
