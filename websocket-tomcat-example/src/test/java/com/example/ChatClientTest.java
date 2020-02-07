@@ -21,7 +21,9 @@ import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(ServerExtension.class)
 class ChatClientTest {
 
     @Test
