@@ -11,16 +11,28 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.Charset;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockserver.client.MockServerClient;
+import org.mockserver.junit.jupiter.MockServerExtension;
+import org.mockserver.junit.jupiter.MockServerSettings;
 
+@ExtendWith(MockServerExtension.class)
+@MockServerSettings(ports = 8080)
 class HttpClientTest {
 
     @Test
-    void test() throws Exception {
+    void test(final MockServerClient client) throws Exception {
+
+        client.when(org.mockserver.model.HttpRequest.request("/example")
+                .withHeader("X-Request-Id", "xyz"))
+                .respond(org.mockserver.model.HttpResponse.response("Hello, world!"));
+
         final HttpClient http = HttpClient.newHttpClient();
 
         final HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create("http://localhost:8080/example"))
+                .header("X-Request-Id", "xyz")
                 .build();
 
         final BodyHandler<String> responseBodyHandler = BodyHandlers
