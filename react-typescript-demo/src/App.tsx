@@ -10,6 +10,7 @@ import UseStateTypeInfer from "./UseStateTypeInfer";
 import Props from "./Props";
 import EventHandlerExample from "./EventHandlerExample";
 import RenderingTimingExample from "./RenderingTimingExample";
+import RenderingTimingWithFunctionPropsExample from "./RenderingTimingWithFunctionPropsExample";
 
 const App: React.FC = () => {
 	return (
@@ -29,6 +30,9 @@ const App: React.FC = () => {
             <li>
               <Link to="/RenderingTimingExample">RenderingTimingExample</Link>
             </li>
+            <li>
+              <Link to="/RenderingTimingWithFunctionPropsExample">RenderingTimingWithFunctionPropsExample</Link>
+            </li>
           </ul>
         </nav>
         <div style={{ margin: ".5rem" }}>
@@ -44,6 +48,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/RenderingTimingExample">
               <RenderingTimingExample />
+            </Route>
+            <Route path="/RenderingTimingWithFunctionPropsExample">
+              <RenderingTimingWithFunctionPropsExample />
             </Route>
           </Switch>
         </div>
