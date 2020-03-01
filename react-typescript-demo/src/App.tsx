@@ -8,6 +8,7 @@ import {
 
 import UseStateTypeInfer from "./UseStateTypeInfer";
 import Props from "./Props";
+import EventHandlerExample from "./EventHandlerExample";
 
 const App: React.FC = () => {
 	return (
@@ -21,6 +22,9 @@ const App: React.FC = () => {
             <li>
               <Link to="/Props">Props</Link>
             </li>
+            <li>
+              <Link to="/EventHandlerExample">EventHandlerExample</Link>
+            </li>
           </ul>
         </nav>
         <div style={{ margin: ".5rem" }}>
@@ -30,6 +34,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/Props">
               <Props />
+            </Route>
+            <Route path="/EventHandlerExample">
+              <EventHandlerExample />
             </Route>
           </Switch>
         </div>
