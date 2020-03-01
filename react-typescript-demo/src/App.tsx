@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,6 +9,7 @@ import {
 import UseStateTypeInfer from "./UseStateTypeInfer";
 import Props from "./Props";
 import EventHandlerExample from "./EventHandlerExample";
+import RenderingTimingExample from "./RenderingTimingExample";
 
 const App: React.FC = () => {
 	return (
@@ -25,6 +26,9 @@ const App: React.FC = () => {
             <li>
               <Link to="/EventHandlerExample">EventHandlerExample</Link>
             </li>
+            <li>
+              <Link to="/RenderingTimingExample">RenderingTimingExample</Link>
+            </li>
           </ul>
         </nav>
         <div style={{ margin: ".5rem" }}>
@@ -37,6 +41,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/EventHandlerExample">
               <EventHandlerExample />
+            </Route>
+            <Route path="/RenderingTimingExample">
+              <RenderingTimingExample />
             </Route>
           </Switch>
         </div>

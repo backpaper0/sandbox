@@ -30,6 +30,8 @@ export default () => {
     f(event);
   }, []);
 
+  const handleClick3: React.MouseEventHandler<HTMLButtonElement> = event => f(event);
+
   return (
     <div style={{ display: "flex" }}>
       <div style={{ margin: ".5rem" }}>
@@ -38,12 +40,15 @@ export default () => {
         <p>KeyDown: <input type="text" onKeyDown={handleKey}/></p>
         <p>KeyPress: <input type="text" onKeyPress={handleKey}/></p>
         <p>KeyUp: <input type="text" onKeyUp={handleKey}/></p>
-        <p>Submit: <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
+          Submit: 
           <input type="text"/>
           <button type="submit">Submit</button>
-        </form></p>
+        </form>
         <hr/>
         <p>With useCallback: <button onClick={handleClick2}>Click</button></p>
+        <hr/>
+        <p>Click(Handler type): <button onClick={handleClick3}>Click</button></p>
       </div>
       <div style={{ margin: ".5rem" }}>
         <pre>{output}</pre>
