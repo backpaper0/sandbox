@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
 
 //あんまりTypeScript関係ないexampleになっちゃった
 
@@ -17,6 +17,8 @@ const Counter = () => {
   );
 };
 
+type Setter<T> = React.Dispatch<React.SetStateAction<T>>;
+
 const CounterTitle = () => {
   console.log("CounterTitle");
   return (
@@ -26,7 +28,7 @@ const CounterTitle = () => {
 
 interface CounterOverviewProps {
   overview: string;
-  setOverview: Dispatch<SetStateAction<string>>;
+  setOverview: Setter<string>;
 }
 
 const CounterOverview: React.FC<CounterOverviewProps> = ({ overview, setOverview }) => {
@@ -51,10 +53,10 @@ const CountDisplay: React.FC<CountDisplayProps> = ({ count }) => {
 };
 
 interface CountUpperProps {
-  setCount: Dispatch<SetStateAction<number>>;
+  setCount: Setter<number>;
 }
 
-let prevSetCount: Dispatch<SetStateAction<number>> | null = null;
+let prevSetCount: Setter<number> | null = null;
 
 const CountUpper: React.FC<CountUpperProps> = ({ setCount }) => {
   console.log("CountUpper");
