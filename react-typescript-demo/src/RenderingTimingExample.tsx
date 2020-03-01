@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
+
+//あんまりTypeScript関係ないexampleになっちゃった
 
 //Counterが再レンダーされると子コンポーネントも再レンダーされるっぽい
 const Counter = () => {
@@ -24,7 +26,7 @@ const CounterTitle = () => {
 
 interface CounterOverviewProps {
   overview: string;
-  setOverview: React.Dispatch<React.SetStateAction<string>>;
+  setOverview: Dispatch<SetStateAction<string>>;
 }
 
 const CounterOverview: React.FC<CounterOverviewProps> = ({ overview, setOverview }) => {
@@ -49,10 +51,10 @@ const CountDisplay: React.FC<CountDisplayProps> = ({ count }) => {
 };
 
 interface CountUpperProps {
-  setCount: React.Dispatch<React.SetStateAction<number>>;
+  setCount: Dispatch<SetStateAction<number>>;
 }
 
-let prevSetCount: React.Dispatch<React.SetStateAction<number>> | null = null;
+let prevSetCount: Dispatch<SetStateAction<number>> | null = null;
 
 const CountUpper: React.FC<CountUpperProps> = ({ setCount }) => {
   console.log("CountUpper");
