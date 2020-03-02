@@ -24,7 +24,19 @@ const App = () => (
 );
 
 const Splash = () => (
-  <div>
+  <FadeOut init={{ opacity: 1 }} transition={{ opacity: 0, transition: "opacity 1000ms" }} delay={1000}>
     <img src={splash}/>
-  </div>
+  </FadeOut>
 );
+
+const FadeOut: React.FC<{ init: any, transition: any, delay: number, children: any }> = ({ init, transition, delay, children }) => {
+  const [begin, setBegin] = useState(false);
+  useEffect(() => {
+    setTimeout(() => setBegin(true), delay);
+  }, []);
+  return (
+    <div style={ begin ? transition : init }>
+      {children}
+    </div>
+  );
+};
