@@ -11,6 +11,7 @@ import Props from "./Props";
 import EventHandlerExample from "./EventHandlerExample";
 import RenderingTimingExample from "./RenderingTimingExample";
 import RenderingTimingWithFunctionPropsExample from "./RenderingTimingWithFunctionPropsExample";
+import SplashExample from "./SplashExample";
 
 const App: React.FC = () => {
 	return (
@@ -33,6 +34,9 @@ const App: React.FC = () => {
             <li>
               <Link to="/RenderingTimingWithFunctionPropsExample">RenderingTimingWithFunctionPropsExample</Link>
             </li>
+            <li>
+              <Link to="/SplashExample">SplashExample</Link>
+            </li>
           </ul>
         </nav>
         <div style={{ margin: ".5rem" }}>
@@ -51,6 +55,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/RenderingTimingWithFunctionPropsExample">
               <RenderingTimingWithFunctionPropsExample />
+            </Route>
+            <Route path="/SplashExample">
+              <SplashExample />
             </Route>
           </Switch>
         </div>
