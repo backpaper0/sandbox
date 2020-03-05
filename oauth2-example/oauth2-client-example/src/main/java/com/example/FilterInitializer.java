@@ -16,8 +16,8 @@ public class FilterInitializer implements ServletContextListener {
     public void contextInitialized(final ServletContextEvent sce) {
         final ServletContext context = sce.getServletContext();
 
-        final FilterRegistration.Dynamic protection = context.addFilter("ProtectionFilter",
-                OAuth2Filter.class);
+        final FilterRegistration.Dynamic protection = context.addFilter(
+                OAuth2Filter.class.getSimpleName(), OAuth2Filter.class);
         protection.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
     }
 }
