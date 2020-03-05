@@ -2,6 +2,7 @@ package com.example;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -32,11 +33,19 @@ public class OAuth2Filter implements Filter {
 
     private String clientId;
     private String clientSecret;
+    private String authorizationEndpoint;
+    private String accessTokenEndpoint;
+    private String userinfoEndpoint;
+    private String redirectUri;
 
     @Override
     public void init(final FilterConfig filterConfig) throws ServletException {
-        clientId = System.getenv("CLIENT_ID");
-        clientSecret = System.getenv("CLIENT_SECRET");
+        clientId = filterConfig.getInitParameter("clientId");
+        clientSecret = filterConfig.getInitParameter("clientSecret");
+        authorizationEndpoint = filterConfig.getInitParameter("authorizationEndpoint");
+        accessTokenEndpoint = filterConfig.getInitParameter("accessTokenEndpoint");
+        userinfoEndpoint = filterConfig.getInitParameter("userinfoEndpoint");
+        redirectUri = filterConfig.getInitParameter("redirectUri");
     }
 
     @Override
@@ -56,7 +65,8 @@ public class OAuth2Filter implements Filter {
             final Map<String, String> queryParams = Arrays
                     .stream(request.getQueryString().split("&"))
                     .map(a -> a.split("="))
-                    .collect(Collectors.toMap(a -> a[0], a -> a[1]));
+                    .collect(Collectors.toMap(a -> a[0],
+                            a -> URLDecoder.decode(a[1], StandardCharsets.UTF_8)));
 
             final String code = queryParams.get("code");
             final String state = queryParams.get("state");
@@ -88,7 +98,7 @@ public class OAuth2Filter implements Filter {
                         .encodeToString((clientId + ":" + clientSecret).getBytes());
 
                 final HttpRequest req = HttpRequest.newBuilder()
-                        .uri(URI.create("https://github.com/login/oauth/access_token"))
+                        .uri(URI.create(accessTokenEndpoint))
                         .method("POST", BodyPublishers.ofString(requestBody))
                         .header("Content-Type", "application/x-www-form-urlencoded")
                         .header("Authorization", authorization)
@@ -104,7 +114,7 @@ public class OAuth2Filter implements Filter {
 
             try {
                 final HttpRequest req = HttpRequest.newBuilder()
-                        .uri(URI.create("https://api.github.com/user"))
+                        .uri(URI.create(userinfoEndpoint))
                         .header("Authorization", "Bearer " + accessToken)
                         .build();
                 final HttpResponse<String> resp = client.send(req,
@@ -150,7 +160,7 @@ public class OAuth2Filter implements Filter {
                             + URLEncoder.encode(a.getValue(), StandardCharsets.UTF_8))
                     .collect(Collectors.joining("&"));
 
-            response.sendRedirect("https://github.com/login/oauth/authorize?" + requestBody);
+            response.sendRedirect(authorizationEndpoint + "?" + requestBody);
             return;
         }
 
