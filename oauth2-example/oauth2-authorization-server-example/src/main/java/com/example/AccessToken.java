@@ -3,7 +3,6 @@ package com.example;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public final class AccessToken {
 
@@ -26,8 +25,7 @@ public final class AccessToken {
         return codeAndAccessTokens.get(code);
     }
 
-    public static User getUser(final String accessToken) {
-        return Optional.ofNullable(accessTokenAndUsernames.get(accessToken)).map(User::get)
-                .orElse(null);
+    public static String getUser(final String accessToken) {
+        return accessTokenAndUsernames.get(accessToken);
     }
 }

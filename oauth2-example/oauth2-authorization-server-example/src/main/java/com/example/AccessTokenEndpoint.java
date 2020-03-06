@@ -23,14 +23,20 @@ public class AccessTokenEndpoint extends HttpServlet {
         final String clientId = req.getParameter("client_id");
 
         if (Objects.equals(grantType, "authorization_code") == false) {
-            resp.sendError(400);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
-        final Client client = Client.get(clientId);
+        final ClientRepository clientRepository = ClientRepository.get(req.getServletContext());
+        final Client client = clientRepository.find(clientId);
+
+        if (client == null) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
 
         if (client.testRedirectUri(redirectUri) == false) {
-            resp.sendError(400);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 

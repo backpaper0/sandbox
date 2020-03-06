@@ -1,21 +1,8 @@
 package com.example;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public final class Client {
-
-    private static final Map<String, Client> clients = Collections.synchronizedMap(new HashMap<>());
-
-    public static Client get(final String clientId) {
-        return clients.get(clientId);
-    }
-
-    public static void set(final Client client) {
-        clients.put(client.clientId, client);
-    }
 
     private final String clientId;
     private final String clientSecret;

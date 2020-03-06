@@ -47,6 +47,7 @@ public class UserFormAuthenticator implements Filter {
                 out.print("<title>Authentication</title>");
                 out.print("</head>");
                 out.print("<body>");
+                out.print("<h1>OAuth 2.0 - Authentication</h1>");
                 out.printf("<p>scope - %s</p>", request.getParameter("scope"));
                 out.print("<form method=\"POST\">");
                 out.print("<p><input type=\"text\" name=\"username\"></p>");
@@ -70,7 +71,8 @@ public class UserFormAuthenticator implements Filter {
                         "Invalid CSRF token: " + csrfToken);
                 return;
             }
-            final User user2 = User.get(username);
+            final UserRepository userRepository = UserRepository.get(request.getServletContext());
+            final User user2 = userRepository.find(username);
             if (user2 == null) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
                         "User is not found: " + username);

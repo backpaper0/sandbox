@@ -28,19 +28,29 @@ public class UserBearerAuthenticator implements Filter {
 
         final String authorization = request.getHeader("Authorization");
         if (authorization == null) {
-            response.sendError(401);
+            response.setHeader("WWW-Authenticate", "Bearer realm=Authorization Server");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
         if (authorization.toLowerCase().startsWith("bearer ") == false) {
-            response.sendError(403);
+            response.setHeader("WWW-Authenticate", "Bearer realm=Authorization Server");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
         final String accessToken = authorization.substring("bearer ".length());
 
-        final User user = AccessToken.getUser(accessToken);
+        final String username = AccessToken.getUser(accessToken);
+        if (username == null) {
+            response.setHeader("WWW-Authenticate", "Bearer realm=Authorization Server");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+        final UserRepository userRepository = UserRepository.get(request.getServletContext());
+        final User user = userRepository.find(username);
         if (user == null) {
-            response.sendError(401);
+            response.setHeader("WWW-Authenticate", "Bearer realm=Authorization Server");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 

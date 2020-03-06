@@ -29,11 +29,13 @@ public class ClientBasicAuthenticator implements Filter {
 
         final String authorization = request.getHeader("Authorization");
         if (authorization == null) {
-            response.sendError(401);
+            response.setHeader("WWW-Authenticate", "Basic realm=Authorization Server");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
         if (authorization.toLowerCase().startsWith("basic ") == false) {
-            response.sendError(403);
+            response.setHeader("WWW-Authenticate", "Basic realm=Authorization Server");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
@@ -43,14 +45,17 @@ public class ClientBasicAuthenticator implements Filter {
         final String clientId = strs[0];
         final String clientSecret = strs[1];
 
-        final Client client = Client.get(clientId);
+        final ClientRepository clientRepository = ClientRepository.get(request.getServletContext());
+        final Client client = clientRepository.find(clientId);
         if (client == null) {
-            response.sendError(403);
+            response.setHeader("WWW-Authenticate", "Basic realm=Authorization Server");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
         if (client.testClientSecret(clientSecret) == false) {
-            response.sendError(401);
+            response.setHeader("WWW-Authenticate", "Basic realm=Authorization Server");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 

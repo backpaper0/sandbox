@@ -35,7 +35,8 @@ public class AuthorizationEndpoint extends HttpServlet {
             return;
         }
 
-        final Client client = Client.get(clientId);
+        final ClientRepository clientRepository = ClientRepository.get(req.getServletContext());
+        final Client client = clientRepository.find(clientId);
         if (client == null) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Client not found: " + clientId);
             return;

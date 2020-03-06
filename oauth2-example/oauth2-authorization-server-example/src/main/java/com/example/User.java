@@ -1,22 +1,9 @@
 package com.example;
 
 import java.security.Principal;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public final class User implements Principal {
-
-    private static final Map<String, User> users = Collections.synchronizedMap(new HashMap<>());
-
-    public static User get(final String name) {
-        return users.get(name);
-    }
-
-    public static void set(final User user) {
-        users.put(user.name, user);
-    }
 
     private final String name;
     private final String password;
