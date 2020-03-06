@@ -50,6 +50,9 @@
 					<httpConnector>
 						<port>9999</port>
 					</httpConnector>
+					<webApp>
+						<contextPath>/ua</contextPath>
+					</webApp>
 				</configuration>
 			</plugin>
 			<plugin>

@@ -21,9 +21,9 @@ public class FilterInitializer implements ServletContextListener {
         reg.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
         reg.setInitParameter("clientId", "exampleclient");
         reg.setInitParameter("clientSecret", "examplesecret");
-        reg.setInitParameter("authorizationEndpoint", "http://localhost:9999/authorize");
-        reg.setInitParameter("accessTokenEndpoint", "http://localhost:9999/access_token");
-        reg.setInitParameter("userinfoEndpoint", "http://localhost:9999/user");
+        reg.setInitParameter("authorizationEndpoint", "http://localhost:9999/ua/authorize");
+        reg.setInitParameter("accessTokenEndpoint", "http://localhost:9999/ua/access_token");
+        reg.setInitParameter("userinfoEndpoint", "http://localhost:9999/ua/user");
         reg.setInitParameter("redirectUri", "http://localhost:8080/callback");
         reg.setInitParameter("userNameAttribute", "username");
     }

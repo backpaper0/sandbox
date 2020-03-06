@@ -19,6 +19,12 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthorizationEndpoint extends HttpServlet {
 
     @Override
+    protected void doPost(final HttpServletRequest req, final HttpServletResponse resp)
+            throws ServletException, IOException {
+        doGet(req, resp);
+    }
+
+    @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
 
@@ -50,9 +56,8 @@ public class AuthorizationEndpoint extends HttpServlet {
             return;
         }
 
-        //TODO 認証
-
-        final String username = "demo";
+        final User user = (User) req.getSession().getAttribute(User.class.getName());
+        final String username = user.getName();
 
         final String accessToken = UUID.randomUUID().toString();
         AccessToken.associateAccessTokenAndUsername(accessToken, username);
@@ -62,22 +67,5 @@ public class AuthorizationEndpoint extends HttpServlet {
 
         resp.sendRedirect(
                 resp.encodeRedirectURL(redirectUri + "?code=" + code + "&state=" + state));
-
-        //        final HttpSession session = req.getSession();
-        //        session.setAttribute("redirectUri", redirectUri);
-        //        session.setAttribute("state", state);
-
-        //        resp.setContentType("text/html; charset=UTF-8");
-        //        try (PrintWriter out = resp.getWriter()) {
-        //            out.print("<html>");
-        //            out.print("<head>");
-        //            out.print("<title>OAuth 2.0 - Authorization</title>");
-        //            out.print("</head>");
-        //            out.print("<body>");
-        //            out.print("<form>");
-        //            out.print("</form>");
-        //            out.print("</body>");
-        //            out.print("</html>");
-        //        }
     }
 }

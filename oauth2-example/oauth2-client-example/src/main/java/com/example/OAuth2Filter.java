@@ -2,7 +2,6 @@ package com.example;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -11,7 +10,6 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,21 +62,16 @@ public class OAuth2Filter implements Filter {
 
         if (Objects.equals(request.getRequestURI(), "/callback")) {
 
-            final Map<String, String> queryParams = Arrays
-                    .stream(request.getQueryString().split("&"))
-                    .map(a -> a.split("="))
-                    .collect(Collectors.toMap(a -> a[0],
-                            a -> URLDecoder.decode(a[1], StandardCharsets.UTF_8)));
-
-            final String code = queryParams.get("code");
-            final String state = queryParams.get("state");
+            final String code = request.getParameter("code");
+            final String state = request.getParameter("state");
 
             final HttpSession session = request.getSession();
 
             final Object state0 = session.getAttribute("state");
             session.removeAttribute("state");
             if (Objects.equals(state, state0) == false) {
-                response.sendError(400);
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                        "Invalid state: " + state + ", " + state0);
                 return;
             }
 
@@ -109,7 +102,7 @@ public class OAuth2Filter implements Filter {
                         BodyHandlers.ofString(StandardCharsets.UTF_8));
 
                 if (resp.statusCode() != 200) {
-                    response.sendError(resp.statusCode());
+                    response.sendError(resp.statusCode(), "Access token request error");
                     return;
                 }
 
@@ -129,7 +122,7 @@ public class OAuth2Filter implements Filter {
                         BodyHandlers.ofString(StandardCharsets.UTF_8));
 
                 if (resp.statusCode() != 200) {
-                    response.sendError(resp.statusCode());
+                    response.sendError(resp.statusCode(), "Userinfo request error");
                     return;
                 }
 
