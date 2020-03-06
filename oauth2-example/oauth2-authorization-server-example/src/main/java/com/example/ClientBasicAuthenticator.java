@@ -1,6 +1,7 @@
 package com.example;
 
 import java.io.IOException;
+import java.util.Base64;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,8 +12,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(urlPatterns = "/user")
-public class BearerAuthenticator implements Filter {
+@WebFilter(urlPatterns = "/access_token")
+public class ClientBasicAuthenticator implements Filter {
 
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response,
@@ -31,19 +32,28 @@ public class BearerAuthenticator implements Filter {
             response.sendError(401);
             return;
         }
-        if (authorization.toLowerCase().startsWith("bearer ") == false) {
+        if (authorization.toLowerCase().startsWith("basic ") == false) {
             response.sendError(403);
             return;
         }
 
-        final String accessToken = authorization.substring("bearer ".length());
+        final String[] strs = new String(
+                Base64.getDecoder().decode(authorization.substring("basic ".length()))).split(":");
 
-        final User user = AccessToken.getUser(accessToken);
-        if (user == null) {
+        final String clientId = strs[0];
+        final String clientSecret = strs[1];
+
+        final Client client = Client.get(clientId);
+        if (client == null) {
+            response.sendError(403);
+            return;
+        }
+
+        if (client.testClientSecret(clientSecret) == false) {
             response.sendError(401);
             return;
         }
 
-        chain.doFilter(new UserHttpServletRequestWrapper(request, user), response);
+        chain.doFilter(request, response);
     }
 }

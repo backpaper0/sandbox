@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebFilter(urlPatterns = "/authorize")
-public class FormAuthenticator implements Filter {
+public class UserFormAuthenticator implements Filter {
 
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response,
