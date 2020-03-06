@@ -27,7 +27,6 @@ public class BearerAuthenticator implements Filter {
             throws IOException, ServletException {
 
         final String authorization = request.getHeader("Authorization");
-        System.out.println(authorization);
         if (authorization == null) {
             response.sendError(401);
             return;
