@@ -1,13 +1,8 @@
 package com.example;
 
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,31 +23,27 @@ public class AuthorizationEndpoint extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
 
-        final Map<String, String> queryParams = Arrays
-                .stream(req.getQueryString().split("&"))
-                .map(a -> a.split("="))
-                .collect(Collectors.toMap(a -> a[0],
-                        a -> URLDecoder.decode(a[1], StandardCharsets.UTF_8)));
-
-        final String responseType = queryParams.get("response_type");
-        final String clientId = queryParams.get("client_id");
-        final String redirectUri = queryParams.get("redirect_uri");
-        final String scope = queryParams.get("scope");
-        final String state = queryParams.get("state");
+        final String responseType = req.getParameter("response_type");
+        final String clientId = req.getParameter("client_id");
+        final String redirectUri = req.getParameter("redirect_uri");
+        final String scope = req.getParameter("scope");
+        final String state = req.getParameter("state");
 
         if (Objects.equals(responseType, "code") == false) {
-            resp.sendError(400, "Invalid response type: " + responseType);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                    "Invalid response type: " + responseType);
             return;
         }
 
         final Client client = Client.get(clientId);
         if (client == null) {
-            resp.sendError(400, "Client not found: " + clientId);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Client not found: " + clientId);
             return;
         }
 
         if (client.testRedirectUri(redirectUri) == false) {
-            resp.sendError(400, "Invalid redirect URI: " + redirectUri);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                    "Invalid redirect URI: " + redirectUri);
             return;
         }
 

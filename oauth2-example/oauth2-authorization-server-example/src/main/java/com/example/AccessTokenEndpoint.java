@@ -2,15 +2,9 @@ package com.example;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,21 +17,10 @@ public class AccessTokenEndpoint extends HttpServlet {
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String requestBody;
-        try (ServletInputStream in = req.getInputStream()) {
-            requestBody = new String(in.readAllBytes());
-        }
-
-        final Map<String, String> queryParams = Arrays
-                .stream(requestBody.split("&"))
-                .map(a -> a.split("="))
-                .collect(Collectors.toMap(a -> a[0],
-                        a -> URLDecoder.decode(a[1], StandardCharsets.UTF_8)));
-
-        final String grantType = queryParams.get("grant_type");
-        final String code = queryParams.get("code");
-        final String redirectUri = queryParams.get("redirect_uri");
-        final String clientId = queryParams.get("client_id");
+        final String grantType = req.getParameter("grant_type");
+        final String code = req.getParameter("code");
+        final String redirectUri = req.getParameter("redirect_uri");
+        final String clientId = req.getParameter("client_id");
 
         if (Objects.equals(grantType, "authorization_code") == false) {
             resp.sendError(400);
