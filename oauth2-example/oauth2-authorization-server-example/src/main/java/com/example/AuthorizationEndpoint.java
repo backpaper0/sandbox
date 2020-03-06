@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -38,15 +39,29 @@ public class AuthorizationEndpoint extends HttpServlet {
             return;
         }
 
-        //TODO clientIdからクライアントの情報を取得する。redirect_uriはクライアントの情報に含まれる。
+        final Client client = Client.get(clientId);
+        if (client == null) {
+            resp.sendError(400, "Client not found: " + clientId);
+            return;
+        }
 
-        if (redirectUri == null || redirectUri.startsWith("http://localhost:8080/") == false) {
+        if (client.testRedirectUri(redirectUri) == false) {
             resp.sendError(400, "Invalid redirect URI: " + redirectUri);
             return;
         }
 
+        //TODO 認証
+
+        final String username = "demo";
+
+        final String accessToken = UUID.randomUUID().toString();
+        AccessToken.associateAccessTokenAndUsername(accessToken, username);
+
+        final String code = UUID.randomUUID().toString();
+        AccessToken.associateCodeAndAccessToken(code, accessToken);
+
         resp.sendRedirect(
-                resp.encodeRedirectURL(redirectUri + "?code=examplegrantcode&state=" + state));
+                resp.encodeRedirectURL(redirectUri + "?code=" + code + "&state=" + state));
 
         //        final HttpSession session = req.getSession();
         //        session.setAttribute("redirectUri", redirectUri);

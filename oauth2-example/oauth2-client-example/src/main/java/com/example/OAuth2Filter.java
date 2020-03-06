@@ -37,6 +37,7 @@ public class OAuth2Filter implements Filter {
     private String accessTokenEndpoint;
     private String userinfoEndpoint;
     private String redirectUri;
+    private String userNameAttribute;
 
     @Override
     public void init(final FilterConfig filterConfig) throws ServletException {
@@ -46,6 +47,7 @@ public class OAuth2Filter implements Filter {
         accessTokenEndpoint = filterConfig.getInitParameter("accessTokenEndpoint");
         userinfoEndpoint = filterConfig.getInitParameter("userinfoEndpoint");
         redirectUri = filterConfig.getInitParameter("redirectUri");
+        userNameAttribute = filterConfig.getInitParameter("userNameAttribute");
     }
 
     @Override
@@ -87,7 +89,7 @@ public class OAuth2Filter implements Filter {
                 final Map<String, String> requestParams = new HashMap<>();
                 requestParams.put("grant_type", "authorization_code");
                 requestParams.put("code", code);
-                requestParams.put("redirect_uri", "http://localhost:8080/callback");
+                requestParams.put("redirect_uri", redirectUri);
                 requestParams.put("client_id", clientId);
                 final String requestBody = requestParams.entrySet().stream()
                         .map(a -> a.getKey() + "="
@@ -105,6 +107,12 @@ public class OAuth2Filter implements Filter {
                         .header("Accept", "application/json").build();
                 final HttpResponse<String> resp = client.send(req,
                         BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+                if (resp.statusCode() != 200) {
+                    response.sendError(resp.statusCode());
+                    return;
+                }
+
                 final Map<String, Object> json = (Map<String, Object>) JsonParser
                         .parse(resp.body());
                 accessToken = (String) json.get("access_token");
@@ -119,9 +127,15 @@ public class OAuth2Filter implements Filter {
                         .build();
                 final HttpResponse<String> resp = client.send(req,
                         BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+                if (resp.statusCode() != 200) {
+                    response.sendError(resp.statusCode());
+                    return;
+                }
+
                 final Map<String, Object> json = (Map<String, Object>) JsonParser
                         .parse(resp.body());
-                final String login = (String) json.get("login");
+                final String login = (String) json.get(userNameAttribute);
                 session.setAttribute("userPrincipal", new PrincipalImpl(login));
             } catch (final InterruptedException e) {
                 throw new RuntimeException(e);
@@ -152,7 +166,7 @@ public class OAuth2Filter implements Filter {
             final Map<String, String> requestParams = new HashMap<>();
             requestParams.put("response_type", "code");
             requestParams.put("client_id", clientId);
-            requestParams.put("redirect_uri", "http://localhost:8080/callback");
+            requestParams.put("redirect_uri", redirectUri);
             requestParams.put("scope", "read:user");
             requestParams.put("state", state);
             final String requestBody = requestParams.entrySet().stream()

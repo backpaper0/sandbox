@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,13 +20,16 @@ import javax.servlet.http.HttpServletResponse;
 public class AccessTokenEndpoint extends HttpServlet {
 
     @Override
-    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
+    protected void doPost(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
 
-        //TODO Basic認証
+        String requestBody;
+        try (ServletInputStream in = req.getInputStream()) {
+            requestBody = new String(in.readAllBytes());
+        }
 
         final Map<String, String> queryParams = Arrays
-                .stream(req.getQueryString().split("&"))
+                .stream(requestBody.split("&"))
                 .map(a -> a.split("="))
                 .collect(Collectors.toMap(a -> a[0],
                         a -> URLDecoder.decode(a[1], StandardCharsets.UTF_8)));
@@ -40,13 +44,18 @@ public class AccessTokenEndpoint extends HttpServlet {
             return;
         }
 
-        //TODO redirectUriのチェック処理
+        final Client client = Client.get(clientId);
 
-        //TODO codeとaccess_tokenを引き換える処理
+        if (client.testRedirectUri(redirectUri) == false) {
+            resp.sendError(400);
+            return;
+        }
+
+        final String accessToken = AccessToken.getAccessToken(code);
 
         resp.setContentType("application/json");
         try (PrintWriter out = resp.getWriter()) {
-            out.print("{\"access_token\":\"exampleaccesstoken\"}");
+            out.print("{\"access_token\":\"" + accessToken + "\"}");
         }
     }
 }

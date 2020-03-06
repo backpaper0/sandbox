@@ -2,6 +2,7 @@ package com.example;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.Principal;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,11 +17,11 @@ public class UserinfoEndpoint extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
 
-        //TODO Bearerのチェック処理。というかBearerからユーザー情報を取得する処理
+        final Principal user = req.getUserPrincipal();
 
         resp.setContentType("application/json");
         try (PrintWriter out = resp.getWriter()) {
-            out.print("{\"login\":\"exampleuser\"}");
+            out.print("{\"username\":\"" + user.getName() + "\"}");
         }
     }
 }
