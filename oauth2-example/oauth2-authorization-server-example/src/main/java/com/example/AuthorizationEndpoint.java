@@ -39,11 +39,16 @@ public class AuthorizationEndpoint extends HttpServlet {
                 authorizationRepository.allow(user, client);
             }
         }
-        doGet(req, resp);
+        process(req, resp);
     }
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
+            throws ServletException, IOException {
+        process(req, resp);
+    }
+
+    private void process(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
 
         final String responseType = req.getParameter("response_type");
