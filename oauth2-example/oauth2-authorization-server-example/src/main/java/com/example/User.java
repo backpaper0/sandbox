@@ -3,6 +3,8 @@ package com.example;
 import java.security.Principal;
 import java.util.Objects;
 
+import javax.servlet.http.HttpSession;
+
 public final class User implements Principal {
 
     private final String name;
@@ -42,5 +44,13 @@ public final class User implements Principal {
         }
         final User other = (User) obj;
         return name.equals(other.name);
+    }
+
+    public static User get(final HttpSession session) {
+        return (User) session.getAttribute(User.class.getName());
+    }
+
+    public void set(final HttpSession session) {
+        session.setAttribute(User.class.getName(), this);
     }
 }

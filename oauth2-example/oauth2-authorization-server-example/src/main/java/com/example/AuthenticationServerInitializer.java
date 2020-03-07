@@ -21,5 +21,8 @@ public class AuthenticationServerInitializer implements ServletContextListener {
         final DemoUserRepositoryImpl userRepository = new DemoUserRepositoryImpl();
         userRepository.add(new User("demo", "secret"));
         UserRepository.set(sc, userRepository);
+
+        final DemoAuthorizationRepositoryImpl authorizationRepository = new DemoAuthorizationRepositoryImpl();
+        AuthorizationRepository.set(sc, authorizationRepository);
     }
 }

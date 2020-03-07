@@ -48,7 +48,6 @@ public class UserFormAuthenticator implements Filter {
                 out.print("</head>");
                 out.print("<body>");
                 out.print("<h1>OAuth 2.0 - Authentication</h1>");
-                out.printf("<p>scope - %s</p>", request.getParameter("scope"));
                 out.print("<form method=\"POST\">");
                 out.print("<p><input type=\"text\" name=\"username\"></p>");
                 out.print("<p><input type=\"password\" name=\"password\"></p>");
