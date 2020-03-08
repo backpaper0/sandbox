@@ -40,7 +40,12 @@ public class AccessTokenEndpoint extends HttpServlet {
             return;
         }
 
-        final String accessToken = AccessToken.getAccessToken(code);
+        final String accessToken = AccessToken.getAndRemoveAccessToken(code);
+
+        if (accessToken == null) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
 
         resp.setContentType("application/json");
         try (PrintWriter out = resp.getWriter()) {

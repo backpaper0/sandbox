@@ -21,8 +21,10 @@ public final class AccessToken {
         accessTokenAndUsernames.put(accessToken, username);
     }
 
-    public static String getAccessToken(final String code) {
-        return codeAndAccessTokens.get(code);
+    public static synchronized String getAndRemoveAccessToken(final String code) {
+        final String accessToken = codeAndAccessTokens.get(code);
+        codeAndAccessTokens.remove(code);
+        return accessToken;
     }
 
     public static String getUser(final String accessToken) {
