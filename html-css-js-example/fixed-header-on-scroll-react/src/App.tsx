@@ -39,22 +39,25 @@ const App: React.FC = () => {
 	const [isFixed, setFixed] = useState(false);
 	const header = useRef<HTMLDivElement>(null);
 	useEffect(() => {
-		if (header && header.current) {
-			const a = header.current.offsetTop;
+    if (header && header.current) {
+      const a = header.current.offsetTop;
 
-			const update = () => {
-				if (document.documentElement.scrollTop < a) {
-					setFixed(false);
-				} else {
-					setFixed(true);
-				}
-			}
-			
-			update();
-			
-			document.addEventListener("scroll", () => update());
-		}
-	}, [0]);
+      const update = () => {
+        if (document.documentElement.scrollTop < a) {
+          setFixed(false);
+        } else {
+          setFixed(true);
+        }
+      }
+      
+      update();
+      
+      document.addEventListener("scroll", update);
+      return () => {
+        document.removeEventListener("scroll", update);
+      };
+    }
+	}, []);
 	const Header = isFixed ? FixedHeader : ScrollHeader;
   return (
     <React.Fragment>
