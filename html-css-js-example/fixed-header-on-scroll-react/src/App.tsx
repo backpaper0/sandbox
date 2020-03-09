@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Section = styled.div`
-	padding: 1rem;
+  padding: 1rem;
 `;
 
 const ScrollHeader = styled.header`
@@ -36,9 +36,9 @@ const FixedHeader = styled.header`
 `;
 
 const App: React.FC = () => {
-	const [isFixed, setFixed] = useState(false);
-	const header = useRef<HTMLDivElement>(null);
-	useEffect(() => {
+  const [isFixed, setFixed] = useState(false);
+  const header = useRef<HTMLDivElement>(null);
+  useEffect(() => {
     if (header && header.current) {
       const a = header.current.offsetTop;
 
@@ -57,33 +57,33 @@ const App: React.FC = () => {
         document.removeEventListener("scroll", update);
       };
     }
-	}, []);
-	const Header = isFixed ? FixedHeader : ScrollHeader;
+  }, []);
+  const Header = isFixed ? FixedHeader : ScrollHeader;
   return (
     <React.Fragment>
-			<GlobalStyle/>
-			<Section>
-				<p>foo foo foo</p><p>foo foo foo</p><p>foo foo foo</p><p>foo foo foo</p><p>foo foo foo</p>
-				<p>foo foo foo</p><p>foo foo foo</p><p>foo foo foo</p><p>foo foo foo</p><p>foo foo foo</p>
-			</Section>
-			<div ref={header}>
-				<Header>
-					<h1>Header Header Header</h1>
-					<p><a href="https://github.com/backpaper0/sandbox/tree/master/html-css-js-example/fixed-header-on-scroll-react">Source code</a></p>
-				</Header>
-			</div>
-			<Section>
-				<p>bar bar bar</p><p>bar bar bar</p><p>bar bar bar</p><p>bar bar bar</p><p>bar bar bar</p>
-				<p>bar bar bar</p><p>bar bar bar</p><p>bar bar bar</p><p>bar bar bar</p><p>bar bar bar</p>
-			</Section>
-			<Section>
-				<p>baz baz baz</p><p>baz baz baz</p><p>baz baz baz</p><p>baz baz baz</p><p>baz baz baz</p>
-				<p>baz baz baz</p><p>baz baz baz</p><p>baz baz baz</p><p>baz baz baz</p><p>baz baz baz</p>
-			</Section>
-			<Section>
-				<p>qux qux qux</p><p>qux qux qux</p><p>qux qux qux</p><p>qux qux qux</p><p>qux qux qux</p>
-				<p>qux qux qux</p><p>qux qux qux</p><p>qux qux qux</p><p>qux qux qux</p><p>qux qux qux</p>
-			</Section>
+      <GlobalStyle/>
+      <Section>
+        <p>foo foo foo</p><p>foo foo foo</p><p>foo foo foo</p><p>foo foo foo</p><p>foo foo foo</p>
+        <p>foo foo foo</p><p>foo foo foo</p><p>foo foo foo</p><p>foo foo foo</p><p>foo foo foo</p>
+      </Section>
+      <div ref={header}>
+        <Header>
+          <h1>Header Header Header</h1>
+          <p><a href="https://github.com/backpaper0/sandbox/tree/master/html-css-js-example/fixed-header-on-scroll-react">Source code</a></p>
+        </Header>
+      </div>
+      <Section>
+        <p>bar bar bar</p><p>bar bar bar</p><p>bar bar bar</p><p>bar bar bar</p><p>bar bar bar</p>
+        <p>bar bar bar</p><p>bar bar bar</p><p>bar bar bar</p><p>bar bar bar</p><p>bar bar bar</p>
+      </Section>
+      <Section>
+        <p>baz baz baz</p><p>baz baz baz</p><p>baz baz baz</p><p>baz baz baz</p><p>baz baz baz</p>
+        <p>baz baz baz</p><p>baz baz baz</p><p>baz baz baz</p><p>baz baz baz</p><p>baz baz baz</p>
+      </Section>
+      <Section>
+        <p>qux qux qux</p><p>qux qux qux</p><p>qux qux qux</p><p>qux qux qux</p><p>qux qux qux</p>
+        <p>qux qux qux</p><p>qux qux qux</p><p>qux qux qux</p><p>qux qux qux</p><p>qux qux qux</p>
+      </Section>
     </React.Fragment>
   );
 }
