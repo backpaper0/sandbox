@@ -33,3 +33,10 @@ export ANDROID_SDK_ROOT=~/android-sdk
 cordova build android --debug
 ```
 
+## ローカルのブラウザで確認する
+
+`serve`で`www`ディレクトリをホスティングすれば良いと思う。
+
+```
+serve www
+```
