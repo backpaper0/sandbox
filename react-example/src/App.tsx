@@ -12,6 +12,7 @@ import EventHandlerExample from "./EventHandlerExample";
 import RenderingTimingExample from "./RenderingTimingExample";
 import RenderingTimingWithFunctionPropsExample from "./RenderingTimingWithFunctionPropsExample";
 import SplashExample from "./SplashExample";
+import StateCapturedExample from "./StateCapturedExample";
 
 const App: React.FC = () => {
 	return (
@@ -37,6 +38,9 @@ const App: React.FC = () => {
             <li>
               <Link to="/SplashExample">SplashExample</Link>
             </li>
+            <li>
+              <Link to="/StateCapturedExample">StateCapturedExample</Link>
+            </li>
           </ul>
         </nav>
         <div style={{ margin: ".5rem" }}>
@@ -58,6 +62,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/SplashExample">
               <SplashExample />
+            </Route>
+            <Route path="/StateCapturedExample">
+              <StateCapturedExample />
             </Route>
           </Switch>
         </div>
