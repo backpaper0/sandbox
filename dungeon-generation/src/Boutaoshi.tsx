@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 //棒倒し法でダンジョン生成
 
-const down: (x: number, y: number, leftIsWall: boolean) => [number, number] = (x, y, leftIsWall) => {
+function down(x: number, y: number, leftIsWall: boolean): [number, number] {
   const isFirst = y === 2;
   //左が壁なら右と下の2方向、左が通路なら左右と下の3方向へ倒せる
   //1行目なら上方向にも倒せる
@@ -24,17 +24,19 @@ const down: (x: number, y: number, leftIsWall: boolean) => [number, number] = (x
   throw new Error("Unreachable");
 };
 
-const generateFields = (width: number, height: number) => {
-  const fields = Array.from((function*() {
+function generateFields(width: number, height: number): boolean[][] {
+  const generator1 = function*() {
     for (let y = 0; y < height; y++) {
-      yield Array.from((function*() {
+      const generator2 = function*() {
         for (let x = 0; x < width; x++) {
           //外周とxyが共に偶数の座標は壁
           yield (y === 0) || (y === height - 1) || (x === 0) || (x === width - 1) || (x % 2 === 0 && y % 2 === 0);
         }
-      })());
+      }
+      yield Array.from(generator2());
     }
-  })());
+  };
+  const fields = Array.from(generator1());
   //棒倒しを行う
   for (let y = 2; y < height - 2; y += 2) {
     for (let x = 2; x < width - 2; x += 2) {
@@ -55,32 +57,48 @@ interface SettingProps {
   generate: Generator;
 }
 
+type Temporary = {
+  height: string;
+  width: string;
+  cellSize: string;
+};
+
+function initialTemporary(): Temporary {
+  return ({
+    height: initialHeight.toString(),
+    width: initialWidth.toString(),
+    cellSize: initialCellSize.toString()
+  });
+}
+
 const Setting: React.FC<SettingProps> = ({ generate }) => {
-  const [temporaryHeight, setTemporaryHeight] = useState(initialHeight.toString());
-  const [temporaryWidth, setTemporaryWidth] = useState(initialWidth.toString());
-  const [temporaryCellSize, setTemporaryCellSize] = useState(initialCellSize.toString());
-  const width = Number.parseInt(temporaryWidth);
-  const height = Number.parseInt(temporaryHeight);
-  const cellSize = Number.parseInt(temporaryCellSize);
+  const [temp, setTemp] = useState(initialTemporary);
+  const width = Number.parseInt(temp.width);
+  const height = Number.parseInt(temp.height);
+  const cellSize = Number.parseInt(temp.cellSize);
   const valid = Number.isNaN(width) === false && Number.isNaN(height) === false && Number.isNaN(cellSize) === false
     //ある程度以上のサイズがないといけない
     && width >= 5 && height >= 5 && cellSize >= 2
     //widthとheightは奇数でないといけない
     && width % 2 === 1 && height % 2 === 1;
-  const handleGenerate = () => {
+  const handleGenerate: React.MouseEventHandler<HTMLButtonElement> = event => {
     generate(width, height, cellSize);
+  };
+  const updateValue: React.ChangeEventHandler<HTMLInputElement> = event => {
+    const { name, value } = event.target;
+    setTemp(t => ({ ...t, [name]: value }));
   };
   return (
     <table>
       <tbody>
         <tr>
           <th>幅</th>
-          <td><input value={temporaryWidth} onChange={event => setTemporaryWidth(event.target.value)}/></td>
+          <td><input name="width" value={temp.width} onChange={updateValue}/></td>
           <th>高さ</th>
-          <td><input value={temporaryHeight} onChange={event => setTemporaryHeight(event.target.value)}/></td>
+          <td><input name="height" value={temp.height} onChange={updateValue}/></td>
           <th>セルサイズ</th>
-          <td><input value={temporaryCellSize} onChange={event => setTemporaryCellSize(event.target.value)}/></td>
-          <td><button onClick={event => handleGenerate()} disabled={valid === false}>生成</button></td>
+          <td><input name="cellSize" value={temp.cellSize} onChange={updateValue}/></td>
+          <td><button onClick={handleGenerate} disabled={valid === false}>生成</button></td>
         </tr>
       </tbody>
     </table>
@@ -100,14 +118,16 @@ const Boutaoshi: React.FC = () => {
   };
   return (
     <div>
-    <Setting generate={generate}/>
-    <Table>
-    <tbody>
-    {fields.map((row, y) => (<tr key={`${y}`}>
-      {row.map((isWall, x) => <Cell key={`${x}`} wall={isWall} cellSize={cellSize} x={x} y={y}/>)}
-      </tr>))}
-    </tbody>
-    </Table>
+      <Setting generate={generate}/>
+      <Table>
+        <tbody>
+          {fields.map((row, y) => (
+            <tr key={`${y}`}>
+              {row.map((isWall, x) => <Cell key={`${x}`} wall={isWall} cellSize={cellSize} x={x} y={y}/>)}
+            </tr>)
+          )}
+        </tbody>
+      </Table>
     </div>
   );
 }
