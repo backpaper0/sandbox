@@ -72,17 +72,17 @@ const Setting: React.FC<SettingProps> = ({ generate }) => {
   };
   return (
     <table>
-    <tbody>
-    <tr>
-    <th>幅</th>
-    <td><input value={temporaryWidth} onChange={event => setTemporaryWidth(event.target.value)}/></td>
-    <th>高さ</th>
-    <td><input value={temporaryHeight} onChange={event => setTemporaryHeight(event.target.value)}/></td>
-    <th>セルサイズ</th>
-    <td><input value={temporaryCellSize} onChange={event => setTemporaryCellSize(event.target.value)}/></td>
-    <td><button onClick={event => handleGenerate()} disabled={valid === false}>生成</button></td>
-    </tr>
-    </tbody>
+      <tbody>
+        <tr>
+          <th>幅</th>
+          <td><input value={temporaryWidth} onChange={event => setTemporaryWidth(event.target.value)}/></td>
+          <th>高さ</th>
+          <td><input value={temporaryHeight} onChange={event => setTemporaryHeight(event.target.value)}/></td>
+          <th>セルサイズ</th>
+          <td><input value={temporaryCellSize} onChange={event => setTemporaryCellSize(event.target.value)}/></td>
+          <td><button onClick={event => handleGenerate()} disabled={valid === false}>生成</button></td>
+        </tr>
+      </tbody>
     </table>
   );
 };
