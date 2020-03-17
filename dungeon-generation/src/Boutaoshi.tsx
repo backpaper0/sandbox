@@ -59,15 +59,14 @@ const Setting: React.FC<SettingProps> = ({ generate }) => {
   const [temporaryHeight, setTemporaryHeight] = useState(initialHeight.toString());
   const [temporaryWidth, setTemporaryWidth] = useState(initialWidth.toString());
   const [temporaryCellSize, setTemporaryCellSize] = useState(initialCellSize.toString());
-  const [invalid, setInvalid] = useState(true);
   const width = Number.parseInt(temporaryWidth);
   const height = Number.parseInt(temporaryHeight);
   const cellSize = Number.parseInt(temporaryCellSize);
-  if (invalid !== (Number.isNaN(width) || Number.isNaN(height) || Number.isNaN(cellSize)
-    || width < 5 || height < 5 || cellSize < 2
-    || width % 2 === 0 || height % 2 === 0)) {
-    setInvalid(!invalid);
-  }
+  const valid = Number.isNaN(width) === false && Number.isNaN(height) === false && Number.isNaN(cellSize) === false
+    //ある程度以上のサイズがないといけない
+    && width >= 5 && height >= 5 && cellSize >= 2
+    //widthとheightは奇数でないといけない
+    && width % 2 === 1 && height % 2 === 1;
   const handleGenerate = () => {
     generate(width, height, cellSize);
   };
@@ -81,7 +80,7 @@ const Setting: React.FC<SettingProps> = ({ generate }) => {
     <td><input value={temporaryHeight} onChange={event => setTemporaryHeight(event.target.value)}/></td>
     <th>セルサイズ</th>
     <td><input value={temporaryCellSize} onChange={event => setTemporaryCellSize(event.target.value)}/></td>
-    <td><button onClick={event => handleGenerate()} disabled={invalid}>生成</button></td>
+    <td><button onClick={event => handleGenerate()} disabled={valid === false}>生成</button></td>
     </tr>
     </tbody>
     </table>
