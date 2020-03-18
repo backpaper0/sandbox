@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 
 //あんまりTypeScript関係ないexampleになっちゃった
 
-export default () => {
+export default function RenderTimingWithFunctionPropsExample () {
   const [count, setCount] = useState(0);
   const fn = () => { /* なにもしない関数 */ };
   const fnM = useCallback(fn, []);

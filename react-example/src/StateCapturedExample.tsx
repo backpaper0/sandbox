@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export default () => {
+export default function StateCapturedExample() {
   const [count1, setCount1] = useState(0);
   const [count2, setCount2] = useState(0);
   const countUp = () => {

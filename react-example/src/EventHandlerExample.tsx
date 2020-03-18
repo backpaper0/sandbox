@@ -1,6 +1,6 @@
 import React, { useState, MouseEvent, ChangeEvent, KeyboardEvent, FormEvent, useCallback } from 'react';
 
-export default () => {
+export default function EventHandlerExample() {
   const [output, setOutput] = useState("");
 
   const f = (a: any) => {

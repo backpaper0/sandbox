@@ -76,7 +76,7 @@ const CountUpper: React.FC<CountUpperProps> = ({ setCount }) => {
   );
 };
 
-export default () => {
+export default function RenderTimingExample() {
   console.log("Root");
   return (
     <div>

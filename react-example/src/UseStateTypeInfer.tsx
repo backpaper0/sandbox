@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const App: React.FC = () => {
+export default function UseStateTypeInfer() {
 	// useStateの戻り値は配列の要素毎に型が明示されているので
 	// 代入するときに型推論されるっぽい
 	// https://github.com/facebook/react/blob/v16.12.0/packages/react-reconciler/src/ReactFiberHooks.js#L65
@@ -23,4 +23,3 @@ function test1(count: number) {
 function test2(setCount: (count: number) => void) {
 }
 
-export default App;

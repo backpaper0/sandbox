@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import splash from "./splash.png";
 
-export default () => {
+export default function SplashExample() {
   const [initialized, setInitialized] = useState(false);
   const callback = () => setInitialized(true);
   if (initialized) {

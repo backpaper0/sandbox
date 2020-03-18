@@ -32,11 +32,13 @@ const Demo3: React.FC<{ foo: string; bar: number; baz: boolean; }> = ({ foo, bar
   );
 };
 
-export default () => (
-  <ul>
-    <Demo foo="abc" bar={123} baz={true}/>
-    <Demo foo="def" bar={456} baz={false}/>
-    <Demo2 foo="ghi" bar={789} baz={true}/>
-    <Demo3 foo="jkl" bar={876} baz={false}/>
-  </ul>
-);
+export default function Props() {
+  return (
+    <ul>
+      <Demo foo="abc" bar={123} baz={true}/>
+      <Demo foo="def" bar={456} baz={false}/>
+      <Demo2 foo="ghi" bar={789} baz={true}/>
+      <Demo3 foo="jkl" bar={876} baz={false}/>
+    </ul>
+  );
+}
