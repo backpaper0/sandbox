@@ -6,22 +6,24 @@ import {
   Link
 } from "react-router-dom";
 
-import UseStateTypeInfer from "./UseStateTypeInfer";
-import Props from "./Props";
-import EventHandlerExample from "./EventHandlerExample";
-import RenderingTimingExample from "./RenderingTimingExample";
-import RenderingTimingWithFunctionPropsExample from "./RenderingTimingWithFunctionPropsExample";
-import SplashExample from "./SplashExample";
-import StateCapturedExample from "./StateCapturedExample";
+import Page1 from "./UseStateTypeInfer";
+import Page2 from "./Props";
+import Page3 from "./EventHandlerExample";
+import Page4 from "./RenderingTimingExample";
+import Page5 from "./RenderingTimingWithFunctionPropsExample";
+import Page6 from "./SplashExample";
+import Page7 from "./StateCapturedExample";
+import Page8 from "./FormExample";
 
 const pages = [
-  UseStateTypeInfer,
-  Props,
-  EventHandlerExample,
-  RenderingTimingExample,
-  RenderingTimingWithFunctionPropsExample,
-  SplashExample,
-  StateCapturedExample,
+  Page1,
+  Page2,
+  Page3,
+  Page4,
+  Page5,
+  Page6,
+  Page7,
+  Page8,
 ];
 
 const App: React.FC = () => {
