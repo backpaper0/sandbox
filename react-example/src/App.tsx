@@ -16,6 +16,7 @@ import Page7 from "./StateCapturedExample";
 import Page8 from "./FormExample";
 import Page9 from "./BucketRelayJs";
 import Page10 from "./BucketRelay";
+import Page11 from "./Misc";
 
 const pages = [
   Page1,
@@ -28,6 +29,7 @@ const pages = [
   Page8,
   Page9,
   Page10,
+  Page11,
 ];
 
 const App: React.FC = () => {
