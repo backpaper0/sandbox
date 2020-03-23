@@ -14,6 +14,8 @@ import Page5 from "./RenderingTimingWithFunctionPropsExample";
 import Page6 from "./SplashExample";
 import Page7 from "./StateCapturedExample";
 import Page8 from "./FormExample";
+import Page9 from "./BucketRelayJs";
+import Page10 from "./BucketRelay";
 
 const pages = [
   Page1,
@@ -24,6 +26,8 @@ const pages = [
   Page6,
   Page7,
   Page8,
+  Page9,
+  Page10,
 ];
 
 const App: React.FC = () => {
