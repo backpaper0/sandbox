@@ -13,13 +13,7 @@ function defaultForm(): Form {
 }
 
 export default function FormExample() {
-  const [form, setForm] = useState(defaultForm);
-  const updateForm: React.ChangeEventHandler<HTMLInputElement|HTMLSelectElement> = event => {
-    const { target } = event;
-    const name = target.name;
-    const value = (target instanceof HTMLInputElement && target.type === "checkbox") ? target.checked : target.value;
-    setForm(form => ({ ...form, [name]: value }));
-  };
+  const [form, updateForm] = useForm(defaultForm);
   return (
     <div>
       <form>
@@ -39,3 +33,15 @@ export default function FormExample() {
     </div>
   );
 }
+
+function useForm<T>(defaultForm: () => T): [T, React.ChangeEventHandler<HTMLInputElement|HTMLSelectElement>] {
+  const [form, setForm] = useState(defaultForm);
+  const updateForm: React.ChangeEventHandler<HTMLInputElement|HTMLSelectElement> = event => {
+    const { target } = event;
+    const name = target.name;
+    const value = (target instanceof HTMLInputElement && target.type === "checkbox") ? target.checked : target.value;
+    setForm(form => ({ ...form, [name]: value }));
+  };
+  return [form, updateForm];
+}
+
