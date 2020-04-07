@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>hello</title>
+  </head>
+  <body>
+    <h1>...</h1>
+    <ul>
+      <li><a href="/">/</a></li>
+      <li><a href="/foo">/foo</a></li>
+      <li><a href="/foo/bar">/foo/bar</a></li>
+      <li><a href="/foo/bar/baz">/foo/bar/baz</a></li>
+    </ul>
+    <script>
+      fetch('/api/hello')
+        .then(resp => resp.json())
+        .then(({ message }) => {
+          const title = document.querySelector("h1");
+          title.textContent = message;
+        });
+    </script>
+  </body>
+</html>
