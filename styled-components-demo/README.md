@@ -3,6 +3,6 @@
 ```
 npx create-react-app --typescript styled-components-demo
 cd styled-components-demo
-yarn add styled-components @types/styled-components
+npm install styled-components @types/styled-components
 ```
 
