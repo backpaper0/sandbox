@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { useCounter1, useDebugLog } from './Hooks';
 
 const Counter1: React.FC = () => {

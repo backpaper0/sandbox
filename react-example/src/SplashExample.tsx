@@ -23,7 +23,7 @@ const App = () => (
 
 const Splash: React.FC<{ callback: () => void; }> = ({ callback }) => (
   <FadeOut init={{ opacity: 1 }} transition={{ opacity: 0, transition: "opacity 1500ms" }} delay={1500} callback={callback}>
-    <img src={splash}/>
+    <img alt="Splash" src={splash}/>
   </FadeOut>
 );
 
@@ -39,7 +39,7 @@ const FadeOut: React.FC<FadeOutProps> = ({ init, transition, delay, children, ca
   const [begin, setBegin] = useState(false);
   useEffect(() => {
     setTimeout(() => setBegin(true), delay);
-  }, []);
+  }, [delay]);
   return (
     <div style={ begin ? transition : init } onTransitionEnd={callback}>
       {children}

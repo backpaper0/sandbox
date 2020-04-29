@@ -36,7 +36,7 @@ export function useDebugLog(name: string): [React.Ref<any>] {
         observer.disconnect();
       };
     }
-  }, []);
+  }, [name]);
   return [ref];
 };
 
