@@ -16,6 +16,12 @@ public class InMemoryJavaFile extends SimpleJavaFileObject {
                 Kind.SOURCE);
     }
 
+    public InMemoryJavaFile(final String name, String charContent) {
+        this(name);
+        out.write(charContent);
+
+    }
+
     @Override
     public CharSequence getCharContent(final boolean ignoreEncodingErrors) throws IOException {
         return out.toString();
