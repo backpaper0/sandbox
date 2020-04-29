@@ -1,9 +1,25 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 export default function ScrollExample() {
+  const delay = 100;
   const [messages, setMessages] = useState(initialValue);
   const [loading, setLoading] = useState(false);
   const ref = useRef(null);
+  useEffect(() => {
+    setLoading(a => {
+      if (a === false) {
+        return a;
+      }
+      const element = (ref.current as any);
+      const rect = element.getBoundingClientRect();
+      if (element.scrollTop >= rect.height) {
+        return false;
+      }
+      element.scrollTo({ top: rect.height + 1 });
+      setTimeout(() => setLoading(false));
+      return a;
+    });
+  }, [messages]);
   useEffect(() => {
     const element = ref.current as any;
     element.scrollTo({
@@ -22,18 +38,16 @@ export default function ScrollExample() {
       }
       setLoading(true);
       setTimeout(() => {
-        setLoading(false);
         setMessages(messages.prev());
-      }, 100);
+      }, delay);
     } else if (element.lastElementChild.getBoundingClientRect().y < (rect.height * 2)) {
       if (messages.isLast()) {
         return;
       }
       setLoading(true);
       setTimeout(() => {
-        setLoading(false);
         setMessages(messages.next());
-      }, 100);
+      }, delay);
     }
   }, [loading, messages]);
   useEffect(() => {
