@@ -14,7 +14,7 @@ export function useCounter2(): [number, () => void] {
 export function useDebugLog(name: string): [React.Ref<any>] {
   const ref = useRef(null);
   useEffect(() => {
-    console.log(`    [Init debug log ${name}]`);
+    console.log(`(Init debug log ${name})`);
     if (ref.current !== null) {
       const observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
@@ -22,7 +22,7 @@ export function useDebugLog(name: string): [React.Ref<any>] {
             case 'attributes':
               break;
             case 'characterData':
-              console.log(`  [Update ${name}] ${mutation.type}: ${(mutation.target as Text).data}`);
+              console.log(`Update DOM ${name}: ${(mutation.target as Text).data}`);
               break;
             case 'childList':
               break;
@@ -32,7 +32,7 @@ export function useDebugLog(name: string): [React.Ref<any>] {
       const config = { attributes: true, childList: true, characterData: true, subtree: true };
       observer.observe(ref.current as any, config);
       return () => {
-        console.log(`    [destroy debug log ${name}]`);
+        console.log(`(Destroy debug log ${name})`);
         observer.disconnect();
       };
     }
