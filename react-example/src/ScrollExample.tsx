@@ -25,6 +25,15 @@ export default function ScrollExample() {
         setLoading(false);
         setMessages(messages.prev());
       }, 100);
+    } else if (element.lastElementChild.getBoundingClientRect().y < (rect.height * 2)) {
+      if (messages.isLast()) {
+        return;
+      }
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        setMessages(messages.next());
+      }, 100);
     }
   }, [loading, messages]);
   useEffect(() => {
@@ -36,7 +45,7 @@ export default function ScrollExample() {
   return (
     <div>
       <h1>Scroll</h1>
-      <div ref={ref} style={css} onScroll={handleScroll}>
+      <div className="scrollable" ref={ref} style={css} onScroll={handleScroll}>
         {messages.map(a => <p key={a}>{a}</p>)}
       </div>
     </div>
@@ -44,7 +53,10 @@ export default function ScrollExample() {
 }
 
 class Messages {
-  private size: number = 500;
+  private static fetchSize = 100;
+  private static size = 300;
+  private static minBegin = 1;
+  private static maxEndExcluded = 10001;
   private begin: number;
   private endExcludes: number;
   private array: string[];
@@ -52,19 +64,33 @@ class Messages {
     this.begin = begin;
     this.endExcludes = endExcludes;
     this.array = [];
-    for (let i = begin, j = 0; i < endExcludes && j < this.size; i++, j++) {
+    for (let i = begin; i < endExcludes; i++) {
       this.array.push(`Message ${i}`);
     };
   }
   isFirst(): boolean {
-    return this.begin <= 1;
+    return this.begin <= Messages.minBegin;
+  }
+  isLast(): boolean {
+    return this.endExcludes >= Messages.maxEndExcluded;
   }
   prev(): Messages {
-    const begin = Math.max(1, this.begin - 100);
-    return new Messages(begin, this.endExcludes);
+    const begin = Math.max(Messages.minBegin, this.begin - Messages.fetchSize);
+    const endExcludes = Math.min(Messages.maxEndExcluded, begin + Messages.size);
+    return new Messages(begin, endExcludes);
+  }
+  next(): Messages {
+    const begin = Math.min(Messages.maxEndExcluded - Messages.fetchSize, this.begin + Messages.fetchSize);
+    const endExcludes = Math.min(Messages.maxEndExcluded, begin + Messages.size);
+    return new Messages(begin, endExcludes);
   }
   map<T>(fn: (a: string) => T): T[] {
     return this.array.map(fn);
+  }
+  static initialValue() {
+    const begin = Messages.maxEndExcluded - Messages.fetchSize;
+    const endExcludes = Messages.maxEndExcluded;
+    return new Messages(begin, endExcludes);
   }
 }
 
@@ -75,5 +101,5 @@ const css = {
   overflowY: 'scroll' as 'scroll',
 };
 
-const initialValue: Messages = new Messages(401, 501);
+const initialValue: Messages = Messages.initialValue();
 
