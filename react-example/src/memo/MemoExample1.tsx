@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useDebugLog } from './Hooks';
 
 export default function MemoExample1() {
   const [count1, setCount1] = useState(0);
@@ -41,30 +42,7 @@ type PropsType = {
 };
 
 function Counter({ name, count }: PropsType) {
-  console.log(`${name}: render`);
-  const ref = useRef(null);
-  useEffect(() => {
-    console.log(`(${name}: connect)`);
-    const observer = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
-        switch (mutation.type) {
-          case 'attributes':
-            break;
-          case 'characterData':
-            console.log(`(${name}: update DOM)`);
-            break;
-          case 'childList':
-            break;
-        }
-      });
-    });
-    const config = { attributes: true, childList: true, characterData: true, subtree: true };
-    observer.observe(ref.current as any, config);
-    return () => {
-      console.log(`(${name}: disconnect)`);
-      observer.disconnect();
-    };
-  }, []);
+  const [ref] = useDebugLog(name);
   return (
     <p ref={ref}>{name}: {count}</p>
   );
