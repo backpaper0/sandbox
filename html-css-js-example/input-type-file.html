@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>input-type-file</title>
+  </head>
+  <body>
+    <p>
+      <input type="file" onchange="preview(this)">
+    </p>
+    <p id="preview"></p>
+  <script>
+    const p = document.querySelector('#preview');
+    function preview(input) {
+      for (let file of input.files) {
+        const url = window.URL.createObjectURL(file);
+        const img = document.createElement('img');
+        img.src = url;
+        p.appendChild(img);
+      }
+    }
+  </script>
+  </body>
+</html>
