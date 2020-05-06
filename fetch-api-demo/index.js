@@ -12,3 +12,18 @@ function httpMethods() {
   });
 }
 
+let controller;
+function sendAbortExample() {
+  controller = new AbortController();
+  const signal = controller.signal;
+  fetch('/abort', { signal })
+    .then(a => a.json())
+    .then(a => console.log('[abort]', a))
+    .catch(e => console.log('[abort]', e.message));
+}
+
+function abortAbortExample() {
+  if (controller) {
+    controller.abort();
+  }
+}

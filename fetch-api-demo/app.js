@@ -14,5 +14,14 @@ app.options('/methods/options', (req, res) => res.send('Hello, OPTIONS request!'
 app.connect('/methods/connect', (req, res) => res.send('Hello, CONNECT request!'));
 app.patch('/methods/patch', (req, res) => res.send('Hello, PATCH request!'));
 
+app.get('/abort', (req, res) => {
+  console.log('[abort]Begin abort example');
+  setTimeout(() => {
+    console.log('[abort]...');
+    res.json({ message: 'hello world' });
+    console.log('[abort]End abort example');
+  }, 5000);
+});
+
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
 
