@@ -69,6 +69,8 @@ class BasicAuthTest {
 
 		assertEquals(204, response.statusCode());
 
+		// Authenticatorを設定していても1度は認証情報なしにリクエストが投げられる。
+		// WWW-Authenticateを受け取らないと認証方式がわからないから、ということかなぁ？？？
 		assertEquals(2, server.getRequestCount());
 
 		final RecordedRequest recordedRequest1 = server.takeRequest();
