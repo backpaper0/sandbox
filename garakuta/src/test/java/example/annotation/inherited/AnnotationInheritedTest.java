@@ -1,4 +1,4 @@
-package example.annotation;
+package example.annotation.inherited;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class AnnotationTest {
+class AnnotationInheritedTest {
 
 	private Class<?> clazz;
 	private Method method;

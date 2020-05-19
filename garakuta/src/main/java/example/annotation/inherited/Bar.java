@@ -1,4 +1,4 @@
-package example.annotation;
+package example.annotation.inherited;
 
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;

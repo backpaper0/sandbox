@@ -1,4 +1,4 @@
-package example.annotation;
+package example.annotation.inherited;
 
 public class Fuga extends Hoge {
 	@Override
