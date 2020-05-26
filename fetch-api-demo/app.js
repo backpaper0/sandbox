@@ -23,5 +23,15 @@ app.get('/abort', (req, res) => {
   }, 5000);
 });
 
+[200, 302, 400, 401, 403, 404, 500, 503].forEach(status => {
+  app.get(`/status/${status}`, (req, res) => {
+    res.status(status);
+    if (300 <= status && status <= 399) {
+      res.set('location', '/status/200');
+    }
+    return res.end();
+  });
+});
+
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
 
