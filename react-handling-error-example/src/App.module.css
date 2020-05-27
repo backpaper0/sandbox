@@ -1,0 +1,19 @@
+.button {
+  padding: 1rem;
+  border: 1px solid teal;
+  cursor: pointer;
+  min-width: 8rem;
+  border-radius: .5rem;
+  transition: all .2s linear;
+}
+
+.button {
+  background-color: teal;
+  color: white;
+}
+
+.button:hover {
+  background-color: white;
+  color: teal;
+}
+
