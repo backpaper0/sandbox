@@ -30,3 +30,19 @@ docker run --rm --mount type=bind,src=$(pwd),dst=/workspace \
 
 https://twitter.com/hishidama/status/1266176675768745984
 
+`javac`の`-sourcepath`はパッケージとディレクトリが一致しないと機能しない様子。
+
+これは成功する。
+
+```
+# rm -fr target
+javac -d target/classes -sourcepath src/main/java src/main/java/com/example/App4.java
+```
+
+これは失敗する。
+
+```
+# rm -fr target
+javac -d target/classes -sourcepath src/main/java src/main/java/com/example/App2.java
+```
+
