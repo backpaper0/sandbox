@@ -63,7 +63,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<excludes>
-						<exclude>**/FooServletTest.java</exclude>
+						<exclude>**/Tests.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -81,7 +81,7 @@
 				</executions>
 				<configuration>
 					<includes>
-						<include>**/FooServletTest.java</include>
+						<include>**/Tests.java</include>
 					</includes>
 				</configuration>
 			</plugin>

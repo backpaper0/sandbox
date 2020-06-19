@@ -3,6 +3,7 @@ package com.example;
 import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -21,23 +22,32 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
-public class FooServletTest {
+public class Tests {
 
-	@Deployment
+	@Deployment(testable = false)
 	public static WebArchive createDeployment() {
 
-		final JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
+		final JavaArchive jar1 = ShrinkWrap.create(JavaArchive.class)
 				.addClass(Initializer.class)
 				.addClass(Foo.class)
+				.addClass(Bar.class)
 				.addAsResource("META-INF/services/javax.servlet.ServletContainerInitializer");
 
+		final JavaArchive jar2 = ShrinkWrap.create(JavaArchive.class)
+				.addClass(Baz.class);
+
+		final JavaArchive jar3 = ShrinkWrap.create(JavaArchive.class)
+				.addClass(BarServlet.class);
+
 		return ShrinkWrap.create(WebArchive.class, "test.war")
-				.addClasses(FooServlet.class, Bar.class, Baz.class, Qux.class)
-				.addAsLibraries(jar);
+				.addClasses(FooServlet.class, Qux.class)
+				.addAsLibraries(jar1)
+				.addAsLibraries(jar2)
+				.addAsLibraries(jar3);
 	}
 
 	@Test
-	public void test(@ArquillianResource URL resource) throws Exception {
+	public void testServletContainerInitializer(@ArquillianResource URL resource) throws Exception {
 		final HttpURLConnection con = (HttpURLConnection) new URL(resource, "/test/foo")
 				.openConnection();
 		final List<String> lines = new ArrayList<String>();
@@ -57,5 +67,24 @@ public class FooServletTest {
 				"com.example.Baz",
 				"com.example.Qux");
 		assertEquals(expected, lines);
+	}
+
+	@Test
+	public void testServletInJar(@ArquillianResource URL resource) throws Exception {
+		final HttpURLConnection con = (HttpURLConnection) new URL(resource, "/test/bar")
+				.openConnection();
+		final ByteArrayOutputStream out = new ByteArrayOutputStream();
+		final InputStream in = con.getInputStream();
+		try {
+			int i;
+			final byte[] b = new byte[Math.max(con.getContentLength(), 1024)];
+			while (-1 != (i = in.read(b))) {
+				out.write(b, 0, i);
+			}
+		} finally {
+			in.close();
+		}
+		final String expected = "bar";
+		assertEquals(expected, out.toString());
 	}
 }
