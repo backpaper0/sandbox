@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -31,6 +32,7 @@ public class Tests {
 				.addClass(Initializer.class)
 				.addClass(Foo.class)
 				.addClass(Bar.class)
+				.addClass(GetRequestDispatcher.class)
 				.addAsResource("META-INF/services/javax.servlet.ServletContainerInitializer");
 
 		final JavaArchive jar2 = ShrinkWrap.create(JavaArchive.class)
@@ -71,8 +73,19 @@ public class Tests {
 
 	@Test
 	public void testServletInJar(@ArquillianResource URL resource) throws Exception {
-		final HttpURLConnection con = (HttpURLConnection) new URL(resource, "/test/bar")
-				.openConnection();
+		assertEquals("bar", getAsString(resource, "/test/bar"));
+	}
+
+	@Test
+	public void testRequestDispatcher(@ArquillianResource URL resource) throws Exception {
+		assertNotEquals("null", getAsString(resource, "/test/request_dispatcher?path=/aaa/bbb"));
+		assertNotEquals("null", getAsString(resource, "/test/request_dispatcher?path=xxx/yyy"));
+		assertNotEquals("null", getAsString(resource, "/test/request_dispatcher?path="));
+		assertEquals("null", getAsString(resource, "/test/request_dispatcher"));
+	}
+
+	private static String getAsString(URL resource, String path) throws IOException {
+		final HttpURLConnection con = (HttpURLConnection) new URL(resource, path).openConnection();
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		final InputStream in = con.getInputStream();
 		try {
@@ -84,7 +97,6 @@ public class Tests {
 		} finally {
 			in.close();
 		}
-		final String expected = "bar";
-		assertEquals(expected, out.toString());
+		return out.toString("UTF-8");
 	}
 }
