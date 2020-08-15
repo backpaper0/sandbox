@@ -3,6 +3,8 @@ package example;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.BreakIterator;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -57,5 +59,63 @@ public class UnicodeExample {
 			count++;
 		}
 		assertEquals(6, count);
+	}
+
+	@Test
+	void emojiWithZWJ() throws Exception {
+		String s0 = "🏳️‍🌈";
+		String s1 = "👩‍❤️‍👨";
+		String s2 = "👨‍👩‍👧‍👦";
+		String s3 = "🏄‍♂️";
+		String s4 = "👯‍♀️";
+		String s5 = "🧞‍♂️";
+		String s6 = "👩‍💻";
+
+		//見た目上の文字数は7(MacBook Pro/Eclipse上で目視)
+		String s = s0 + s1 + s2 + s3 + s4 + s5 + s6;
+		System.out.println(s);
+		Consumer<String> c = a -> System.out.printf("%s    %s%n", a,
+				a.codePoints().mapToObj(b -> String.format("%5X", b))
+						.collect(Collectors.joining(", ")));
+		c.accept(s0);
+		c.accept(s1);
+		c.accept(s2);
+		c.accept(s3);
+		c.accept(s4);
+		c.accept(s5);
+		c.accept(s6);
+
+		//char数、コードポイント数ともに4ではない
+		assertEquals(45, s.length());
+		assertEquals(32, s.codePointCount(0, s.length()));
+
+		{
+			BreakIterator it = BreakIterator.getCharacterInstance();
+			it.setText(s);
+			int count = 0;
+			while (it.next() != BreakIterator.DONE) {
+				count++;
+			}
+			//結合前の各絵文字とゼロ幅接合子(ZWJ)がカウントされている
+			assertEquals(27, count);
+		}
+
+		{
+			BreakIterator it = BreakIterator.getCharacterInstance();
+			it.setText(s);
+			int count = 0;
+			int index = 0;
+			while (it.next() != BreakIterator.DONE) {
+				//ZWJとそれに続く文字はカウントしないことで見た目上の数をカウントできる
+				if (s.codePointAt(index) == 0x200d) {
+					it.next();
+				} else {
+					count++;
+				}
+				index = it.current();
+			}
+			//見た目上の数をカウントできた
+			assertEquals(7, count);
+		}
 	}
 }
