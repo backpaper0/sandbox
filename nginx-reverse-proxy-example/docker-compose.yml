@@ -1,18 +1,22 @@
-version: '3'
+version: '3.8'
 
 services:
 
-  proxy1:
-    image: nginx
-    ports: ["8080:80"]
-    volumes: ["./proxy/proxy1.conf:/etc/nginx/conf.d/default.conf"]
+  app1:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
 
-  proxy2:
-    image: nginx
-    volumes: ["./proxy/proxy2.conf:/etc/nginx/conf.d/default.conf"]
+  app2:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
 
-  api:
-    image: openjdk:11
-    entrypoint: ["java", "-jar", "/app/api.jar"]
-    volumes: ["./api/target/api.jar:/app/api.jar"]
+  proxy:
+    image: nginx
+    ports:
+      - 3000:80
+    volumes:
+      - ./proxy/proxy.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on: [app1, app2]
 
