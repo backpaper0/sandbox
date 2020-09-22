@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>position-example</title>
+    <style>
+html {
+  border: solid 1px purple;
+}
+body {
+  border: solid 1px green;
+}
+.big {
+  width: 700px;
+  height: 700px;
+}
+.small {
+  width: 200px;
+  height: 200px;
+}
+
+
+.box1 {
+  position: absolute;
+  border: solid 1px red;
+}
+.box1.big {
+  top: 50px;
+  left: 50px;
+}
+.box1.small:nth-child(1) {
+  top: 10px;
+  left: 10px;
+}
+.box1.small:nth-child(2) {
+  top: 20px;
+  left: 20px;
+}
+.box1.small:nth-child(3) {
+  top: 30px;
+  left: 30px;
+}
+
+
+.box2 {
+  position: relative;
+  border: solid 1px blue;
+}
+.box2.big {
+  top: 50px;
+  left: 50px;
+}
+.box2.small:nth-child(1) {
+  top: 10px;
+  left: 10px;
+}
+.box2.small:nth-child(2) {
+  top: 20px;
+  left: 20px;
+}
+.box2.small:nth-child(3) {
+  top: 30px;
+  left: 30px;
+}
+    </style>
+  </head>
+  <body>
+    <div class="box1 big">
+      <div class="box1 small"></div>
+      <div class="box1 small"></div>
+      <div class="box1 small"></div>
+    </div>
+    <div class="box2 big">
+      <div class="box2 small"></div>
+      <div class="box2 small"></div>
+      <div class="box2 small"></div>
+    </div>
+  </body>
+</html>
