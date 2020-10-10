@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  spa:
+    image: nginx
+    volumes:
+      - ./nginx/spa.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/spa-cert.pem:/etc/nginx/cert.pem
+      - ./nginx/spa-key.pem:/etc/nginx/key.pem
+    ports: ["8000:443"]
+  api:
+    image: nginx
+    volumes:
+      - ./nginx/api.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/api-cert.pem:/etc/nginx/cert.pem
+      - ./nginx/api-key.pem:/etc/nginx/key.pem
+    ports: ["8080:443"]
