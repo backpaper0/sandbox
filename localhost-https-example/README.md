@@ -35,3 +35,9 @@ npm start
 docker-compose up
 ```
 
+## 参考資料
+
+- https://nginx.org/en/docs/http/ngx_http_proxy_module.html
+- https://nginx.org/en/docs/http/websocket.html
+- https://nginx.org/en/docs/http/ngx_http_ssl_module.html
+
