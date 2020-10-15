@@ -15,7 +15,7 @@ npm ci
 ```
 
 ```
-mkcert -key-file nginx/spa-key.pem -cert-file nginx/spa-cert.pem "spa.example.com"
+mkcert -key-file nginx/spa-key.pem -cert-file nginx/spa-cert.pem "spa.example.org"
 mkcert -key-file nginx/api-key.pem -cert-file nginx/api-cert.pem "api.example.com"
 ```
 

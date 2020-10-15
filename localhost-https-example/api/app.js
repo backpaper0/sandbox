@@ -15,7 +15,7 @@ app.use(morgan('dev'));
 
 // http://expressjs.com/en/resources/middleware/cors.html
 var corsConfig = {
-  origin: (process.env.CORS_ORIGIN || 'https://spa.example.com:8000'),
+  origin: (process.env.CORS_ORIGIN || 'https://spa.example.org:8000'),
   credentials: true,
 };
 logger.debug('CORS config', corsConfig);
