@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>chat</title>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+}
+.header {
+  box-sizing: border-box;
+  border: solid 1px blue;
+  width: 100vw;
+  height: 40px;
+  position: fixed;
+  top: 0;
+  background-color: #ccf;
+  z-index: 100;
+}
+.content {
+  box-sizing: border-box;
+  border: solid 1px green;
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100 - 40px - 60px);
+  overflow-y: auto;
+  position: relative;
+  top: 40px;
+}
+.post {
+  border: solid 1px silver;
+  height: 60px;
+}
+.input-control {
+  box-sizing: border-box;
+  border: solid 1px red;
+  width: 100vw;
+  height: 60px;
+  position: fixed;
+  top: calc(var(--vh, 1vh) * 100 - 60px);
+  background-color: #fcc;
+  z-index: 100;
+}
+</style>
+  </head>
+  <body>
+    <div class="root">
+      <aside class="header">
+      </aside>
+      <div class="content">
+        <div class="post">hello world</div>
+        <div class="post"></div><div class="post"></div><div class="post"></div><div class="post"></div><div class="post"></div>
+        <div class="post"></div><div class="post"></div><div class="post"></div><div class="post"></div><div class="post"></div>
+        <div class="post"></div><div class="post"></div><div class="post"></div><div class="post"></div><div class="post"></div>
+        <div class="post"></div><div class="post"></div><div class="post"></div><div class="post"></div><div class="post"></div>
+        <div class="post"></div><div class="post"></div><div class="post"></div><div class="post"></div><div class="post"></div>
+        <div class="post"></div><div class="post"></div><div class="post"></div><div class="post"></div><div class="post"></div>
+      </div>
+      <div class="input-control">
+        <input type="text">
+        <span class="console"></span>
+      </div>
+    </div>
+<script>
+  function calcVH() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+  calcVH();
+  window.addEventListener('resize', calcVH, false);
+  /* iPhoneの問題への対応 */
+  if (/iPhone/.test(navigator.userAgent)) {
+    /* テキストフィールドへフォーカスすると拡大されてしまう問題への対応 */
+    document.querySelectorAll('input[type=text]').forEach(a => {
+      a.style.fontSize = '16px';
+      a.style.transform = 'scale(0.8)';
+    });
+    /* WIP: テキストフィールドへフォーカスすると固定ヘッダがスクロールされてしまう問題への対応 */
+    const fixedElement = document.querySelector('.header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 0) {
+        fixedElement.style.position = 'absolute';
+        fixedElement.style.top = `${window.scrollY}px`;
+      } else {
+        fixedElement.style.position = '';
+        fixedElement.style.top = '';
+      }
+    }, false);
+  }
+</script>
+  </body>
+</html>
