@@ -3,7 +3,10 @@ package example;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.BreakIterator;
+import java.text.Normalizer;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -116,6 +119,21 @@ public class UnicodeExample {
 			}
 			//見た目上の数をカウントできた
 			assertEquals(7, count);
+		}
+	}
+
+	@Test
+	void normilizer() throws Exception {
+		UnaryOperator<String> f = s -> s.codePoints().mapToObj(a -> String.format("%x", a))
+				.collect(Collectors.joining(" "));
+		List<String> strings = List.of("か", "が", "ガ", "ｶﾞ", "ｶ", "㍻", "㌔");
+		for (String string : strings) {
+			System.out.printf("%s (%s)%n", string, f.apply(string));
+			for (Normalizer.Form form : Normalizer.Form.values()) {
+				String normilized = Normalizer.normalize(string, form);
+				System.out.printf("%s: %s (%s)%n", form, normilized, f.apply(normilized));
+			}
+			System.out.printf("%n");
 		}
 	}
 }
