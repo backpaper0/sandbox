@@ -1,1 +1,0 @@
-insert into hoge (id, t1, t2) values ('12345678-90ab-cdef-1234-567890abcdef', current_timestamp, localtimestamp);
