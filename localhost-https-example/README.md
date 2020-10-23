@@ -19,6 +19,13 @@ mkcert -key-file nginx/spa-key.pem -cert-file nginx/spa-cert.pem "spa.example.or
 mkcert -key-file nginx/api-key.pem -cert-file nginx/api-cert.pem "api.example.com"
 ```
 
+`/etc/hosts`へホスト名を登録する。
+
+```
+127.0.0.1	spa.example.org
+127.0.0.1	api.example.com
+```
+
 ## 起動
 
 ```
