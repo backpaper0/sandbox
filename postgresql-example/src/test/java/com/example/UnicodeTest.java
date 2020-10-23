@@ -14,7 +14,7 @@ public class UnicodeTest {
 
 	@Test
 	void select() throws Exception {
-		String sql = "select vc, char_length(vc) from unicode_example where id between 1 and 3 order by id";
+		String sql = "select vc, char_length(vc) from unicode_example order by id";
 
 		// char_length関数はコードポイントを数えるみたい
 
@@ -23,16 +23,31 @@ public class UnicodeTest {
 				var rs = pst.executeQuery()) {
 
 			rs.next();
+			//普通の非漢字
+			assertEquals("あ", rs.getString(1));
+			assertEquals(1, rs.getInt(2));
+			assertEquals(1, "あ".codePointCount(0, "あ".length()));
+
+			rs.next();
+			//普通の漢字
 			assertEquals("鮭", rs.getString(1));
 			assertEquals(1, rs.getInt(2));
 			assertEquals(1, "鮭".codePointCount(0, "鮭".length()));
 
 			rs.next();
+			//サロゲートペア
 			assertEquals("𩸽", rs.getString(1));
 			assertEquals(1, rs.getInt(2));
 			assertEquals(1, "𩸽".codePointCount(0, "𩸽".length()));
 
 			rs.next();
+			//絵文字
+			assertEquals("🍣", rs.getString(1));
+			assertEquals(1, rs.getInt(2));
+			assertEquals(1, "🍣".codePointCount(0, "🍣".length()));
+
+			rs.next();
+			//ZWJで結合した絵文字
 			assertEquals("👨‍👩‍👧‍👦", rs.getString(1));
 			//4(絵文字) + 3(ZWJ) = 7
 			assertEquals(7, rs.getInt(2));

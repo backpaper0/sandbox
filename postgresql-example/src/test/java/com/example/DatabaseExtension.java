@@ -20,6 +20,7 @@ public class DatabaseExtension implements BeforeAllCallback {
 	public void beforeAll(ExtensionContext context) throws Exception {
 		Configuration configuration = new FluentConfiguration().dataSource(url, user, password);
 		Flyway flyway = new Flyway(configuration);
+		flyway.clean();
 		flyway.migrate();
 	}
 
