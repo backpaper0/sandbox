@@ -136,4 +136,16 @@ public class UnicodeExample {
 			System.out.printf("%n");
 		}
 	}
+
+	@Test
+	void control() throws Exception {
+		for (int codePoint = 0; codePoint < 0xff; codePoint++) {
+			String s = new String(new int[] { codePoint }, 0, 1);
+			if (Character.isISOControl(codePoint)) {
+				System.out.printf("%02x [制御文字]%n", codePoint);
+			} else {
+				System.out.printf("%02x %s%n", codePoint, s);
+			}
+		}
+	}
 }
