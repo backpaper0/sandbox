@@ -2,9 +2,11 @@ package example;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.Character.UnicodeBlock;
 import java.text.BreakIterator;
 import java.text.Normalizer;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -147,5 +149,54 @@ public class UnicodeExample {
 				System.out.printf("%02x %s%n", codePoint, s);
 			}
 		}
+	}
+
+	@Test
+	void variationSelector() throws Exception {
+		String s = "朝󠄁";
+		assertEquals(3, s.length());
+		assertEquals(2, s.codePointCount(0, s.length()));
+		int codePoint = s.codePointAt(1);
+		assertEquals(UnicodeBlock.VARIATION_SELECTORS_SUPPLEMENT, UnicodeBlock.of(codePoint));
+	}
+
+	@Test
+	void test() throws Exception {
+		//見た目の文字数は12
+		String text = "朝󠄁は𩸽の🍣を👨‍👩‍👧‍👦で食べたい";
+
+		//朝(1) + 異体字セレクタ(2) = 3
+		//𩸽、寿司、家族を構成する各絵文字はサロゲートペアなので2 * 6 = 12
+		//家族の絵文字を構成するためのZWJが3つ
+		//その他の文字が8
+		//3 + 12 + 3 + 8 = 26
+		assertEquals(26, text.length());
+
+		//サロゲートペアは1カウントになる
+		//異体字セレクタも1カウント
+		//つまり朝(1) + 異体字セレクタ(1) = 2
+		//家族の絵文字を構成する絵文字とZWJもそれぞれ1カウントされる
+		//つまり家族の絵文字は構成している絵文字4つとZWJ 3つで7とカウントされる
+		assertEquals(19, text.codePoints().count());
+
+		//サロゲートペアと異体字セレクタを付与した異体字は1文字としてイテレートしてくれる
+		//ZWJとそれに続く絵文字は1文字としてカウントされる
+		BreakIterator it = BreakIterator.getCharacterInstance(Locale.JAPANESE);
+		it.setText(text);
+		int count = 0;
+		int countSkipZWJ = 0;
+		int index = 0;
+		while (it.next() != BreakIterator.DONE) {
+			count++;
+			//ZWJとそれに続く文字はカウントしないことで見た目上の数をカウントできる
+			if (text.codePointAt(index) == 0x200d) {
+				it.next();
+			} else {
+				countSkipZWJ++;
+			}
+			index = it.current();
+		}
+		assertEquals(15, count);
+		assertEquals(12, countSkipZWJ);
 	}
 }
