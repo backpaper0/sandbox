@@ -53,6 +53,11 @@ public class UnicodeTest {
 			assertEquals(7, rs.getInt(2));
 			assertEquals(7, "👨‍👩‍👧‍👦".codePointCount(0, "👨‍👩‍👧‍👦".length()));
 
+			rs.next();
+			//異体字セレクタ
+			assertEquals("朝󠄁", rs.getString(1));
+			assertEquals(2, rs.getInt(2));
+			assertEquals(2, "朝󠄁".codePointCount(0, "朝󠄁".length()));
 		}
 	}
 
