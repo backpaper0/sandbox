@@ -22,6 +22,7 @@ import Page13 from './memo/MemoExample1';
 import Page14 from './memo/MemoExample2';
 import Page15 from './ScrollExample';
 import Page16 from './Initialize';
+import Page17 from './SurrogatePair';
 
 const pages = [
   Page1,
@@ -40,6 +41,7 @@ const pages = [
   Page14,
   Page15,
   Page16,
+  Page17,
 ];
 
 const App: React.FC = () => {
