@@ -6,6 +6,9 @@ var schema = buildSchema(`
     hello: String
     tasks: Tasks!
   }
+  type Mutation {
+    addTask(title: String): Task
+  }
 
   type Tasks {
     tasks: [Task!]!
@@ -19,11 +22,18 @@ var schema = buildSchema(`
   }
 `);
 
+const idGenerator = (() => {
+  let value = 0;
+  return () => {
+    value++;
+    return value.toString();
+  };
+})();
 const tasks = [
-  { id: '1', title: 'foo' , done: false },
-  { id: '2', title: 'bar' , done: false },
-  { id: '3', title: 'baz' , done: true  },
-  { id: '4', title: 'hoge', done: true  },
+  { id: idGenerator(), title: 'foo' , done: false },
+  { id: idGenerator(), title: 'bar' , done: false },
+  { id: idGenerator(), title: 'baz' , done: true  },
+  { id: idGenerator(), title: 'hoge', done: true  },
 ];
  
 // The root provides a resolver function for each API endpoint
@@ -32,8 +42,13 @@ var root = {
   tasks: () => {
     return ({
       tasks,
-      nextCursor: '5',
+      nextCursor: (tasks.length + 1).toString(),
     });
+  },
+  addTask: ({ title }) => {
+    const task = { id: idGenerator(), title, done: false };
+    tasks.push(task);
+    return task;
   },
 };
  
@@ -74,6 +89,24 @@ const fieldResolver = (...args) => {
   }
   return property;
 };
+
+graphql({ schema, source, rootValue: root, fieldResolver }).then((response) => {
+  console.log(JSON.stringify(response.data));
+});
+
+graphql({ schema, source: `
+  mutation AddTask($title: String!) {
+    addTask(title: $title) {
+      id
+      title
+      done
+    }
+  }
+`, rootValue: root, fieldResolver, variableValues: {
+  title: 'helloworld',
+} }).then((response) => {
+  console.log(response);
+});
 
 graphql({ schema, source, rootValue: root, fieldResolver }).then((response) => {
   console.log(JSON.stringify(response.data));
