@@ -4,6 +4,7 @@ var { graphql, buildSchema, defaultFieldResolver, GraphQLFieldResolver } = requi
 var schema = buildSchema(`
   type Query {
     hello: String
+    hello2: String
     tasks: Tasks!
   }
   type Mutation {
@@ -39,6 +40,7 @@ const tasks = [
 // The root provides a resolver function for each API endpoint
 var root = {
   hello: 'Hello world!',
+  hello2: () => new Promise(resolve => setTimeout(() => resolve('Hello world!(2)'), 100)),
   tasks: () => {
     return ({
       tasks,
@@ -54,6 +56,14 @@ var root = {
  
 // Run the GraphQL query '{ hello }' and print out the response
 graphql(schema, '{ hello }', root).then((response) => {
+  console.log(response);
+});
+
+graphql(schema, '{ hello2 }', root).then((response) => {
+  console.log(response);
+});
+
+graphql(schema, '{ hello, hello2 }', root).then((response) => {
   console.log(response);
 });
 
