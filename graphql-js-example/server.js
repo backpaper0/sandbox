@@ -1,4 +1,5 @@
 var { graphql, buildSchema, defaultFieldResolver, GraphQLFieldResolver } = require('graphql');
+var { ulid } = require('ulid');
  
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
@@ -23,19 +24,18 @@ var schema = buildSchema(`
   }
 `);
 
-const idGenerator = (() => {
-  let value = 0;
-  return () => {
-    value++;
-    return value.toString();
-  };
-})();
-const tasks = [
-  { id: idGenerator(), title: 'foo' , done: false },
-  { id: idGenerator(), title: 'bar' , done: false },
-  { id: idGenerator(), title: 'baz' , done: true  },
-  { id: idGenerator(), title: 'hoge', done: true  },
-];
+const tasks = [];
+
+function addTask(title, done) {
+  const task = { id: ulid(), title, done };
+  tasks.push(task);
+  return task;
+}
+
+addTask('foo' , false);
+addTask('bar' , false);
+addTask('baz' , true );
+addTask('hoge', true );
  
 // The root provides a resolver function for each API endpoint
 var root = {
@@ -48,9 +48,7 @@ var root = {
     });
   },
   addTask: ({ title }) => {
-    const task = { id: idGenerator(), title, done: false };
-    tasks.push(task);
-    return task;
+    return addTask(title, false);
   },
 };
  
