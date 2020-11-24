@@ -15,6 +15,7 @@ type ChildProps<T> = {
   fn: (value: T) => React.ReactNode;
 };
 
+// const Child = <T> (props: ChildProps<T>) => { ... } とするとコンパイルエラーになる。なぜ？
 function Child<T>({ values, fn }: ChildProps<T>) {
   if (!values) {
     return null;
