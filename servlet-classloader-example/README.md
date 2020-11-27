@@ -8,6 +8,6 @@ mvn verify
 Payra 5
 
 ```
-GLASSFISH_HOME=target/payara5 mvn -P payara verify
+mvn -P payara verify
 ```
 
