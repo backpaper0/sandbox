@@ -10,4 +10,10 @@
 		</configuration>
 	</container>
 
+	<container qualifier="payara">
+		<configuration>
+			<property name="glassFishHome">target/payara5</property>
+		</configuration>
+	</container>
+
 </arquillian>

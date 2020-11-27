@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
-public class Tests {
+public class ClassLoaderIT {
 
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
