@@ -13,24 +13,35 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = "/foo")
 public class Foo extends HttpServlet {
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/plain");
-        PrintWriter out = resp.getWriter();
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		resp.setContentType("text/plain");
+		PrintWriter out = resp.getWriter();
 
-        out.println("[Bar]");
-        out.println(Bar.class.getClassLoader().getClass());
-        out.println(Bar.class.getClassLoader());
-        out.println(Bar.class.getProtectionDomain().getCodeSource().getLocation());
-        out.println();
+		print(out, "[Bar]", Bar.class);
+		print(out, "[Filter]", Filter.class);
 
-        out.println("[Filter]");
-        out.println(Filter.class.getClassLoader().getClass());
-        out.println(Filter.class.getClassLoader());
-        out.println(Filter.class.getProtectionDomain().getCodeSource().getLocation());
-        out.println();
+		String orgApacheCatalinaManager = "org.apache.catalina.Manager";
+		Class<?> cl;
+		try {
+			cl = Class.forName(orgApacheCatalinaManager);
+		} catch (ClassNotFoundException e) {
+			cl = null;
+		}
+		print(out, "[" + orgApacheCatalinaManager + "]", cl);
 
-        out.flush();
-        out.close();
-    }
+		out.flush();
+		out.close();
+	}
+
+	private static void print(PrintWriter out, String name, Class<?> clazz) {
+		out.println(name);
+		if (clazz != null) {
+			out.println(clazz.getClassLoader().getClass());
+			out.println(clazz.getClassLoader());
+			out.println(clazz.getProtectionDomain().getCodeSource().getLocation());
+		}
+		out.println();
+	}
 }
