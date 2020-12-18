@@ -28,9 +28,11 @@ public class SampleBean {
                     for (Field field : Status.class.getDeclaredFields()) {
                         int i = (int) field.get(null);
                         if (i == status) {
-                            System.out.printf("******** %s:%s ********%n", path, field.getName());
+                            System.out.printf("demo: %s:%s%n", path, field.getName());
+                            return;
                         }
                     }
+                    System.out.printf("demo: %s:%s%n", path, status);
                 } catch (Exception ignore) {
                     ignore.printStackTrace();
                 }
