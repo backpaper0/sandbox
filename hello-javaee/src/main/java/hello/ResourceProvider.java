@@ -20,7 +20,7 @@ public class ResourceProvider {
     @PersistenceUnit(unitName = "defaultUnit")
     private EntityManagerFactory emf;
 
-    @Resource(name = "concurrent/__defaultManagedExecutorService")
+    @Resource(name = "java:comp/DefaultManagedExecutorService")
     private ManagedExecutorService executor;
 
     @Produces
