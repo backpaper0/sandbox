@@ -16,5 +16,5 @@ deploy:
 	mvn package wildfly:deploy
 
 test:
-	@curl -s localhost:8080/sample/rest/hello
+	curl -s localhost:8080/sample/rest/hello
 	@echo ""
