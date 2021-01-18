@@ -14,36 +14,36 @@ import reactor.core.publisher.Flux;
 
 class ReactorStudy {
 
-    @Test
-    void test() throws Exception {
+	@Test
+	void test() throws Exception {
 
-        final Publisher<String> p = Flux.just("foo", "bar", "baz");
+		final Publisher<String> p = Flux.just("foo", "bar", "baz");
 
-        final List<String> list = new ArrayList<>();
+		final List<String> list = new ArrayList<>();
 
-        p.subscribe(new Subscriber<String>() {
+		p.subscribe(new Subscriber<String>() {
 
-            @Override
-            public void onSubscribe(final Subscription s) {
-                s.request(3);
-            }
+			@Override
+			public void onSubscribe(final Subscription s) {
+				s.request(3);
+			}
 
-            @Override
-            public void onNext(final String t) {
-                list.add(t);
-            }
+			@Override
+			public void onNext(final String t) {
+				list.add(t);
+			}
 
-            @Override
-            public void onError(final Throwable t) {
-            }
+			@Override
+			public void onError(final Throwable t) {
+			}
 
-            @Override
-            public void onComplete() {
-                list.add("completed");
-            }
-        });
+			@Override
+			public void onComplete() {
+				list.add("completed");
+			}
+		});
 
-        assertThat(list).containsOnly("foo", "bar", "baz", "completed");
-    }
+		assertThat(list).containsOnly("foo", "bar", "baz", "completed");
+	}
 
 }

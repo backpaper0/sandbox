@@ -13,41 +13,41 @@ import java.util.zip.ZipInputStream;
 
 public class ZipEntryIterator implements Iterator<ZipEntry> {
 
-    private final ZipInputStream in;
+	private final ZipInputStream in;
 
-    private ZipEntry entry;
+	private ZipEntry entry;
 
-    public ZipEntryIterator(final ZipInputStream in) {
-        this.in = in;
-    }
+	public ZipEntryIterator(final ZipInputStream in) {
+		this.in = in;
+	}
 
-    @Override
-    public boolean hasNext() {
-        if (entry != null) {
-            return true;
-        }
-        try {
-            entry = in.getNextEntry();
-            return entry != null;
-        } catch (final IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
+	@Override
+	public boolean hasNext() {
+		if (entry != null) {
+			return true;
+		}
+		try {
+			entry = in.getNextEntry();
+			return entry != null;
+		} catch (final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
 
-    @Override
-    public ZipEntry next() {
-        if (entry != null || hasNext()) {
-            final ZipEntry temp = entry;
-            entry = null;
-            return temp;
-        }
-        throw new NoSuchElementException();
-    }
+	@Override
+	public ZipEntry next() {
+		if (entry != null || hasNext()) {
+			final ZipEntry temp = entry;
+			entry = null;
+			return temp;
+		}
+		throw new NoSuchElementException();
+	}
 
-    public static Stream<ZipEntry> toStream(final ZipInputStream in) {
-        final Iterator<ZipEntry> iterator = new ZipEntryIterator(in);
-        final Spliterator<ZipEntry> spliterator = Spliterators.spliterator(iterator,
-                Long.MAX_VALUE, 0);
-        return StreamSupport.stream(spliterator, false);
-    }
+	public static Stream<ZipEntry> toStream(final ZipInputStream in) {
+		final Iterator<ZipEntry> iterator = new ZipEntryIterator(in);
+		final Spliterator<ZipEntry> spliterator = Spliterators.spliterator(iterator,
+				Long.MAX_VALUE, 0);
+		return StreamSupport.stream(spliterator, false);
+	}
 }

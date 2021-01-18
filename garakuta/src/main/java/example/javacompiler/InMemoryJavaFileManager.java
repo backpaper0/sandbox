@@ -11,25 +11,25 @@ import javax.tools.JavaFileObject.Kind;
 
 public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileManager> {
 
-    private final InMemoryClassLoader classLoader;
+	private final InMemoryClassLoader classLoader;
 
-    public InMemoryJavaFileManager(final JavaFileManager fileManager,
-            final InMemoryClassLoader classLoader) {
-        super(fileManager);
-        this.classLoader = classLoader;
-    }
+	public InMemoryJavaFileManager(final JavaFileManager fileManager,
+			final InMemoryClassLoader classLoader) {
+		super(fileManager);
+		this.classLoader = classLoader;
+	}
 
-    @Override
-    public ClassLoader getClassLoader(final Location location) {
-        return classLoader;
-    }
+	@Override
+	public ClassLoader getClassLoader(final Location location) {
+		return classLoader;
+	}
 
-    @Override
-    public JavaFileObject getJavaFileForOutput(final Location location, final String className,
-            final Kind kind,
-            final FileObject sibling) throws IOException {
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        classLoader.addClass(className, out);
-        return new InMemoryClassFile(className, kind, out);
-    }
+	@Override
+	public JavaFileObject getJavaFileForOutput(final Location location, final String className,
+			final Kind kind,
+			final FileObject sibling) throws IOException {
+		final ByteArrayOutputStream out = new ByteArrayOutputStream();
+		classLoader.addClass(className, out);
+		return new InMemoryClassFile(className, kind, out);
+	}
 }

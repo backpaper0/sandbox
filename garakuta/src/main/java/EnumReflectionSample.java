@@ -14,29 +14,29 @@
  */
 public class EnumReflectionSample {
 
-    enum Hoge {
+	enum Hoge {
 
-        FOO,
+		FOO,
 
-        BAR {
-            @Override
-            public String toString() {
-                return "bar";
-            }
-        }
-    }
+		BAR {
+			@Override
+			public String toString() {
+				return "bar";
+			}
+		}
+	}
 
-    public static void main(final String[] args) {
-        log(Hoge.FOO);
-        log(Hoge.BAR);
-    }
+	public static void main(final String[] args) {
+		log(Hoge.FOO);
+		log(Hoge.BAR);
+	}
 
-    static void log(final Hoge constant) {
+	static void log(final Hoge constant) {
 
-        final Class<?> clazz = constant.getClass();
-        final String fqcn = clazz.getName();
-        final boolean isEnum = clazz.isEnum();
+		final Class<?> clazz = constant.getClass();
+		final String fqcn = clazz.getName();
+		final boolean isEnum = clazz.isEnum();
 
-        System.out.printf("%s: class=%s, enum=%s%n", constant, fqcn, isEnum);
-    }
+		System.out.printf("%s: class=%s, enum=%s%n", constant, fqcn, isEnum);
+	}
 }

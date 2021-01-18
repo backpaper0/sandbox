@@ -4,76 +4,76 @@ import java.util.List;
 
 public class Interceptor2 {
 
-    public static void main(final String[] args) {
+	public static void main(final String[] args) {
 
-        final EnhancedHoge hoge = new EnhancedHoge();
+		final EnhancedHoge hoge = new EnhancedHoge();
 
-        hoge.addInterceptor(context -> {
-            try {
-                System.out.println("begin 1");
-                return context.proceed();
-            } finally {
-                System.out.println("end 1");
-            }
-        });
+		hoge.addInterceptor(context -> {
+			try {
+				System.out.println("begin 1");
+				return context.proceed();
+			} finally {
+				System.out.println("end 1");
+			}
+		});
 
-        hoge.addInterceptor(context -> {
-            try {
-                System.out.println("begin 2");
-                return context.proceed();
-            } finally {
-                System.out.println("end 2");
-            }
-        });
+		hoge.addInterceptor(context -> {
+			try {
+				System.out.println("begin 2");
+				return context.proceed();
+			} finally {
+				System.out.println("end 2");
+			}
+		});
 
-        final String s = hoge.echo("hello");
+		final String s = hoge.echo("hello");
 
-        System.out.printf("result: %s%n", s);
-    }
+		System.out.printf("result: %s%n", s);
+	}
 
-    interface Interceptor {
-        Object invoke(InterceptorContext context);
-    }
+	interface Interceptor {
+		Object invoke(InterceptorContext context);
+	}
 
-    interface InterceptorContext {
-        Object proceed();
-    }
+	interface InterceptorContext {
+		Object proceed();
+	}
 
-    interface RecursiveInterceptorContext extends InterceptorContext {
-        Object proceed(InterceptorContext context);
+	interface RecursiveInterceptorContext extends InterceptorContext {
+		Object proceed(InterceptorContext context);
 
-        @Override
-        default Object proceed() {
-            return proceed(this);
-        }
-    }
+		@Override
+		default Object proceed() {
+			return proceed(this);
+		}
+	}
 
-    static class Hoge {
-        public String echo(final String s) {
-            System.out.println(s);
-            return s;
-        }
-    }
+	static class Hoge {
+		public String echo(final String s) {
+			System.out.println(s);
+			return s;
+		}
+	}
 
-    static class EnhancedHoge extends Hoge {
-        private final List<Interceptor> interceptors = new ArrayList<>();
+	static class EnhancedHoge extends Hoge {
+		private final List<Interceptor> interceptors = new ArrayList<>();
 
-        public boolean addInterceptor(final Interceptor interceptor) {
-            return interceptors.add(interceptor);
-        }
+		public boolean addInterceptor(final Interceptor interceptor) {
+			return interceptors.add(interceptor);
+		}
 
-        @Override
-        public String echo(final String s) {
-            final Iterator<Interceptor> it = interceptors.iterator();
-            //補助的な関数型インターフェースを噛ませることで
-            //匿名クラスがなくなった。
-            final RecursiveInterceptorContext context = self -> {
-                if (it.hasNext()) {
-                    return it.next().invoke(self);
-                }
-                return EnhancedHoge.super.echo(s);
-            };
-            return (String) context.proceed();
-        }
-    }
+		@Override
+		public String echo(final String s) {
+			final Iterator<Interceptor> it = interceptors.iterator();
+			//補助的な関数型インターフェースを噛ませることで
+			//匿名クラスがなくなった。
+			final RecursiveInterceptorContext context = self -> {
+				if (it.hasNext()) {
+					return it.next().invoke(self);
+				}
+				return EnhancedHoge.super.echo(s);
+			};
+			return (String) context.proceed();
+		}
+	}
 }

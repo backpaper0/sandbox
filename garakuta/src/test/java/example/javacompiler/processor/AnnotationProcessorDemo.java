@@ -15,21 +15,21 @@ import javax.lang.model.util.ElementFilter;
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
 public class AnnotationProcessorDemo extends AbstractProcessor {
 
-    @Override
-    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        for (final TypeElement te : annotations) {
-            for (final TypeElement e : ElementFilter
-                    .typesIn(roundEnv.getElementsAnnotatedWith(te))) {
-                System.out.println("********************************");
-                System.out.println(e.getQualifiedName());
-                System.out.println(e.getSuperclass());
-                System.out.println(e.getInterfaces());
-                for (final ExecutableElement constructor : ElementFilter
-                        .constructorsIn(e.getEnclosedElements())) {
-                    System.out.println(constructor);
-                }
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+		for (final TypeElement te : annotations) {
+			for (final TypeElement e : ElementFilter
+					.typesIn(roundEnv.getElementsAnnotatedWith(te))) {
+				System.out.println("********************************");
+				System.out.println(e.getQualifiedName());
+				System.out.println(e.getSuperclass());
+				System.out.println(e.getInterfaces());
+				for (final ExecutableElement constructor : ElementFilter
+						.constructorsIn(e.getEnclosedElements())) {
+					System.out.println(constructor);
+				}
+			}
+		}
+		return false;
+	}
 }

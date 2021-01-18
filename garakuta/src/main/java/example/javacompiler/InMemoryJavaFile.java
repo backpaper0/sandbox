@@ -9,26 +9,26 @@ import javax.tools.SimpleJavaFileObject;
 
 public class InMemoryJavaFile extends SimpleJavaFileObject {
 
-    private final StringWriter out = new StringWriter();
+	private final StringWriter out = new StringWriter();
 
-    public InMemoryJavaFile(final String name) {
-        super(URI.create("string:///" + name.replace('.', '/') + Kind.SOURCE.extension),
-                Kind.SOURCE);
-    }
+	public InMemoryJavaFile(final String name) {
+		super(URI.create("string:///" + name.replace('.', '/') + Kind.SOURCE.extension),
+				Kind.SOURCE);
+	}
 
-    public InMemoryJavaFile(final String name, String charContent) {
-        this(name);
-        out.write(charContent);
+	public InMemoryJavaFile(final String name, String charContent) {
+		this(name);
+		out.write(charContent);
 
-    }
+	}
 
-    @Override
-    public CharSequence getCharContent(final boolean ignoreEncodingErrors) throws IOException {
-        return out.toString();
-    }
+	@Override
+	public CharSequence getCharContent(final boolean ignoreEncodingErrors) throws IOException {
+		return out.toString();
+	}
 
-    @Override
-    public Writer openWriter() throws IOException {
-        return out;
-    }
+	@Override
+	public Writer openWriter() throws IOException {
+		return out;
+	}
 }

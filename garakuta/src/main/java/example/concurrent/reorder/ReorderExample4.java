@@ -5,33 +5,33 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ReorderExample4 implements Runnable {
 
-    public static void main(final String[] args) throws Exception {
-        final ReorderExample4 r = new ReorderExample4();
-        final Thread t = new Thread(r);
-        t.start();
+	public static void main(final String[] args) throws Exception {
+		final ReorderExample4 r = new ReorderExample4();
+		final Thread t = new Thread(r);
+		t.start();
 
-        TimeUnit.SECONDS.sleep(1);
-        r.stop();
-    }
+		TimeUnit.SECONDS.sleep(1);
+		r.stop();
+	}
 
-    //AtomicBooleanを使ってもメモリの同期はなされる
-    private final AtomicBoolean alive = new AtomicBoolean(true);
+	//AtomicBooleanを使ってもメモリの同期はなされる
+	private final AtomicBoolean alive = new AtomicBoolean(true);
 
-    @Override
-    public void run() {
-        long counter = 0L;
-        while (isAlive()) {
-            counter++;
-        }
-        System.out.printf("%,d", counter);
-    }
+	@Override
+	public void run() {
+		long counter = 0L;
+		while (isAlive()) {
+			counter++;
+		}
+		System.out.printf("%,d", counter);
+	}
 
-    public boolean isAlive() {
-        return alive.get();
-    }
+	public boolean isAlive() {
+		return alive.get();
+	}
 
-    public void stop() {
-        alive.set(false);
-        System.out.println("stop");
-    }
+	public void stop() {
+		alive.set(false);
+		System.out.println("stop");
+	}
 }

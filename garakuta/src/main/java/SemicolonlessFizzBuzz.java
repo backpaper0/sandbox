@@ -5,35 +5,35 @@
  */
 public class SemicolonlessFizzBuzz {
 
-    public static void main(final String[] args) {
-        try {
-            if (fizzbuzz(1, 1000) != null) {
-            }
-        } catch (final Exception e) {
-        }
-    }
+	public static void main(final String[] args) {
+		try {
+			if (fizzbuzz(1, 1000) != null) {
+			}
+		} catch (final Exception e) {
+		}
+	}
 
-    static Void fizzbuzz(final int cur, final int end) {
-        if (cur < end) {
-            if (cur % 15 == 0) {
-                if (System.out.printf("FizzBuzz%n") != null) {
-                }
-            } else if (cur % 3 == 0) {
-                if (System.out.printf("Fizz%n") != null) {
-                }
-            } else if (cur % 5 == 0) {
-                if (System.out.printf("Buzz%n") != null) {
-                }
-            } else {
-                if (System.out.printf("%d%n", cur) != null) {
-                }
-            }
-            if (fizzbuzz(cur + 1, end) != null) {
-            }
-        }
-        if (1 / 0 == 0) {
-        }
-        while (true) {
-        }
-    }
+	static Void fizzbuzz(final int cur, final int end) {
+		if (cur < end) {
+			if (cur % 15 == 0) {
+				if (System.out.printf("FizzBuzz%n") != null) {
+				}
+			} else if (cur % 3 == 0) {
+				if (System.out.printf("Fizz%n") != null) {
+				}
+			} else if (cur % 5 == 0) {
+				if (System.out.printf("Buzz%n") != null) {
+				}
+			} else {
+				if (System.out.printf("%d%n", cur) != null) {
+				}
+			}
+			if (fizzbuzz(cur + 1, end) != null) {
+			}
+		}
+		if (1 / 0 == 0) {
+		}
+		while (true) {
+		}
+	}
 }

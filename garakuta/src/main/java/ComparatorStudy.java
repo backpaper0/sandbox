@@ -5,26 +5,26 @@ import java.util.stream.Stream;
 
 public class ComparatorStudy {
 
-    public static void main(final String[] args) {
-        final List<Hoge> list = Stream
-                .of(new Hoge(2), new Hoge(null), new Hoge(3), new Hoge(null), new Hoge(1))
-                .sorted(Comparator.comparing(x -> x.value,
-                        Comparator.nullsLast(Comparator.naturalOrder())))
-                .collect(Collectors.toList());
-        System.out.println(list);
-    }
+	public static void main(final String[] args) {
+		final List<Hoge> list = Stream
+				.of(new Hoge(2), new Hoge(null), new Hoge(3), new Hoge(null), new Hoge(1))
+				.sorted(Comparator.comparing(x -> x.value,
+						Comparator.nullsLast(Comparator.naturalOrder())))
+				.collect(Collectors.toList());
+		System.out.println(list);
+	}
 
-    static class Hoge {
+	static class Hoge {
 
-        Integer value;
+		Integer value;
 
-        public Hoge(final Integer value) {
-            this.value = value;
-        }
+		public Hoge(final Integer value) {
+			this.value = value;
+		}
 
-        @Override
-        public String toString() {
-            return "Hoge(" + value + ")";
-        }
-    }
+		@Override
+		public String toString() {
+			return "Hoge(" + value + ")";
+		}
+	}
 }

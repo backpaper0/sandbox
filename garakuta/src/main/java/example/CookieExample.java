@@ -5,9 +5,9 @@ import java.util.List;
 
 public class CookieExample {
 
-    public static void main(final String[] args) {
-        final List<HttpCookie> cookies = HttpCookie
-                .parse("Set-Cookie: foo=bar; Expires=Sun, 06 Nov 1994 08:49:37 GMT");
-        System.out.println(cookies);
-    }
+	public static void main(final String[] args) {
+		final List<HttpCookie> cookies = HttpCookie
+				.parse("Set-Cookie: foo=bar; Expires=Sun, 06 Nov 1994 08:49:37 GMT");
+		System.out.println(cookies);
+	}
 }

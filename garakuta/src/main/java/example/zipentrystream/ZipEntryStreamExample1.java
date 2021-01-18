@@ -10,47 +10,47 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipEntryStreamExample1 {
 
-    public static void main(final String[] args) throws IOException {
+	public static void main(final String[] args) throws IOException {
 
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (ZipOutputStream out = new ZipOutputStream(baos)) {
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try (ZipOutputStream out = new ZipOutputStream(baos)) {
 
-            out.putNextEntry(new ZipEntry("file1"));
-            out.write("foo".getBytes());
+			out.putNextEntry(new ZipEntry("file1"));
+			out.write("foo".getBytes());
 
-            out.putNextEntry(new ZipEntry("dir/file2"));
-            out.write("bar".getBytes());
+			out.putNextEntry(new ZipEntry("dir/file2"));
+			out.write("bar".getBytes());
 
-            out.putNextEntry(new ZipEntry("dir/file3"));
-            out.write("baz".getBytes());
-        }
+			out.putNextEntry(new ZipEntry("dir/file3"));
+			out.write("baz".getBytes());
+		}
 
-        try (ZipInputStream in = new ZipInputStream(
-                new ByteArrayInputStream(baos.toByteArray()))) {
+		try (ZipInputStream in = new ZipInputStream(
+				new ByteArrayInputStream(baos.toByteArray()))) {
 
-            ZipEntrySpliterator.toStream(in).map(a -> toString(in, a))
-                    .forEach(System.out::println);
-        }
+			ZipEntrySpliterator.toStream(in).map(a -> toString(in, a))
+					.forEach(System.out::println);
+		}
 
-        try (ZipInputStream in = new ZipInputStream(
-                new ByteArrayInputStream(baos.toByteArray()))) {
+		try (ZipInputStream in = new ZipInputStream(
+				new ByteArrayInputStream(baos.toByteArray()))) {
 
-            ZipEntryIterator.toStream(in).map(a -> toString(in, a))
-                    .forEach(System.out::println);
-        }
-    }
+			ZipEntryIterator.toStream(in).map(a -> toString(in, a))
+					.forEach(System.out::println);
+		}
+	}
 
-    static String toString(final ZipInputStream in, final ZipEntry entry) {
-        try {
-            final byte[] b = new byte[1024];
-            int i;
-            final ByteArrayOutputStream out = new ByteArrayOutputStream();
-            while (-1 != (i = in.read(b))) {
-                out.write(b, 0, i);
-            }
-            return entry.getName() + ": " + out.toString();
-        } catch (final IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
+	static String toString(final ZipInputStream in, final ZipEntry entry) {
+		try {
+			final byte[] b = new byte[1024];
+			int i;
+			final ByteArrayOutputStream out = new ByteArrayOutputStream();
+			while (-1 != (i = in.read(b))) {
+				out.write(b, 0, i);
+			}
+			return entry.getName() + ": " + out.toString();
+		} catch (final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
 }

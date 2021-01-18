@@ -14,16 +14,16 @@ import java.util.Set;
 
 @Hoge
 public class TypeAnnotation<@Hoge A, @Hoge B> extends @Hoge ArrayList<@Hoge String>
-        implements @Hoge Serializable {
+		implements @Hoge Serializable {
 
-    <@Hoge C> @Hoge Set<@Hoge String> method(@Fuga TypeAnnotation<@Fuga A, @Fuga B> this,
-            @Hoge final Map<@Hoge String, @Hoge List<@Hoge String>> map)
-            throws @Hoge IllegalArgumentException, @Hoge UncheckedIOException {
-        @Hoge
-        final List<@Hoge String> list = new @Hoge ArrayList<>();
-        Arrays.<@Hoge Number> asList(1, 2, 3);
-        return null;
-    }
+	<@Hoge C> @Hoge Set<@Hoge String> method(@Fuga TypeAnnotation<@Fuga A, @Fuga B> this,
+			@Hoge final Map<@Hoge String, @Hoge List<@Hoge String>> map)
+			throws @Hoge IllegalArgumentException, @Hoge UncheckedIOException {
+		@Hoge
+		final List<@Hoge String> list = new @Hoge ArrayList<>();
+		Arrays.<@Hoge Number> asList(1, 2, 3);
+		return null;
+	}
 }
 
 @Retention(RetentionPolicy.RUNTIME)

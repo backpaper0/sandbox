@@ -3,22 +3,22 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class Orekyuu extends Throwable {
 
-    public static void main(final String[] args) throws Throwable {
-        final Throwable orekyuu = new Orekyuu();
-        throw orekyuu;
-    }
+	public static void main(final String[] args) throws Throwable {
+		final Throwable orekyuu = new Orekyuu();
+		throw orekyuu;
+	}
 
-    private final AtomicReference<Integer> distance = new AtomicReference<>();
+	private final AtomicReference<Integer> distance = new AtomicReference<>();
 
-    public Orekyuu() {
-        super("俺九番は%dm飛びました");
-    }
+	public Orekyuu() {
+		super("俺九番は%dm飛びました");
+	}
 
-    @Override
-    public String toString() {
-        if (distance.get() == null) {
-            distance.compareAndSet(null, new Random().nextInt(60000));
-        }
-        return String.format(super.toString(), distance.get());
-    }
+	@Override
+	public String toString() {
+		if (distance.get() == null) {
+			distance.compareAndSet(null, new Random().nextInt(60000));
+		}
+		return String.format(super.toString(), distance.get());
+	}
 }

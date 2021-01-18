@@ -7,31 +7,31 @@ import java.util.concurrent.CompletableFuture;
 
 public class ManyTaskExample {
 
-    static Random r = new Random();
+	static Random r = new Random();
 
-    public static void main(final String[] args) throws Exception {
+	public static void main(final String[] args) throws Exception {
 
-        final List<CompletableFuture<Void>> futures = new ArrayList<>();
+		final List<CompletableFuture<Void>> futures = new ArrayList<>();
 
-        for (int i = 0; i < 100; i++) {
-            final CompletableFuture<Void> future = CompletableFuture
-                    .runAsync(message(i));
-            futures.add(future);
-        }
+		for (int i = 0; i < 100; i++) {
+			final CompletableFuture<Void> future = CompletableFuture
+					.runAsync(message(i));
+			futures.add(future);
+		}
 
-        final CompletableFuture<Void> future = CompletableFuture.allOf(
-                futures.toArray(new CompletableFuture<?>[futures.size()]));
+		final CompletableFuture<Void> future = CompletableFuture.allOf(
+				futures.toArray(new CompletableFuture<?>[futures.size()]));
 
-        future.thenRunAsync(message("finish")).get();
-    }
+		future.thenRunAsync(message("finish")).get();
+	}
 
-    static Runnable message(final Object text) {
-        return () -> {
-            try {
-                Thread.sleep(r.nextInt(100));
-            } catch (final InterruptedException e) {
-            }
-            System.out.println(text);
-        };
-    }
+	static Runnable message(final Object text) {
+		return () -> {
+			try {
+				Thread.sleep(r.nextInt(100));
+			} catch (final InterruptedException e) {
+			}
+			System.out.println(text);
+		};
+	}
 }

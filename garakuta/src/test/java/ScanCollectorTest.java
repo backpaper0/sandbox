@@ -20,57 +20,57 @@ import org.junit.jupiter.api.Test;
  */
 class ScanCollectorTest {
 
-    @Test
-    void test() throws Exception {
-        final Stream<Integer> xs = IntStream.rangeClosed(1, 5).boxed();
-        final List<Integer> actual = xs.collect(scan(0, Integer::sum));
-        assertEquals(List.of(0, 1, 3, 6, 10, 15), actual);
-    }
+	@Test
+	void test() throws Exception {
+		final Stream<Integer> xs = IntStream.rangeClosed(1, 5).boxed();
+		final List<Integer> actual = xs.collect(scan(0, Integer::sum));
+		assertEquals(List.of(0, 1, 3, 6, 10, 15), actual);
+	}
 
-    @Test
-    void testEmptyStream() throws Exception {
-        final Stream<Integer> xs = Stream.empty();
-        final List<Integer> actual = xs.collect(scan(0, Integer::sum));
-        assertEquals(List.of(0), actual);
-    }
+	@Test
+	void testEmptyStream() throws Exception {
+		final Stream<Integer> xs = Stream.empty();
+		final List<Integer> actual = xs.collect(scan(0, Integer::sum));
+		assertEquals(List.of(0), actual);
+	}
 
-    /**
-     * <tt>[t<sub>0</sub>, t<sub>1</sub>, t<sub>2</sub> ... t<sub>n</sub>]</tt>というストリームに対して
-     * <pre>
-     * r<sub>0</sub> = init
-     * r<sub>1</sub> = fn(r<sub>0</sub>, t<sub>0</sub>)
-     * r<sub>2</sub> = fn(r<sub>1</sub>, t<sub>1</sub>)
-     * r<sub>3</sub> = fn(r<sub>2</sub>, t<sub>2</sub>)
-     * .
-     * .
-     * .
-     * r<sub>n+1</sub> = fn(r<sub>n</sub>, t<sub>n</sub>)
-     * </pre>
-     * と処理して<tt>[r<sub>0</sub>, r<sub>1</sub>, r<sub>2</sub> ... r<sub>n+1</sub>]</tt>というリストを返します。
-     * 
-     * @param init
-     * @param fn
-     * @return
-     */
-    static <T, R> Collector<T, ?, List<R>> scan(final R init,
-            final BiFunction<R, T, R> fn) {
+	/**
+	 * <tt>[t<sub>0</sub>, t<sub>1</sub>, t<sub>2</sub> ... t<sub>n</sub>]</tt>というストリームに対して
+	 * <pre>
+	 * r<sub>0</sub> = init
+	 * r<sub>1</sub> = fn(r<sub>0</sub>, t<sub>0</sub>)
+	 * r<sub>2</sub> = fn(r<sub>1</sub>, t<sub>1</sub>)
+	 * r<sub>3</sub> = fn(r<sub>2</sub>, t<sub>2</sub>)
+	 * .
+	 * .
+	 * .
+	 * r<sub>n+1</sub> = fn(r<sub>n</sub>, t<sub>n</sub>)
+	 * </pre>
+	 * と処理して<tt>[r<sub>0</sub>, r<sub>1</sub>, r<sub>2</sub> ... r<sub>n+1</sub>]</tt>というリストを返します。
+	 * 
+	 * @param init
+	 * @param fn
+	 * @return
+	 */
+	static <T, R> Collector<T, ?, List<R>> scan(final R init,
+			final BiFunction<R, T, R> fn) {
 
-        final Supplier<LinkedList<R>> supplier = () -> new LinkedList<>(
-                Collections.singletonList(init));
+		final Supplier<LinkedList<R>> supplier = () -> new LinkedList<>(
+				Collections.singletonList(init));
 
-        final BiConsumer<LinkedList<R>, T> accumulator = (acc, t) -> acc.add(fn
-                .apply(acc.getLast(), t));
+		final BiConsumer<LinkedList<R>, T> accumulator = (acc, t) -> acc.add(fn
+				.apply(acc.getLast(), t));
 
-        final BinaryOperator<LinkedList<R>> combiner = (acc1, acc2) -> {
-            acc1.addAll(acc2);
-            return acc1;
-        };
+		final BinaryOperator<LinkedList<R>> combiner = (acc1, acc2) -> {
+			acc1.addAll(acc2);
+			return acc1;
+		};
 
-        final Function<LinkedList<R>, List<R>> finisher = acc -> acc;
+		final Function<LinkedList<R>, List<R>> finisher = acc -> acc;
 
-        final Characteristics characteristics = Characteristics.IDENTITY_FINISH;
+		final Characteristics characteristics = Characteristics.IDENTITY_FINISH;
 
-        return Collector.of(supplier, accumulator, combiner, finisher,
-                characteristics);
-    }
+		return Collector.of(supplier, accumulator, combiner, finisher,
+				characteristics);
+	}
 }

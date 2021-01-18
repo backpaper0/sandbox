@@ -3,128 +3,130 @@ import java.util.function.Function;
 
 public class MonaMona {
 
-    public static void main(final String[] args) {
-        System.out.println(Maybe.just(100).fmap(a -> a * 2));
-        System.out.println(Maybe.<Integer> nothing().fmap(a -> a * 2));
+	public static void main(final String[] args) {
+		System.out.println(Maybe.just(100).fmap(a -> a * 2));
+		System.out.println(Maybe.<Integer> nothing().fmap(a -> a * 2));
 
-        System.out.println(List.of(1, 2, 3));
-        System.out.println(List.of(1, 2, 3).fmap(a -> a * 2));
-    }
+		System.out.println(List.of(1, 2, 3));
+		System.out.println(List.of(1, 2, 3).fmap(a -> a * 2));
+	}
 
-    interface List<A> extends Functor<A, List<?>> {
-        @Override
-        <B> List<B> fmap(Function<A, B> f);
+	interface List<A> extends Functor<A, List<?>> {
+		@Override
+		<B> List<B> fmap(Function<A, B> f);
 
-        Maybe<A> head();
+		Maybe<A> head();
 
-        List<A> tail();
+		List<A> tail();
 
-        static <A> List<A> of(final A... values) {
-            return of((List<A>) Nil.INSTANCE, values.length - 1, values);
-        }
+		static <A> List<A> of(final A... values) {
+			return of((List<A>) Nil.INSTANCE, values.length - 1, values);
+		}
 
-        static <A> List<A> of(final List<A> as, final int index, final A... values) {
-            return index < 0 ? as
-                    : of(new Cons<>(values[index], as), index - 1, values);
-        }
-    }
+		static <A> List<A> of(final List<A> as, final int index, final A... values) {
+			return index < 0 ? as
+					: of(new Cons<>(values[index], as), index - 1, values);
+		}
+	}
 
-    static class Cons<A> implements List<A> {
-        private final A head;
-        private final List<A> tail;
+	static class Cons<A> implements List<A> {
+		private final A head;
+		private final List<A> tail;
 
-        public Cons(final A head, final List<A> tail) {
-            this.head = head;
-            this.tail = tail;
-        }
+		public Cons(final A head, final List<A> tail) {
+			this.head = head;
+			this.tail = tail;
+		}
 
-        @Override
-        public <B> List<B> fmap(final Function<A, B> f) {
-            return new Cons<>(f.apply(head), tail.fmap(f));
-        }
+		@Override
+		public <B> List<B> fmap(final Function<A, B> f) {
+			return new Cons<>(f.apply(head), tail.fmap(f));
+		}
 
-        @Override
-        public Maybe<A> head() {
-            return Maybe.just(head);
-        }
+		@Override
+		public Maybe<A> head() {
+			return Maybe.just(head);
+		}
 
-        @Override
-        public List<A> tail() {
-            return tail;
-        }
+		@Override
+		public List<A> tail() {
+			return tail;
+		}
 
-        @Override
-        public String toString() {
-            return String.format("%s :: %s", head, tail);
-        }
-    }
+		@Override
+		public String toString() {
+			return String.format("%s :: %s", head, tail);
+		}
+	}
 
-    enum Nil implements List<Object> {
-        INSTANCE;
-        @Override
-        public <B> List<B> fmap(final Function<Object, B> f) {
-            return (List<B>) this;
-        }
+	enum Nil implements List<Object> {
+		INSTANCE;
 
-        @Override
-        public Maybe<Object> head() {
-            return Maybe.nothing();
-        }
+		@Override
+		public <B> List<B> fmap(final Function<Object, B> f) {
+			return (List<B>) this;
+		}
 
-        @Override
-        public List<Object> tail() {
-            return this;
-        }
+		@Override
+		public Maybe<Object> head() {
+			return Maybe.nothing();
+		}
 
-        @Override
-        public String toString() {
-            return "Nil";
-        }
-    }
+		@Override
+		public List<Object> tail() {
+			return this;
+		}
 
-    interface Maybe<A> extends Functor<A, Maybe<?>> {
-        static <A> Maybe<A> just(final A value) {
-            return new Just<>(value);
-        }
+		@Override
+		public String toString() {
+			return "Nil";
+		}
+	}
 
-        static <A> Maybe<A> nothing() {
-            return (Maybe<A>) Nothing.INSTANCE;
-        }
-    }
+	interface Maybe<A> extends Functor<A, Maybe<?>> {
+		static <A> Maybe<A> just(final A value) {
+			return new Just<>(value);
+		}
 
-    static class Just<A> implements Maybe<A> {
+		static <A> Maybe<A> nothing() {
+			return (Maybe<A>) Nothing.INSTANCE;
+		}
+	}
 
-        private final A value;
+	static class Just<A> implements Maybe<A> {
 
-        public Just(final A value) {
-            this.value = Objects.requireNonNull(value);
-        }
+		private final A value;
 
-        @Override
-        public <B> Maybe<B> fmap(final Function<A, B> f) {
-            return new Just<>(f.apply(value));
-        }
+		public Just(final A value) {
+			this.value = Objects.requireNonNull(value);
+		}
 
-        @Override
-        public String toString() {
-            return String.format("Just(%s)", value);
-        }
-    }
+		@Override
+		public <B> Maybe<B> fmap(final Function<A, B> f) {
+			return new Just<>(f.apply(value));
+		}
 
-    enum Nothing implements Maybe<Object> {
-        INSTANCE;
-        @Override
-        public <B> Maybe<B> fmap(final Function<Object, B> f) {
-            return (Maybe<B>) this;
-        }
+		@Override
+		public String toString() {
+			return String.format("Just(%s)", value);
+		}
+	}
 
-        @Override
-        public String toString() {
-            return "Nothing";
-        }
-    }
+	enum Nothing implements Maybe<Object> {
+		INSTANCE;
 
-    interface Functor<A, F extends Functor<?, F>> {
-        <B> F fmap(Function<A, B> f);
-    }
+		@Override
+		public <B> Maybe<B> fmap(final Function<Object, B> f) {
+			return (Maybe<B>) this;
+		}
+
+		@Override
+		public String toString() {
+			return "Nothing";
+		}
+	}
+
+	interface Functor<A, F extends Functor<?, F>> {
+		<B> F fmap(Function<A, B> f);
+	}
 }

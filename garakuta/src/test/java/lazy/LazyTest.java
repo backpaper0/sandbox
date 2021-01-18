@@ -18,60 +18,60 @@ import org.junit.jupiter.api.Test;
 
 class LazyTest<T> {
 
-    @Test
-    void testLazy() throws Exception {
-        test(Lazy::new);
-    }
+	@Test
+	void testLazy() throws Exception {
+		test(Lazy::new);
+	}
 
-    @Test
-    void testConcurrentHashMapLazy() throws Exception {
-        test(ConcurrentHashMapLazy::new);
-    }
+	@Test
+	void testConcurrentHashMapLazy() throws Exception {
+		test(ConcurrentHashMapLazy::new);
+	}
 
-    @Test
-    void testFutureTaskLazy() throws Exception {
-        test(FutureTaskLazy::new);
-    }
+	@Test
+	void testFutureTaskLazy() throws Exception {
+		test(FutureTaskLazy::new);
+	}
 
-    static void test(final Supplier<Function<Supplier<String>, String>> supplier) throws Exception {
-        final int size = 100;
-        final int unit = 4;
-        final CountDownLatch ready = new CountDownLatch(size);
-        final CountDownLatch gate = new CountDownLatch(1);
+	static void test(final Supplier<Function<Supplier<String>, String>> supplier) throws Exception {
+		final int size = 100;
+		final int unit = 4;
+		final CountDownLatch ready = new CountDownLatch(size);
+		final CountDownLatch gate = new CountDownLatch(1);
 
-        final List<Function<Supplier<String>, String>> list = IntStream.range(0, unit)
-                .mapToObj(i -> supplier.get()).collect(toList());
+		final List<Function<Supplier<String>, String>> list = IntStream.range(0, unit)
+				.mapToObj(i -> supplier.get()).collect(toList());
 
-        final ExecutorService executor = Executors.newFixedThreadPool(size);
-        try {
+		final ExecutorService executor = Executors.newFixedThreadPool(size);
+		try {
 
-            final List<Future<String>> futures = IntStream.range(0, size)
-                    .mapToObj(index -> executor.submit(() -> {
-                        ready.countDown();
-                        gate.await(10, TimeUnit.SECONDS);
-                        return list.get(index % unit).apply(() -> x(() -> {
-                            final String s = "#" + index;
-                            System.out.println(s);
-                            TimeUnit.SECONDS.sleep(1);
-                            return s;
-                        }));
-                    })).collect(toList());
+			final List<Future<String>> futures = IntStream.range(0, size)
+					.mapToObj(index -> executor.submit(() -> {
+						ready.countDown();
+						gate.await(10, TimeUnit.SECONDS);
+						return list.get(index % unit).apply(() -> x(() -> {
+							final String s = "#" + index;
+							System.out.println(s);
+							TimeUnit.SECONDS.sleep(1);
+							return s;
+						}));
+					})).collect(toList());
 
-            ready.await(10, TimeUnit.SECONDS);
-            gate.countDown();
+			ready.await(10, TimeUnit.SECONDS);
+			gate.countDown();
 
-            System.out.println(futures.stream().map(future -> x(future::get))
-                    .collect(groupingBy(identity(), counting())));
-        } finally {
-            executor.shutdownNow();
-        }
-    }
+			System.out.println(futures.stream().map(future -> x(future::get))
+					.collect(groupingBy(identity(), counting())));
+		} finally {
+			executor.shutdownNow();
+		}
+	}
 
-    static <T> T x(final Callable<T> c) {
-        try {
-            return c.call();
-        } catch (final Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+	static <T> T x(final Callable<T> c) {
+		try {
+			return c.call();
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

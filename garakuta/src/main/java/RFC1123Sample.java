@@ -10,21 +10,21 @@ import java.util.TimeZone;
 
 public class RFC1123Sample {
 
-    public static void main(final String[] args) {
+	public static void main(final String[] args) {
 
-        final OffsetDateTime dateTime = LocalDateTime.now()
-                .atOffset(ZoneOffset.ofHours(9));
-        System.out.println(dateTime);
+		final OffsetDateTime dateTime = LocalDateTime.now()
+				.atOffset(ZoneOffset.ofHours(9));
+		System.out.println(dateTime);
 
-        System.out.println(dateTime.withOffsetSameInstant(ZoneOffset.UTC)
-                .format(DateTimeFormatter.RFC_1123_DATE_TIME));
+		System.out.println(dateTime.withOffsetSameInstant(ZoneOffset.UTC)
+				.format(DateTimeFormatter.RFC_1123_DATE_TIME));
 
-        final Date date = Timestamp.valueOf(dateTime.toLocalDateTime());
-        System.out.println(date);
+		final Date date = Timestamp.valueOf(dateTime.toLocalDateTime());
+		System.out.println(date);
 
-        final SimpleDateFormat sdf = new SimpleDateFormat(
-                "EEE, d MMM yyyy HH:mm:ss zzz", Locale.US);
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-        System.out.println(sdf.format(date));
-    }
+		final SimpleDateFormat sdf = new SimpleDateFormat(
+				"EEE, d MMM yyyy HH:mm:ss zzz", Locale.US);
+		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+		System.out.println(sdf.format(date));
+	}
 }

@@ -7,13 +7,13 @@ import example.javacompiler.classes.Qux;
 @MyComponent
 public class BazImpl implements Baz {
 
-    private Qux qux;
+	private Qux qux;
 
-    public BazImpl(Qux qux) {
-        this.qux = qux;
-    }
+	public BazImpl(Qux qux) {
+		this.qux = qux;
+	}
 
-    public Qux getQux() {
-        return qux;
-    }
+	public Qux getQux() {
+		return qux;
+	}
 }
