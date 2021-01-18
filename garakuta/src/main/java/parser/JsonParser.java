@@ -212,7 +212,7 @@ public class JsonParser {
 		return Double.valueOf(sb.toString());
 	}
 
-	private void skipWhitespace() throws JsonException {
+	private void skipWhitespace() {
 		while (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
 			consume();
 		}
