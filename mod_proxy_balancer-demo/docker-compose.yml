@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+
+  web1:
+    image: httpd
+    volumes: [ "./web1:/usr/local/apache2/htdocs/" ]
+
+  web2:
+    image: httpd
+    volumes: [ "./web2:/usr/local/apache2/htdocs/" ]
+
+  lb:
+    image: httpd
+    ports: [ "3000:80" ]
+    volumes: [ "./lb/httpd.conf:/usr/local/apache2/conf/httpd.conf" ]
+    depends_on: [ web1, web2 ]
