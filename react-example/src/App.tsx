@@ -24,6 +24,7 @@ import Page15 from './ScrollExample';
 import Page16 from './Initialize';
 import Page17 from './SurrogatePair';
 import Page18 from './GenericChild';
+import Page19 from './ForceUpdate';
 
 const pages = [
   Page1,
@@ -44,6 +45,7 @@ const pages = [
   Page16,
   Page17,
   Page18,
+  Page19,
 ];
 
 const App: React.FC = () => {
