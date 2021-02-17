@@ -8,7 +8,10 @@ export default function StateCapturedExample() {
     setCount2(c => c + 1);
   };
   useEffect(() => {
-    setInterval(countUp, 2000);
+    const timerId = setInterval(countUp, 2000);
+    return () => {
+      window.clearInterval(timerId);
+    };
   }, []);
   return (
     <div>

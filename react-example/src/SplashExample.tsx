@@ -38,7 +38,10 @@ type FadeOutProps = {
 const FadeOut: React.FC<FadeOutProps> = ({ init, transition, delay, children, callback }) => {
   const [begin, setBegin] = useState(false);
   useEffect(() => {
-    setTimeout(() => setBegin(true), delay);
+    const timerId = setTimeout(() => setBegin(true), delay);
+    return () => {
+      window.clearTimeout(timerId);
+    };
   }, [delay]);
   return (
     <div style={ begin ? transition : init } onTransitionEnd={callback}>
