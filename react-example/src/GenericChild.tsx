@@ -3,9 +3,9 @@ import React from 'react';
 export default function GenericChild() {
   return (
     <div>
-      <Child values={[12,34,56,78,90]} fn={a => <li>{typeof(a)} {a} hex={a.toString(16)}</li>}/>
-      <Child values={["foobar","hoge","helloworld"]} fn={a => <li>{typeof(a)} {a} length={a.length}</li>}/>
-      <Child values={[true,false]} fn={a => <li>{typeof(a)} {a.toString()}</li>}/>
+      <Child values={[12,34,56,78,90]} fn={a => <li key={a}>{typeof(a)} {a} hex={a.toString(16)}</li>}/>
+      <Child values={["foobar","hoge","helloworld"]} fn={a => <li key={a}>{typeof(a)} {a} length={a.length}</li>}/>
+      <Child values={[true,false]} fn={a => <li key={a.toString()}>{typeof(a)} {a.toString()}</li>}/>
     </div>
   );
 }
