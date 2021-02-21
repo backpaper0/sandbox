@@ -10,13 +10,32 @@ function App() {
   );
 }
 
+class CounterState {
+  value = 0;
+  listeners = [];
+  getState() {
+    return this.value;
+  }
+  setState(value) {
+    if (this.value !== value) {
+      this.value = value;
+      this.listeners.forEach(listener => {
+        listener(value);
+      });
+    }
+  }
+  subscribe(listener) {
+    this.listeners.push(listener);
+  }
+}
+
 const CounterContext = React.createContext();
 
 function Counter({ children }) {
   console.log('Counter');
-  const countState = React.useState(0);
+  const ref = React.useRef(new CounterState());
   return (
-    <CounterContext.Provider value={countState}>
+    <CounterContext.Provider value={ref}>
       {children}
     </CounterContext.Provider>
   );
@@ -24,17 +43,25 @@ function Counter({ children }) {
 
 function CountDisplay() {
   console.log('CountDisplay');
-  const [count] = React.useContext(CounterContext);
+  const ref = React.useContext(CounterContext);
+  const [, forceUpdate] = React.useState([]);
+  ref.current.subscribe(() => {
+    forceUpdate([]);
+  });
   return (
-    <h1>{count}</h1>
+    <h1>{ref.current.getState()}</h1>
   );
 }
 
 function CountUp() {
   console.log('CountUp');
-  const [count, setCount] = React.useContext(CounterContext);
+  const ref = React.useContext(CounterContext);
+  const [, forceUpdate] = React.useState([]);
+  ref.current.subscribe(() => {
+    forceUpdate([]);
+  });
   const handleCountUp = () => {
-    setCount(count + 1);
+    ref.current.setState(ref.current.getState() + 1);
   };
   return (
     <button onClick={handleCountUp}>Count up</button>
