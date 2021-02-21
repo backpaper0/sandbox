@@ -28,20 +28,48 @@ class MyState {
       }
     }
   }
+  setInitialState(name, initialValue) {
+    this.value.set(name, initialValue);
+  }
   subscribe(name, listener) {
     const listeners = this.listeners.get(name);
     if (listeners !== undefined) {
-      listeners.push(listener);
+      listeners.add(listener);
     } else {
-      this.listeners.set(name, [listener]);
+      const set = new Set();
+      set.add(listener);
+      this.listeners.set(name, set);
     }
+    return () => {
+      const listeners = this.listeners.get(name);
+      listeners.delete(listener);
+    };
   }
 }
 
 const MyStateContext = React.createContext();
 
-function Counter({ children }) {
-  console.log('Counter');
+function useMyState(name, initialValue) {
+  const myState = React.useContext(MyStateContext);
+  const [, forceUpdate] = React.useState([]);
+  React.useEffect(() => {
+    const unsubscribe = myState.current.subscribe(name, () => {
+      forceUpdate([]);
+    });
+    return unsubscribe;
+  }, []);
+  let value = myState.current.getState(name);
+  if (value === undefined) {
+    value = initialValue;
+    myState.current.setInitialState(name, value);
+  }
+  const setter = (newValue) => {
+    myState.current.setState(name, newValue);
+  };
+  return [value, setter];
+}
+
+function MyStateProvider({ children }) {
   const myState = React.useRef(new MyState());
   return (
     <MyStateContext.Provider value={myState}>
@@ -50,27 +78,28 @@ function Counter({ children }) {
   );
 }
 
+function Counter({ children }) {
+  console.log('Counter');
+  return (
+    <MyStateProvider>
+      {children}
+    </MyStateProvider>
+  );
+}
+
 function CountDisplay() {
   console.log('CountDisplay');
-  const myState = React.useContext(MyStateContext);
-  const [, forceUpdate] = React.useState([]);
-  myState.current.subscribe('counter', () => {
-    forceUpdate([]);
-  });
+  const [count] = useMyState('counter', 0);
   return (
-    <h1>{myState.current.getState('counter') || 0}</h1>
+    <h1>{count}</h1>
   );
 }
 
 function CountUp() {
   console.log('CountUp');
-  const myState = React.useContext(MyStateContext);
-  const [, forceUpdate] = React.useState([]);
-  myState.current.subscribe('counter', () => {
-    forceUpdate([]);
-  });
+  const [count, setCount] = useMyState('counter', 0);
   const handleCountUp = () => {
-    myState.current.setState('counter', (myState.current.getState('counter') || 0) + 1);
+    setCount(count + 1);
   };
   return (
     <button onClick={handleCountUp}>Count up</button>
