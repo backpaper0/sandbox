@@ -4,25 +4,29 @@ const useState = React.useState;
 const useEffect = React.useEffect;
 
 function App() {
-  const [users, setUsers] = useState([]);
-
+  const [users, updateUsers] = useUsers();
   return (
     <div className="container">
-      <Header setUsers={setUsers}/>
+      <Header updateUsers={updateUsers}/>
       <Suggestions users={users}/>
     </div>
   );
 }
 
-function Header({ setUsers }) {
-  const refresh = () => {
+function useUsers() {
+  const [users, setUsers] = useState([]);
+  const updateUsers = () => {
     const randomOffset = Math.floor(Math.random() * 500);
     fetch(`https://api.github.com/users?since=${randomOffset}`).then(resp => resp.json()).then(users => setUsers(users));
   };
-  useEffect(refresh, []);
+  return [users, updateUsers];
+}
+
+function Header({ updateUsers }) {
+  useEffect(updateUsers, []);
   return (
     <div className="header">
-      <h2>Who to follow</h2><a href="#" className="refresh" onClick={refresh}>Refresh</a>
+      <h2>Who to follow</h2><a href="#" className="refresh" onClick={updateUsers}>Refresh</a>
     </div>
   );
 }
@@ -38,17 +42,8 @@ function Suggestions({ users }) {
 }
 
 function Suggestion({ users }) {
-  const [user, setUser] = useState();
-
-  const nextUser = () => {
-    const user = users[Math.floor(Math.random() * users.length)];
-    setUser(user);
-  };
-
+  const [user, nextUser] = useUser(users);
   useEffect(nextUser, [users]);
-
-  useEffect(() => {
-  }, [user]);
 
   if (user === undefined) {
     return null;
@@ -62,6 +57,15 @@ function Suggestion({ users }) {
       <a href="#" className="close" onClick={nextUser}>x</a>
     </li>
   );
+}
+
+function useUser(users) {
+  const [user, setUser] = useState();
+  const nextUser = () => {
+    const user = users[Math.floor(Math.random() * users.length)];
+    setUser(user);
+  };
+  return [user, nextUser];
 }
 
 function Avatar({ src }) {
