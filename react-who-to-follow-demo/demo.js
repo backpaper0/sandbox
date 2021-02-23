@@ -1,9 +1,24 @@
 'use strict';
 
-const useState = React.useState;
-const useEffect = React.useEffect;
+const {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+} = React;
+
+////////////////////////////////////////////////////////////////////////////////
+// Components
 
 function App() {
+  return (
+    <FetchersProvider>
+      <WhoToFollow/>
+    </FetchersProvider>
+  );
+}
+
+function WhoToFollow() {
   const [users, updateUsers] = useUsers();
   return (
     <div className="container">
@@ -11,15 +26,6 @@ function App() {
       <Suggestions users={users}/>
     </div>
   );
-}
-
-function useUsers() {
-  const [users, setUsers] = useState([]);
-  const updateUsers = () => {
-    const randomOffset = Math.floor(Math.random() * 500);
-    fetch(`https://api.github.com/users?since=${randomOffset}`).then(resp => resp.json()).then(users => setUsers(users));
-  };
-  return [users, updateUsers];
 }
 
 function Header({ updateUsers }) {
@@ -59,15 +65,6 @@ function Suggestion({ users }) {
   );
 }
 
-function useUser(users) {
-  const [user, setUser] = useState();
-  const nextUser = () => {
-    const user = users[Math.floor(Math.random() * users.length)];
-    setUser(user);
-  };
-  return [user, nextUser];
-}
-
 function Avatar({ src }) {
   const [avatarUrl, setAvatarUrl] = useState('');
   // アバターがロードされるまで前のアバターが残ってしまうため一旦空文字列を設定する
@@ -81,6 +78,60 @@ function Avatar({ src }) {
     <img src={avatarUrl}/>
   );
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Hooks
+
+function useUsers() {
+  const { fetchUsers } = useFetchers();
+  const [users, setUsers] = useState([]);
+  const updateUsers = () => {
+    fetchUsers().then(users => setUsers(users));
+  };
+  return [users, updateUsers];
+}
+
+function useUser(users) {
+  const [user, setUser] = useState();
+  const nextUser = () => {
+    const user = users[Math.floor(Math.random() * users.length)];
+    setUser(user);
+  };
+  return [user, nextUser];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Fetch functions
+
+async function fetchUsers() {
+  const randomOffset = Math.floor(Math.random() * 500);
+  const resp = await fetch(`https://api.github.com/users?since=${randomOffset}`);
+  return await resp.json();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Contexts
+
+const FetchersContext = React.createContext();
+
+function useFetchers() {
+  const ref = useContext(FetchersContext);
+  return ref.current;
+}
+
+function FetchersProvider({ children }) {
+  const ref = useRef({
+    fetchUsers,
+  });
+  return (
+    <FetchersContext.Provider value={ref}>
+      {children}
+    </FetchersContext.Provider>
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Render to DOM
 
 const domContainer = document.querySelector('#root');
 ReactDOM.render(<App/>, domContainer);
