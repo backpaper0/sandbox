@@ -70,9 +70,12 @@ function Avatar({ src }) {
   // アバターがロードされるまで前のアバターが残ってしまうため一旦空文字列を設定する
   useEffect(() => {
     setAvatarUrl('');
-    window.setTimeout(() => {
+    const timerId = window.setTimeout(() => {
       setAvatarUrl(src);
     }, 0);
+    return () => {
+      window.clearTimeout(timerId);
+    };
   }, [src]);
   return (
     <img src={avatarUrl}/>
@@ -85,8 +88,14 @@ function Avatar({ src }) {
 function useUsers() {
   const { fetchUsers } = useFetchers();
   const [users, setUsers] = useState([]);
+  const ac = new AbortController();
+  useEffect(() => {
+    return () => {
+      ac.abort();
+    };
+  }, []);
   const updateUsers = () => {
-    fetchUsers().then(users => setUsers(users));
+    fetchUsers(ac).then(users => setUsers(users)).catch(e => console.log(e));
   };
   return [users, updateUsers];
 }
@@ -103,9 +112,10 @@ function useUser(users) {
 ////////////////////////////////////////////////////////////////////////////////
 // Fetch functions
 
-async function fetchUsers() {
+async function fetchUsers(ac) {
+  const signal = ac.signal;
   const randomOffset = Math.floor(Math.random() * 500);
-  const resp = await fetch(`https://api.github.com/users?since=${randomOffset}`);
+  const resp = await fetch(`https://api.github.com/users?since=${randomOffset}`, { signal });
   return await resp.json();
 }
 
