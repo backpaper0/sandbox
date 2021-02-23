@@ -39,18 +39,10 @@ function Suggestions({ users }) {
 
 function Suggestion({ users }) {
   const [user, setUser] = useState();
-  const [avatarUrl, setAvatarUrl] = useState();
 
   const nextUser = () => {
     const user = users[Math.floor(Math.random() * users.length)];
     setUser(user);
-    // アバターがロードされるまで前のアバターが残ってしまうため一旦空文字列を設定する
-    setAvatarUrl('');
-    if (user !== undefined) {
-      window.setTimeout(() => {
-        setAvatarUrl(user.avatar_url);
-      }, 0);
-    }
   };
 
   useEffect(nextUser, [users]);
@@ -64,11 +56,25 @@ function Suggestion({ users }) {
 
   return (
     <li>
-      <img src={avatarUrl}/>
+      <Avatar src={user.avatar_url}/>
       <a href={user.html_url} target="_blank" className="username">{user.login}</a>
       <span> </span>
       <a href="#" className="close" onClick={nextUser}>x</a>
     </li>
+  );
+}
+
+function Avatar({ src }) {
+  const [avatarUrl, setAvatarUrl] = useState('');
+  // アバターがロードされるまで前のアバターが残ってしまうため一旦空文字列を設定する
+  useEffect(() => {
+    setAvatarUrl('');
+    window.setTimeout(() => {
+      setAvatarUrl(src);
+    }, 0);
+  }, [src]);
+  return (
+    <img src={avatarUrl}/>
   );
 }
 
