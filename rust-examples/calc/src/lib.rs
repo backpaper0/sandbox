@@ -124,6 +124,13 @@ impl<'a> Parser<'a> {
     }
 }
 
+fn evaluate(node: Node) -> i32 {
+    match node {
+        Node::Num(value) => value,
+        Node::Add(left, right) => evaluate(*left) + evaluate(*right),
+    }
+}
+
 #[cfg(test)]
 mod tests {
 
@@ -221,6 +228,27 @@ mod tests {
         let f = Box::new(Node::Add(e, c));
         let g = Node::Add(f, d);
         assert_eq!(g, sut.parse());
+    }
+
+    #[test]
+    fn evaluate_num() {
+        let source = String::from("12345");
+        let node = Parser::new(&source).parse();
+        assert_eq!(12345, evaluate(node));
+    }
+
+    #[test]
+    fn evaluate_num_add_num() {
+        let source = String::from("678 + 90");
+        let node = Parser::new(&source).parse();
+        assert_eq!(678 + 90, evaluate(node));
+    }
+
+    #[test]
+    fn evaluate_num_add_num_repeat() {
+        let source = String::from("1 + 23 + 456 + 7890");
+        let node = Parser::new(&source).parse();
+        assert_eq!(1 + 23 + 456 + 7890, evaluate(node));
     }
 }
 
