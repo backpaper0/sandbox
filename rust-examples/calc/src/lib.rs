@@ -18,7 +18,7 @@ struct Token(TokenType, String);
 impl<'a> Lexer<'a> {
 
     fn new(source: &'a String) -> Lexer<'a> {
-        let mut source = source.chars();
+        let source = source.chars();
         let c = None;
         let mut lexer = Lexer {
             source,
@@ -69,19 +69,19 @@ impl<'a> Lexer<'a> {
 }
 
 #[derive(Debug, PartialEq)]
-enum Node {
+pub enum Node {
     Num(i32),
     Add(Box<Node>, Box<Node>),
 }
 
-struct Parser<'a> {
+pub struct Parser<'a> {
     lexer: Lexer<'a>,
     token: Token,
 }
 
 impl<'a> Parser<'a> {
     
-    fn new(source: &'a String) -> Parser<'a> {
+    pub fn new(source: &'a String) -> Parser<'a> {
         let mut lexer = Lexer::new(source);
         let token = lexer.next();
         Parser {
@@ -94,13 +94,13 @@ impl<'a> Parser<'a> {
         self.token = self.lexer.next();
     }
 
-    fn expect(&mut self, tokenType: TokenType) {
-        if self.token.0 != tokenType {
-            panic!("Unexpected token: expected = {:?}, actual = {:?}", tokenType, self.token);
+    fn expect(&mut self, token_type: TokenType) {
+        if self.token.0 != token_type {
+            panic!("Unexpected token: expected = {:?}, actual = {:?}", token_type, self.token);
         }
     }
 
-    fn parse(&mut self) -> Node {
+    pub fn parse(&mut self) -> Node {
         let node = self.parse_add();
         self.expect(TokenType::Eof);
         node
@@ -124,7 +124,7 @@ impl<'a> Parser<'a> {
     }
 }
 
-fn evaluate(node: Node) -> i32 {
+pub fn evaluate(node: Node) -> i32 {
     match node {
         Node::Num(value) => value,
         Node::Add(left, right) => evaluate(*left) + evaluate(*right),
