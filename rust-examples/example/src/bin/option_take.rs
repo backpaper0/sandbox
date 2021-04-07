@@ -1,3 +1,4 @@
+#[allow(dead_code, unused_assignments)]
 fn main() {
 
     let s = String::from("hello");
@@ -14,10 +15,12 @@ fn main() {
     println!("{:?}", y);
 }
 
+#[allow(dead_code)]
 struct MyContainer {
     value: String,
 }
 
+#[allow(dead_code)]
 impl MyContainer {
     fn new(value: String) -> Self {
         Self {

@@ -34,18 +34,22 @@ fn main() {
     println!("Box<i64>: {}", mem::size_of::<Box<i64>>());
 }
 
+#[allow(dead_code)]
 struct Point1 {
     x: f64,
     y: f64,
 }
 
+#[allow(dead_code)]
 struct Point2(f64, f64);
 
+#[allow(dead_code)]
 enum Scalar {
     Num(i32),
     Bool(bool),
 }
 
+#[allow(dead_code)]
 enum Dir {
     Left,
     Right,

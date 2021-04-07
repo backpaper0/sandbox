@@ -25,5 +25,6 @@ fn main() {
 
 }
 
+#[allow(unused_variables)]
 fn test(bs: &[u8]) {
 }

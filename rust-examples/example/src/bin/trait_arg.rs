@@ -11,9 +11,11 @@ fn main() {
 
 // fn test1(f: Foo) {} // error[E0277]: the size for values of type `(dyn Foo + 'static)` cannot be known at compilation time
 
-fn test2(f: &Foo) {}
+#[allow(unused_variables)]
+fn test2(f: &impl Foo) {}
 
-fn test3(f: Box<Foo>) {}
+#[allow(unused_variables)]
+fn test3(f: Box<impl Foo>) {}
 
 trait Foo {}
 
