@@ -1,7 +1,10 @@
 {
 	"scripts": {
-		"build": "webpack --mode=production",
-		"start": "node dist/main.js",
+		"clean": "rm -fr dist",
+		"build": "webpack --mode=production --output-filename=index.min.js",
+		"build:dev": "webpack --mode=development --output-filename=index.js",
+		"start": "node dist/index.min.js",
+		"start:dev": "node dist/index.js",
 		"all": "npm test && npm run build && npm start",
 		"test": "jest --rootDir=src"
 	},
