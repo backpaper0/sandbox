@@ -2,9 +2,11 @@
 	"scripts": {
 		"build": "webpack --mode=production",
 		"start": "node dist/main.js",
-		"all": "npm run build && npm start"
+		"all": "npm test && npm run build && npm start",
+		"test": "jest --rootDir=src"
 	},
 	"devDependencies": {
+		"jest": "^26.6.3",
 		"webpack": "^5.36.1",
 		"webpack-cli": "^4.6.0"
 	}
