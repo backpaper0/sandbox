@@ -7,54 +7,82 @@ import java.lang.reflect.Method;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class AnnotationInheritedTest {
+public class AnnotationInheritedTest {
 
-	private Class<?> clazz;
-	private Method method;
+	private Class<?> subClass;
+	private Method overriddenMethod;
+	private Method methodViaSuperClass;
 
 	@BeforeEach
-	void init() throws Exception {
-		clazz = Fuga.class;
-		method = clazz.getDeclaredMethod("method");
+	void init() throws ReflectiveOperationException {
+		subClass = Fuga.class;
+		overriddenMethod = subClass.getMethod("method1");
+		methodViaSuperClass = subClass.getMethod("method2");
+	}
+
+	// Fuga (extends Hoge)
+
+	@Test
+	void notGetAnnotationInSubClassWithoutInherited() {
+		assertNull(subClass.getAnnotation(Foo.class));
 	}
 
 	@Test
-	void classGetAnnotationFoo() throws Exception {
-		assertNull(clazz.getAnnotation(Foo.class));
+	void getAnnotationInSubClassWithInherited() {
+		assertNotNull(subClass.getAnnotation(Bar.class));
 	}
 
 	@Test
-	void classGetAnnotationBar() throws Exception {
-		assertNotNull(clazz.getAnnotation(Bar.class));
+	void notGetDeclaredAnnotationInSubClassWithoutInherited() {
+		assertNull(subClass.getDeclaredAnnotation(Foo.class));
 	}
 
 	@Test
-	void classGetDeclaredAnnotationFoo() throws Exception {
-		assertNull(clazz.getDeclaredAnnotation(Foo.class));
+	void notGetDeclaredAnnotationInSubClassWithInherited() {
+		assertNull(subClass.getDeclaredAnnotation(Bar.class));
+	}
+
+	// Fuga.method1 (overridden)
+
+	@Test
+	void notGetAnnotationInOverriddenMethodWithoutInherited() {
+		assertNull(overriddenMethod.getAnnotation(Foo.class));
 	}
 
 	@Test
-	void classGetDeclaredAnnotationBar() throws Exception {
-		assertNull(clazz.getDeclaredAnnotation(Bar.class));
+	void notGetAnnotationInOverriddenMethodWithInherited() {
+		assertNull(overriddenMethod.getAnnotation(Bar.class));
 	}
 
 	@Test
-	void methodGetAnnotationFoo() throws Exception {
-		assertNull(method.getAnnotation(Foo.class));
+	void notGetDeclaredAnnotationInOverriddenMethodWithoutInherited() {
+		assertNull(overriddenMethod.getDeclaredAnnotation(Foo.class));
 	}
 
 	@Test
-	void methodGetAnnotationBar() throws Exception {
-		assertNull(method.getAnnotation(Bar.class));
+	void notGetDeclaredAnnotationInOverriddenMethodWithInherited() {
+		assertNull(overriddenMethod.getDeclaredAnnotation(Bar.class));
+	}
+
+	// Hoge.method2
+
+	@Test
+	void getAnnotationInMethodViaSuperClassWithoutInherited() {
+		assertNotNull(methodViaSuperClass.getAnnotation(Foo.class));
 	}
 
 	@Test
-	void methodGetDeclaredAnnotationFoo() throws Exception {
-		assertNull(method.getDeclaredAnnotation(Foo.class));
+	void getAnnotationInMethodViaSuperClassWithInherited() {
+		assertNotNull(methodViaSuperClass.getAnnotation(Bar.class));
 	}
 
 	@Test
-	void methodGetDeclaredAnnotationBar() throws Exception {
-		assertNull(method.getDeclaredAnnotation(Bar.class));
+	void getDeclaredAnnotationInMethodViaSuperClassWithoutInherited() {
+		assertNotNull(methodViaSuperClass.getDeclaredAnnotation(Foo.class));
+	}
+
+	@Test
+	void getDeclaredAnnotationInMethodViaSuperClassWithInherited() {
+		assertNotNull(methodViaSuperClass.getDeclaredAnnotation(Bar.class));
 	}
 }

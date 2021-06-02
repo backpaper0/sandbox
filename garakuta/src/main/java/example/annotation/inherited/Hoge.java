@@ -6,6 +6,11 @@ public class Hoge {
 
 	@Foo
 	@Bar
-	public void method() {
+	public void method1() {
+	}
+
+	@Foo
+	@Bar
+	public void method2() {
 	}
 }
