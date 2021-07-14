@@ -15,7 +15,7 @@
 			<!-- value in milliseconds for query timeout. This is a hint only. -->
 			<!-- <property name="javax.persistence.query.timeout" value=""/> -->
 			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
-			<property name="hibernate.show_sql" value="true" />
+			<!-- <property name="hibernate.show_sql" value="true" /> -->
 			<!-- <property name="hibernate.format_sql" value="true" /> -->
 		</properties>
 	</persistence-unit>

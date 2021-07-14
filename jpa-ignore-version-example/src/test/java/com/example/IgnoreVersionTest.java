@@ -7,7 +7,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -56,12 +58,11 @@ class IgnoreVersionTest {
 		assertNotNull(branch.getVersion());
 	}
 
-	private EntityManagerFactory emf;
+	private static EntityManagerFactory emf;
 	private EntityManager em;
 
 	@BeforeEach
 	void init() {
-		emf = Persistence.createEntityManagerFactory("demo");
 		em = emf.createEntityManager();
 	}
 
@@ -70,6 +71,15 @@ class IgnoreVersionTest {
 		if (em != null) {
 			em.close();
 		}
+	}
+
+	@BeforeAll
+	static void initEmf() {
+		emf = Persistence.createEntityManagerFactory("demo");
+	}
+
+	@AfterAll
+	static void destroyEmf() {
 		if (emf != null) {
 			emf.close();
 		}
