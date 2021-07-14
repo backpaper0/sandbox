@@ -1,0 +1,20 @@
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd"
+	version="2.2">
+
+	<!-- metadata-completeがtrueの場合は明示的に指定されていないものはデフォルトルールに従って設定される -->
+	<!-- metadata-completeがfalseまたは指定されていない場合は明示的に指定されたもののみオーバーライドされる -->
+	<!-- c.f. https://jakarta.ee/specifications/persistence/3.0/jakarta-persistence-spec-3.0.html#metadata-complete -->
+	<entity class="com.example.Tag" metadata-complete="true">
+		<attributes>
+			<id name="id" />
+		</attributes>
+	</entity>
+	<entity class="com.example.Branch">
+		<attributes>
+			<id name="id" />
+		</attributes>
+	</entity>
+
+</entity-mappings>
