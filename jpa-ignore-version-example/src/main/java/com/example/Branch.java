@@ -41,10 +41,10 @@ public class Branch {
 	}
 
 	public static Branch create(String name) {
-		Branch tag = new Branch();
-		tag.setId(UUID.randomUUID().toString());
-		tag.setName(name);
-		return tag;
+		Branch branch = new Branch();
+		branch.setId(UUID.randomUUID().toString());
+		branch.setName(name);
+		return branch;
 	}
 
 	@Override

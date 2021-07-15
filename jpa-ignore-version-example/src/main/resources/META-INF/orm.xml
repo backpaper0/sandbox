@@ -6,6 +6,10 @@
 	<!-- metadata-completeがtrueの場合は明示的に指定されていないものはデフォルトルールに従って設定される -->
 	<!-- metadata-completeがfalseまたは指定されていない場合は明示的に指定されたもののみオーバーライドされる -->
 	<!-- c.f. https://jakarta.ee/specifications/persistence/3.0/jakarta-persistence-spec-3.0.html#metadata-complete -->
+	<mapped-superclass class="com.example.Base1" metadata-complete="true">
+	</mapped-superclass>
+	<mapped-superclass class="com.example.Base2" metadata-complete="false">
+	</mapped-superclass>
 	<entity class="com.example.Tag" metadata-complete="true">
 		<attributes>
 			<id name="id" />
