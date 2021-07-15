@@ -10,6 +10,14 @@
 	</mapped-superclass>
 	<mapped-superclass class="com.example.Base2" metadata-complete="false">
 	</mapped-superclass>
+	<mapped-superclass class="com.example.Base3" metadata-complete="true">
+		<entity-listeners>
+			<entity-listener class="com.example.Base3Listener">
+				<pre-persist method-name="handlePrePersist" />
+				<pre-update method-name="handlePreUpdate" />
+			</entity-listener>
+		</entity-listeners>
+	</mapped-superclass>
 	<entity class="com.example.Tag" metadata-complete="true">
 		<attributes>
 			<id name="id" />
@@ -20,5 +28,15 @@
 			<id name="id" />
 		</attributes>
 	</entity>
-
+	<entity class="com.example.Committer" metadata-complete="true">
+		<entity-listeners>
+			<entity-listener class="com.example.CommitterListener">
+				<pre-persist method-name="handlePrePersist" />
+				<pre-update method-name="handlePreUpdate" />
+			</entity-listener>
+		</entity-listeners>
+		<attributes>
+			<id name="id" />
+		</attributes>
+	</entity>
 </entity-mappings>
