@@ -1,0 +1,17 @@
+{
+  "scripts": {
+	"start": "node index.js",
+    "pg-up": "docker run --name typeorm-postgres-demo-db -d -p 5432:5432 -e POSTGRES_DB=demodb -e POSTGRES_USER=demouser -e POSTGRES_PASSWORD=demopassword postgres -c log_statement=all",
+	"pg-down": "docker stop typeorm-postgres-demo-db && docker rm typeorm-postgres-demo-db",
+	"pg-cli": "docker exec -it typeorm-postgres-demo-db psql -U demouser demodb",
+	"pg-log": "docker logs -f --since=0m typeorm-postgres-demo-db",
+	"migration:run": "typeorm migration:run",
+	"migration:create": "typeorm migration:create -o -n",
+	"migration:revert": "typeorm migration:revert",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "pg": "^8.6.0",
+    "typeorm": "^0.2.34"
+  }
+}
