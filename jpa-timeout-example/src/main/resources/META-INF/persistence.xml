@@ -6,16 +6,16 @@
 	<persistence-unit name="demo" transaction-type="RESOURCE_LOCAL">
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
-			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:demo;DB_CLOSE_DELAY=-1" />
-			<property name="javax.persistence.jdbc.user" value="demo" />
-			<property name="javax.persistence.jdbc.password" value="secret" />
+			<!-- <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" /> -->
+			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:demo;DB_CLOSE_DELAY=-1" /> -->
+			<!-- <property name="javax.persistence.jdbc.user" value="demo" /> -->
+			<!-- <property name="javax.persistence.jdbc.password" value="secret" /> -->
 			<!-- value in milliseconds for pessimistic lock timeout. This is a hint only. -->
-			<!-- <property name="javax.persistence.lock.timeout" value=""/> -->
+			<property name="javax.persistence.lock.timeout" value="1000000"/>
 			<!-- value in milliseconds for query timeout. This is a hint only. -->
 			<!-- <property name="javax.persistence.query.timeout" value=""/> -->
 			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
-			<!-- <property name="hibernate.show_sql" value="true" /> -->
+			<property name="hibernate.show_sql" value="true" />
 			<!-- <property name="hibernate.format_sql" value="true" /> -->
 		</properties>
 	</persistence-unit>

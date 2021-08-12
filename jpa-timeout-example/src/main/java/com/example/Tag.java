@@ -5,8 +5,13 @@ import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.LockModeType;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQuery(name = "Tag.findAll", query = "select t from Tag t", lockMode = LockModeType.PESSIMISTIC_READ)
+@NamedNativeQuery(name = "Tag.findAll.native", query = "select * from Tag for share")
 public class Tag {
 
 	@Id
