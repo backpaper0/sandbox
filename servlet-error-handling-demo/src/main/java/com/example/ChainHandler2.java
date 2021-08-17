@@ -46,7 +46,7 @@ public class ChainHandler2 extends HttpServlet {
 			if (req.getDispatcherType() == DispatcherType.ERROR) {
 				logger.log(Level.INFO, "{0} {1}", new Object[] { req.getMethod(), req.getRequestURI() });
 				Util.handle(req, resp, "ChainHandler2c");
-				resp.sendError(506);
+				resp.setStatus(HttpServletResponse.SC_OK);
 				return;
 			}
 			break;

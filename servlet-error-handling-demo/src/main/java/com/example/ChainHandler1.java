@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.example.exception.ChainException1a;
 import com.example.exception.ChainException1b;
-import com.example.exception.ChainException1c;
 import com.example.util.Util;
 
 /**
@@ -47,7 +46,8 @@ public class ChainHandler1 extends HttpServlet {
 			if (req.getDispatcherType() == DispatcherType.ERROR) {
 				logger.log(Level.INFO, "{0} {1}", new Object[] { req.getMethod(), req.getRequestURI() });
 				Util.handle(req, resp, "ChainHandler1c");
-				throw new ChainException1c();
+				resp.setStatus(HttpServletResponse.SC_OK);
+				return;
 			}
 			break;
 		}
