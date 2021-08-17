@@ -24,10 +24,10 @@ public class Hello {
 
 ## 動作確認
 
-次のコマンドでPayara Microを起動してください。
+次のコマンドでWildFlyを起動してください。
 
 ```
-gradle run
+mvn package cargo:run
 ```
 
 `sample.foo.FooApi` は `SampleInterceptor` が適用されます。
