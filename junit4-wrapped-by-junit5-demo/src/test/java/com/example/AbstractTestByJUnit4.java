@@ -1,7 +1,9 @@
 package com.example;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -20,6 +22,16 @@ public abstract class AbstractTestByJUnit4 {
     @After
     public void destroy() {
         System.out.println("AbstractTestByJUnit4.destroy");
+    }
+
+    @BeforeClass
+    public static void initStatic() {
+        System.out.println("AbstractTestByJUnit4.initStatic");
+    }
+
+    @AfterClass
+    public static void destroyStatic() {
+        System.out.println("AbstractTestByJUnit4.destroyStatic");
     }
 
     public static class DemoTestRule implements TestRule {

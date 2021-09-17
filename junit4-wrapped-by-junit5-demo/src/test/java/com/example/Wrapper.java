@@ -2,38 +2,43 @@ package com.example;
 
 import java.lang.reflect.Method;
 
-import org.junit.jupiter.api.extension.AfterEachCallback;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 import org.junit.runners.model.Statement;
 
-public class Wrapper implements BeforeEachCallback, AfterEachCallback, InvocationInterceptor {
+public class Wrapper implements InvocationInterceptor, BeforeAllCallback, AfterAllCallback {
 
-    private AbstractTestByJUnit4 a = new AbstractTestByJUnit4() {
+    private final AbstractTestByJUnit4 base = new AbstractTestByJUnit4() {
     };
-
-    @Override
-    public void afterEach(ExtensionContext context) throws Exception {
-        a.destroy();
-    }
-
-    @Override
-    public void beforeEach(ExtensionContext context) throws Exception {
-        a.init();
-    }
 
     @Override
     public void interceptTestMethod(Invocation<Void> invocation, ReflectiveInvocationContext<Method> invocationContext,
             ExtensionContext extensionContext) throws Throwable {
-        Statement statement = a.rule.apply(new Statement() {
+        Statement statement = base.rule.apply(new Statement() {
 
             @Override
             public void evaluate() throws Throwable {
-                invocation.proceed();
+                base.init();
+                try {
+                    invocation.proceed();
+                } finally {
+                    base.destroy();
+                }
             }
         }, null);
         statement.evaluate();
+    }
+
+    @Override
+    public void beforeAll(ExtensionContext context) throws Exception {
+        AbstractTestByJUnit4.initStatic();
+    }
+
+    @Override
+    public void afterAll(ExtensionContext context) throws Exception {
+        AbstractTestByJUnit4.destroyStatic();
     }
 }

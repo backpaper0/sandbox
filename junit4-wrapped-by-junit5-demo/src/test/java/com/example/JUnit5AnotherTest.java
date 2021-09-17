@@ -1,10 +1,12 @@
 package com.example;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-@ExtendWith(Wrapper.class)
-public class JUnit5Test {
+public class JUnit5AnotherTest {
+
+    @RegisterExtension
+    static Wrapper wrapper = new Wrapper();
 
     @Test
     void test1() {
