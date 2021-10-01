@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'garakuta/**'
+      - '.github/workflows/garakuta.yml'
 
 jobs:
   test:
