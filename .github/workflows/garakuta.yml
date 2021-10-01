@@ -22,8 +22,8 @@ jobs:
           java-version: 17
           cache: maven
 
-      - name: Test with Maven
-        run: mvn test -B
+      - name: Verify with Maven
+        run: mvn -f garakuta -B verify
 
       - name: Upload reports
         if: failure()
