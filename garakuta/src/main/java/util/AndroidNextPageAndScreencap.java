@@ -12,28 +12,18 @@ import java.util.concurrent.TimeUnit;
 
 public class AndroidNextPageAndScreencap {
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		try {
 			Scanner scanner = new Scanner(System.in);
 			String title;
-			while (true) {
-				System.out.println("タイトルを入力してください");
-				title = scanner.nextLine();
-				System.out.println("このタイトルでいいですか？(yes/no)");
-				System.out.println(title);
-				String yesOrNo = scanner.nextLine();
-				if (yesOrNo.equals("yes")) {
-					break;
-				}
-			}
 			String direction;
 			while (true) {
-				System.out.println("ページ送りの方向を入力してください(left/right)");
-				direction = scanner.nextLine();
-				if (Set.of("left", "right").contains(direction)) {
+				title = readTitle(scanner);
+				direction = readDirection(scanner);
+				if (yesOrNo(scanner, title, direction)) {
 					break;
 				}
-				System.out.println("leftまたはrightと入力してください。");
 			}
 
 			Path dir = Path.of(System.getProperty("user.home"), "Pictures", title);
@@ -79,6 +69,43 @@ public class AndroidNextPageAndScreencap {
 		} catch (ApplicationExcetion e) {
 			System.err.println(e.getMessage());
 			System.exit(1);
+		}
+	}
+
+	static String readTitle(Scanner scanner) {
+		while (true) {
+			System.out.println("タイトルを入力してください");
+			String title = scanner.nextLine();
+			if (title.isBlank() == false) {
+				return title;
+			}
+		}
+	}
+
+	static String readDirection(Scanner scanner) {
+		while (true) {
+			System.out.println("ページ送りの方向を入力してください(left/right)");
+			String direction = scanner.nextLine();
+			if (Set.of("left", "right").contains(direction)) {
+				return direction;
+			}
+			System.out.println("leftまたはrightと入力してください。");
+		}
+	}
+
+	static boolean yesOrNo(Scanner scanner, String title, String direction) {
+		while (true) {
+			System.out.println("タイトル：" + title);
+			System.out.println("ページ送りの方向：" + direction);
+			System.out.println("以上の設定でよろしいですか？(yes/no)");
+			String yesOrNo = scanner.nextLine();
+			switch (yesOrNo) {
+			case "yes":
+				return true;
+			case "no":
+				return false;
+			default:
+			}
 		}
 	}
 
