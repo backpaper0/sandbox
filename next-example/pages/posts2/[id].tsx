@@ -1,4 +1,4 @@
-import type { NextPage, GetStaticPaths, GetStaticProps } from 'next'
+import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import Head from 'next/head'
 import { getAllPostsIds, findPost, Post } from '../../lib/posts'
 
@@ -6,7 +6,7 @@ interface Props {
   post: Post
 }
 
-const Posts2: NextPage<Props> = ({ post }: Props) => {
+const Posts2 = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <div>
       <Head>

@@ -45,3 +45,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 あまり厳密に型付けしても恩恵が少なそうな気がする。
 `GetStaticProps`と`GetStaticPaths`は型変数をバインドしなくても良いかも。
 
+参考。
+
+- https://nextjs.org/docs/basic-features/data-fetching#typescript-use-getstaticprops
+
