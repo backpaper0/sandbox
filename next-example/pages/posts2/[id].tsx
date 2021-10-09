@@ -1,9 +1,12 @@
 import type { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
-import { ParsedUrlQuery } from 'querystring'
 import { getAllPostsIds, findPost, Post } from '../../lib/posts'
 
-const Posts2 = ({ post }: { post: Post }) => {
+interface Props {
+  post: Post
+}
+
+const Posts2: NextPage<Props> = ({ post }: Props) => {
   return (
     <div>
       <Head>
