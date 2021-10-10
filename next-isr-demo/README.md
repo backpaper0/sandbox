@@ -1,6 +1,6 @@
 # next-isr-demo
 
-Next.jsの[Incremental Static Regeneration](https://vercel.com/docs/concepts/next.js/incremental-static-regeneration)を試す。
+Next.jsの[Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration)を試す。
 
 `getStaticPaths`は`fallback: 'blocking'`を設定する。
 そうすることでフォールバック時にレンダリングを待ってくれる。
