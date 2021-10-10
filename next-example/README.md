@@ -49,3 +49,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 - https://nextjs.org/docs/basic-features/data-fetching#typescript-use-getstaticprops
 
+クライアントサイドのみデプロイする場合は`getInitialProps`を使って初期データを取得すれば良さそう。
+Next自体はSGを推奨しているけれど、バックエンドはSpringってことも大いにあるので。
+まあSpring使うとかの場合でもSGしてサーバーでもNextを動かしておくのが良いのかもしれないけれど。
+
+TypeScriptで`getInitialProps`使う場合は次のページが参考になる。
+
+- https://nextjs.org/docs/api-reference/data-fetching/getInitialProps

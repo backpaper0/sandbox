@@ -1,10 +1,6 @@
 import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import Head from 'next/head'
-import { getAllPostsIds, findPost, Post } from '../../lib/posts'
-
-interface Props {
-  post: Post
-}
+import { getAllPostsIds, findPost } from '../../lib/posts'
 
 const Posts2 = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
