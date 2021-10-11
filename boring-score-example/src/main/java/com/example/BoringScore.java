@@ -9,7 +9,12 @@ public class BoringScore {
 			int b = pins[i * 2 + 1];
 			int c;
 			if (a == 10) {
-				c = a + b + pins[i * 2 + 2] + pins[i * 2 + 3];
+				int d = pins[i * 2 + 2];
+				if (d == 10 && i != 8) {
+					c = a + b + d + pins[i * 2 + 4];
+				} else {
+					c = a + b + d + pins[i * 2 + 3];
+				}
 			} else if (a + b == 10) {
 				c = a + b + pins[i * 2 + 2];
 			} else {

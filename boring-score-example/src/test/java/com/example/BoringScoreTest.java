@@ -24,4 +24,23 @@ public class BoringScoreTest {
 		int[] expected = { 9, 18, 21, 38, 58, 78, 96, 104, 130, 150 };
 		assertArrayEquals(expected, score);
 	}
+
+	@Test
+	void testAllStrike() {
+		int[] pins = {
+				10, 0,
+				10, 0,
+				10, 0,
+				10, 0,
+				10, 0,
+				10, 0,
+				10, 0,
+				10, 0,
+				10, 0,
+				10, 10, 10
+		};
+		int[] score = BoringScore.calculateScore(pins);
+		int[] expected = { 30, 60, 90, 120, 150, 180, 210, 240, 270, 300 };
+		assertArrayEquals(expected, score);
+	}
 }
