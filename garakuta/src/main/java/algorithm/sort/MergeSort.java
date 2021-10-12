@@ -2,18 +2,18 @@ package algorithm.sort;
 
 public class MergeSort {
 
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 		Sorts.sort(MergeSort::sort);
 	}
 
-	static void sort(final int[] value) {
-		final int[] temp = new int[(value.length + 1) / 2];
+	static void sort(int[] value) {
+		int[] temp = new int[(value.length + 1) / 2];
 		sort(value, 0, value.length, temp);
 	}
 
-	static void sort(final int[] value, final int from, final int to, final int[] temp) {
+	static void sort(int[] value, int from, int to, int[] temp) {
 		if (from + 1 < to) {
-			final int middle = (from + to) / 2;
+			int middle = (from + to) / 2;
 			if (from < middle) {
 				sort(value, from, middle, temp);
 				sort(value, middle, to, temp);

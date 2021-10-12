@@ -14,12 +14,12 @@ import algorithm.eightqueens.EightQueens.NQueens;
 
 public class EightQueens implements Iterable<NQueens> {
 
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 
 		// https://ja.wikipedia.org/wiki/%E3%82%A8%E3%82%A4%E3%83%88%E3%83%BB%E3%82%AF%E3%82%A4%E3%83%BC%E3%83%B3
 
-		final EightQueens eightQueens = new EightQueens(8);
-		for (final NQueens nQueens : eightQueens) {
+		var eightQueens = new EightQueens(8);
+		for (var nQueens : eightQueens) {
 			System.out.println(nQueens);
 		}
 
@@ -30,13 +30,13 @@ public class EightQueens implements Iterable<NQueens> {
 	private final int nn;
 	private final int[] divs;
 
-	public EightQueens(final int n) {
+	public EightQueens(int n) {
 		this.n = n;
 		this.nn = pow(n, n);
 		this.divs = range(0, n).map(i -> pow(n, i)).toArray();
 	}
 
-	static int pow(final int a, final int b) {
+	static int pow(int a, int b) {
 		return IntStream.range(0, b).reduce(1, (c, i) -> c * a);
 	}
 
@@ -61,13 +61,13 @@ public class EightQueens implements Iterable<NQueens> {
 				if (next == null) {
 					throw new NoSuchElementException();
 				}
-				final NQueens n = next;
+				var n = next;
 				nextInternal();
 				return n;
 			}
 
 			private void nextInternal() {
-				final int[] queens = new int[n];
+				var queens = new int[n];
 				for (; cursor < nn; cursor++) {
 					for (int i = 0; i < n; i++) {
 						queens[i] = cursor / divs[i] % n;
@@ -83,7 +83,7 @@ public class EightQueens implements Iterable<NQueens> {
 		};
 	}
 
-	boolean validate(final int[] queens) {
+	boolean validate(int[] queens) {
 		for (int a = 0; a < n - 1; a++) {
 			for (int b = a + 1; b < n; b++) {
 				if (a != b) {
@@ -101,18 +101,12 @@ public class EightQueens implements Iterable<NQueens> {
 		return true;
 	}
 
-	public static class NQueens {
-
-		private final int[] queens;
-
-		private NQueens(final int[] queens) {
-			this.queens = queens;
-		}
+	public record NQueens(int[] queens) {
 
 		@Override
 		public String toString() {
-			final StringWriter s = new StringWriter();
-			final PrintWriter out = new PrintWriter(s);
+			var s = new StringWriter();
+			var out = new PrintWriter(s);
 			out.println(Arrays.toString(queens));
 			for (int i = 0; i < queens.length; i++) {
 				for (int j = 0; j < queens.length; j++) {

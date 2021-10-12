@@ -29,6 +29,7 @@ public class Brainfxxk {
 		this.out = out;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	public void evaluate(final String source) throws IOException {
 		final char[] cs = source.toCharArray();
 		for (int i = 0; i < cs.length; i++) {
@@ -67,6 +68,7 @@ public class Brainfxxk {
 		out.flush();
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	private static int jumpRight(final int index, final char[] cs) {
 		int i = index;
 		int counter = 0;
@@ -88,6 +90,7 @@ public class Brainfxxk {
 		return i;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	private static int jumpLeft(final int index, final char[] cs) {
 		int i = index;
 		int counter = 0;

@@ -13,22 +13,22 @@ public class DepthFirstSearchGraph {
 
 	public static void main(final String[] args) {
 
-		final Node<String> ns = new Node<>("s");
-		final Node<String> n1 = new Node<>("1");
-		final Node<String> n2 = new Node<>("2");
-		final Node<String> n3 = new Node<>("3");
-		final Node<String> n4 = new Node<>("4");
-		final Node<String> n5 = new Node<>("5");
-		final Node<String> n6 = new Node<>("6");
-		final Node<String> n7 = new Node<>("7");
-		final Node<String> n8 = new Node<>("8");
-		final Node<String> n9 = new Node<>("9");
-		final Node<String> n10 = new Node<>("10");
-		final Node<String> n11 = new Node<>("11");
-		final Node<String> n12 = new Node<>("12");
-		final Node<String> n13 = new Node<>("13");
-		final Node<String> n14 = new Node<>("14");
-		final Node<String> nt = new Node<>("t");
+		var ns = new Node<>("s");
+		var n1 = new Node<>("1");
+		var n2 = new Node<>("2");
+		var n3 = new Node<>("3");
+		var n4 = new Node<>("4");
+		var n5 = new Node<>("5");
+		var n6 = new Node<>("6");
+		var n7 = new Node<>("7");
+		var n8 = new Node<>("8");
+		var n9 = new Node<>("9");
+		var n10 = new Node<>("10");
+		var n11 = new Node<>("11");
+		var n12 = new Node<>("12");
+		var n13 = new Node<>("13");
+		var n14 = new Node<>("14");
+		var nt = new Node<>("t");
 
 		ns.addNeighbors(n1, n6, n8);
 		n1.addNeighbors(ns, n2, n3);
@@ -47,7 +47,7 @@ public class DepthFirstSearchGraph {
 		n14.addNeighbors(n8);
 		nt.addNeighbors(n9);
 
-		final Graph<String> g = new Graph<>();
+		var g = new Graph<String>();
 		g.add(ns);
 		g.add(n1);
 		g.add(n2);
@@ -102,11 +102,11 @@ public class DepthFirstSearchGraph {
 
 		@Override
 		public String toString() {
-			final Stream<String> s1 = Stream.<String> builder()
+			var s1 = Stream.<String> builder()
 					.add("node pred discovered finished")
 					.add("---- ---- ---------- --------")
 					.build();
-			final Stream<String> s2 = nodes
+			var s2 = nodes
 					.stream()
 					.map(Objects::toString);
 			return Stream.concat(s1, s2).collect(Collectors.joining(System.lineSeparator()));

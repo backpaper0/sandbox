@@ -13,8 +13,8 @@ class DiceTest {
 
 	@ParameterizedTest
 	@MethodSource("parameters")
-	void test(final String src, final String expected) throws Exception {
-		final String actual = dice.solve(src);
+	void test(String src, String expected) throws Exception {
+		String actual = dice.solve(src);
 		assertEquals(expected, actual);
 	}
 

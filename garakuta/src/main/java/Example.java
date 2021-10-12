@@ -21,9 +21,9 @@ public class Example {
 
 		List<Integer> dayOfWeeks;
 
-		static Request parse(final String src) {
-			final String[] s = src.split("_");
-			final Request r = new Request();
+		static Request parse(String src) {
+			String[] s = src.split("_");
+			Request r = new Request();
 			r.emp = Integer.parseInt(s[0]);
 			r.dayOfWeeks = s[1].chars().map(i -> i - '0').boxed()
 					.collect(Collectors.toList());
@@ -31,25 +31,25 @@ public class Example {
 		}
 	}
 
-	static final int MONDAY = 1;
+	static int MONDAY = 1;
 
-	static final int FRIDAY = 5;
+	static int FRIDAY = 5;
 
-	public String solve(final String src) {
+	public String solve(String src) {
 
-		final List<Request> requests = Pattern.compile("\\|").splitAsStream(src)
+		List<Request> requests = Pattern.compile("\\|").splitAsStream(src)
 				.map(Request::parse).collect(Collectors.toList());
 
-		final List<LessonClass> lessonClasses = IntStream.rangeClosed(MONDAY, FRIDAY)
+		List<LessonClass> lessonClasses = IntStream.rangeClosed(MONDAY, FRIDAY)
 				.mapToObj(dayOfWeek -> {
-					final LessonClass lc = new LessonClass();
+					LessonClass lc = new LessonClass();
 					lc.dayOfWeek = dayOfWeek;
 					return lc;
 				}).collect(Collectors.toList());
 
 		//Aさんの第一希望、Bさんの第一希望、Cさんの第一希望、Aさんの第二希望
 		//というふうに第一希望から順に埋めていく
-		final Set<Integer> added = new HashSet<>();
+		Set<Integer> added = new HashSet<>();
 		IntStream.rangeClosed(0, FRIDAY - MONDAY).forEach(i -> {
 			requests.forEach(r -> {
 
@@ -58,8 +58,8 @@ public class Example {
 					return;
 				}
 
-				final int index = r.dayOfWeeks.get(i) - MONDAY;
-				final LessonClass lc = lessonClasses.get(index);
+				int index = r.dayOfWeeks.get(i) - MONDAY;
+				LessonClass lc = lessonClasses.get(index);
 
 				//その曜日のレッスンは定員に達している
 				if (lc.emps.size() >= 4) {

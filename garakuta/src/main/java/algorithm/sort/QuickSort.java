@@ -2,17 +2,17 @@ package algorithm.sort;
 
 public class QuickSort {
 
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 		Sorts.sort(QuickSort::sort);
 	}
 
-	static void sort(final int[] value) {
+	static void sort(int[] value) {
 		sort(value, 0, value.length - 1);
 	}
 
-	static void sort(final int[] value, final int from, final int to) {
+	static void sort(int[] value, int from, int to) {
 		if (from < to) {
-			final int p = value[from];
+			int p = value[from];
 			int i = from;
 			int j = to;
 			while (true) {
@@ -34,8 +34,8 @@ public class QuickSort {
 		}
 	}
 
-	static void swap(final int[] value, final int i, final int j) {
-		final int temp = value[i];
+	static void swap(int[] value, int i, int j) {
+		int temp = value[i];
 		value[i] = value[j];
 		value[j] = temp;
 	}

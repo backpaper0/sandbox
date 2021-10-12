@@ -26,16 +26,16 @@ public class EnumReflectionSample {
 		}
 	}
 
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 		log(Hoge.FOO);
 		log(Hoge.BAR);
 	}
 
-	static void log(final Hoge constant) {
+	static void log(Hoge constant) {
 
-		final Class<?> clazz = constant.getClass();
-		final String fqcn = clazz.getName();
-		final boolean isEnum = clazz.isEnum();
+		Class<?> clazz = constant.getClass();
+		String fqcn = clazz.getName();
+		boolean isEnum = clazz.isEnum();
 
 		System.out.printf("%s: class=%s, enum=%s%n", constant, fqcn, isEnum);
 	}

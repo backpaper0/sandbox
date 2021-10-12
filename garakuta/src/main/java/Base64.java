@@ -95,8 +95,8 @@ public final class Base64 {
 			b |= index;
 			out.write(b);
 		}
-		while (-1 != in.read())
-			;
+		while (-1 != in.read()) {
+		}
 	}
 
 	private static int toIndex(final int c) {

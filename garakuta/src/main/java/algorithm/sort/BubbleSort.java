@@ -2,11 +2,11 @@ package algorithm.sort;
 
 public class BubbleSort {
 
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 		Sorts.sort(BubbleSort::sort);
 	}
 
-	static void sort(final int[] value) {
+	static void sort(int[] value) {
 		for (int i = 0; i < value.length - 1; i++) {
 			for (int j = i + 1; j < value.length; j++) {
 				if (value[i] > value[j]) {
@@ -16,8 +16,8 @@ public class BubbleSort {
 		}
 	}
 
-	static void swap(final int[] value, final int i, final int j) {
-		final int temp = value[i];
+	static void swap(int[] value, int i, int j) {
+		int temp = value[i];
 		value[i] = value[j];
 		value[j] = temp;
 	}

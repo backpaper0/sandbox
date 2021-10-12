@@ -6,9 +6,9 @@ import java.util.function.Function;
  */
 public class FunctionalPair {
 
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 
-		final Pair<Integer, String> status = Pair.of(200, "OK");
+		Pair<Integer, String> status = Pair.of(200, "OK");
 
 		System.out.println(status.first()); //200
 		System.out.println(status.second()); //"OK"
@@ -19,14 +19,16 @@ public class FunctionalPair {
 	interface Pair<A, B> extends
 			Function<Function<A, Function<B, Object>>, Object> {
 
-		static <A, B> Pair<A, B> of(final A a, final B b) {
+		static <A, B> Pair<A, B> of(A a, B b) {
 			return f -> f.apply(a).apply(b);
 		}
 
+		@SuppressWarnings("unchecked")
 		default A first() {
 			return (A) apply(a -> b -> a);
 		}
 
+		@SuppressWarnings("unchecked")
 		default B second() {
 			return (B) apply(a -> b -> b);
 		}
