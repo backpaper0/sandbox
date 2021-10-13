@@ -1,6 +1,7 @@
 package com.example;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,6 +14,8 @@ import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.BillingMode;
 import software.amazon.awssdk.services.dynamodb.model.CreateTableRequest;
 import software.amazon.awssdk.services.dynamodb.model.CreateTableResponse;
+import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.DeleteItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.KeySchemaElement;
@@ -49,24 +52,31 @@ public class HelloWorld {
 
 			ScanResponse scanResponse = client
 					.scan(ScanRequest.builder().tableName("Greeting").attributesToGet("Id").build());
-			String id;
-			if (scanResponse.hasItems()) {
-				id = scanResponse.items().iterator().next().get("Id").s();
-			} else {
-				id = UUID.randomUUID().toString();
-				PutItemResponse putItemResponse = client.putItem(PutItemRequest.builder()
-						.tableName("Greeting")
-						.item(Map.of("Id", AttributeValue.builder().s(id).build(),
-								"Message", AttributeValue.builder().s("Hello World").build()))
-						.build());
-				System.out.println(putItemResponse);
+			System.out.println(scanResponse);
+
+			for (Map<String, AttributeValue> item : scanResponse.items()) {
+				DeleteItemResponse deleteItemResponse = client
+						.deleteItem(DeleteItemRequest.builder().tableName("Greeting").key(item).build());
+				System.out.println(deleteItemResponse);
 			}
+
+			String id = UUID.randomUUID().toString();
+			PutItemResponse putItemResponse = client.putItem(PutItemRequest.builder()
+					.tableName("Greeting")
+					.item(Map.of("Id", AttributeValue.builder().s(id).build(),
+							"Message", AttributeValue.builder().s("Hello World").build(),
+							"List", AttributeValue.builder().ss(List.of("foo", "bar", "baz")).build(),
+							"Map",
+							AttributeValue.builder().m(Map.of("foobar", AttributeValue.builder().s("hoge").build()))
+									.build()))
+					.build());
+			System.out.println(putItemResponse);
 
 			GetItemResponse getItemResponse = client
 					.getItem(GetItemRequest.builder().tableName("Greeting")
-							.key(Map.of("Id", AttributeValue.builder().s(id).build())).attributesToGet("Id", "Message")
+							.key(Map.of("Id", AttributeValue.builder().s(id).build()))
 							.build());
-			System.out.println(getItemResponse.item().get("Message").s());
+			System.out.println(getItemResponse);
 		}
 	}
 }
