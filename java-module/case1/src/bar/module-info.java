@@ -1,3 +1,3 @@
-module com.example.bar {
+module mod.bar {
     exports com.example.bar;
 }

@@ -17,6 +17,6 @@ jar -cf lib/foo.jar -C bin/foo .
 ```
 
 ```sh
-java -p lib -m com.example.foo/com.example.foo.Foo
+java -p lib -m mod.foo/com.example.foo.Foo
 ```
 

@@ -1,4 +1,4 @@
-module com.example.bar {
+module mod.bar {
     exports com.example.bar;
-    requires com.example.baz;
+    requires mod.baz;
 }
