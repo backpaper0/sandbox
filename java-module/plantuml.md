@@ -1,20 +1,27 @@
 ```plantuml
 @startuml case1
-[com.example.foo] -> [com.example.bar]
+[mod.foo] -> [mod.bar]
 @enduml
 ```
 
 ```plantuml
 @startuml case2
-[com.example.foo] -> [com.example.bar]
-[com.example.bar] -> [com.example.baz]
+[mod.foo] -> [mod.bar]
+[mod.bar] -> [mod.baz]
 @enduml
 ```
 
 ```plantuml
 @startuml case3
-[com.example.foo] -> [com.example.bar]
-[com.example.foo] -> [com.example.baz]
-[com.example.bar] -> [com.example.baz]
+[mod.foo] --> [mod.bar]
+[mod.foo] --> [mod.baz]
+[mod.bar] -> [mod.baz]
+@enduml
+```
+
+```plantuml
+@startuml case4
+[mod.foo] --> [mod.bar]
+[mod.foo] --> [mod.baz]
 @enduml
 ```
