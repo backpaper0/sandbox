@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="67px" preserveAspectRatio="none" style="width:570px;height:67px;background:#FFFFFF;" version="1.1" viewBox="0 0 570 67" width="570px" zoomAndPan="magnify"><defs><filter height="300%" id="f1e9yokcozbw0t" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[bb8e8a38368c616a98a8da4c58609151]
+entity com.example.foo--><rect fill="#FEFECE" filter="url(#f1e9yokcozbw0t)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="159" x="7" y="7"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="146" y="12"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="144" y="14"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="144" y="18"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="119" x="22" y="40.5352">com.example.foo</text><!--MD5=[6f24d4582598e7bc2bf69bfaffa4be19]
+entity com.example.bar--><rect fill="#FEFECE" filter="url(#f1e9yokcozbw0t)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="159" x="201" y="7"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="340" y="12"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="338" y="14"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="338" y="18"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="119" x="216" y="40.5352">com.example.bar</text><!--MD5=[9859df7a1bd0b0709f1a468cec6eb4be]
+entity com.example.baz--><rect fill="#FEFECE" filter="url(#f1e9yokcozbw0t)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="161" x="395" y="7"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="536" y="12"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="534" y="14"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="534" y="18"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="410" y="40.5352">com.example.baz</text><!--MD5=[3f57309eee7ee6a3dbf0424510fa00d3]
+link com.example.foo to com.example.bar--><path d="M166.07,30 C175.97,30 185.86,30 195.76,30 " fill="none" id="com.example.foo-to-com.example.bar" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="200.94,30,191.94,26,195.94,30,191.94,34,200.94,30" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[71aa361d5788d095edbcb7b9f3ae04e2]
+link com.example.bar to com.example.baz--><path d="M360.1,30 C369.95,30 379.8,30 389.66,30 " fill="none" id="com.example.bar-to-com.example.baz" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="394.81,30,385.81,26,389.81,30,385.81,34,394.81,30" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[12d1a42f8460958c738d5e6d80c40369]
+@startuml case2
+[com.example.foo] -> [com.example.bar]
+[com.example.bar] -> [com.example.baz]
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 21:40:07 JST 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: ja
+Country: JP
+--></g></svg>
