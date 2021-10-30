@@ -30,9 +30,10 @@ import com.example.baz.Baz;
 エラー1個
 ```
 
-`src/foo/module-info.java`を次のように修正する。
+`com.example.baz`へ依存していることを明示すればいい。
+そのためには`src/foo/module-info.java`を次のように修正する。
 
-```
+```java
 module com.example.foo {
     requires com.example.bar;
     requires com.example.baz;
@@ -42,6 +43,24 @@ module com.example.foo {
 再度コンパイルすると今度は成功する。
 
 ```sh
+javac -d bin/foo -p lib src/foo/*.java
+```
+
+あるいは`com.example.bar`の`module-info.java`で`com.example.baz`の依存が推移的であると示してもいい。
+そのためには`src/bar/module-info.java`を次のように修正する。
+
+```java
+module com.example.bar {
+    exports com.example.bar;
+    requires transitive com.example.baz;
+}
+```
+
+こちらの修正でもコンパイルは成功する。
+
+```sh
+javac -d bin/bar -p lib src/bar/*.java
+jar -cf lib/bar.jar -C bin/bar .
 javac -d bin/foo -p lib src/foo/*.java
 ```
 
