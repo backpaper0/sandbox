@@ -26,17 +26,17 @@ javac -d bin/foo -p lib src/foo/*.java
 src/foo/Foo.java:4: エラー: パッケージcom.example.bazは表示不可です
 import com.example.baz.Baz;
                   ^
-  (パッケージcom.example.bazはモジュールcom.example.bazで宣言されていますが、モジュールcom.example.fooに読み込まれていません)
+  (パッケージcom.example.bazはモジュールmod.bazで宣言されていますが、モジュールmod.fooに読み込まれていません)
 エラー1個
 ```
 
-`com.example.baz`へ依存していることを明示すればいい。
+`mod.baz`へ依存していることを明示すればいい。
 そのためには`src/foo/module-info.java`を次のように修正する。
 
 ```java
-module com.example.foo {
-    requires com.example.bar;
-    requires com.example.baz;
+module mod.foo {
+    requires mod.bar;
+    requires mod.baz;
 }
 ```
 
@@ -46,17 +46,17 @@ module com.example.foo {
 javac -d bin/foo -p lib src/foo/*.java
 ```
 
-あるいは`com.example.bar`の`module-info.java`で`com.example.baz`の依存が推移的であると示してもいい。
+あるいは`mod.bar`の`module-info.java`で`mod.baz`の依存が推移的であると示してもいい。
 そのためには`src/bar/module-info.java`を次のように修正する。
 
 ```java
-module com.example.bar {
+module mod.bar {
     exports com.example.bar;
-    requires transitive com.example.baz;
+    requires transitive mod.baz;
 }
 ```
 
-こちらの修正でもコンパイルは成功する。
+こちらの修正でもコンパイルは成功する（もう一度`mod.bar`からビルドする）。
 
 ```sh
 javac -d bin/bar -p lib src/bar/*.java
@@ -69,6 +69,6 @@ jar -cf lib/foo.jar -C bin/foo .
 ```
 
 ```sh
-java -p lib -m com.example.foo/com.example.foo.Foo
+java -p lib -m mod.foo/com.example.foo.Foo
 ```
 

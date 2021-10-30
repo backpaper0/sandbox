@@ -1,3 +1,3 @@
-module com.example.foo {
-    requires com.example.bar;
+module mod.foo {
+    requires mod.bar;
 }

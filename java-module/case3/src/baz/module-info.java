@@ -1,3 +1,3 @@
-module com.example.baz {
+module mod.baz {
     exports com.example.baz;
 }
