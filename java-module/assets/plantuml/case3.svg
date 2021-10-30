@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="111px" preserveAspectRatio="none" style="width:570px;height:111px;background:#FFFFFF;" version="1.1" viewBox="0 0 570 111" width="570px" zoomAndPan="magnify"><defs><filter height="300%" id="f1jn8wtve28ay1" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[bb8e8a38368c616a98a8da4c58609151]
+entity com.example.foo--><rect fill="#FEFECE" filter="url(#f1jn8wtve28ay1)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="159" x="7" y="51.2"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="146" y="56.2"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="144" y="58.2"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="144" y="62.2"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="119" x="22" y="84.7352">com.example.foo</text><!--MD5=[6f24d4582598e7bc2bf69bfaffa4be19]
+entity com.example.bar--><rect fill="#FEFECE" filter="url(#f1jn8wtve28ay1)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="159" x="201" y="51.2"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="340" y="56.2"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="338" y="58.2"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="338" y="62.2"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="119" x="216" y="84.7352">com.example.bar</text><!--MD5=[9859df7a1bd0b0709f1a468cec6eb4be]
+entity com.example.baz--><rect fill="#FEFECE" filter="url(#f1jn8wtve28ay1)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="161" x="395" y="51.2"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="536" y="56.2"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="534" y="58.2"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="534" y="62.2"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="410" y="84.7352">com.example.baz</text><!--MD5=[3f57309eee7ee6a3dbf0424510fa00d3]
+link com.example.foo to com.example.bar--><path d="M166.07,74.2 C175.97,74.2 185.86,74.2 195.76,74.2 " fill="none" id="com.example.foo-to-com.example.bar" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="200.94,74.2,191.94,70.2,195.94,74.2,191.94,78.2,200.94,74.2" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[a07efc366dd50ab8d8094ebdbc324284]
+link com.example.foo to com.example.baz--><path d="M125.28,51.12 C146.78,39.66 174.47,27.04 201,21.2 C270.01,6 290.96,6.12 360,21.2 C384.85,26.63 410.74,37.92 431.69,48.68 " fill="none" id="com.example.foo-to-com.example.baz" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="436.36,51.12,430.2259,43.4146,431.9256,48.8101,426.5301,50.5097,436.36,51.12" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[71aa361d5788d095edbcb7b9f3ae04e2]
+link com.example.bar to com.example.baz--><path d="M360.1,74.2 C369.95,74.2 379.8,74.2 389.66,74.2 " fill="none" id="com.example.bar-to-com.example.baz" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="394.81,74.2,385.81,70.2,389.81,74.2,385.81,78.2,394.81,74.2" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[580c8fc29e14b00983ff046e5bc61905]
+@startuml case3
+[com.example.foo] -> [com.example.bar]
+[com.example.foo] -> [com.example.baz]
+[com.example.bar] -> [com.example.baz]
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 21:40:07 JST 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: ja
+Country: JP
+--></g></svg>
