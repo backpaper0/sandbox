@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="67px" preserveAspectRatio="none" style="width:293px;height:67px;background:#FFFFFF;" version="1.1" viewBox="0 0 293 67" width="293px" zoomAndPan="magnify"><defs><filter height="300%" id="f1whwcv0g41fku" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[26f6a4bfbc994bc9d882229472f03efc]
+entity foo(Unnamed)--><rect fill="#FEFECE" filter="url(#f1whwcv0g41fku)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="139" x="7" y="7"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="126" y="12"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="124" y="14"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="124" y="18"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="99" x="22" y="40.5352">foo(Unnamed)</text><!--MD5=[13b1e5ae82728bca28df9446983699b8]
+entity mod.bar--><rect fill="#FEFECE" filter="url(#f1whwcv0g41fku)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="98" x="181.5" y="7"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="259.5" y="12"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="257.5" y="14"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="257.5" y="18"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58" x="196.5" y="40.5352">mod.bar</text><!--MD5=[7dba1b434ec92d3802ef1c0b4eba668c]
+link foo(Unnamed) to mod.bar--><path d="M146.28,30 C156.27,30 166.27,30 176.26,30 " fill="none" id="foo(Unnamed)-to-mod.bar" style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#A80036" points="181.48,30,172.48,26,176.48,30,172.48,34,181.48,30" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[48b5d20c8edb3cd7d03eba6b620a1d9d]
+@startuml case5
+[foo(Unnamed)] .> [mod.bar]
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 21:40:07 JST 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: ja
+Country: JP
+--></g></svg>

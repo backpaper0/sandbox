@@ -25,3 +25,9 @@
 [mod.foo] --> [mod.baz]
 @enduml
 ```
+
+```plantuml
+@startuml case5
+[foo(Unnamed)] .> [mod.bar]
+@enduml
+```
