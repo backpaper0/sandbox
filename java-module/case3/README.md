@@ -72,3 +72,23 @@ jar -cf lib/foo.jar -C bin/foo .
 java -p lib -m mod.foo/com.example.foo.Foo
 ```
 
+`jdeps`で依存関係を見てみる。
+
+```sh
+jdeps --module-path lib --module mod.foo
+```
+
+```
+mod.foo
+ [file:///path/to/sandbox/java-module/case3/lib/foo.jar]
+   requires mandated java.base (@17)
+   requires mod.bar
+mod.foo -> java.base
+mod.foo -> mod.bar
+mod.foo -> mod.baz
+   com.example.foo                                    -> com.example.bar                                    mod.bar
+   com.example.foo                                    -> com.example.baz                                    mod.baz
+   com.example.foo                                    -> java.io                                            java.base
+   com.example.foo                                    -> java.lang                                          java.base
+   com.example.foo                                    -> java.lang.invoke                                   java.base
+```
