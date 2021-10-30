@@ -92,3 +92,26 @@ mod.foo -> mod.baz
    com.example.foo                                    -> java.lang                                          java.base
    com.example.foo                                    -> java.lang.invoke                                   java.base
 ```
+
+`jlink`でカスタムランタイムイメージを作る。
+
+```sh
+jlink -p lib --add-modules mod.foo --output custom-jre
+```
+
+カスタムランタイムイメージを実行する。
+
+```sh
+$ ./custom-jre/bin/java -m mod.foo/com.example.foo.Foo
+Foo, Bar, Baz
+Foo, Baz
+```
+
+サイズを見てみる。
+
+```
+$ du -sh ./custom-jre
+ 54M    ./custom-jre
+$ du -sh $JAVA_HOME
+320M    /Library/Java/JavaVirtualMachines/liberica-jdk-17.jdk/Contents/Home
+```
