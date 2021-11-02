@@ -80,3 +80,9 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17)  mvn -f foo clean verify -Pmodule
 ```
 
 今度こそビルドが通ったはず。
+
+## 不要なcom.example:bar:1.0を消す
+
+```sh
+rm -fr $HOME/.m2/repository/com/example/bar
+```
