@@ -11,20 +11,20 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>com.rabbitmq</groupId>
       <artifactId>amqp-client</artifactId>
-      <version>5.2.0</version>
+      <version>5.13.1</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.7.25</version>
+      <version>1.7.31</version>
       <scope>runtime</scope>
     </dependency>
   </dependencies>
@@ -35,7 +35,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
-          <version>1.6.0</version>
+          <version>3.0.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -44,87 +44,39 @@
   <profiles>
     <profile>
       <id>consumer</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <configuration>
-              <mainClass>com.example.ConsumerMain</mainClass>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
+      <properties>
+        <exec.mainClass>com.example.ConsumerMain</exec.mainClass>
+      </properties>
     </profile>
     <profile>
       <id>producer</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <configuration>
-              <mainClass>com.example.ProducerMain</mainClass>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
+      <properties>
+        <exec.mainClass>com.example.ProducerMain</exec.mainClass>
+      </properties>
     </profile>
     <profile>
       <id>consumer2</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <configuration>
-              <mainClass>com.example.two.TwoConsumerMain</mainClass>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
+      <properties>
+        <exec.mainClass>com.example.two.TwoConsumerMain</exec.mainClass>
+      </properties>
     </profile>
     <profile>
       <id>producer2</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <configuration>
-              <mainClass>com.example.two.TwoProducerMain</mainClass>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
+      <properties>
+        <exec.mainClass>com.example.two.TwoProducerMain</exec.mainClass>
+      </properties>
     </profile>
     <profile>
       <id>sub</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <configuration>
-              <mainClass>com.example.three.ReceiveLogs</mainClass>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
+      <properties>
+        <exec.mainClass>com.example.three.ReceiveLogs</exec.mainClass>
+      </properties>
     </profile>
     <profile>
       <id>pub</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <configuration>
-              <mainClass>com.example.three.EmitLog</mainClass>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
+      <properties>
+        <exec.mainClass>com.example.three.EmitLog</exec.mainClass>
+      </properties>
     </profile>
   </profiles>
 

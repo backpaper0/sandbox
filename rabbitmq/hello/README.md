@@ -1,7 +1,7 @@
 # Hello World
 
 ```sh
-docker run -d --name mq -h usaq -p 5672:5672 rabbitmq
+docker run -d --name mq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 ```
 
 ```sh
