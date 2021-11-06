@@ -1,10 +1,18 @@
-export async function getPosts(cursor: string | null = null) {
+
+export type Post = string;
+
+export interface Posts {
+    posts: Array<Post>;
+    nextCursor: string;
+}
+
+export async function getPosts(cursor: string | null = null): Promise<Posts> {
     if (cursor === null || cursor === "foo") {
-        return { "posts": ["post1", "post2", "post3"], "nextCursor": "bar" }
+        return { posts: ["post1", "post2", "post3"], nextCursor: "bar" }
     } else if (cursor === "bar") {
-        return { "posts": ["post4", "post5", "post6"], "nextCursor": "baz" }
+        return { posts: ["post4", "post5", "post6"], nextCursor: "baz" }
     } else if (cursor === "baz") {
-        return { "posts": ["post7"], "nextCursor": "qux" }
+        return { posts: ["post7"], nextCursor: "qux" }
     }
-    return { "posts": [], "nextCursor": "qux" }
+    return { posts: [], nextCursor: "qux" }
 }

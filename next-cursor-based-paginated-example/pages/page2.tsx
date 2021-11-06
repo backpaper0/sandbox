@@ -1,13 +1,13 @@
-import { getPosts } from 'lib/posts';
+import { getPosts, Posts } from 'lib/posts';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import useSWRInfinite from 'swr/infinite';
 
-function getKey(pageIndex: number, previousPageData: { nextCursor: string } | null) {
+function getKey(pageIndex: number, previousPageData: Posts | null) {
     return ["/api/posts", previousPageData && previousPageData.nextCursor];
 }
 
-async function fetcher(url: string, cursor: string) {
+async function fetcher(url: string, cursor: string): Promise<Posts> {
     return await getPosts(cursor);
 }
 
@@ -23,7 +23,7 @@ const Page1: NextPage = () => {
     return (
         <div>
             <Head>
-                <title>useEffect version</title>
+                <title>SWR version</title>
             </Head>
 
             <main>
