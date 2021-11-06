@@ -20,6 +20,9 @@ const Home: NextPage = () => {
         <p>
           <Link href="/page2">SWR version</Link>
         </p>
+        <p>
+          <Link href="/page3">useEffect version(library)</Link>
+        </p>
       </main>
     </div>
   )

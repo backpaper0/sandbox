@@ -15,12 +15,12 @@ interface AdditionalAction {
 
 type Action = InitialAction | AdditionalAction;
 
-function reducer(state: Array<string>, action: Action): Array<string> {
+function reducer(state: Array<string> | undefined, action: Action): Array<string> | undefined {
     switch (action.kind) {
         case "initial":
             return action.posts;
         case "additional":
-            return [...state, ...action.posts];
+            return [...(state || []), ...action.posts];
         default:
             return state;
     }
@@ -29,7 +29,7 @@ function reducer(state: Array<string>, action: Action): Array<string> {
 const initialState: Array<string> = [];
 
 const Page1: NextPage = () => {
-    const [posts, dispatch] = useReducer(reducer, initialState);
+    const [posts, dispatch] = useReducer(reducer, undefined);
     const [cursor, setCuror] = useState<string | undefined>();
     useEffect(() => {
         const load = async () => {
@@ -47,7 +47,7 @@ const Page1: NextPage = () => {
         };
         load();
     };
-    if (!posts.length) {
+    if (!posts) {
         return null;
     }
     return (

@@ -11,7 +11,7 @@ async function fetcher(url: string, cursor: string): Promise<Posts> {
     return await getPosts(cursor);
 }
 
-const Page1: NextPage = () => {
+const Page2: NextPage = () => {
     const { data, error, isValidating, mutate, size, setSize } = useSWRInfinite(getKey, fetcher);
     const readMore = () => {
         setSize(size + 1);
@@ -34,4 +34,4 @@ const Page1: NextPage = () => {
     )
 }
 
-export default Page1
+export default Page2
