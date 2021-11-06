@@ -9,16 +9,22 @@ export interface DataFetcher<T> {
     }>;
 }
 
-export function usePagenatedState<T>(dataFetcher: DataFetcher<T>): [Array<T> | undefined, () => Promise<void>] {
+export function usePagenatedState<T>(dataFetcher: DataFetcher<T>): [Array<T> | undefined, () => Promise<void>, boolean] {
     const [data, setData] = useState<Array<T> | undefined>();
     const [cursor, setCursor] = useState<Cursor>();
+    const [fetching, setFetching] = useState(false);
     const fetchNext = async () => {
-        const { data: addMe, nextCursor } = await dataFetcher(cursor);
-        setData(data => [...(data || []), ...addMe]);
-        setCursor(nextCursor);
+        setFetching(true);
+        try {
+            const { data: addMe, nextCursor } = await dataFetcher(cursor);
+            setData(data => [...(data || []), ...addMe]);
+            setCursor(nextCursor);
+        } finally {
+            setFetching(false);
+        }
     };
     useEffect(() => {
         fetchNext();
     }, []);
-    return [data, fetchNext];
+    return [data, fetchNext, fetching];
 }

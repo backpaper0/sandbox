@@ -8,7 +8,7 @@ const Page3: NextPage = () => {
         const { posts, nextCursor } = await getPosts(cursor);
         return { data: posts, nextCursor };
     };
-    const [posts, fetchNext] = usePagenatedState(dataFetcher);
+    const [posts, fetchNext, fetching] = usePagenatedState(dataFetcher);
     const readMore = () => {
         fetchNext();
     };
@@ -23,7 +23,7 @@ const Page3: NextPage = () => {
 
             <main>
                 {posts.map(post => <p key={post}>{post}</p>)}
-                <button onClick={readMore}>Read more</button>
+                <button onClick={readMore} disabled={fetching}>Read more</button>
             </main>
         </div>
     )
