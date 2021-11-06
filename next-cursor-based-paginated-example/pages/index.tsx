@@ -17,6 +17,9 @@ const Home: NextPage = () => {
         <p>
           <Link href="/page1">useEffect version</Link>
         </p>
+        <p>
+          <Link href="/page2">SWR version</Link>
+        </p>
       </main>
     </div>
   )

@@ -1,7 +1,7 @@
+import { getPosts } from 'lib/posts';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useReducer, useState } from 'react';
-import { getPosts } from 'lib/posts';
 
 interface InitialAction {
     kind: "initial";
@@ -47,6 +47,9 @@ const Page1: NextPage = () => {
         };
         load();
     };
+    if (!posts.length) {
+        return null;
+    }
     return (
         <div>
             <Head>
