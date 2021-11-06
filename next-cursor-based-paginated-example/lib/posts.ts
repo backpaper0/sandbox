@@ -6,7 +6,15 @@ export interface Posts {
     nextCursor: string;
 }
 
-export async function getPosts(cursor: string | null = null): Promise<Posts> {
+export function getPosts(cursor: string | null = null): Promise<Posts> {
+    return new Promise(resolve => {
+        window.setTimeout(() => {
+            resolve(getPostsInternal(cursor));
+        }, 200);
+    });
+}
+
+function getPostsInternal(cursor: string | null = null): Posts {
     if (cursor === null || cursor === "foo") {
         return { posts: ["post1", "post2", "post3"], nextCursor: "bar" }
     } else if (cursor === "bar") {

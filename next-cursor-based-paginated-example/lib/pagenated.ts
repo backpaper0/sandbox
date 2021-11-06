@@ -1,27 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export type Cursor = string | undefined;
 
-export interface FetchResult<T> {
-    data: Array<T>;
-    nextCursor: Cursor;
-}
-
 export interface DataFetcher<T> {
-    (cursor: Cursor): Promise<FetchResult<T>>;
+    (cursor: Cursor): Promise<{
+        data: Array<T>;
+        nextCursor: Cursor;
+    }>;
 }
 
-export interface FetchNext {
-    (): Promise<void>;
-}
-
-export function usePagenatedState<T>(dataFetcher: DataFetcher<T>): [Array<T> | undefined, FetchNext] {
+export function usePagenatedState<T>(dataFetcher: DataFetcher<T>): [Array<T> | undefined, () => Promise<void>] {
     const [data, setData] = useState<Array<T> | undefined>();
     const [cursor, setCursor] = useState<Cursor>();
     const fetchNext = async () => {
-        const fetchResult = await dataFetcher(cursor);
-        setData(data => [...(data || []), ...fetchResult.data]);
-        setCursor(fetchResult.nextCursor);
+        const { data: addMe, nextCursor } = await dataFetcher(cursor);
+        setData(data => [...(data || []), ...addMe]);
+        setCursor(nextCursor);
     };
     useEffect(() => {
         fetchNext();
