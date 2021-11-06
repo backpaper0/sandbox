@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useReducer, useState } from 'react';
-import { getPosts } from '../lib/posts';
+import { getPosts } from 'lib/posts';
 
 interface InitialAction {
     kind: "initial";
