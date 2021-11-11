@@ -1,9 +1,12 @@
-import type { NextPage } from 'next'
+//import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-const Post: NextPage<{ id: string; }> = ({ id }) => {
+export default function Post() {
+    const router = useRouter();
+    const id = router.query.id as string;
     return (
         <div className={styles.container}>
             <Head>
@@ -26,10 +29,3 @@ const Post: NextPage<{ id: string; }> = ({ id }) => {
         </div>
     )
 }
-
-Post.getInitialProps = async (ctx) => {
-    const id = ctx.query.id as string;
-    return ({ id });
-};
-
-export default Post
