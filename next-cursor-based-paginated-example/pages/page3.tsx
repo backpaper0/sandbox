@@ -1,9 +1,8 @@
 import { Cursor, usePagenatedState } from 'lib/pagenated';
 import { getPosts } from 'lib/posts';
-import type { NextPage } from 'next';
 import Head from 'next/head';
 
-const Page3: NextPage = () => {
+export default function Page3() {
     const dataFetcher = async (cursor: Cursor) => {
         const { posts, nextCursor } = await getPosts(cursor);
         return { data: posts, nextCursor };
@@ -28,5 +27,3 @@ const Page3: NextPage = () => {
         </div>
     )
 }
-
-export default Page3

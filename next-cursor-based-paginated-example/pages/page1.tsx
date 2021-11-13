@@ -1,5 +1,4 @@
 import { getPosts } from 'lib/posts';
-import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useReducer, useState } from 'react';
 
@@ -26,9 +25,7 @@ function reducer(state: Array<string> | undefined, action: Action): Array<string
     }
 }
 
-const initialState: Array<string> = [];
-
-const Page1: NextPage = () => {
+export default function Page1() {
     const [posts, dispatch] = useReducer(reducer, undefined);
     const [cursor, setCuror] = useState<string | undefined>();
     useEffect(() => {
@@ -63,5 +60,3 @@ const Page1: NextPage = () => {
         </div>
     )
 }
-
-export default Page1

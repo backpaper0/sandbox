@@ -1,5 +1,4 @@
 import { getPosts, Posts } from 'lib/posts';
-import type { NextPage } from 'next';
 import Head from 'next/head';
 import useSWRInfinite from 'swr/infinite';
 
@@ -11,7 +10,7 @@ async function fetcher(url: string, cursor: string): Promise<Posts> {
     return await getPosts(cursor);
 }
 
-const Page2: NextPage = () => {
+export default function Page2() {
     const { data, error, isValidating, mutate, size, setSize } = useSWRInfinite(getKey, fetcher);
     const readMore = () => {
         setSize(size + 1);
@@ -33,5 +32,3 @@ const Page2: NextPage = () => {
         </div>
     )
 }
-
-export default Page2
