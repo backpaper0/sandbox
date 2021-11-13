@@ -1,5 +1,15 @@
 # next-static-html-export-demo
 
+## ビルド・起動
+
+```
+npm run build
+```
+
+```
+npm start
+```
+
 ## パスパラメーターは使えなさそう
 
 ~~`next export`では事前解決できない動的ページは作れなさそうなのでパスパラメーターではなくクエリーで受け取って`getInitialProps`することで対応する。~~

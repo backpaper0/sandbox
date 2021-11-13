@@ -21,7 +21,12 @@ export default function Post() {
                 </h1>
 
                 <p className={styles.description}>
-                    <Link href={`/posts?id=${Math.floor(Math.random() * 10000000)}`}>Next</Link>
+                    <Link href={{ 
+                      pathname: '/posts', 
+                      query: {
+                        id: Math.floor(Math.random() * 10000000)
+                      },
+                    }}>Next</Link>
                 </p>
 
             </main>
