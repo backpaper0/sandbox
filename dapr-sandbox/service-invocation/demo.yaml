@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-deploy
+spec:
+  selector:
+    matchLabels:
+      app: hello-app
+  template:
+    metadata:
+      labels:
+        app: hello-app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "hello-svc"
+        dapr.io/app-port: "3000"
+    spec:
+      containers:
+        - name: hello-container
+          image: demo/hello
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-service
+spec:
+  selector:
+    app: hello-app
+  ports:
+    - port: 3000
+---  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: world-deploy
+spec:
+  selector:
+    matchLabels:
+      app: world-app
+  template:
+    metadata:
+      labels:
+        app: world-app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "world-svc"
+        dapr.io/app-port: "3001"
+    spec:
+      containers:
+        - name: world-container
+          image: demo/world
+          imagePullPolicy: Never
+---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: world-service
+# spec:
+#   selector:
+#     app: world-app
+#   ports:
+#     - port: 3001
+#   

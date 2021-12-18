@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: counter-deploy
+spec:
+  selector:
+    matchLabels:
+      app: counter-app
+  template:
+    metadata:
+      labels:
+        app: counter-app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "my-counter"
+        dapr.io/app-port: "3000"
+    spec:
+      containers:
+        - name: counter-container
+          image: demo/counter
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: counter-service
+spec:
+  selector:
+    app: counter-app
+  ports:
+    - port: 3000
