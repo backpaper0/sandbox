@@ -15,6 +15,11 @@ async function start() {
   await server.invoker.listen('result', async () => {
     return await client.state.get('share-statestore', 'result');
   });
+
+  await server.invoker.listen('counter', async ({ body }) => {
+    const { actorId } = JSON.parse(body);
+    return await client.actor.invoke('GET', 'CounterActor', actorId, 'countUp');
+  }, { method: 'post' });
 }
 
 start();

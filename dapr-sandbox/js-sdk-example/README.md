@@ -65,6 +65,24 @@ Pub-Subで非同期処理した計算結果はState Storeへ保存される。
 curl localhost:3000/result
 ```
 
+Actorを試す。
+単に0から始まってカウントアップするだけのActorを用意した。
+`add-app/index.js`に`CounterActor`という名前でクラスを作ってある。
+
+次の`curl`コマンドで試せる。
+
+```
+curl localhost:3000/counter -H "Content-Type: application/json" -d '{"actorId":"foo"}' 
+```
+
+`actorId`を変えてみる。
+
+```
+curl localhost:3000/counter -H "Content-Type: application/json" -d '{"actorId":"bar"}' 
+```
+
+`actorId`毎に`CounterActor`のインスタンスがあることがわかる。
+
 ### 後始末
 
 アプリケーションは`ctrl + c`で止める。
