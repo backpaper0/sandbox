@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pubapp-deploy
+spec:
+  selector:
+    matchLabels:
+      app: pubapp-app
+  template:
+    metadata:
+      labels:
+        app: pubapp-app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "pubapp"
+        dapr.io/app-port: "3000"
+    spec:
+      containers:
+        - name: pubapp-container
+          image: demo/pubapp
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pubapp-service
+spec:
+  selector:
+    app: pubapp-app
+  ports:
+    - port: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subapp-deploy
+spec:
+  selector:
+    matchLabels:
+      app: subapp-app
+  template:
+    metadata:
+      labels:
+        app: subapp-app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "subapp"
+        dapr.io/app-port: "3001"
+    spec:
+      containers:
+        - name: subapp-container
+          image: demo/subapp
+          imagePullPolicy: Never
