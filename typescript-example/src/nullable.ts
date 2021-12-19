@@ -5,7 +5,7 @@ function foo(bar?: string) {
 foo('hello');
 foo();
 foo(undefined);
-foo(null);
+//foo(null);
 foo('');
 //foo(123); //compile error
 
