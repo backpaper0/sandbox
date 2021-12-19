@@ -1,0 +1,11 @@
+{
+  "name": "add-app",
+  "version": "1.0.0",
+  "scripts": {
+	"start": "node index.js",
+    "dapr": "dapr run -a add-app -p 3001 npm start"
+  },
+  "dependencies": {
+    "dapr-client": "^1.0.2"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "calc-app",
+  "version": "1.0.0",
+  "scripts": {
+	"start": "node index.js",
+    "dapr": "dapr run -a calc-app -p 3000 npm start"
+  },
+  "dependencies": {
+    "dapr-client": "^1.0.2"
+  }
+}
