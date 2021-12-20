@@ -6,9 +6,8 @@ function add({ arg1, arg2 }) {
 }
 
 class CounterActor extends AbstractActor {
-  count = 0;
-  countUp() {
-    return ++this.count;
+  async countUp() {
+    return await this.getStateManager().addOrUpdateState('count', 1, (stateName, count) => count + 1);
   }
 }
 
