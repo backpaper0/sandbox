@@ -10,26 +10,24 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 class ArgumentsSourcesTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(Foo.class)
-    @ArgumentsSource(Bar.class)
-    void test(final Object a) {
-        System.out.println(a);
-    }
+	@ParameterizedTest
+	@ArgumentsSource(Foo.class)
+	@ArgumentsSource(Bar.class)
+	void test(Object a) {
+		System.out.println(a);
+	}
 
-    static class Foo implements ArgumentsProvider {
-        @Override
-        public Stream<? extends Arguments> provideArguments(final ExtensionContext context)
-                throws Exception {
-            return Stream.of(1, 2, 3).map(Arguments::of);
-        }
-    }
+	static class Foo implements ArgumentsProvider {
+		@Override
+		public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+			return Stream.of(1, 2, 3).map(Arguments::of);
+		}
+	}
 
-    static class Bar implements ArgumentsProvider {
-        @Override
-        public Stream<? extends Arguments> provideArguments(final ExtensionContext context)
-                throws Exception {
-            return Stream.of(4, 5).map(Arguments::of);
-        }
-    }
+	static class Bar implements ArgumentsProvider {
+		@Override
+		public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+			return Stream.of(4, 5).map(Arguments::of);
+		}
+	}
 }

@@ -17,43 +17,41 @@ import org.junit.jupiter.api.extension.TestTemplateInvocationContextProvider;
 
 class TestTemplateTest {
 
-    @TestTemplate
-    @ExtendWith(Foo.class)
-    void test(final String a) {
-        assertEquals("hello world", a);
-    }
+	@TestTemplate
+	@ExtendWith(Foo.class)
+	void test(String a) {
+		assertEquals("hello world", a);
+	}
 
-    static class Foo implements TestTemplateInvocationContextProvider {
+	static class Foo implements TestTemplateInvocationContextProvider {
 
-        @Override
-        public boolean supportsTestTemplate(final ExtensionContext context) {
-            return true;
-        }
+		@Override
+		public boolean supportsTestTemplate(ExtensionContext context) {
+			return true;
+		}
 
-        @Override
-        public Stream<TestTemplateInvocationContext> provideTestTemplateInvocationContexts(
-                final ExtensionContext context) {
-            return Stream.of(new TestTemplateInvocationContext() {
-                @Override
-                public List<Extension> getAdditionalExtensions() {
-                    return List.of(new ParameterResolver() {
+		@Override
+		public Stream<TestTemplateInvocationContext> provideTestTemplateInvocationContexts(
+				ExtensionContext context) {
+			return Stream.of(new TestTemplateInvocationContext() {
+				@Override
+				public List<Extension> getAdditionalExtensions() {
+					return List.of(new ParameterResolver() {
 
-                        @Override
-                        public boolean supportsParameter(final ParameterContext parameterContext,
-                                final ExtensionContext extensionContext)
-                                throws ParameterResolutionException {
-                            return true;
-                        }
+						@Override
+						public boolean supportsParameter(ParameterContext parameterContext,
+								ExtensionContext extensionContext) throws ParameterResolutionException {
+							return true;
+						}
 
-                        @Override
-                        public Object resolveParameter(final ParameterContext parameterContext,
-                                final ExtensionContext extensionContext)
-                                throws ParameterResolutionException {
-                            return "hello world";
-                        }
-                    });
-                }
-            });
-        }
-    }
+						@Override
+						public Object resolveParameter(ParameterContext parameterContext,
+								ExtensionContext extensionContext) throws ParameterResolutionException {
+							return "hello world";
+						}
+					});
+				}
+			});
+		}
+	}
 }
