@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+
+  app1:
+    image: app
+    environment:
+      APP_PATH: '/app1'
+      MESSAGE: foo
+
+  app2:
+    image: app
+    environment:
+      APP_PATH: '/app2'
+      MESSAGE: bar
+
+  nginx:
+    image: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app1
+      - app2
