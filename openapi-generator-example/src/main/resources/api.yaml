@@ -1,0 +1,200 @@
+swagger: '2.0'
+info:
+  description: ''
+  version: ''
+  title: ''
+  contact: {}
+  license:
+    name: MIT
+host: example.com
+basePath: /v1
+schemes:
+  - https
+  - http
+paths:
+  /orders:
+    post:
+      summary: ''
+      description: ''
+      operationId: createOrder
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: ''
+          required: true
+          schema:
+            $ref: '#/definitions/CreateOrderRequest'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Order'
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            properties: {}
+      tags:
+        - order
+    parameters: []
+  '/orders/{orderId}':
+    get:
+      summary: ''
+      description: ''
+      operationId: getOrder
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Order'
+          examples: {}
+        '404':
+          description: ''
+      tags:
+        - order
+      parameters: []
+    parameters:
+      - type: integer
+        name: orderId
+        in: path
+        required: true
+        format: int32
+  /customers:
+    post:
+      summary: ''
+      operationId: createCustomer
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Customer'
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            properties: {}
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/CreateCustomerRequest'
+      tags:
+        - customer
+    parameters: []
+  '/customers/{customerId}':
+    parameters:
+      - type: integer
+        name: customerId
+        in: path
+        required: true
+        format: int32
+    get:
+      summary: Your GET endpoint
+      tags:
+        - customer
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Customer'
+        '404':
+          description: Not Found
+          schema:
+            type: object
+            properties: {}
+      operationId: getCustomer
+      parameters: []
+definitions:
+  Order:
+    type: object
+    xml:
+      name: Order
+    title: ''
+    properties:
+      id:
+        type: integer
+        format: int32
+      customerId:
+        type: integer
+        format: int32
+      amount:
+        type: integer
+        format: int32
+      state:
+        $ref: '#/definitions/OrderState'
+  OrderState:
+    type: string
+    title: OrderState
+    enum:
+      - Pending
+      - Accepted
+      - Rejected
+  Customer:
+    type: object
+    xml:
+      name: Category
+    title: ''
+    x-examples: {}
+    properties:
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+      creditLimit:
+        type: integer
+        format: int32
+      creditReservations:
+        type: array
+        items:
+          $ref: '#/definitions/CreditReservation'
+  CreditReservation:
+    type: object
+    xml:
+      name: User
+    title: ''
+    properties:
+      id:
+        type: integer
+        format: int32
+      customerId:
+        type: integer
+        format: int32
+      amount:
+        type: integer
+        format: int32
+  CreateOrderRequest:
+    title: ''
+    type: object
+    properties:
+      customerId:
+        type: integer
+        format: int32
+      amount:
+        type: integer
+        format: int32
+  CreateCustomerRequest:
+    title: CreateCustomerRequest
+    type: object
+    properties:
+      name:
+        type: string
+      creditLimit:
+        type: integer
+        format: int32
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+responses: {}
