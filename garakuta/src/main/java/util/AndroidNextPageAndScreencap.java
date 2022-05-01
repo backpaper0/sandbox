@@ -37,7 +37,7 @@ public class AndroidNextPageAndScreencap {
 			}
 
 			String adb = System.getProperty("user.home") + "/android-sdk/platform-tools/adb";
-			String titleTemplate = title + "_%03d.png";
+			String titleTemplate = title + "_%05d.png";
 			MessageDigest md;
 			try {
 				md = MessageDigest.getInstance("md5");
@@ -45,7 +45,7 @@ public class AndroidNextPageAndScreencap {
 				throw new AssertionError("ハッシュアルゴリズムMD5がありません", e);
 			}
 			byte[] prev = null;
-			for (int i = 1; i < 1000; i++) {
+			for (int i = 1; i < 100000; i++) {
 				Path file = dir.resolve(String.format(titleTemplate, i));
 				execute(adb, "shell", "screencap", "-p", "/sdcard/temp.png");
 
