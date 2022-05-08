@@ -21,7 +21,7 @@ public class PrimaryKeysTest {
 
 	@BeforeAll
 	static void init() throws Exception {
-		con = DriverManager.getConnection("jdbc:tc:postgresql:14.2:///example?TC_INITSCRIPT=init.sql");
+		con = DriverManager.getConnection("jdbc:tc:postgresql:14.2:///example?TC_INITSCRIPT=init-for-primarykeys.sql");
 	}
 
 	@AfterAll
