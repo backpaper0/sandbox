@@ -62,16 +62,6 @@ public class PropertyMetaImpl implements PropertyMeta {
 	}
 
 	@Override
-	public void bindInitialVersion(PreparedStatement pst, int index) {
-		Object version = valueOperator.getInitialVersion();
-		try {
-			pst.setObject(index, version, dataType);
-		} catch (SQLException e) {
-			throw new AutoCudException(e);
-		}
-	}
-
-	@Override
 	public void bindInitialVersion(Object entity) {
 		Object version = valueOperator.getInitialVersion();
 		Method writeMethod = propertyDescriptor.getWriteMethod();
@@ -126,15 +116,6 @@ public class PropertyMetaImpl implements PropertyMeta {
 	private enum IntegerValueOperator implements ValueOperator {
 		SINGLETON;
 
-		//		@Override
-		//		public Object getAutoIncrementValue(ResultSet rs) {
-		//			try {
-		//				return rs.getInt(1);
-		//			} catch (SQLException e) {
-		//				throw new AutoCudException(e);
-		//			}
-		//		}
-
 		@Override
 		public Object getInitialVersion() {
 			return 1;
@@ -149,15 +130,6 @@ public class PropertyMetaImpl implements PropertyMeta {
 	private enum LongValueOperator implements ValueOperator {
 		SINGLETON;
 
-		//		@Override
-		//		public Object getAutoIncrementValue(ResultSet rs) {
-		//			try {
-		//				return rs.getLong(1);
-		//			} catch (SQLException e) {
-		//				throw new AutoCudException(e);
-		//			}
-		//		}
-
 		@Override
 		public Object getInitialVersion() {
 			return 1L;
@@ -171,11 +143,6 @@ public class PropertyMetaImpl implements PropertyMeta {
 
 	private enum UnsupportedOperationValueOperator implements ValueOperator {
 		SINGLETON;
-
-		//		@Override
-		//		public Object getAutoIncrementValue(ResultSet rs) {
-		//			throw new UnsupportedOperationException();
-		//		}
 
 		@Override
 		public Object getInitialVersion() {

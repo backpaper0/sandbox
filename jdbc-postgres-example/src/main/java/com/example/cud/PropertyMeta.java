@@ -16,8 +16,6 @@ public interface PropertyMeta {
 
 	boolean isVersion();
 
-	void bindInitialVersion(PreparedStatement pst, int index);
-
 	void bindInitialVersion(Object entity);
 
 	boolean isPrimaryKey();
