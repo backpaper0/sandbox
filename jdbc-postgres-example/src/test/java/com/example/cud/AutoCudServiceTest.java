@@ -2,8 +2,8 @@ package com.example.cud;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,29 +17,31 @@ import com.example.cud.example.ExampleTable5;
 import com.example.cud.impl.AutoCudServiceImpl;
 import com.example.cud.impl.EntityMetaFactoryImpl;
 import com.example.cud.impl.NamingConventionImpl;
+import com.example.cud.impl.NoopEntityListener;
 import com.zaxxer.hikari.HikariDataSource;
 
 public class AutoCudServiceTest {
 
-	AutoCudService sut;
-	JdbcTemplate jdbc;
-	HikariDataSource hikariDataSource;
+	static AutoCudService sut;
+	static JdbcTemplate jdbc;
+	static HikariDataSource hikariDataSource;
 
-	@BeforeEach
-	void init() {
+	@BeforeAll
+	static void init() {
+		String jdbcUrl = "jdbc:tc:postgresql:14.2:///example?TC_DAEMON=true&TC_INITSCRIPT=init-for-autocud.sql";
 		hikariDataSource = new HikariDataSource();
-		hikariDataSource
-				.setJdbcUrl("jdbc:tc:postgresql:14.2:///example?TC_DAEMON=true&TC_INITSCRIPT=init-for-autocud.sql");
+		hikariDataSource.setJdbcUrl(jdbcUrl);
+
 		TransactionAwareDataSourceProxy dataSource = new TransactionAwareDataSourceProxy(hikariDataSource);
 		jdbc = new JdbcTemplate(dataSource);
 
 		NamingConvention namingConvention = new NamingConventionImpl();
 		EntityMetaFactory entityMetaFactory = new EntityMetaFactoryImpl(dataSource, namingConvention);
-		sut = new AutoCudServiceImpl(jdbc, entityMetaFactory);
+		sut = new AutoCudServiceImpl(jdbc, entityMetaFactory, NoopEntityListener.SINGLETON);
 	}
 
-	@AfterEach
-	void close() {
+	@AfterAll
+	static void close() {
 		hikariDataSource.close();
 	}
 

@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcOperations;
 
 import com.example.cud.AutoCudException;
 import com.example.cud.AutoCudService;
+import com.example.cud.EntityListener;
 import com.example.cud.EntityMeta;
 import com.example.cud.EntityMetaFactory;
 import com.example.cud.OptimisticLockException;
@@ -27,10 +28,13 @@ public class AutoCudServiceImpl implements AutoCudService {
 
 	private final JdbcOperations jdbcOperations;
 	private final EntityMetaFactory entityMetaFactory;
+	private final EntityListener entityListener;
 
-	public AutoCudServiceImpl(JdbcOperations jdbcOperations, EntityMetaFactory entityMetaFactory) {
+	public AutoCudServiceImpl(JdbcOperations jdbcOperations, EntityMetaFactory entityMetaFactory,
+			EntityListener entityListener) {
 		this.jdbcOperations = jdbcOperations;
 		this.entityMetaFactory = entityMetaFactory;
+		this.entityListener = entityListener;
 	}
 
 	@Override
@@ -44,6 +48,8 @@ public class AutoCudServiceImpl implements AutoCudService {
 	}
 
 	private int insert(Object entity, boolean excludesNull) {
+		entityListener.preInsert(entity);
+
 		EntityMeta entityMeta = entityMetaFactory.create(entity.getClass());
 
 		Predicate<PropertyMeta.Value> predicate = isNotAutoIncrement;
@@ -120,6 +126,8 @@ public class AutoCudServiceImpl implements AutoCudService {
 	}
 
 	private int update(Object entity, boolean excludesNull, boolean forceVersioning) {
+		entityListener.preUpdate(entity);
+
 		EntityMeta entityMeta = entityMetaFactory.create(entity.getClass());
 
 		StringBuilder query = new StringBuilder();
