@@ -2,14 +2,11 @@ package com.example.cud.impl;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Types;
 
 import org.springframework.jdbc.core.SqlParameterValue;
 import org.springframework.util.ReflectionUtils;
 
-import com.example.cud.AutoCudException;
 import com.example.cud.PropertyMeta;
 
 public class PropertyMetaImpl implements PropertyMeta {
@@ -18,7 +15,6 @@ public class PropertyMetaImpl implements PropertyMeta {
 	private final int dataType;
 	private final PropertyDescriptor propertyDescriptor;
 	private final boolean autoIncrement;
-	private final ValueOperator valueOperator;
 	private final boolean version;
 	private final boolean primaryKey;
 
@@ -28,7 +24,6 @@ public class PropertyMetaImpl implements PropertyMeta {
 		this.dataType = dataType;
 		this.propertyDescriptor = propertyDescriptor;
 		this.autoIncrement = autoIncrement;
-		this.valueOperator = ValueOperator.valueOf(dataType);
 		this.version = columnName.equals("version");
 		this.primaryKey = primaryKey;
 	}
@@ -39,33 +34,14 @@ public class PropertyMetaImpl implements PropertyMeta {
 	}
 
 	@Override
-	public boolean isAutoIncrement() {
-		return autoIncrement;
+	public Class<?> getJavaType() {
+		return propertyDescriptor.getPropertyType();
 	}
 
 	@Override
 	public PropertyMeta.Value getValue(Object entity) {
-		Method readMethod = propertyDescriptor.getReadMethod();
-		Object value = ReflectionUtils.invokeMethod(readMethod, entity);
+		Object value = getValueInternal(entity);
 		return new PropertyMetaImpl.ValueImpl(value);
-	}
-
-	@Override
-	public void bindAutoIncrementValue(Object entity, Object value) {
-		Method writeMethod = propertyDescriptor.getWriteMethod();
-		ReflectionUtils.invokeMethod(writeMethod, entity, value);
-	}
-
-	@Override
-	public boolean isVersion() {
-		return version;
-	}
-
-	@Override
-	public void bindInitialVersion(Object entity) {
-		Object version = valueOperator.getInitialVersion();
-		Method writeMethod = propertyDescriptor.getWriteMethod();
-		ReflectionUtils.invokeMethod(writeMethod, entity, version);
 	}
 
 	@Override
@@ -74,27 +50,48 @@ public class PropertyMetaImpl implements PropertyMeta {
 	}
 
 	@Override
-	public void incrementVersion(Object entity) {
+	public boolean isAutoIncrement() {
+		return autoIncrement;
+	}
+
+	@Override
+	public boolean isVersion() {
+		return version;
+	}
+
+	@Override
+	public void bindValue(Object entity, Object value) {
+		bindValueInternal(entity, value);
+	}
+
+	@Override
+	public void bindInitialVersion(Object entity) {
+		Object value = valueOperator().getInitialVersion();
+		bindValueInternal(entity, value);
+	}
+
+	@Override
+	public void bindIncrementVersion(Object entity) {
+		Object value = getValueInternal(entity);
+		value = valueOperator().incrementVersion(value);
+		bindValueInternal(entity, value);
+	}
+
+	private Object getValueInternal(Object entity) {
 		Method readMethod = propertyDescriptor.getReadMethod();
-		Object value = ReflectionUtils.invokeMethod(readMethod, entity);
-		value = valueOperator.incrementVersion(value);
+		return ReflectionUtils.invokeMethod(readMethod, entity);
+	}
+
+	private void bindValueInternal(Object entity, Object value) {
 		Method writeMethod = propertyDescriptor.getWriteMethod();
 		ReflectionUtils.invokeMethod(writeMethod, entity, value);
 	}
 
-	@Override
-	public Class<?> getJavaType() {
-		return propertyDescriptor.getPropertyType();
-	}
-
-	@Override
-	public SqlParameterValue toInitialVersionSqlParameterValue() {
-		return new SqlParameterValue(dataType, valueOperator.getInitialVersion());
+	private ValueOperator valueOperator() {
+		return ValueOperator.valueOf(dataType);
 	}
 
 	private interface ValueOperator {
-
-		//		Object getAutoIncrementValue(ResultSet rs);
 
 		Object getInitialVersion();
 
@@ -107,7 +104,7 @@ public class PropertyMetaImpl implements PropertyMeta {
 			case Types.BIGINT:
 				return LongValueOperator.SINGLETON;
 			default:
-				return UnsupportedOperationValueOperator.SINGLETON;
+				throw new UnsupportedOperationException();
 			}
 
 		}
@@ -141,20 +138,6 @@ public class PropertyMetaImpl implements PropertyMeta {
 		}
 	}
 
-	private enum UnsupportedOperationValueOperator implements ValueOperator {
-		SINGLETON;
-
-		@Override
-		public Object getInitialVersion() {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public Object incrementVersion(Object value) {
-			throw new UnsupportedOperationException();
-		}
-	}
-
 	private class ValueImpl implements PropertyMeta.Value {
 
 		private final Object value;
@@ -169,21 +152,16 @@ public class PropertyMetaImpl implements PropertyMeta {
 		}
 
 		@Override
-		public void bind(PreparedStatement pst, int index) {
-			try {
-				if (isNull()) {
-					pst.setNull(index, dataType);
-				} else {
-					pst.setObject(index, value, dataType);
-				}
-			} catch (SQLException e) {
-				throw new AutoCudException(e);
-			}
+		public PropertyMeta getPropertyMeta() {
+			return PropertyMetaImpl.this;
 		}
 
 		@Override
-		public PropertyMeta getPropertyMeta() {
-			return PropertyMetaImpl.this;
+		public PropertyMeta.Value convertInitialVersionValueIfVersion() {
+			if (isVersion()) {
+				return new ValueImpl(valueOperator().getInitialVersion());
+			}
+			return this;
 		}
 
 		@Override

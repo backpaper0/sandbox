@@ -1,40 +1,36 @@
 package com.example.cud;
 
-import java.sql.PreparedStatement;
-
 import org.springframework.jdbc.core.SqlParameterValue;
 
 public interface PropertyMeta {
 
 	String getColumnName();
 
-	boolean isAutoIncrement();
+	Class<?> getJavaType();
 
 	PropertyMeta.Value getValue(Object entity);
 
-	void bindAutoIncrementValue(Object entity, Object value);
+	boolean isPrimaryKey();
+
+	boolean isAutoIncrement();
 
 	boolean isVersion();
 
+	void bindValue(Object entity, Object value);
+
 	void bindInitialVersion(Object entity);
 
-	boolean isPrimaryKey();
-
-	void incrementVersion(Object entity);
-
-	Class<?> getJavaType();
-
-	SqlParameterValue toInitialVersionSqlParameterValue();
+	void bindIncrementVersion(Object entity);
 
 	public interface Value {
 
 		boolean isNull();
 
-		void bind(PreparedStatement pst, int index);
-
 		PropertyMeta getPropertyMeta();
 
 		SqlParameterValue toSqlParameterValue();
+
+		Value convertInitialVersionValueIfVersion();
 	}
 
 }

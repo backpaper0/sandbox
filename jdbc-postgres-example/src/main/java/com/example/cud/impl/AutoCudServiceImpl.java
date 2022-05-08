@@ -3,10 +3,10 @@ package com.example.cud.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.SqlParameterValue;
 
 import com.example.cud.AutoCudException;
 import com.example.cud.AutoCudService;
@@ -15,6 +15,14 @@ import com.example.cud.EntityMetaFactory;
 import com.example.cud.PropertyMeta;
 
 public class AutoCudServiceImpl implements AutoCudService {
+
+	private static final Predicate<PropertyMeta.Value> isNotAutoIncrement = a -> a.getPropertyMeta()
+			.isAutoIncrement() == false;
+	private static final Predicate<PropertyMeta.Value> isNotNull = a -> a.isNull() == false;
+	private static final Predicate<PropertyMeta.Value> isVersion = a -> a.getPropertyMeta().isVersion();
+	private static final Predicate<PropertyMeta.Value> isNotVersion = isVersion.negate();
+	private static final Predicate<PropertyMeta.Value> isNotPrimaryKey = a -> a.getPropertyMeta()
+			.isPrimaryKey() == false;
 
 	private final JdbcOperations jdbcOperations;
 	private final EntityMetaFactory entityMetaFactory;
@@ -37,23 +45,21 @@ public class AutoCudServiceImpl implements AutoCudService {
 	private int insert(Object entity, boolean excludesNull) {
 		EntityMeta entityMeta = entityMetaFactory.create(entity);
 
-		StringBuilder query1 = new StringBuilder();
-		StringBuilder query2 = new StringBuilder();
-
-		query1.append("insert into ").append(entityMeta.getTableName()).append("(");
-		query2.append(") values (");
-
-		List<PropertyMeta.Value> values = entityMeta.getPropertyMetas().stream()
-				.filter(a -> a.isAutoIncrement() == false)
-				.map(a -> a.getValue(entity))
-				.collect(Collectors.toList());
-
+		Predicate<PropertyMeta.Value> predicate = isNotAutoIncrement;
 		if (excludesNull) {
-			values = values.stream()
-					.filter(a -> a.isNull() == false || a.getPropertyMeta().isVersion())
-					.collect(Collectors.toList());
+			predicate = predicate.and(isNotNull.or(isVersion));
 		}
 
+		List<PropertyMeta.Value> values = entityMeta.getPropertyMetas().stream()
+				.map(a -> a.getValue(entity))
+				.map(PropertyMeta.Value::convertInitialVersionValueIfVersion)
+				.filter(predicate)
+				.collect(Collectors.toList());
+
+		StringBuilder query1 = new StringBuilder();
+		StringBuilder query2 = new StringBuilder();
+		query1.append("insert into ").append(entityMeta.getTableName()).append("(");
+		query2.append(") values (");
 		for (Iterator<PropertyMeta.Value> iterator = values.iterator(); iterator.hasNext();) {
 			PropertyMeta.Value value = iterator.next();
 			query1.append(value.getPropertyMeta().getColumnName());
@@ -64,38 +70,31 @@ public class AutoCudServiceImpl implements AutoCudService {
 			}
 		}
 		String sql = query1.append(query2).append(")").toString();
-		int insertedCount;
-		List<SqlParameterValue> sqlParameterValues = new ArrayList<>();
-		for (PropertyMeta.Value value : values) {
-			if (value.getPropertyMeta().isVersion()) {
-				sqlParameterValues.add(value.getPropertyMeta().toInitialVersionSqlParameterValue());
-			} else {
-				sqlParameterValues.add(value.toSqlParameterValue());
-			}
-		}
-		Object[] args = sqlParameterValues.toArray();
-		insertedCount = jdbcOperations.update(sql, args);
+
+		Object[] args = values
+				.stream().map(PropertyMeta.Value::toSqlParameterValue)
+				.toArray();
+
+		int insertedCount = jdbcOperations.update(sql, args);
+
 		if (entityMeta.hasAutoIncrement()) {
-			for (PropertyMeta propertyMeta : entityMeta.getPropertyMetas()) {
-				if (propertyMeta.isAutoIncrement() == false) {
-					continue;
-				}
+			List<PropertyMeta> propertyMetas = entityMeta.getPropertyMetas().stream()
+					.filter(PropertyMeta::isAutoIncrement)
+					.collect(Collectors.toList());
+			for (PropertyMeta propertyMeta : propertyMetas) {
 				Object value = jdbcOperations.queryForObject(
 						"select currval(pg_get_serial_sequence(?, ?))",
 						propertyMeta.getJavaType(),
 						entityMeta.getTableName(),
 						propertyMeta.getColumnName());
-				propertyMeta.bindAutoIncrementValue(entity, value);
+				propertyMeta.bindValue(entity, value);
 			}
 		}
 		if (entityMeta.hasVersion()) {
-			for (PropertyMeta propertyMeta : entityMeta.getPropertyMetas()) {
-				if (propertyMeta.isVersion() == false) {
-					continue;
-				}
-				propertyMeta.bindInitialVersion(entity);
-			}
+			PropertyMeta propertyMeta = entityMeta.getVersion();
+			propertyMeta.bindInitialVersion(entity);
 		}
+
 		return insertedCount;
 	}
 
@@ -125,34 +124,33 @@ public class AutoCudServiceImpl implements AutoCudService {
 		StringBuilder query = new StringBuilder();
 		query.append("update ").append(entityMeta.getTableName()).append(" set ");
 
-		List<PropertyMeta.Value> values = entityMeta.getPropertyMetas().stream()
-				.filter(a -> a.isPrimaryKey() == false)
-				.map(a -> a.getValue(entity))
-				.collect(Collectors.toList());
-
+		Predicate<PropertyMeta.Value> predicate = isNotPrimaryKey.and(isNotVersion);
 		if (excludesNull) {
-			values = values.stream()
-					.filter(a -> a.isNull() == false || a.getPropertyMeta().isVersion())
-					.collect(Collectors.toList());
+			predicate = predicate.and(isNotNull);
 		}
+
+		List<PropertyMeta.Value> values = entityMeta.getPropertyMetas().stream()
+				.map(a -> a.getValue(entity))
+				.filter(predicate)
+				.collect(Collectors.toList());
 
 		for (Iterator<PropertyMeta.Value> iterator = values.iterator(); iterator.hasNext();) {
 			PropertyMeta.Value value = iterator.next();
-			query.append(value.getPropertyMeta().getColumnName());
-			if (value.getPropertyMeta().isVersion()) {
-				query.append(" = ").append(value.getPropertyMeta().getColumnName()).append(" + 1");
-			} else {
-				query.append(" = ?");
-			}
+			query.append(value.getPropertyMeta().getColumnName()).append(" = ?");
 			if (iterator.hasNext()) {
 				query.append(", ");
 			}
 		}
 
+		if (entityMeta.hasVersion()) {
+			String columnName = entityMeta.getVersion().getColumnName();
+			query.append(", ").append(columnName).append(" = ").append(columnName).append(" + 1");
+		}
+
 		query.append(" where ");
 
 		List<PropertyMeta.Value> primaryKeyValues = entityMeta.getPropertyMetas().stream()
-				.filter(a -> a.isPrimaryKey()).map(a -> a.getValue(entity)).collect(Collectors.toList());
+				.filter(PropertyMeta::isPrimaryKey).map(a -> a.getValue(entity)).collect(Collectors.toList());
 		if (primaryKeyValues.isEmpty()) {
 			throw new AutoCudException();
 		}
@@ -164,48 +162,25 @@ public class AutoCudServiceImpl implements AutoCudService {
 			}
 		}
 
-		List<PropertyMeta.Value> versionValues = entityMeta.getPropertyMetas().stream()
-				.filter(a -> a.isVersion()).map(a -> a.getValue(entity)).collect(Collectors.toList());
-		if (forceVersioning == false) {
-			Iterator<PropertyMeta.Value> iterator = versionValues.iterator();
-			if (iterator.hasNext()) {
-				query.append(" and ");
-				for (; iterator.hasNext();) {
-					PropertyMeta.Value value = iterator.next();
-					query.append(value.getPropertyMeta().getColumnName()).append(" = ?");
-					if (iterator.hasNext()) {
-						query.append(" and ");
-					}
-				}
-			}
+		boolean useVersion = forceVersioning == false && entityMeta.hasVersion();
+		if (useVersion) {
+			PropertyMeta.Value value = entityMeta.getVersion().getValue(entity);
+			query.append(" and ").append(value.getPropertyMeta().getColumnName()).append(" = ?");
 		}
 
 		String sql = query.toString();
 
-		int updatedCount;
-		List<SqlParameterValue> sqlParameterValues = new ArrayList<>();
-		for (PropertyMeta.Value value : values) {
-			if (value.getPropertyMeta().isVersion() == false) {
-				sqlParameterValues.add(value.toSqlParameterValue());
-			}
+		List<PropertyMeta.Value> arguments = new ArrayList<>();
+		arguments.addAll(values);
+		arguments.addAll(primaryKeyValues);
+		if (useVersion) {
+			arguments.add(entityMeta.getVersion().getValue(entity));
 		}
-		for (PropertyMeta.Value value : primaryKeyValues) {
-			sqlParameterValues.add(value.toSqlParameterValue());
-		}
-		if (forceVersioning == false) {
-			for (PropertyMeta.Value value : versionValues) {
-				sqlParameterValues.add(value.toSqlParameterValue());
-			}
-		}
-		Object[] args = sqlParameterValues.toArray();
-		updatedCount = jdbcOperations.update(sql, args);
-		if (entityMeta.hasVersion() && forceVersioning == false) {
-			for (PropertyMeta propertyMeta : entityMeta.getPropertyMetas()) {
-				if (propertyMeta.isVersion() == false) {
-					continue;
-				}
-				propertyMeta.incrementVersion(entity);
-			}
+		Object[] args = arguments.stream().map(PropertyMeta.Value::toSqlParameterValue).toArray();
+
+		int updatedCount = jdbcOperations.update(sql, args);
+		if (useVersion) {
+			entityMeta.getVersion().bindIncrementVersion(entity);
 		}
 		return updatedCount;
 	}
@@ -218,7 +193,7 @@ public class AutoCudServiceImpl implements AutoCudService {
 		query.append("delete from ").append(entityMeta.getTableName()).append(" where ");
 
 		List<PropertyMeta.Value> values = entityMeta.getPropertyMetas().stream()
-				.filter(a -> a.isPrimaryKey())
+				.filter(PropertyMeta::isPrimaryKey)
 				.map(a -> a.getValue(entity))
 				.collect(Collectors.toList());
 
@@ -234,9 +209,8 @@ public class AutoCudServiceImpl implements AutoCudService {
 			}
 		}
 		String sql = query.toString();
-		Object[] args = values.stream().map(a -> a.toSqlParameterValue()).toArray();
+		Object[] args = values.stream().map(PropertyMeta.Value::toSqlParameterValue).toArray();
 
-		int deletedCount = jdbcOperations.update(sql, args);
-		return deletedCount;
+		return jdbcOperations.update(sql, args);
 	}
 }

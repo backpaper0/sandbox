@@ -8,6 +8,8 @@ public interface EntityMeta {
 
 	List<PropertyMeta> getPropertyMetas();
 
+	PropertyMeta getVersion();
+
 	boolean hasAutoIncrement();
 
 	boolean hasVersion();
