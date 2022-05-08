@@ -3,10 +3,10 @@ package com.example.cud.impl;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
+import org.springframework.jdbc.core.SqlParameterValue;
 import org.springframework.util.ReflectionUtils;
 
 import com.example.cud.AutoCudException;
@@ -51,8 +51,7 @@ public class PropertyMetaImpl implements PropertyMeta {
 	}
 
 	@Override
-	public void bindAutoIncrementValue(Object entity, ResultSet rs) {
-		Object value = valueOperator.getAutoIncrementValue(rs);
+	public void bindAutoIncrementValue(Object entity, Object value) {
 		Method writeMethod = propertyDescriptor.getWriteMethod();
 		ReflectionUtils.invokeMethod(writeMethod, entity, value);
 	}
@@ -93,9 +92,19 @@ public class PropertyMetaImpl implements PropertyMeta {
 		ReflectionUtils.invokeMethod(writeMethod, entity, value);
 	}
 
+	@Override
+	public Class<?> getJavaType() {
+		return propertyDescriptor.getPropertyType();
+	}
+
+	@Override
+	public SqlParameterValue toInitialVersionSqlParameterValue() {
+		return new SqlParameterValue(dataType, valueOperator.getInitialVersion());
+	}
+
 	private interface ValueOperator {
 
-		Object getAutoIncrementValue(ResultSet rs);
+		//		Object getAutoIncrementValue(ResultSet rs);
 
 		Object getInitialVersion();
 
@@ -117,14 +126,14 @@ public class PropertyMetaImpl implements PropertyMeta {
 	private enum IntegerValueOperator implements ValueOperator {
 		SINGLETON;
 
-		@Override
-		public Object getAutoIncrementValue(ResultSet rs) {
-			try {
-				return rs.getInt(1);
-			} catch (SQLException e) {
-				throw new AutoCudException(e);
-			}
-		}
+		//		@Override
+		//		public Object getAutoIncrementValue(ResultSet rs) {
+		//			try {
+		//				return rs.getInt(1);
+		//			} catch (SQLException e) {
+		//				throw new AutoCudException(e);
+		//			}
+		//		}
 
 		@Override
 		public Object getInitialVersion() {
@@ -140,14 +149,14 @@ public class PropertyMetaImpl implements PropertyMeta {
 	private enum LongValueOperator implements ValueOperator {
 		SINGLETON;
 
-		@Override
-		public Object getAutoIncrementValue(ResultSet rs) {
-			try {
-				return rs.getLong(1);
-			} catch (SQLException e) {
-				throw new AutoCudException(e);
-			}
-		}
+		//		@Override
+		//		public Object getAutoIncrementValue(ResultSet rs) {
+		//			try {
+		//				return rs.getLong(1);
+		//			} catch (SQLException e) {
+		//				throw new AutoCudException(e);
+		//			}
+		//		}
 
 		@Override
 		public Object getInitialVersion() {
@@ -163,10 +172,10 @@ public class PropertyMetaImpl implements PropertyMeta {
 	private enum UnsupportedOperationValueOperator implements ValueOperator {
 		SINGLETON;
 
-		@Override
-		public Object getAutoIncrementValue(ResultSet rs) {
-			throw new UnsupportedOperationException();
-		}
+		//		@Override
+		//		public Object getAutoIncrementValue(ResultSet rs) {
+		//			throw new UnsupportedOperationException();
+		//		}
 
 		@Override
 		public Object getInitialVersion() {
@@ -208,6 +217,11 @@ public class PropertyMetaImpl implements PropertyMeta {
 		@Override
 		public PropertyMeta getPropertyMeta() {
 			return PropertyMetaImpl.this;
+		}
+
+		@Override
+		public SqlParameterValue toSqlParameterValue() {
+			return new SqlParameterValue(dataType, value);
 		}
 	}
 }

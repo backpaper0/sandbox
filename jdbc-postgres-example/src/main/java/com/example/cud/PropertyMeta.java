@@ -1,7 +1,8 @@
 package com.example.cud;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
+import org.springframework.jdbc.core.SqlParameterValue;
 
 public interface PropertyMeta {
 
@@ -11,7 +12,7 @@ public interface PropertyMeta {
 
 	PropertyMeta.Value getValue(Object entity);
 
-	void bindAutoIncrementValue(Object entity, ResultSet rs);
+	void bindAutoIncrementValue(Object entity, Object value);
 
 	boolean isVersion();
 
@@ -23,6 +24,10 @@ public interface PropertyMeta {
 
 	void incrementVersion(Object entity);
 
+	Class<?> getJavaType();
+
+	SqlParameterValue toInitialVersionSqlParameterValue();
+
 	public interface Value {
 
 		boolean isNull();
@@ -30,6 +35,8 @@ public interface PropertyMeta {
 		void bind(PreparedStatement pst, int index);
 
 		PropertyMeta getPropertyMeta();
+
+		SqlParameterValue toSqlParameterValue();
 	}
 
 }

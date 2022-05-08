@@ -35,7 +35,7 @@ public class AutoCudServiceTest {
 
 		NamingConvention namingConvention = new NamingConventionImpl();
 		EntityMetaFactory entityMetaFactory = new EntityMetaFactoryImpl(dataSource, namingConvention);
-		sut = new AutoCudServiceImpl(dataSource, entityMetaFactory);
+		sut = new AutoCudServiceImpl(jdbc, entityMetaFactory);
 	}
 
 	@AfterEach
