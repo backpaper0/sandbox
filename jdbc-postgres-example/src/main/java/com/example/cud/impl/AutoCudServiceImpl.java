@@ -12,6 +12,7 @@ import com.example.cud.AutoCudException;
 import com.example.cud.AutoCudService;
 import com.example.cud.EntityMeta;
 import com.example.cud.EntityMetaFactory;
+import com.example.cud.OptimisticLockException;
 import com.example.cud.PropertyMeta;
 
 public class AutoCudServiceImpl implements AutoCudService {
@@ -43,7 +44,7 @@ public class AutoCudServiceImpl implements AutoCudService {
 	}
 
 	private int insert(Object entity, boolean excludesNull) {
-		EntityMeta entityMeta = entityMetaFactory.create(entity);
+		EntityMeta entityMeta = entityMetaFactory.create(entity.getClass());
 
 		Predicate<PropertyMeta.Value> predicate = isNotAutoIncrement;
 		if (excludesNull) {
@@ -119,7 +120,7 @@ public class AutoCudServiceImpl implements AutoCudService {
 	}
 
 	private int update(Object entity, boolean excludesNull, boolean forceVersioning) {
-		EntityMeta entityMeta = entityMetaFactory.create(entity);
+		EntityMeta entityMeta = entityMetaFactory.create(entity.getClass());
 
 		StringBuilder query = new StringBuilder();
 		query.append("update ").append(entityMeta.getTableName()).append(" set ");
@@ -179,6 +180,9 @@ public class AutoCudServiceImpl implements AutoCudService {
 		Object[] args = arguments.stream().map(PropertyMeta.Value::toSqlParameterValue).toArray();
 
 		int updatedCount = jdbcOperations.update(sql, args);
+		if (updatedCount == 0) {
+			throw new OptimisticLockException();
+		}
 		if (useVersion) {
 			entityMeta.getVersion().bindIncrementVersion(entity);
 		}
@@ -187,7 +191,7 @@ public class AutoCudServiceImpl implements AutoCudService {
 
 	@Override
 	public int delete(Object entity) {
-		EntityMeta entityMeta = entityMetaFactory.create(entity);
+		EntityMeta entityMeta = entityMetaFactory.create(entity.getClass());
 
 		StringBuilder query = new StringBuilder();
 		query.append("delete from ").append(entityMeta.getTableName()).append(" where ");

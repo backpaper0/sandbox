@@ -119,6 +119,20 @@ public class AutoCudServiceTest {
 	}
 
 	@Test
+	void updateOptimisticLockException() {
+		jdbc.execute("insert into example_table1 (version) values (1)");
+		int id = jdbc.queryForObject("select currval(pg_get_serial_sequence('example_table1', 'id'))", int.class);
+
+		ExampleTable1 entity = new ExampleTable1();
+		entity.setId(id);
+		entity.setExampleCol1("foo");
+		entity.setExampleCol2("bar");
+		entity.setVersion(0);
+
+		assertThrows(OptimisticLockException.class, () -> sut.update(entity));
+	}
+
+	@Test
 	void updateNull() {
 		jdbc.execute("insert into example_table1 (version) values (1)");
 		int id = jdbc.queryForObject("select currval(pg_get_serial_sequence('example_table1', 'id'))", int.class);

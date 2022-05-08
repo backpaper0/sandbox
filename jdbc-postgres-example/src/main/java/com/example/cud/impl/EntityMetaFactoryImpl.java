@@ -30,11 +30,10 @@ public class EntityMetaFactoryImpl implements EntityMetaFactory {
 	}
 
 	@Override
-	public EntityMeta create(Object entity) {
-		Class<?> clazz = entity.getClass();
-		String tableName = namingConvention.convertToTableName(clazz.getSimpleName());
+	public EntityMeta create(Class<?> entityClass) {
+		String tableName = namingConvention.convertToTableName(entityClass.getSimpleName());
 		Map<String, PropertyDescriptor> propertyDescriptors = new HashMap<>();
-		for (PropertyDescriptor propertyDescriptor : BeanUtils.getPropertyDescriptors(clazz)) {
+		for (PropertyDescriptor propertyDescriptor : BeanUtils.getPropertyDescriptors(entityClass)) {
 			String columnName = namingConvention.convertToColumnName(propertyDescriptor.getName());
 			propertyDescriptors.put(columnName, propertyDescriptor);
 		}
