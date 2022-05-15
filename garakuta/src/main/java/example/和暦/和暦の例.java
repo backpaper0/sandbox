@@ -21,8 +21,8 @@ public class 和暦の例 {
 		test(LocalDate.of(1912, 7, 30));
 		test(LocalDate.of(1926, 12, 24));
 		test(LocalDate.of(1926, 12, 25));
-		test(LocalDate.of(1989, 1, 6));
 		test(LocalDate.of(1989, 1, 7));
+		test(LocalDate.of(1989, 1, 8));
 		test(LocalDate.of(2019, 4, 30));
 		test(LocalDate.of(2019, 5, 1));
 		test(LocalDate.of(2999, 12, 31));
