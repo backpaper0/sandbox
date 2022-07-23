@@ -1,0 +1,8 @@
+properties:
+  schema: "public"
+  caseSensitiveTableNames: true
+connectionConfig:
+  driver: "org.postgresql.Driver"
+  url: "jdbc:tc:postgresql:14:///example?TC_DAEMON=true&TC_INITSCRIPT=init.sql"
+  user: "example"
+  password: "example"

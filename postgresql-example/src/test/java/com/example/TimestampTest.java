@@ -11,18 +11,14 @@ import java.sql.Types;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
 
 public class TimestampTest {
-
-	@RegisterExtension
-	static DatabaseExtension databaseExtension = new DatabaseExtension();
 
 	@Test
 	public void timestamp() throws Exception {
 		UUID id = UUID.fromString("12345678-90ab-cdef-1234-567890abcdef");
 
-		Connection con = databaseExtension.getConnection();
+		Connection con = Connections.get();
 		PreparedStatement pst = con
 				.prepareStatement("select t1, t2 from timestamp_example where id = ?");
 		pst.setObject(1, id);

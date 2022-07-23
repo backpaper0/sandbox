@@ -5,12 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
 
 public class UnicodeTest {
-
-	@RegisterExtension
-	static DatabaseExtension databaseExtension = new DatabaseExtension();
 
 	@Test
 	void select() throws Exception {
@@ -18,7 +14,7 @@ public class UnicodeTest {
 
 		// char_length関数はコードポイントを数えるみたい
 
-		try (var con = databaseExtension.getConnection();
+		try (var con = Connections.get();
 				var pst = con.prepareStatement(sql);
 				var rs = pst.executeQuery()) {
 
@@ -67,7 +63,7 @@ public class UnicodeTest {
 
 		//varchar(n)のnはコードポイントの数っぽい
 
-		try (var con = databaseExtension.getConnection();
+		try (var con = Connections.get();
 				var pst1 = con.prepareStatement("delete from unicode_example_2");
 				var pst2 = con.prepareStatement(sql)) {
 			//テーブルをクリアする
