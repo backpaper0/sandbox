@@ -12,7 +12,8 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 
 public class DatabaseExtension implements BeforeAllCallback {
 
-	private final String url = "jdbc:postgresql://localhost:5432/example";
+	// JVMがシャットダウンされるまでコンテナーを維持するためTC_DAEMONをtrueへ設定している
+	private final String url = "jdbc:tc:postgresql:14:///example?TC_DAEMON=true";
 	private final String user = "example";
 	private final String password = "example";
 
