@@ -15,8 +15,8 @@ public class WhitelistApiUsageConditionTest {
 		ArchRuleDefinition
 				.classes()
 				.should(WhitelistApiUsageCondition.builder()
-						.addPackagesByBaseClasses(Foo.class)
-						.addPackages("java.lang", "java.util")
+						.addPackagesByBaseClasses(true, Foo.class)
+						.addPackages(false, "java.lang", "java.util")
 						.addClasses(PrintStream.class)
 						.build())
 				.because("ホワイトリスト内のAPIのみを使用しなければいけません")

@@ -3,6 +3,8 @@ package com.example;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.sub.Bar;
+
 public class Foo {
 
 	private Integer value1;
@@ -19,5 +21,9 @@ public class Foo {
 	public String getList() {
 		List<String> list = new ArrayList<>();
 		return list.get(0);
+	}
+
+	public Bar newBar() {
+		return new Bar();
 	}
 }

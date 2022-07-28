@@ -24,6 +24,11 @@ public class WhitelistApiUsageCondition extends ArchCondition<JavaClass> {
 	private final Set<String> allowedPackages;
 
 	/**
+	 * 使用可能なパッケージ(サブパッケージも許可する)
+	 */
+	private final Set<String> allowedPackagesAndSubPackages;
+
+	/**
 	 * 使用可能なクラス
 	 */
 	private final Set<String> allowedClasses;
@@ -32,11 +37,14 @@ public class WhitelistApiUsageCondition extends ArchCondition<JavaClass> {
 	 * コンストラクタ。
 	 * 
 	 * @param allowedPackages 使用可能なパッケージ
+	 * @param allowedPackagesAndSubPackages 使用可能なパッケージ(サブパッケージも許可する)
 	 * @param allowedClasses 使用可能なクラス
 	 */
-	private WhitelistApiUsageCondition(Set<String> allowedPackages, Set<String> allowedClasses) {
+	private WhitelistApiUsageCondition(Set<String> allowedPackages,
+			Set<String> allowedPackagesAndSubPackages, Set<String> allowedClasses) {
 		super("use only classes in whitelist");
 		this.allowedPackages = allowedPackages;
+		this.allowedPackagesAndSubPackages = allowedPackagesAndSubPackages;
 		this.allowedClasses = allowedClasses;
 	}
 
@@ -46,9 +54,12 @@ public class WhitelistApiUsageCondition extends ArchCondition<JavaClass> {
 				.map(JavaAccess::getTargetOwner)
 				.distinct()
 				.forEach(javaClass -> {
-					boolean isAllowedPackage = allowedPackages.contains(javaClass.getPackageName());
+					String packageName = javaClass.getPackageName();
+					boolean isAllowedPackage = allowedPackages.contains(packageName);
+					boolean isAllowedPackage2 = allowedPackagesAndSubPackages.stream()
+							.anyMatch(sp -> packageName.startsWith(sp));
 					boolean isAllowedClass = allowedClasses.contains(javaClass.getFullName());
-					if (!isAllowedPackage && !isAllowedClass) {
+					if (!isAllowedPackage && !isAllowedPackage2 && !isAllowedClass) {
 						events.add(SimpleConditionEvent.violated(item,
 								javaClass.getFullName() + " can't be used."));
 					}
@@ -76,29 +87,48 @@ public class WhitelistApiUsageCondition extends ArchCondition<JavaClass> {
 		private final Set<String> allowedPackages = new HashSet<>();
 
 		/**
+		 * 使用可能なパッケージ(サブパッケージも許可する)
+		 */
+		private final Set<String> allowedPackagesAndSubPackages = new HashSet<>();
+
+		/**
 		 * 使用可能なクラス
 		 */
 		private final Set<String> allowedClasses = new HashSet<>();
 
 		/**
+		 * {@link #allowedPackages}または{@link #allowedPackagesAndSubPackages}を返す。
+		 * 
+		 * @param allowSubPackage サブパッケージを許可する場合はtrueを渡す
+		 * @return {@link #allowedPackages}または{@link #allowedPackagesAndSubPackages}
+		 */
+		private Set<String> packages(boolean allowSubPackage) {
+			return allowSubPackage ? allowedPackagesAndSubPackages : allowedPackages;
+		}
+
+		/**
 		 * 使用可能なパッケージを追加する。
 		 * 
+		 * @param allowSubPackage サブパッケージを許可する場合はtrueを渡す
 		 * @param packages 使用可能なパッケージ
 		 * @return ビルダー自身を返す
 		 */
-		public Builder addPackages(String... packages) {
-			Arrays.stream(packages).forEach(allowedPackages::add);
+		public Builder addPackages(boolean allowSubPackage, String... packages) {
+			Set<String> ps = packages(allowSubPackage);
+			Arrays.stream(packages).forEach(ps::add);
 			return this;
 		}
 
 		/**
 		 * 使用可能なパッケージを追加する。
 		 * 
+		 * @param allowSubPackage サブパッケージを許可する場合はtrueを渡す
 		 * @param packages 使用可能なパッケージ
 		 * @return ビルダー自身を返す
 		 */
-		public Builder addPackages(Package... packages) {
-			Arrays.stream(packages).map(Package::getName).forEach(allowedPackages::add);
+		public Builder addPackages(boolean allowSubPackage, Package... packages) {
+			Set<String> ps = packages(allowSubPackage);
+			Arrays.stream(packages).map(Package::getName).forEach(ps::add);
 			return this;
 		}
 
@@ -106,11 +136,13 @@ public class WhitelistApiUsageCondition extends ArchCondition<JavaClass> {
 		 * 使用可能なパッケージを追加する。
 		 * 追加されるパッケージは引数で渡されたクラスのパッケージ。
 		 * 
+		 * @param allowSubPackage サブパッケージを許可する場合はtrueを渡す
 		 * @param baseClasses 使用可能なパッケージに属するクラス
 		 * @return ビルダー自身を返す
 		 */
-		public Builder addPackagesByBaseClasses(Class<?>... baseClasses) {
-			Arrays.stream(baseClasses).map(Class::getPackageName).forEach(allowedPackages::add);
+		public Builder addPackagesByBaseClasses(boolean allowSubPackage, Class<?>... baseClasses) {
+			Set<String> ps = packages(allowSubPackage);
+			Arrays.stream(baseClasses).map(Class::getPackageName).forEach(ps::add);
 			return this;
 		}
 
@@ -142,7 +174,8 @@ public class WhitelistApiUsageCondition extends ArchCondition<JavaClass> {
 		 * @return 構築されたインスタンス
 		 */
 		public WhitelistApiUsageCondition build() {
-			return new WhitelistApiUsageCondition(allowedPackages, allowedClasses);
+			return new WhitelistApiUsageCondition(allowedPackages, allowedPackagesAndSubPackages,
+					allowedClasses);
 		}
 	}
 }
