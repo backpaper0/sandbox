@@ -61,7 +61,7 @@ public class WhitelistApiUsageCondition extends ArchCondition<JavaClass> {
 					boolean isAllowedClass = allowedClasses.contains(javaClass.getFullName());
 					if (!isAllowedPackage && !isAllowedPackage2 && !isAllowedClass) {
 						events.add(SimpleConditionEvent.violated(item,
-								javaClass.getFullName() + " can't be used."));
+								item.getFullName() + " should not use " + javaClass.getFullName()));
 					}
 				});
 	}
@@ -174,7 +174,9 @@ public class WhitelistApiUsageCondition extends ArchCondition<JavaClass> {
 		 * @return 構築されたインスタンス
 		 */
 		public WhitelistApiUsageCondition build() {
-			return new WhitelistApiUsageCondition(allowedPackages, allowedPackagesAndSubPackages,
+			return new WhitelistApiUsageCondition(
+					allowedPackages,
+					allowedPackagesAndSubPackages,
 					allowedClasses);
 		}
 	}
