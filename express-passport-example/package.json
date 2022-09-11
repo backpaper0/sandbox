@@ -11,7 +11,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "morgan": "~1.9.1",
-    "passport": "^0.4.0",
+    "passport": "^0.6.0",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0"
   },
