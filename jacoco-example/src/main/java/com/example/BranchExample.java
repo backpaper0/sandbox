@@ -24,4 +24,11 @@ public class BranchExample {
 		}
 		return "no";
 	}
+
+	public String example4(BooleanSupplier condition1, BooleanSupplier condition2, BooleanSupplier condition3) {
+		if (condition1.getAsBoolean() && condition2.getAsBoolean() && condition3.getAsBoolean()) {
+			return "yes";
+		}
+		return "no";
+	}
 }

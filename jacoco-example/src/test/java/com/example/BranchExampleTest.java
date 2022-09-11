@@ -42,4 +42,21 @@ class BranchExampleTest {
 		String actual = sut.example3(() -> input1, () -> input2);
 		assertEquals(expected, actual);
 	}
+
+	@ParameterizedTest
+	@CsvSource(delimiter = '|', value = {
+			" true  | true  | true  | yes ",
+			" true  | true  | false | no  ",
+			" true  | false | true  | no  ",
+			//			" true  | false | false | no  ",
+			" false | true  | true  | no  ",
+	//			" false | true  | false | no  ",
+	//			" false | false | true  | no  ",
+	//			" false | false | false | no  ",
+	})
+	void testExample4(boolean input1, boolean input2, boolean input3, String expected) {
+		String actual = sut.example4(() -> input1, () -> input2, () -> input3);
+		assertEquals(expected, actual);
+	}
+
 }
