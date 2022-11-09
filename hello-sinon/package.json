@@ -1,9 +1,0 @@
-{
-	"scripts": {
-		"test": "jest *.test.js"
-	},
-	"dependencies": {
-		"jest": "^24.9.0",
-		"sinon": "^8.0.2"
-	}
-}
