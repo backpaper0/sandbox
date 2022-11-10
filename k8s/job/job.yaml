@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello
+spec:
+  template:
+    spec:
+      containers:
+        - name: hello
+          image: hello-world
+      restartPolicy: OnFailure
+
