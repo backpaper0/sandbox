@@ -1,0 +1,57 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: demo-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: nginx
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: from1
+      ports:
+        - port: 8080
+    - from:
+        - podSelector:
+            matchLabels:
+              app: from2
+      ports:
+        - port: 8081
+          endPort: 8083
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: demo
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  selector:
+    app: nginx
+  type: ClusterIP
+  ports:
+    - { name: port8080, port: 8080, targetPort: 8080 }
+    - { name: port8081, port: 8081, targetPort: 8081 }
+    - { name: port8082, port: 8082, targetPort: 8082 }
+    - { name: port8083, port: 8083, targetPort: 8083 }
+    - { name: port8084, port: 8084, targetPort: 8084 }
+
