@@ -18,7 +18,7 @@ git clone git@github.com:CrunchyData/postgres-operator-examples.git
 
 cd postgres-operator-examples
 
-# もし動かなくなっていたら動作確認済みのコミットをチェックアウトすると良いかも
+# もし動かなくなっていたら、このコミットをチェックアウトすると良いかも(動作確認済み)
 # git checkout 206cc6aa0aa148133d3147d286f9b3c68b820ffb
 
 kubectl apply -k kustomize/install/namespace

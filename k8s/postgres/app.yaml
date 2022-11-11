@@ -17,12 +17,22 @@ spec:
           image: k8s-postgres-demo:0.0.1-SNAPSHOT
           imagePullPolicy: Never
           env:
-            - name: SPRING_DATASOURCE_URL
-              valueFrom: { secretKeyRef: { name: hippo-pguser-hippo, key: jdbc-uri } }
-            - name: SPRING_DATASOURCE_USERNAME
-              valueFrom: { secretKeyRef: { name: hippo-pguser-hippo, key: user } }
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom: { secretKeyRef: { name: hippo-pguser-hippo, key: password } }
+            - name: SPRING_CONFIG_IMPORT
+              value: optional:configtree:/workspace/config/
+          volumeMounts:
+            - name: datasource-config
+              mountPath: /workspace/config
+      volumes:
+        - name: datasource-config
+          secret:
+            secretName: hippo-pguser-hippo
+            items:
+              - key: jdbc-uri
+                path: spring/datasource/url
+              - key: user
+                path: spring/datasource/username
+              - key: password
+                path: spring/datasource/password
 ---
 apiVersion: v1
 kind: Service
