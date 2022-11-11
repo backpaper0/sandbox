@@ -30,18 +30,6 @@ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5
 
 ## Nginxをデプロイする
 
-ポート`8080`〜`8084`で待ち受けたいのでカスタマイズしたものをデプロイする。
-
-```bash
-# カスタマイズしたNginxのコンテナイメージをビルド
-docker image build -t demo nginx
-```
-
-```bash
-# kindへコンテナイメージを取り込む
-kind load docker-image demo
-```
-
 ```bash
 kubectl apply -f demo.yaml
 ```

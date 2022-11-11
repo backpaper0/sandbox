@@ -21,6 +21,31 @@ spec:
         - port: 8081
           endPort: 8083
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-default-config
+data:
+  default.conf: |
+    server {
+        listen       8080;
+        listen       8081;
+        listen       8082;
+        listen       8083;
+        listen       8084;
+        server_name  localhost;
+
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+    }
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -37,8 +62,14 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: demo
-          imagePullPolicy: Never
+          image: nginx
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-default-config
 ---
 apiVersion: v1
 kind: Service
