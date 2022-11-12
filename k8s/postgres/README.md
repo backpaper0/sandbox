@@ -7,6 +7,8 @@ PGOを使用する。
 まずkindでクラスターを作成する。
 なお、これを書いている時点での最新版であるKubernetes 1.25だと`batch/v1beta1`から`beta1`が取れているようでPGO(`postgres-operator-examples`のコミットハッシュは`206cc6aa0aa148133d3147d286f9b3c68b820ffb`)をデプロイできなかったためKubernetes 1.24を使用している。
 
+また、`kubectl port-forward`を使わずクラスター外(`localhost`)からServiceへアクセスしたいためポートマッピングの設定付きで起動する。
+
 ```bash
 kind create cluster --config config.yaml
 ```
@@ -32,6 +34,12 @@ PostgreSQLをデプロイする。
 kubectl apply -k kustomize/postgres
 ```
 
+もとのディレクトリへ戻る。
+
+```bash
+cd -
+```
+
 アプリケーションをデプロイする。
 
 ```bash
@@ -43,12 +51,6 @@ kind load docker-image k8s-postgres-demo:0.0.1-SNAPSHOT
 
 # アプリケーションをデプロイ
 kubectl apply -f app.yaml
-```
-
-クラスターの外から`curl`で動作確認したいためポートフォワードする。
-
-```bash
-kubectl -n postgres-operator port-forward services/demo 8080
 ```
 
 `curl`で動作確認する。
