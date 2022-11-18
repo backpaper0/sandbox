@@ -1,6 +1,5 @@
 package com.example;
 
-import static org.mockserver.matchers.MatchType.*;
 import static org.mockserver.model.HttpRequest.*;
 import static org.mockserver.model.HttpResponse.*;
 import static org.mockserver.model.JsonBody.*;
@@ -11,6 +10,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.mockserver.integration.ClientAndServer;
+import org.mockserver.matchers.MatchType;
 
 public class App {
 
@@ -60,11 +60,22 @@ public class App {
 						.withMethod("POST")
 						.withPath("/tasks")
 						.withContentType(APPLICATION_JSON)
-						.withBody(json(Map.of("content", "qux"), STRICT)))
+						.withBody(json(Map.of("content", "qux"), MatchType.ONLY_MATCHING_FIELDS)))
 				.respond(response()
 						.withStatusCode(201)
 						.withContentType(APPLICATION_JSON)
 						.withBody(json(Map.of("id", 4)))
+						.withDelay(TimeUnit.MILLISECONDS, 1500L));
+
+		clientAndServer
+				.when(request()
+						.withMethod("POST")
+						.withPath("/tasks")
+						.withContentType(APPLICATION_JSON)
+						.withBody(json(Map.of("content", "quxxx"), MatchType.ONLY_MATCHING_FIELDS)))
+				.respond(response()
+						.withStatusCode(400)
+						.withContentType(APPLICATION_JSON)
 						.withDelay(TimeUnit.MILLISECONDS, 1500L));
 	}
 }
