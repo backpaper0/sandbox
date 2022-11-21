@@ -3,7 +3,7 @@ name: dagger-get-started
 on:
   push:
     paths:
-      - 'dagger-get-started/**'
+      - 'dagger/dagger-get-started/**'
       - '.github/workflows/dagger-get-started.yaml'
 
 jobs:
@@ -23,5 +23,5 @@ jobs:
           cache: true
 
       - name: Build
-        run: go run main.go
+        run: cd dagger/dagger-get-started && go run main.go
 
