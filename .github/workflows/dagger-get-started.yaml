@@ -1,0 +1,27 @@
+name: dagger-get-started
+
+on:
+  push:
+    paths:
+      - 'dagger-get-started/**'
+      - '.github/workflows/dagger-get-started.yaml'
+
+jobs:
+  build:
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+          cache: true
+
+      - name: Build
+        run: go run main.go
+
