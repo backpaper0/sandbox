@@ -21,6 +21,7 @@ jobs:
         with:
           go-version: 1.19
           cache: true
+          cache-dependency-path: dagger/dagger-get-started/go.sum
 
       - name: Build
         run: cd dagger/dagger-get-started && go run main.go
