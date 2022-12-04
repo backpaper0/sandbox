@@ -1,0 +1,42 @@
+div.scrollable {
+  height: 500px;
+  overflow-y: auto;
+}
+thead {
+  position: sticky;
+  top: 0;
+}
+th, td {
+  border: 1px solid #5F4BB6;
+  padding: .5rem;
+}
+th {
+  background-color: #5F4BB6;
+  color: #9690FF;
+}
+table {
+  border-collapse: collapse;
+}
+
+body {
+  background-color: #CBC5FF;
+  color: #86A5D9;
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  margin: 1rem;
+}
+
+header {
+  background-color: #5F4BB6;
+  color: #9690FF;
+  width: 100%;
+  padding: 0.5rem 1rem;
+}
+
+header a {
+  color: #9690FF;
+}
+
