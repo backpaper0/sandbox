@@ -1,0 +1,28 @@
+services:
+  container1:
+    image: busybox
+    command: httpd -p 8080 -f -h /public -c /proxy/httpd.conf
+    volumes:
+      - ./docker/container1/public:/public:ro
+      - ./docker/container1/proxy:/proxy:ro
+    ports:
+      - 8080:8080
+
+  container2:
+    image: busybox
+    command: httpd -p 8090 -f -h /public -c /proxy/httpd.conf
+    volumes:
+      - ./docker/container2/public:/public:ro
+      - ./docker/container2/proxy:/proxy:ro
+    network_mode: "service:container1"
+    depends_on:
+      - container1
+
+  container3:
+    image: busybox
+    command: httpd -p 8090 -f -h /public
+    volumes:
+      - ./docker/container3/public:/public:ro
+    ports:
+      - 8090:8090
+
