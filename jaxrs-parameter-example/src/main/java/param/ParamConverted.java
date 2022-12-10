@@ -2,5 +2,5 @@ package param;
 
 public interface ParamConverted {
 
-    String getValue();
+	String getValue();
 }

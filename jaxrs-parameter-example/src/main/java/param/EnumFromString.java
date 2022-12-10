@@ -6,15 +6,16 @@ package param;
  */
 public enum EnumFromString {
 
-    SINGLETON;
-    private String value;
+	SINGLETON;
 
-    public static EnumFromString fromString(String value) {
-        SINGLETON.value = value;
-        return SINGLETON;
-    }
+	private String value;
 
-    public String getValue() {
-        return value;
-    }
+	public static EnumFromString fromString(String value) {
+		SINGLETON.value = value;
+		return SINGLETON;
+	}
+
+	public String getValue() {
+		return value;
+	}
 }

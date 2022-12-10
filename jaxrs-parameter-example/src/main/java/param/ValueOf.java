@@ -6,18 +6,18 @@ package param;
  */
 public abstract class ValueOf {
 
-    private final String value;
+	private final String value;
 
-    private ValueOf(String value) {
-        this.value = value;
-    }
+	private ValueOf(String value) {
+		this.value = value;
+	}
 
-    public String getValue() {
-        return value;
-    }
+	public String getValue() {
+		return value;
+	}
 
-    public static ValueOf valueOf(String value) {
-        return new ValueOf(value) {
-        };
-    }
+	public static ValueOf valueOf(String value) {
+		return new ValueOf(value) {
+		};
+	}
 }

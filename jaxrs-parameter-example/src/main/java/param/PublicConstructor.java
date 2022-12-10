@@ -6,13 +6,13 @@ package param;
  */
 public class PublicConstructor {
 
-    private final String value;
+	private final String value;
 
-    public PublicConstructor(String value) {
-        this.value = value;
-    }
+	public PublicConstructor(String value) {
+		this.value = value;
+	}
 
-    public String getValue() {
-        return value;
-    }
+	public String getValue() {
+		return value;
+	}
 }

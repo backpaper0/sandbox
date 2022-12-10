@@ -6,18 +6,18 @@ package param;
  */
 public abstract class FromString {
 
-    private final String value;
+	private final String value;
 
-    private FromString(String value) {
-        this.value = value;
-    }
+	private FromString(String value) {
+		this.value = value;
+	}
 
-    public String getValue() {
-        return value;
-    }
+	public String getValue() {
+		return value;
+	}
 
-    public static FromString fromString(String value) {
-        return new FromString(value) {
-        };
-    }
+	public static FromString fromString(String value) {
+		return new FromString(value) {
+		};
+	}
 }
