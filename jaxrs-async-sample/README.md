@@ -1,9 +1,14 @@
 # JAX-RSのAsyncResponseとCompletableFutureを使ったサンプル
 
-`gradlew test` したら勝手にWildflyをダウンロードしてunzipしてArquillianを走らせます。
+準備。
 
-## TODO
+```sh
+mvn cargo:install
+```
 
-* 既にunzipされたWildflyがあったらもうunzipしないようにreadyWildflyタスクを修正する
-* GlassFishでも動かしたい
+Arquillianを使ったテスト実行。
+
+```
+mvn test
+```
 
