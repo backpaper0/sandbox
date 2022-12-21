@@ -1,0 +1,13 @@
+modelVersion: 4.0.0
+groupId: com.example
+artifactId: polyglot-maven-example
+version: 1.0-SNAPSHOT
+
+properties:
+  maven.compiler.target: 17
+  maven.compiler.source: 17
+  project.build.sourceEncoding: UTF-8
+
+dependencies:
+  - {groupId: junit, artifactId: junit, version: 4.11, scope: test}
+
