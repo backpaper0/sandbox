@@ -1,6 +1,15 @@
 # znaiを試す
 
-https://github.com/testingisdocumenting/znai
+- https://github.com/testingisdocumenting/znai
+- https://testingisdocumenting.org/znai
+
+## プレビュー
+
+```sh
+mvn znai:preview
+```
+
+http://localhost:3333/preview/
 
 ## SSG
 
