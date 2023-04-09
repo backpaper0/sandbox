@@ -30,3 +30,5 @@ go run main.go
 go build
 ```
 
+基本的な文法は`helloworld/main.go`で遊ぶことにする。
+
