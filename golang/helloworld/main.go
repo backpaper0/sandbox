@@ -12,9 +12,9 @@ func main() {
 	// interface
 	fmt.Println("**** interface ****")
 	var hello Greeting
-	hello = HelloEn{}
+	hello = &HelloEn{}
 	fmt.Println(hello.say())
-	hello = HelloJa{}
+	hello = &HelloJa{}
 	fmt.Println(hello.say())
 }
 
@@ -25,13 +25,13 @@ type Greeting interface {
 type HelloEn struct {
 }
 
-func (self HelloEn) say() string {
+func (self *HelloEn) say() string {
 	return "Hello"
 }
 
 type HelloJa struct {
 }
 
-func (self HelloJa) say() string {
+func (self *HelloJa) say() string {
 	return "こんにちは"
 }
