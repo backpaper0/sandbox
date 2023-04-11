@@ -33,7 +33,7 @@ func TestPointer(t *testing.T) {
 	}
 }
 
-func TestStructureMember(t *testing.T) {
+func TestPointerStructMember(t *testing.T) {
 	var p4, p5, p6 *string
 	pe1 := PointerExample2{s: "Hello"}
 	p4 = &pe1.s
@@ -61,7 +61,7 @@ func TestStructureMember(t *testing.T) {
 	}
 }
 
-func TestMethod(t *testing.T) {
+func TestPointerMethod(t *testing.T) {
 	pe1 := PointerExample2{s: "Hello"}
 	pe3 := PointerExample2{s: "Hello"}
 	p7 := &pe3
