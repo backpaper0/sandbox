@@ -73,3 +73,23 @@ func TestPointerMethod(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestPointerSlice(t *testing.T) {
+	f := func(arr []string) string {
+		return fmt.Sprintf("%p", arr)
+	}
+	arr := []string{"foo", "bar", "baz"}
+	if f(arr) != fmt.Sprintf("%p", arr) {
+		t.Fail()
+	}
+}
+
+func TestPointerMap(t *testing.T) {
+	f := func(m map[string]string) string {
+		return fmt.Sprintf("%p", m)
+	}
+	m := map[string]string{"foo": "hello", "bar": "123", "baz": "true"}
+	if f(m) != fmt.Sprintf("%p", m) {
+		t.Fail()
+	}
+}
