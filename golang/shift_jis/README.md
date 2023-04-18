@@ -1,7 +1,7 @@
 # Shift_JISのCSVファイルを扱う
 
 ```bash
-go get package golang.org/x/text
+go get -u golang.org/x/text
 ```
 
 - https://pkg.go.dev/golang.org/x/text/encoding
