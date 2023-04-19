@@ -55,7 +55,7 @@ func TestNextTokenError(t *testing.T) {
 			_, err := lexer.NextToken()
 			if err == nil {
 				t.Fail()
-			} else if err.Error() != "Invalid token: "+fixture {
+			} else if err.Error() != "invalid token: "+fixture {
 				t.Error(err)
 			}
 		})

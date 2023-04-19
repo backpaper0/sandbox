@@ -7,14 +7,6 @@ type Parser struct {
 	token Token
 }
 
-type ParserError struct {
-	err string
-}
-
-func (parserError ParserError) Error() string {
-	return parserError.err
-}
-
 func NewParser(expr string) (*Parser, error) {
 	lexer := NewLexer(expr)
 	parser := &Parser{lexer, Token{}}
@@ -34,7 +26,7 @@ func (parser *Parser) match(tokenType TokenType) error {
 	if parser.token.Type == tokenType {
 		return parser.consume()
 	}
-	return ParserError{fmt.Sprintf("Expected is %v but actual is %v", tokenType, parser.token.Type)}
+	return fmt.Errorf("expected is %v but actual is %v", tokenType, parser.token.Type)
 }
 
 func (parser *Parser) Parse() (AstNode, error) {

@@ -109,13 +109,5 @@ func (lexer *Lexer) NextToken() (Token, error) {
 	} else if lexer.char == "" {
 		return Token{Eof, ""}, nil
 	}
-	return Token{}, LexerError{fmt.Sprintf("Invalid token: %v", lexer.char)}
-}
-
-type LexerError struct {
-	err string
-}
-
-func (lexerError LexerError) Error() string {
-	return lexerError.err
+	return Token{}, fmt.Errorf("invalid token: %v", lexer.char)
 }
