@@ -25,6 +25,28 @@ const (
 	Eof
 )
 
+func (tt TokenType) String() string {
+	switch tt {
+	case Integer:
+		return "Integer"
+	case AddOp:
+		return "AddOp"
+	case SubOp:
+		return "SubOp"
+	case MulOp:
+		return "MulOp"
+	case DivOp:
+		return "DivOp"
+	case LeftBracket:
+		return "LeftBracket"
+	case RightBracket:
+		return "RightBracket"
+	case Eof:
+		return "Eof"
+	}
+	return fmt.Sprintf("Unknown(%v)", int(tt))
+}
+
 type Token struct {
 	Type  TokenType
 	Value string
@@ -71,7 +93,10 @@ func (lexer *Lexer) NextToken() (Token, error) {
 	} else if lexer.char == ")" {
 		lexer.consume()
 		return Token{RightBracket, ")"}, nil
-	} else if "0" <= lexer.char && lexer.char <= "9" {
+	} else if lexer.char == "0" {
+		lexer.consume()
+		return Token{Integer, "0"}, nil
+	} else if "1" <= lexer.char && lexer.char <= "9" {
 		builder := strings.Builder{}
 		for {
 			builder.WriteString(lexer.char)
