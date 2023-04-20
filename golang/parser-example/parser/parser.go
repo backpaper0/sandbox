@@ -52,9 +52,9 @@ func (parser *Parser) expr() (AstNode, error) {
 		}
 		switch tokenTypeShelter {
 		case AddOp:
-			return BinalyOperation{Add, node, rightNode}, nil
+			node = BinalyOperation{Add, node, rightNode}
 		case SubOp:
-			return BinalyOperation{Sub, node, rightNode}, nil
+			node = BinalyOperation{Sub, node, rightNode}
 		}
 	}
 	return node, nil
@@ -74,9 +74,9 @@ func (parser *Parser) term() (AstNode, error) {
 		}
 		switch tokenTypeShelter {
 		case MulOp:
-			return BinalyOperation{Mul, node, rightNode}, nil
+			node = BinalyOperation{Mul, node, rightNode}
 		case DivOp:
-			return BinalyOperation{Div, node, rightNode}, nil
+			node = BinalyOperation{Div, node, rightNode}
 		}
 	}
 	return node, nil
