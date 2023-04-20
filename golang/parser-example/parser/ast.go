@@ -3,20 +3,20 @@ package parser
 import "fmt"
 
 type AstNode interface {
-	accept(visitor AstNodeVisitor)
+	accept(visitor AstNodeVisitor) (int, error)
 }
 
 type AstNodeVisitor interface {
-	visitScalarValue(node ScalarValue)
-	visitBinalyOperation(node BinalyOperation)
+	visitScalarValue(node ScalarValue) (int, error)
+	visitBinalyOperation(node BinalyOperation) (int, error)
 }
 
 type ScalarValue struct {
 	Value Token
 }
 
-func (node ScalarValue) accept(visitor AstNodeVisitor) {
-	visitor.visitScalarValue(node)
+func (node ScalarValue) accept(visitor AstNodeVisitor) (int, error) {
+	return visitor.visitScalarValue(node)
 }
 
 type BinalyOperator int
@@ -48,6 +48,6 @@ type BinalyOperation struct {
 	Right AstNode
 }
 
-func (node BinalyOperation) accept(visitor AstNodeVisitor) {
-	visitor.visitBinalyOperation(node)
+func (node BinalyOperation) accept(visitor AstNodeVisitor) (int, error) {
+	return visitor.visitBinalyOperation(node)
 }

@@ -19,7 +19,10 @@ func TestEvaluate(t *testing.T) {
 
 	for _, fixture := range fixtures {
 		t.Run(fixture.expr, func(t *testing.T) {
-			actual := Evaluate(fixture.node)
+			actual, err := Evaluate(fixture.node)
+			if err != nil {
+				t.Error(err)
+			}
 			if actual != fixture.expected {
 				t.Errorf("Expected is %v but actual is %v", fixture.expected, actual)
 			}

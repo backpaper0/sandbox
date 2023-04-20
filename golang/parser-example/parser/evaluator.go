@@ -1,44 +1,44 @@
 package parser
 
 import (
-	"container/list"
 	"strconv"
 )
 
-func Evaluate(astNode AstNode) int {
-	visitor := &Caluclator{list.New()}
-	astNode.accept(visitor)
-	return visitor.pop()
+func Evaluate(astNode AstNode) (int, error) {
+	visitor := &Caluclator{}
+	return astNode.accept(visitor)
 }
 
 type Caluclator struct {
-	stack *list.List
+	// stack *list.List
 }
 
-func (c *Caluclator) push(value int) {
-	c.stack.PushBack(value)
+// func (c *Caluclator) push(value int) {
+// 	c.stack.PushBack(value)
+// }
+
+// func (c *Caluclator) pop() (int, error) {
+// 	element := c.stack.Back()
+// 	if element == nil {
+// 		return 0, errors.New("スタックが空です")
+// 	}
+// 	value := c.stack.Remove(element).(int)
+// 	return value, nil
+// }
+
+func (c *Caluclator) visitScalarValue(node ScalarValue) (int, error) {
+	return strconv.Atoi(node.Value.Value)
 }
 
-func (c *Caluclator) pop() int {
-	element := c.stack.Back()
-	if element == nil {
-		//TODO スタックが空の場合
-		return 0
+func (c *Caluclator) visitBinalyOperation(node BinalyOperation) (int, error) {
+	left, err := node.Left.accept(c)
+	if err != nil {
+		return 0, err
 	}
-	value := c.stack.Remove(element).(int)
-	return value
-}
-
-func (c *Caluclator) visitScalarValue(node ScalarValue) {
-	value, _ /* TODO errの扱い */ := strconv.Atoi(node.Value.Value)
-	c.push(value)
-}
-
-func (c *Caluclator) visitBinalyOperation(node BinalyOperation) {
-	node.Left.accept(c)
-	node.Right.accept(c)
-	right := c.pop()
-	left := c.pop()
+	right, err := node.Right.accept(c)
+	if err != nil {
+		return 0, err
+	}
 	var value int
 	switch node.Op {
 	case Add:
@@ -50,5 +50,5 @@ func (c *Caluclator) visitBinalyOperation(node BinalyOperation) {
 	case Div:
 		value = left / right
 	}
-	c.push(value)
+	return value, nil
 }
