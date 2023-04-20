@@ -1,7 +1,7 @@
 BIN=mycalc
 
 .PHONY: all
-all: clean build
+all: clean test build
 
 .PHONY: build
 build:
@@ -12,4 +12,8 @@ clean:
 	@if [ -f $(BIN) ]; then \
 		rm $(BIN); \
 	fi
+
+.PHONY: test
+test:
+	@go test ./...
 
