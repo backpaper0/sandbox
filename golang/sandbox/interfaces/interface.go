@@ -1,4 +1,4 @@
-package main
+package interfaces
 
 type Greeting interface {
 	say() string

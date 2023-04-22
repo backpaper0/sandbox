@@ -1,4 +1,4 @@
-package main
+package pointer
 
 func pointerExample1(s string) (string, *string) {
 	return s, &s

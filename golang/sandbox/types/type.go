@@ -1,4 +1,4 @@
-package main
+package types
 
 type TypeExample1 struct {
 	i int
