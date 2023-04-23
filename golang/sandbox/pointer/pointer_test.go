@@ -117,3 +117,22 @@ func TestPointerMapReturnValue(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestPointerUpdateParameter(t *testing.T) {
+	s := "init"
+	updateParameter(&s)
+	expected := "updated"
+	if s != expected {
+		t.Errorf("Expected is %v but actual is %v", expected, s)
+	}
+}
+
+func TestPointerOperator(t *testing.T) {
+	s := "hello"
+	arg := Example5Arg{s, &s}
+	actual := handleExample5(arg, &arg)
+	expected := Example5ReturnValue{"hello", "hello", "hello", "hello", "hello", "hello"}
+	if actual != expected {
+		t.Errorf("Expected is %v but actual is %v", expected, actual)
+	}
+}
