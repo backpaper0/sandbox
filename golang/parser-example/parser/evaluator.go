@@ -5,19 +5,19 @@ import (
 )
 
 func Evaluate(astNode AstNode) (int, error) {
-	visitor := &Caluclator{}
+	visitor := &Calculator{}
 	return astNode.accept(visitor)
 }
 
-type Caluclator struct {
+type Calculator struct {
 	// stack *list.List
 }
 
-// func (c *Caluclator) push(value int) {
+// func (c *Calculator) push(value int) {
 // 	c.stack.PushBack(value)
 // }
 
-// func (c *Caluclator) pop() (int, error) {
+// func (c *Calculator) pop() (int, error) {
 // 	element := c.stack.Back()
 // 	if element == nil {
 // 		return 0, errors.New("スタックが空です")
@@ -26,11 +26,11 @@ type Caluclator struct {
 // 	return value, nil
 // }
 
-func (c *Caluclator) visitScalarValue(node ScalarValue) (int, error) {
+func (c *Calculator) visitScalarValue(node ScalarValue) (int, error) {
 	return strconv.Atoi(node.Value.Value)
 }
 
-func (c *Caluclator) visitBinalyOperation(node BinalyOperation) (int, error) {
+func (c *Calculator) visitBinalyOperation(node BinalyOperation) (int, error) {
 	left, err := node.Left.accept(c)
 	if err != nil {
 		return 0, err
