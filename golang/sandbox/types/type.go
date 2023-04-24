@@ -7,3 +7,7 @@ type TypeExample1 struct {
 
 type TypeExample2 interface {
 }
+
+type DefinedTypeExample int
+
+type TypeAliasExample = int

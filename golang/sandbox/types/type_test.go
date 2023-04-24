@@ -47,3 +47,24 @@ func TestTypeMap(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestDefinedType(t *testing.T) {
+	var a DefinedTypeExample = 1
+	b := DefinedTypeExample(1)
+	if a != b {
+		t.Fail()
+	}
+
+	// var b int = 1
+	// if a != b { // 型が異なるのでコンパイルエラー
+	// 	t.Fail()
+	// }
+}
+
+func TestTypeAlias(t *testing.T) {
+	var a TypeAliasExample = 1
+	var b int = 1
+	if a != b {
+		t.Fail()
+	}
+}
