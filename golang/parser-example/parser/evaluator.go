@@ -10,21 +10,7 @@ func Evaluate(astNode AstNode) (int, error) {
 }
 
 type Calculator struct {
-	// stack *list.List
 }
-
-// func (c *Calculator) push(value int) {
-// 	c.stack.PushBack(value)
-// }
-
-// func (c *Calculator) pop() (int, error) {
-// 	element := c.stack.Back()
-// 	if element == nil {
-// 		return 0, errors.New("スタックが空です")
-// 	}
-// 	value := c.stack.Remove(element).(int)
-// 	return value, nil
-// }
 
 func (c *Calculator) visitScalarValue(node ScalarValue) (int, error) {
 	return strconv.Atoi(node.Value.Value)
