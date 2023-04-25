@@ -50,12 +50,12 @@ func TestTypeMap(t *testing.T) {
 
 func TestDefinedType(t *testing.T) {
 	var a DefinedTypeExample = 1
-	b := DefinedTypeExample(1)
-	if a != b {
+	var b int = 1
+	c := DefinedTypeExample(b)
+	if a != c {
 		t.Fail()
 	}
 
-	// var b int = 1
 	// if a != b { // 型が異なるのでコンパイルエラー
 	// 	t.Fail()
 	// }
@@ -65,6 +65,15 @@ func TestTypeAlias(t *testing.T) {
 	var a TypeAliasExample = 1
 	var b int = 1
 	if a != b {
+		t.Fail()
+	}
+}
+
+func TestDefinedType2(t *testing.T) {
+	a := DefinedTypeExample(1)
+	b := DefinedTypeExample2(1)
+	c := DefinedTypeExample(b) // 異なるdefined typeへ変換する
+	if a != c {
 		t.Fail()
 	}
 }

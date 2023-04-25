@@ -11,3 +11,5 @@ type TypeExample2 interface {
 type DefinedTypeExample int
 
 type TypeAliasExample = int
+
+type DefinedTypeExample2 int
