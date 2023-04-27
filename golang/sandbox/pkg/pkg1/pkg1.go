@@ -34,3 +34,12 @@ type Interface1 interface {
 	Method1()
 	method2()
 }
+
+type notExportedType struct{}
+
+func (a *notExportedType) ExportedMethod() {
+}
+
+func ExportedFunc() notExportedType {
+	return notExportedType{}
+}

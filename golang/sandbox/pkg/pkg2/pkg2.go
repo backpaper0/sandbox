@@ -31,4 +31,9 @@ func test() {
 	st := pkg1.Struct0{}
 	st.Field1 = "field1"
 	// st.field2 = "field2" // st.field2 undefined (type pkg1.Struct0 has no field or method field2)
+
+	// エクスポートされなくてもメソッドの戻り値なら参照できるらしい
+	t3 := pkg1.ExportedFunc()
+	// エクスポートされていない型でもメソッドがエクスポートされていれば呼び出せるらしい
+	t3.ExportedMethod()
 }
