@@ -1,25 +1,16 @@
 package main
 
 import (
+	_ "embed"
 	"html/template"
 	"net/http"
 )
 
-func main() {
-	t, err := template.New("hello").Parse(`
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Hello World</title>
-	</head>
-	<body>
-	<h1>Hello World</h1>
-	</body>
-	</html>
-	`)
+//go:embed hello.html
+var helloHtml string
 
+func main() {
+	t, err := template.New("hello").Parse(helloHtml)
 	if err != nil {
 		panic(err)
 	}
