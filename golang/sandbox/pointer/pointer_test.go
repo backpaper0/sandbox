@@ -136,3 +136,23 @@ func TestPointerOperator(t *testing.T) {
 		t.Errorf("Expected is %v but actual is %v", expected, actual)
 	}
 }
+
+func TestPointerAsign(t *testing.T) {
+	// 変数の代入でも値がコピーされる
+	a := Example6{"foo"}
+	b := a
+	c := &a
+	t.Logf("&a: %p\n", &a)
+	t.Logf("&b: %p\n", &b)
+	t.Logf(" c: %p\n", c)
+
+	(&b).Value = "bar"
+	if a.Value == "bar" {
+		t.Errorf("a.Value is bar: a = %v", a)
+	}
+
+	c.Value = "baz"
+	if a.Value != "baz" {
+		t.Errorf("a.Value is not baz: a = %v", a)
+	}
+}

@@ -42,3 +42,7 @@ func handleExample5(arg1 Example5Arg, arg2 *Example5Arg) Example5ReturnValue {
 		*(*arg2).Value2,
 	}
 }
+
+type Example6 struct {
+	Value string
+}
