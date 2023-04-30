@@ -156,3 +156,21 @@ func TestPointerAsign(t *testing.T) {
 		t.Errorf("a.Value is not baz: a = %v", a)
 	}
 }
+
+func TestPointerSliceElement(t *testing.T) {
+	a := []int{1, 2, 3}
+
+	b := a[1]
+	a[1] = 20
+	c := a[1]
+	if b == c {
+		t.Errorf("%v", b)
+	}
+
+	d := &a[2]
+	a[2] = 30
+	e := &a[2]
+	if *d != *e || *d != 30 || *e != 30 {
+		t.Errorf("d = %p %v\ne = %p %v\n", d, *d, e, *e)
+	}
+}
