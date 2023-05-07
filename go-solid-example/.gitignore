@@ -1,0 +1,16 @@
+# go buildで生成される実行ファイルを除くため、拡張子を持たないファイルを無視する
+*
+!*/
+!*.*
+!Makefile
+!LICENSE
+!Dockerfile
+
+# Windows用の成果物を無視する
+*.exe
+
+.*
+!.gitignore
+!.dockerignore
+!.github
+
