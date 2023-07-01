@@ -1,5 +1,14 @@
-
-const fn = (success, message) => new Promise((resolve, reject) => setTimeout(() => success ? resolve(message) : reject(message), 100));
+function fn(success, message) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (success) {
+        resolve(message);
+      } else {
+        reject(message);
+      }
+    }, 100);
+  });
+}
 
 const run1 = () => {
   fn(true, '1').then(a => console.log(a));
@@ -20,7 +29,7 @@ run3();
 const run4 = async () => {
   try {
     await fn(false, '4')
-  } catch(e) {
+  } catch (e) {
     console.log(e);
   }
 };
