@@ -160,16 +160,16 @@ func TestPointerAsign(t *testing.T) {
 func TestPointerSliceElement(t *testing.T) {
 	a := []int{1, 2, 3}
 
-	b := a[1]
+	b := a[1] // d == 2
 	a[1] = 20
-	c := a[1]
+	c := a[1] // c == 20
 	if b == c {
 		t.Errorf("%v", b)
 	}
 
-	d := &a[2]
+	d := &a[2] // *d == 3
 	a[2] = 30
-	e := &a[2]
+	e := &a[2] // *e == 30, *d == 30
 	if *d != *e || *d != 30 || *e != 30 {
 		t.Errorf("d = %p %v\ne = %p %v\n", d, *d, e, *e)
 	}
