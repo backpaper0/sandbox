@@ -18,16 +18,16 @@ func NewFARule(state int, character rune, nextState int) *FARule {
 	}
 }
 
-func (r *FARule) IsAppliesTo(state int, character rune) bool {
-	return r.state == state && r.character == character
+func (rule *FARule) IsAppliesTo(state int, character rune) bool {
+	return rule.state == state && rule.character == character
 }
 
-func (r *FARule) Follow() int {
-	return r.nextState
+func (rule *FARule) Follow() int {
+	return rule.nextState
 }
 
-func (r *FARule) String() string {
-	return "#<FARule " + strconv.Itoa(r.state) + " --" + string(r.character) + "--> " + strconv.Itoa(r.nextState)
+func (rule *FARule) String() string {
+	return "#<FARule " + strconv.Itoa(rule.state) + " --" + string(rule.character) + "--> " + strconv.Itoa(rule.nextState)
 }
 
 type DFARulebook struct {
@@ -40,12 +40,12 @@ func NewDFARulebook(rules []*FARule) *DFARulebook {
 	}
 }
 
-func (rb *DFARulebook) NextState(state int, character rune) int {
-	return rb.RuleFor(state, character).Follow()
+func (rulebook *DFARulebook) NextState(state int, character rune) int {
+	return rulebook.RuleFor(state, character).Follow()
 }
 
-func (rb *DFARulebook) RuleFor(state int, character rune) *FARule {
-	for _, r := range rb.rules {
+func (rulebook *DFARulebook) RuleFor(state int, character rune) *FARule {
+	for _, r := range rulebook.rules {
 		if r.IsAppliesTo(state, character) {
 			return r
 		}
@@ -100,12 +100,12 @@ func NewDFADesign(startState int, acceptStates []int, rulebook *DFARulebook) *DF
 	}
 }
 
-func (dd *DFADesign) ToDFA() *DFA {
-	return NewDFA(dd.startState, dd.acceptStates, dd.rulebook)
+func (design *DFADesign) ToDFA() *DFA {
+	return NewDFA(design.startState, design.acceptStates, design.rulebook)
 }
 
-func (dd *DFADesign) Accepts(text string) bool {
-	dfa := dd.ToDFA()
+func (design *DFADesign) Accepts(text string) bool {
+	dfa := design.ToDFA()
 	dfa.ReadString(text)
 	return dfa.IsAccepting()
 }
