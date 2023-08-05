@@ -36,6 +36,29 @@ func (rulebook *NFARulebook) RulesFor(state int, character rune) []*FARule {
 	return rules
 }
 
+func (rulebook *NFARulebook) FollowFreeMoves(states []int) []int {
+	isSubset := func(as, bs []int) bool {
+		for _, a := range as {
+			result := false
+			for _, b := range bs {
+				if a == b {
+					result = true
+					break
+				}
+			}
+			if !result {
+				return false
+			}
+		}
+		return true
+	}
+	moreStates := rulebook.NextStates(states, 0)
+	if isSubset(moreStates, states) {
+		return states
+	}
+	return rulebook.FollowFreeMoves(append(moreStates, states...))
+}
+
 type NFA struct {
 	currentStates []int
 	acceptStates  []int
@@ -50,8 +73,12 @@ func NewNFA(currentStates []int, acceptStates []int, rulebook *NFARulebook) *NFA
 	}
 }
 
+func (nfa *NFA) getCurrentStates() []int {
+	return nfa.rulebook.FollowFreeMoves(nfa.currentStates)
+}
+
 func (nfa *NFA) IsAccepting() bool {
-	for _, currentState := range nfa.currentStates {
+	for _, currentState := range nfa.getCurrentStates() {
 		for _, acceptState := range nfa.acceptStates {
 			if currentState == acceptState {
 				return true
@@ -62,7 +89,7 @@ func (nfa *NFA) IsAccepting() bool {
 }
 
 func (nfa *NFA) ReadCharacter(character rune) {
-	nfa.currentStates = nfa.rulebook.NextStates(nfa.currentStates, character)
+	nfa.currentStates = nfa.rulebook.NextStates(nfa.getCurrentStates(), character)
 }
 
 func (nfa *NFA) ReadString(text string) {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"reflect"
+	"sort"
 	"strconv"
 	"testing"
 )
@@ -15,6 +16,18 @@ func createNFARulebookForTest() *NFARulebook {
 		NewFARule(2, 'b', 3),
 		NewFARule(3, 'a', 4),
 		NewFARule(3, 'b', 4),
+	})
+}
+
+func createNFARulebookWithFreeMoveForTest() *NFARulebook {
+	return NewNFARulebook([]*FARule{
+		NewFARule(1, 0, 2),
+		NewFARule(1, 0, 4),
+		NewFARule(2, 'a', 3),
+		NewFARule(3, 'a', 2),
+		NewFARule(4, 'a', 5),
+		NewFARule(5, 'a', 6),
+		NewFARule(6, 'a', 4),
 	})
 }
 
@@ -108,6 +121,46 @@ func TestNFADesignAccepts(t *testing.T) {
 		{"bab", true},
 		{"bbbbb", true},
 		{"bbabb", false},
+	}
+	for i, f := range fixtures {
+		t.Run("TestDFADesignAccepts"+strconv.Itoa(i), func(t *testing.T) {
+			if dd.Accepts(f.text) != f.accepts {
+				t.Error()
+			}
+		})
+	}
+}
+
+func TestNFARulebookNextMove(t *testing.T) {
+	rulebook := createNFARulebookWithFreeMoveForTest()
+	nextStates := rulebook.NextStates([]int{1}, 0)
+	expected := []int{2, 4}
+	if !reflect.DeepEqual(nextStates, expected) {
+		t.Errorf("Expected is %v but actual is %v", expected, nextStates)
+	}
+}
+
+func TestNFARulebookFollowFreeMoves(t *testing.T) {
+	rulebook := createNFARulebookWithFreeMoveForTest()
+	nextStates := rulebook.FollowFreeMoves([]int{1})
+	sort.Ints(nextStates)
+	expected := []int{1, 2, 4}
+	if !reflect.DeepEqual(nextStates, expected) {
+		t.Errorf("Expected is %v but actual is %v", expected, nextStates)
+	}
+}
+
+func TestNFADesignAcceptsWithFreeMove(t *testing.T) {
+	rulebook := createNFARulebookWithFreeMoveForTest()
+	dd := NewNFADesign(1, []int{2, 4}, rulebook)
+	fixtures := []struct {
+		text    string
+		accepts bool
+	}{
+		{"aa", true},
+		{"aaa", true},
+		{"aaaaa", false},
+		{"aaaaaa", true},
 	}
 	for i, f := range fixtures {
 		t.Run("TestDFADesignAccepts"+strconv.Itoa(i), func(t *testing.T) {
