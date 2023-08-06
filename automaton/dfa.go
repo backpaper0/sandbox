@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-type State int
+type State *int
 
 type FARule struct {
 	state     State
