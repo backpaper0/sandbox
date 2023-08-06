@@ -34,13 +34,13 @@ func createNFARulebookWithFreeMoveForTest() *NFARulebook {
 func TestNFARulebookNextStates(t *testing.T) {
 	rulebook := createNFARulebookForTest()
 	fixtures := []struct {
-		states     []int
+		states     []State
 		character  rune
-		nextStates []int
+		nextStates []State
 	}{
-		{[]int{1}, 'b', []int{1, 2}},
-		{[]int{1, 2}, 'a', []int{1, 3}},
-		{[]int{1, 3}, 'b', []int{1, 2, 4}},
+		{[]State{1}, 'b', []State{1, 2}},
+		{[]State{1, 2}, 'a', []State{1, 3}},
+		{[]State{1, 3}, 'b', []State{1, 2, 4}},
 	}
 	for i, f := range fixtures {
 		t.Run("TestNFARulebookNextStates"+strconv.Itoa(i), func(t *testing.T) {
@@ -55,12 +55,12 @@ func TestNFARulebookNextStates(t *testing.T) {
 func TestNFAIsAccepting(t *testing.T) {
 	rulebook := createNFARulebookForTest()
 	fixtures := []struct {
-		currentStates []int
-		acceptStates  []int
+		currentStates []State
+		acceptStates  []State
 		isAccepting   bool
 	}{
-		{[]int{1}, []int{4}, false},
-		{[]int{1, 2, 4}, []int{4}, true},
+		{[]State{1}, []State{4}, false},
+		{[]State{1, 2, 4}, []State{4}, true},
 	}
 	for i, f := range fixtures {
 		t.Run("TestNFAIsAccepting"+strconv.Itoa(i), func(t *testing.T) {
@@ -75,7 +75,7 @@ func TestNFAIsAccepting(t *testing.T) {
 
 func TestNFAReadCharacter(t *testing.T) {
 	rulebook := createNFARulebookForTest()
-	nfa := NewNFA([]int{1}, []int{4}, rulebook)
+	nfa := NewNFA([]State{1}, []State{4}, rulebook)
 	if nfa.IsAccepting() != false {
 		t.Error()
 		return
@@ -99,7 +99,7 @@ func TestNFAReadCharacter(t *testing.T) {
 
 func TestNFAReadString(t *testing.T) {
 	rulebook := createNFARulebookForTest()
-	nfa := NewNFA([]int{1}, []int{4}, rulebook)
+	nfa := NewNFA([]State{1}, []State{4}, rulebook)
 	if nfa.IsAccepting() != false {
 		t.Error()
 		return
@@ -113,7 +113,7 @@ func TestNFAReadString(t *testing.T) {
 
 func TestNFADesignAccepts(t *testing.T) {
 	rulebook := createNFARulebookForTest()
-	dd := NewNFADesign(1, []int{4}, rulebook)
+	dd := NewNFADesign(1, []State{4}, rulebook)
 	fixtures := []struct {
 		text    string
 		accepts bool
@@ -133,8 +133,8 @@ func TestNFADesignAccepts(t *testing.T) {
 
 func TestNFARulebookNextMove(t *testing.T) {
 	rulebook := createNFARulebookWithFreeMoveForTest()
-	nextStates := rulebook.NextStates([]int{1}, 0)
-	expected := []int{2, 4}
+	nextStates := rulebook.NextStates([]State{1}, 0)
+	expected := []State{2, 4}
 	if !reflect.DeepEqual(nextStates, expected) {
 		t.Errorf("Expected is %v but actual is %v", expected, nextStates)
 	}
@@ -142,9 +142,11 @@ func TestNFARulebookNextMove(t *testing.T) {
 
 func TestNFARulebookFollowFreeMoves(t *testing.T) {
 	rulebook := createNFARulebookWithFreeMoveForTest()
-	nextStates := rulebook.FollowFreeMoves([]int{1})
-	sort.Ints(nextStates)
-	expected := []int{1, 2, 4}
+	nextStates := rulebook.FollowFreeMoves([]State{1})
+	sort.Slice(nextStates, func(i, j int) bool {
+		return nextStates[i] < nextStates[j]
+	})
+	expected := []State{1, 2, 4}
 	if !reflect.DeepEqual(nextStates, expected) {
 		t.Errorf("Expected is %v but actual is %v", expected, nextStates)
 	}
@@ -152,7 +154,7 @@ func TestNFARulebookFollowFreeMoves(t *testing.T) {
 
 func TestNFADesignAcceptsWithFreeMove(t *testing.T) {
 	rulebook := createNFARulebookWithFreeMoveForTest()
-	dd := NewNFADesign(1, []int{2, 4}, rulebook)
+	dd := NewNFADesign(1, []State{2, 4}, rulebook)
 	fixtures := []struct {
 		text    string
 		accepts bool

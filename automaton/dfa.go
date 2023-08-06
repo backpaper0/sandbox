@@ -1,16 +1,18 @@
 package main
 
 import (
-	"strconv"
+	"fmt"
 )
 
+type State int
+
 type FARule struct {
-	state     int
+	state     State
 	character rune
-	nextState int
+	nextState State
 }
 
-func NewFARule(state int, character rune, nextState int) *FARule {
+func NewFARule(state State, character rune, nextState State) *FARule {
 	return &FARule{
 		state:     state,
 		character: character,
@@ -18,16 +20,16 @@ func NewFARule(state int, character rune, nextState int) *FARule {
 	}
 }
 
-func (rule *FARule) IsAppliesTo(state int, character rune) bool {
+func (rule *FARule) IsAppliesTo(state State, character rune) bool {
 	return rule.state == state && rule.character == character
 }
 
-func (rule *FARule) Follow() int {
+func (rule *FARule) Follow() State {
 	return rule.nextState
 }
 
 func (rule *FARule) String() string {
-	return "#<FARule " + strconv.Itoa(rule.state) + " --" + string(rule.character) + "--> " + strconv.Itoa(rule.nextState)
+	return fmt.Sprintf("%v --%v--> %v", rule.state, rule.character, rule.nextState)
 }
 
 type DFARulebook struct {
@@ -40,11 +42,11 @@ func NewDFARulebook(rules []*FARule) *DFARulebook {
 	}
 }
 
-func (rulebook *DFARulebook) NextState(state int, character rune) int {
+func (rulebook *DFARulebook) NextState(state State, character rune) State {
 	return rulebook.RuleFor(state, character).Follow()
 }
 
-func (rulebook *DFARulebook) RuleFor(state int, character rune) *FARule {
+func (rulebook *DFARulebook) RuleFor(state State, character rune) *FARule {
 	for _, r := range rulebook.rules {
 		if r.IsAppliesTo(state, character) {
 			return r
@@ -54,12 +56,12 @@ func (rulebook *DFARulebook) RuleFor(state int, character rune) *FARule {
 }
 
 type DFA struct {
-	currentState int
-	acceptStates []int
+	currentState State
+	acceptStates []State
 	rulebook     *DFARulebook
 }
 
-func NewDFA(currentState int, acceptStates []int, rulebook *DFARulebook) *DFA {
+func NewDFA(currentState State, acceptStates []State, rulebook *DFARulebook) *DFA {
 	return &DFA{
 		currentState: currentState,
 		acceptStates: acceptStates,
@@ -87,12 +89,12 @@ func (dfa *DFA) ReadString(text string) {
 }
 
 type DFADesign struct {
-	startState   int
-	acceptStates []int
+	startState   State
+	acceptStates []State
 	rulebook     *DFARulebook
 }
 
-func NewDFADesign(startState int, acceptStates []int, rulebook *DFARulebook) *DFADesign {
+func NewDFADesign(startState State, acceptStates []State, rulebook *DFARulebook) *DFADesign {
 	return &DFADesign{
 		startState:   startState,
 		acceptStates: acceptStates,
