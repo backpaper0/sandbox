@@ -2,6 +2,7 @@ package pointer
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -172,5 +173,32 @@ func TestPointerSliceElement(t *testing.T) {
 	e := &a[2] // *e == 30, *d == 30
 	if *d != *e || *d != 30 || *e != 30 {
 		t.Errorf("d = %p %v\ne = %p %v\n", d, *d, e, *e)
+	}
+}
+
+func TestPointerEqual(t *testing.T) {
+	a := 0
+	b := 0
+
+	p1 := &a
+	p2 := &a
+	p3 := &b
+
+	if p1 != p2 {
+		t.Error()
+		return
+	}
+	if p1 == p3 {
+		t.Error()
+		return
+	}
+}
+
+func TestPointerString(t *testing.T) {
+	a := 0
+	p := &a
+	s := fmt.Sprintf("%v", p) // 0xc00001a2d8 のような形式
+	if !strings.HasPrefix(s, "0x") {
+		t.Error(s)
 	}
 }
