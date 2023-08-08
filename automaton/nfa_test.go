@@ -36,6 +36,44 @@ func createNFARulebookWithFreeMoveForTest() (*NFARulebook, *int, *int, *int, *in
 	}), p1, p2, p3, p4, p5, p6
 }
 
+func createNFADesignForTest() (*NFADesign, *int, *int, *int) {
+	v1, v2, v3 := 1, 2, 3
+	s1, s2, s3 := &v1, &v2, &v3
+	rulebook := NewNFARulebook([]*FARule{
+		NewFARule(s1, 'a', s1),
+		NewFARule(s1, 'a', s2),
+		NewFARule(s1, 0, s2),
+		NewFARule(s2, 'b', s3),
+		NewFARule(s3, 'b', s1),
+		NewFARule(s3, 0, s2),
+	})
+	return NewNFADesign(s1, []State{s3}, rulebook), s1, s2, s3
+}
+
+func sortStates(states []State) {
+	sort.Slice(states, func(i, j int) bool {
+		return fmt.Sprintf("%v", *states[i]) < fmt.Sprintf("%v", *states[j])
+	})
+}
+
+func uniqueStates(states []State) []State {
+	ss := make([]State, 0)
+	contains := func(s State) bool {
+		for _, t := range ss {
+			if s == t {
+				return true
+			}
+		}
+		return false
+	}
+	for _, s := range states {
+		if !contains(s) {
+			ss = append(ss, s)
+		}
+	}
+	return ss
+}
+
 func TestNFARulebookNextStates(t *testing.T) {
 	rulebook, p1, p2, p3, p4 := createNFARulebookForTest()
 	fixtures := []struct {
@@ -148,9 +186,7 @@ func TestNFARulebookNextMove(t *testing.T) {
 func TestNFARulebookFollowFreeMoves(t *testing.T) {
 	rulebook, p1, p2, _, p4, _, _ := createNFARulebookWithFreeMoveForTest()
 	nextStates := rulebook.FollowFreeMoves([]State{p1})
-	sort.Slice(nextStates, func(i, j int) bool {
-		return fmt.Sprintf("%v", nextStates[i]) < fmt.Sprintf("%v", nextStates[j])
-	})
+	sortStates(nextStates)
 	expected := []State{p1, p2, p4}
 	if !reflect.DeepEqual(nextStates, expected) {
 		t.Errorf("Expected is %v but actual is %v", expected, nextStates)
@@ -173,6 +209,61 @@ func TestNFADesignAcceptsWithFreeMove(t *testing.T) {
 		t.Run("TestDFADesignAccepts"+strconv.Itoa(i), func(t *testing.T) {
 			if dd.Accepts(f.text) != f.accepts {
 				t.Error()
+			}
+		})
+	}
+}
+
+func TestNFADesignToNFAWith(t *testing.T) {
+	design, s1, s2, s3 := createNFADesignForTest()
+	t.Run("TestNFADesignToNFAWith"+"1", func(t *testing.T) {
+		currentStates := design.ToNFA().getCurrentStates()
+		sortStates(currentStates)
+		expected := []State{s1, s2}
+		if !reflect.DeepEqual(currentStates, expected) {
+			t.Error()
+		}
+	})
+	t.Run("TestNFADesignToNFAWith"+"2", func(t *testing.T) {
+		currentStates := design.ToNFAWith([]State{s2}).getCurrentStates()
+		sortStates(currentStates)
+		expected := []State{s2}
+		if !reflect.DeepEqual(currentStates, expected) {
+			t.Error()
+		}
+	})
+	t.Run("TestNFADesignToNFAWith"+"3", func(t *testing.T) {
+		currentStates := design.ToNFAWith([]State{s3}).getCurrentStates()
+		sortStates(currentStates)
+		expected := []State{s2, s3}
+		if !reflect.DeepEqual(currentStates, expected) {
+			t.Error()
+		}
+	})
+}
+
+func TestNFASimulationNextState(t *testing.T) {
+	design, s1, s2, s3 := createNFADesignForTest()
+	simulation := NewNFASimulation(design)
+	fixtures := []struct {
+		states    []State
+		character rune
+		expected  []State
+	}{
+		{[]State{s1, s2}, 'a', []State{s1, s2}},
+		{[]State{s1, s2}, 'b', []State{s2, s3}},
+		{[]State{s2, s3}, 'b', []State{s1, s2, s3}},
+		{[]State{s1, s2, s3}, 'b', []State{s1, s2, s3}},
+		{[]State{s1, s2, s3}, 'a', []State{s1, s2}},
+	}
+	for i, f := range fixtures {
+		t.Run(fmt.Sprintf("TestNFASimulationNextState%v", i), func(t *testing.T) {
+			actual := simulation.NextState(f.states, f.character)
+			sortStates(actual)
+			//TODO プロダクションコード側で重複排除したい。Sliceじゃなくてjava.util.Set的なもので保持すれば良さそう
+			actual = uniqueStates(actual)
+			if !reflect.DeepEqual(f.expected, actual) {
+				t.Errorf("Expected is %v but actual is %v", f.expected, actual)
 			}
 		})
 	}

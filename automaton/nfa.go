@@ -113,11 +113,31 @@ func NewNFADesign(startState State, acceptStates []State, rulebook *NFARulebook)
 }
 
 func (design *NFADesign) ToNFA() *NFA {
-	return NewNFA([]State{design.startState}, design.acceptStates, design.rulebook)
+	return design.ToNFAWith([]State{design.startState})
+}
+
+func (design *NFADesign) ToNFAWith(currentStates []State) *NFA {
+	return NewNFA(currentStates, design.acceptStates, design.rulebook)
 }
 
 func (design *NFADesign) Accepts(text string) bool {
 	nfa := design.ToNFA()
 	nfa.ReadString(text)
 	return nfa.IsAccepting()
+}
+
+type NFASimulation struct {
+	design *NFADesign
+}
+
+func NewNFASimulation(design *NFADesign) *NFASimulation {
+	return &NFASimulation{
+		design: design,
+	}
+}
+
+func (simulation *NFASimulation) NextState(states []State, character rune) []State {
+	nfa := simulation.design.ToNFAWith(states)
+	nfa.ReadCharacter(character)
+	return nfa.getCurrentStates()
 }
