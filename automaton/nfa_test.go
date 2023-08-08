@@ -52,7 +52,7 @@ func createNFADesignForTest() (*NFADesign, *int, *int, *int) {
 
 func sortStates(states []State) {
 	sort.Slice(states, func(i, j int) bool {
-		return fmt.Sprintf("%v", *states[i]) < fmt.Sprintf("%v", *states[j])
+		return *states[i] < *states[j]
 	})
 }
 
