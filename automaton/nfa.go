@@ -10,18 +10,18 @@ func NewNFARulebook(rules []*FARule) *NFARulebook {
 	}
 }
 
-func (rulebook *NFARulebook) NextStates(states []State, character rune) []State {
-	nextStates := make([]State, 0)
-	for _, state := range states {
-		nextStates = append(nextStates, rulebook.FollowRulesFor(state, character)...)
+func (rulebook *NFARulebook) NextStates(states *Set, character rune) *Set {
+	nextStates := NewSet()
+	for _, state := range states.Values() {
+		nextStates.AddAll(rulebook.FollowRulesFor(state, character))
 	}
 	return nextStates
 }
 
-func (rulebook *NFARulebook) FollowRulesFor(state State, character rune) []State {
-	nextStates := make([]State, 0)
+func (rulebook *NFARulebook) FollowRulesFor(state State, character rune) *Set {
+	nextStates := NewSet()
 	for _, rule := range rulebook.RulesFor(state, character) {
-		nextStates = append(nextStates, rule.Follow())
+		nextStates.Add(rule.Follow())
 	}
 	return nextStates
 }
@@ -36,36 +36,22 @@ func (rulebook *NFARulebook) RulesFor(state State, character rune) []*FARule {
 	return rules
 }
 
-func (rulebook *NFARulebook) FollowFreeMoves(states []State) []State {
-	isSubset := func(as, bs []State) bool {
-		for _, a := range as {
-			result := false
-			for _, b := range bs {
-				if a == b {
-					result = true
-					break
-				}
-			}
-			if !result {
-				return false
-			}
-		}
-		return true
-	}
+func (rulebook *NFARulebook) FollowFreeMoves(states *Set) *Set {
 	moreStates := rulebook.NextStates(states, 0)
-	if isSubset(moreStates, states) {
+	if states.ContainsSet(moreStates) {
 		return states
 	}
-	return rulebook.FollowFreeMoves(append(moreStates, states...))
+	moreStates.AddAll(states)
+	return rulebook.FollowFreeMoves(moreStates)
 }
 
 type NFA struct {
-	currentStates []State
-	acceptStates  []State
+	currentStates *Set
+	acceptStates  *Set
 	rulebook      *NFARulebook
 }
 
-func NewNFA(currentStates []State, acceptStates []State, rulebook *NFARulebook) *NFA {
+func NewNFA(currentStates *Set, acceptStates *Set, rulebook *NFARulebook) *NFA {
 	return &NFA{
 		currentStates: currentStates,
 		acceptStates:  acceptStates,
@@ -73,16 +59,14 @@ func NewNFA(currentStates []State, acceptStates []State, rulebook *NFARulebook) 
 	}
 }
 
-func (nfa *NFA) getCurrentStates() []State {
+func (nfa *NFA) getCurrentStates() *Set {
 	return nfa.rulebook.FollowFreeMoves(nfa.currentStates)
 }
 
 func (nfa *NFA) IsAccepting() bool {
-	for _, currentState := range nfa.getCurrentStates() {
-		for _, acceptState := range nfa.acceptStates {
-			if currentState == acceptState {
-				return true
-			}
+	for _, currentState := range nfa.getCurrentStates().Values() {
+		if nfa.acceptStates.Contains(currentState) {
+			return true
 		}
 	}
 	return false
@@ -100,11 +84,11 @@ func (nfa *NFA) ReadString(text string) {
 
 type NFADesign struct {
 	startState   State
-	acceptStates []State
+	acceptStates *Set
 	rulebook     *NFARulebook
 }
 
-func NewNFADesign(startState State, acceptStates []State, rulebook *NFARulebook) *NFADesign {
+func NewNFADesign(startState State, acceptStates *Set, rulebook *NFARulebook) *NFADesign {
 	return &NFADesign{
 		startState:   startState,
 		acceptStates: acceptStates,
@@ -113,10 +97,10 @@ func NewNFADesign(startState State, acceptStates []State, rulebook *NFARulebook)
 }
 
 func (design *NFADesign) ToNFA() *NFA {
-	return design.ToNFAWith([]State{design.startState})
+	return design.ToNFAWith(NewSet(design.startState))
 }
 
-func (design *NFADesign) ToNFAWith(currentStates []State) *NFA {
+func (design *NFADesign) ToNFAWith(currentStates *Set) *NFA {
 	return NewNFA(currentStates, design.acceptStates, design.rulebook)
 }
 
@@ -136,7 +120,7 @@ func NewNFASimulation(design *NFADesign) *NFASimulation {
 	}
 }
 
-func (simulation *NFASimulation) NextState(states []State, character rune) []State {
+func (simulation *NFASimulation) NextState(states *Set, character rune) *Set {
 	nfa := simulation.design.ToNFAWith(states)
 	nfa.ReadCharacter(character)
 	return nfa.getCurrentStates()

@@ -57,11 +57,11 @@ func (rulebook *DFARulebook) RuleFor(state State, character rune) *FARule {
 
 type DFA struct {
 	currentState State
-	acceptStates []State
+	acceptStates *Set
 	rulebook     *DFARulebook
 }
 
-func NewDFA(currentState State, acceptStates []State, rulebook *DFARulebook) *DFA {
+func NewDFA(currentState State, acceptStates *Set, rulebook *DFARulebook) *DFA {
 	return &DFA{
 		currentState: currentState,
 		acceptStates: acceptStates,
@@ -70,12 +70,7 @@ func NewDFA(currentState State, acceptStates []State, rulebook *DFARulebook) *DF
 }
 
 func (dfa *DFA) IsAccepting() bool {
-	for _, as := range dfa.acceptStates {
-		if as == dfa.currentState {
-			return true
-		}
-	}
-	return false
+	return dfa.acceptStates.Contains(dfa.currentState)
 }
 
 func (dfa *DFA) ReadCharacter(character rune) {
@@ -90,11 +85,11 @@ func (dfa *DFA) ReadString(text string) {
 
 type DFADesign struct {
 	startState   State
-	acceptStates []State
+	acceptStates *Set
 	rulebook     *DFARulebook
 }
 
-func NewDFADesign(startState State, acceptStates []State, rulebook *DFARulebook) *DFADesign {
+func NewDFADesign(startState State, acceptStates *Set, rulebook *DFARulebook) *DFADesign {
 	return &DFADesign{
 		startState:   startState,
 		acceptStates: acceptStates,

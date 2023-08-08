@@ -32,7 +32,7 @@ func (empty *Empty) ToNFADesign() *NFADesign {
 	v0 := 0
 	p0 := &v0
 	startState := State(p0)
-	acceptStates := []State{startState}
+	acceptStates := NewSet(startState)
 	rulebook := NewNFARulebook([]*FARule{})
 	return NewNFADesign(startState, acceptStates, rulebook)
 }
@@ -62,7 +62,7 @@ func (literal *Literal) ToNFADesign() *NFADesign {
 	acceptState := State(p1)
 	rule := NewFARule(startState, literal.character, acceptState)
 	rulebook := NewNFARulebook([]*FARule{rule})
-	return NewNFADesign(startState, []State{acceptState}, rulebook)
+	return NewNFADesign(startState, NewSet(acceptState), rulebook)
 }
 
 type Concatenate struct {
@@ -90,10 +90,10 @@ func (concatenate *Concatenate) ToNFADesign() *NFADesign {
 
 	startState := firstNFADesign.startState
 	acceptStates := secondNFADesign.acceptStates
-	rules := make([]*FARule, 0, len(firstNFADesign.rulebook.rules)+len(secondNFADesign.rulebook.rules)+len(firstNFADesign.acceptStates))
+	rules := make([]*FARule, 0, len(firstNFADesign.rulebook.rules)+len(secondNFADesign.rulebook.rules)+firstNFADesign.acceptStates.Size())
 	rules = append(rules, firstNFADesign.rulebook.rules...)
 	rules = append(rules, secondNFADesign.rulebook.rules...)
-	for _, state := range firstNFADesign.acceptStates {
+	for _, state := range firstNFADesign.acceptStates.Values() {
 		rule := NewFARule(state, 0, secondNFADesign.startState)
 		rules = append(rules, rule)
 	}
@@ -128,9 +128,9 @@ func (choose *Choose) ToNFADesign() *NFADesign {
 	v0 := 0
 	p0 := &v0
 	startState := p0
-	acceptStates := make([]State, 0, len(firstNFADesign.acceptStates)+len(secondNFADesign.acceptStates))
-	acceptStates = append(acceptStates, firstNFADesign.acceptStates...)
-	acceptStates = append(acceptStates, secondNFADesign.acceptStates...)
+	acceptStates := NewSet()
+	acceptStates.AddAll(firstNFADesign.acceptStates)
+	acceptStates.AddAll(secondNFADesign.acceptStates)
 
 	rules := make([]*FARule, 0, len(firstNFADesign.rulebook.rules)+len(secondNFADesign.rulebook.rules)+2)
 	rules = append(rules, firstNFADesign.rulebook.rules...)
@@ -166,13 +166,13 @@ func (repeat *Repeat) ToNFADesign() *NFADesign {
 	v0 := 0
 	p0 := &v0
 	startState := p0
-	acceptStates := make([]State, 0, len(patternNFADesign.acceptStates)+1)
-	acceptStates = append(acceptStates, patternNFADesign.acceptStates...)
-	acceptStates = append(acceptStates, startState)
+	acceptStates := NewSet()
+	acceptStates.AddAll(patternNFADesign.acceptStates)
+	acceptStates.Add(startState)
 
-	rules := make([]*FARule, 0, len(patternNFADesign.rulebook.rules)+len(patternNFADesign.acceptStates)+1)
+	rules := make([]*FARule, 0, len(patternNFADesign.rulebook.rules)+patternNFADesign.acceptStates.Size()+1)
 	rules = append(rules, patternNFADesign.rulebook.rules...)
-	for _, acceptState := range patternNFADesign.acceptStates {
+	for _, acceptState := range patternNFADesign.acceptStates.Values() {
 		rule := NewFARule(acceptState, 0, patternNFADesign.startState)
 		rules = append(rules, rule)
 	}

@@ -43,11 +43,11 @@ func TestDFAIsAccepting(t *testing.T) {
 	rulebook, p1, _, p3 := createDFARulebookForTest()
 	fixtures := []struct {
 		currentState State
-		acceptStates []State
+		acceptStates *Set
 		accepted     bool
 	}{
-		{p1, []State{p1, p3}, true},
-		{p1, []State{p3}, false},
+		{p1, NewSet(p1, p3), true},
+		{p1, NewSet(p3), false},
 	}
 	for i, f := range fixtures {
 		t.Run("TestDFAIsAccepting"+strconv.Itoa(i), func(t *testing.T) {
@@ -62,7 +62,7 @@ func TestDFAIsAccepting(t *testing.T) {
 
 func TestDFAReadCharacter(t *testing.T) {
 	rulebook, p1, _, p3 := createDFARulebookForTest()
-	dfa := NewDFA(p1, []State{p3}, rulebook)
+	dfa := NewDFA(p1, NewSet(p3), rulebook)
 	if dfa.IsAccepting() != false {
 		t.Error()
 		return
@@ -88,7 +88,7 @@ func TestDFAReadCharacter(t *testing.T) {
 
 func TestDFAReadString(t *testing.T) {
 	rulebook, p1, _, p3 := createDFARulebookForTest()
-	dfa := NewDFA(p1, []State{p3}, rulebook)
+	dfa := NewDFA(p1, NewSet(p3), rulebook)
 	if dfa.IsAccepting() != false {
 		t.Error()
 		return
@@ -102,7 +102,7 @@ func TestDFAReadString(t *testing.T) {
 
 func TestDFADesignAccepts(t *testing.T) {
 	rulebook, p1, _, p3 := createDFARulebookForTest()
-	dd := NewDFADesign(p1, []State{p3}, rulebook)
+	dd := NewDFADesign(p1, NewSet(p3), rulebook)
 	fixtures := []struct {
 		text    string
 		accepts bool
