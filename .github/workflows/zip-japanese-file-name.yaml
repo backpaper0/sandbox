@@ -1,0 +1,22 @@
+name: 日本語ファイル名を含むZIPファイルを作る
+
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: ZIPファイル作成
+        run: |
+          sudo apt-get install -y convmv
+          convmv --notest -r -f utf8 -t sjis zip-japanese-file-name
+          zip -r 日本語ファイル名を含む.zip zip-japanese-file-name
+
+      - name: ZIPファイルをアップロードする
+        uses: actions/upload-artifact@v3
+        with:
+          name: archive
+          path: archive
+          retention-days: 1
