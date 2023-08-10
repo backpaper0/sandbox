@@ -10,15 +10,12 @@ jobs:
 
       - name: ZIPファイル作成
         run: |
-          sudo apt-get install -y convmv p7zip-full
-          7za a -tzip zip-japanese-file-name/日本語ファイル名を含むby_7za.zip zip-japanese-file-name
-          cd zip-japanese-file-name
-          convmv --notest -r -f utf8 -t sjis .
-          zip -r 日本語ファイル名を含む.zip .
+          sudo apt-get install -y p7zip-full
+          7za a -tzip 日本語ファイル名を含む.zip zip-japanese-file-name
 
       - name: ZIPファイルをアップロードする
         uses: actions/upload-artifact@v3
         with:
           name: zip-japanese-file-name
-          path: zip-japanese-file-name
+          path: 日本語ファイル名を含む.zip
           retention-days: 1
