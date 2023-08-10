@@ -17,6 +17,6 @@ jobs:
       - name: ZIPファイルをアップロードする
         uses: actions/upload-artifact@v3
         with:
-          name: archive
-          path: archive
+          name: zip-japanese-file-name
+          path: zip-japanese-file-name
           retention-days: 1
