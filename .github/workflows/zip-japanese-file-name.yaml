@@ -11,8 +11,9 @@ jobs:
       - name: ZIPファイル作成
         run: |
           sudo apt-get install -y convmv
-          convmv --notest -r -f utf8 -t sjis zip-japanese-file-name
-          zip -r 日本語ファイル名を含む.zip zip-japanese-file-name
+          cd zip-japanese-file-name
+          convmv --notest -r -f utf8 -t sjis .
+          zip -r 日本語ファイル名を含む.zip .
 
       - name: ZIPファイルをアップロードする
         uses: actions/upload-artifact@v3
