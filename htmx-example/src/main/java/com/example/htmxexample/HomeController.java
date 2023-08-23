@@ -17,4 +17,9 @@ public class HomeController {
     public String getMessage() {
         return "message";
     }
+
+    @GetMapping("/other-page")
+    public String showOtherPage() {
+        return "other-page";
+    }
 }
