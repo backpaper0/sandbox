@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{:: title}, ~{:: body})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{:: title/content()}, ~{:: body/content()})}">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>index</title>
+    <title>htmxの例</title>
 </head>
 
 <body>
-    <div hx-get="/message" hx-trigger="load">loading...</div>
-    <div hx-boost="true">
-        <p><a href="/other-page">Other page</a></p>
-    </div>
+    <ul hx-boost="true">
+        <li><a th:href="@{/page-transition}">画面遷移</a></li>
+        <li><a th:href="@{/form-submission}">フォーム送信</a></li>
+        <li><a th:href="@{/file-uploading}">ファイルアップロード</a></li>
+    </ul>
 </body>
 
 </html>

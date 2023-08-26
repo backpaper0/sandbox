@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{:: title/content()}, ~{:: body/content()})}">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>フォーム送信(確認)</title>
+</head>
+
+<body>
+    <div hx-boost="true">
+        <form method="POST" th:action="@{/form-submission/complete}" th:object="${form}">
+            <p th:text="*{text}"></p>
+            <p th:text="*{check}"></p>
+            <p>
+                <span th:each="check : *{checks}" th:text="${check}"></span>
+            </p>
+            <p th:text="*{radio}"></p>
+            <p th:text="*{select}"></p>
+            <p><button>保存</button></p>
+        </form>
+    </div>
+</body>
+
+</html>

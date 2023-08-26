@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{:: title/content()}, ~{:: body/content()})}">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>フォーム送信(入力)</title>
+</head>
+
+<body>
+    <div hx-boost="true">
+        <form method="POST" th:action="@{/form-submission/confirm}" th:object="${form}">
+            <p><input type="text" th:field="*{text}" /></p>
+            <p>
+                <input type="checkbox" th:field="*{check}" />
+                <label th:for="${#ids.prev('check')}">単一のチェックボックス</label>
+            </p>
+            <p>
+                <span th:each="item : ${items}">
+                    <input type="checkbox" th:field="*{checks}" th:value="${item.value}" />
+                    <label th:for="${#ids.prev('checks')}" th:text="${item.text}">...</label>
+                </span>
+            </p>
+            <p>
+                <span th:each="item : ${items}">
+                    <input type="radio" th:field="*{radio}" th:value="${item.value}" />
+                    <label th:for="${#ids.prev('radio')}" th:text="${item.text}">...</label>
+                </span>
+            </p>
+            <p>
+                <select th:field="*{select}">
+                    <option value=""></option>
+                    <option th:each="item : ${items}" th:value="${item.value}" th:text="${item.text}">...</option>
+                </select>
+            </p>
+            <p><button>確認</button></p>
+        </form>
+    </div>
+</body>
+
+</html>
