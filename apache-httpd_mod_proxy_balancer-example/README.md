@@ -1,4 +1,4 @@
-# mod\_proxy\_balancer-demo
+# apache-httpd\_mod\_proxy\_balancer-example
 
 `mod\_proxy\_balancer`でロードバランシングするデモ。
 
