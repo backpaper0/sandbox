@@ -55,6 +55,26 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	strokeCircle(225, 8)
 	strokeCircle(325, 16)
 
+	fillRect := func(y float32) {
+		c := color.RGBA{0x99, 0xFF, 0x99, 0xFF}
+		s := float32(50)
+		//長方形で指定する座標は左上
+		vector.DrawFilledRect(screen, 100, y, s, s, c, false)
+		vector.DrawFilledRect(screen, 200, y, s, s, c, false)
+		vector.DrawFilledRect(screen, 300, y, s, s, c, false)
+	}
+	fillRect(400)
+
+	fillCircle := func(y float32) {
+		c := color.RGBA{0x99, 0x99, 0xFF, 0xFF}
+		r := float32(25)
+		//円で指定する座標は中心
+		vector.DrawFilledCircle(screen, 475, y, r, c, true)
+		vector.DrawFilledCircle(screen, 575, y, r, c, true)
+		vector.DrawFilledCircle(screen, 675, y, r, c, true)
+	}
+	fillCircle(425)
+
 	{ //格子
 		sw := float32(1)
 		c := color.Gray{0xC0}
