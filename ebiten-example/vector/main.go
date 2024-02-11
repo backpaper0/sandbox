@@ -75,6 +75,16 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 	fillCircle(425)
 
+	strokeLine := func(y float32, sw float32) {
+		c := color.RGBA{0xFF, 0x99, 0x99, 0xFF}
+		vector.StrokeLine(screen, 100, y, 250, y, sw, c, false)
+		vector.StrokeLine(screen, 300, y+(sw/2), 450, y+(sw/2), sw, c, false)
+		vector.StrokeLine(screen, 500, y-(sw/2), 650, y-(sw/2), sw, c, false)
+	}
+	strokeLine(500, 2)
+	strokeLine(550, 4)
+	strokeLine(600, 8)
+
 	{ //格子
 		sw := float32(1)
 		c := color.Gray{0xC0}
