@@ -1,0 +1,4 @@
+{
+    "python.defaultInterpreterPath": "$HOME/.asdf/installs/python/3.12.2/bin/python",
+    "python.poetryPath": "$HOME/.asdf/installs/python/3.12.2/bin/poetry"
+}
