@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.12"
 python-dotenv = "^1.0.1"
 jupyter = "^1.0.0"
+pandas = "^2.2.0"
 
 
 [build-system]
