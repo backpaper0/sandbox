@@ -1,4 +1,4 @@
-# Python sandbox
+# Python Example
 
 - 環境
     - Python 3.12.2
@@ -12,10 +12,12 @@ poetry install
 ## 実行
 
 ```sh
-poetry run python src/hello.py
+poetry run python scripts/hello.py
 ```
 
-## Appendix: インストールとか諸々
+## Appendix
+
+### インストールとか諸々
 
 こんなことやりました。
 
@@ -40,3 +42,7 @@ poetry add python-dotenv
 ```
 
 あと、`.vscode/settings.json`で`python`コマンドと`poetry`コマンドのパスを設定してみた。
+
+### 参考資料
+
+- [公式ドキュメント](https://docs.python.org/ja/3/index.html)
