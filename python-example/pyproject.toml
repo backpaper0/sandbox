@@ -12,6 +12,9 @@ jupyter = "^1.0.0"
 pandas = "^2.2.0"
 
 
+[tool.poetry.group.dev.dependencies]
+pandas = "^2.2.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
