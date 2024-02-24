@@ -11,6 +11,7 @@ python-dotenv = "^1.0.1"
 jupyter = "^1.0.0"
 pandas = "^2.2.0"
 matplotlib = "^3.8.3"
+azure-cosmos = "^4.5.1"
 
 
 [tool.poetry.group.dev.dependencies]

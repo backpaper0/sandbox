@@ -156,6 +156,39 @@ tests-mypy = ["mypy (>=1.6)", "pytest-mypy-plugins"]
 tests-no-zope = ["attrs[tests-mypy]", "cloudpickle", "hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist[psutil]"]
 
 [[package]]
+name = "azure-core"
+version = "1.30.0"
+description = "Microsoft Azure Core Library for Python"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "azure-core-1.30.0.tar.gz", hash = "sha256:6f3a7883ef184722f6bd997262eddaf80cfe7e5b3e0caaaf8db1695695893d35"},
+    {file = "azure_core-1.30.0-py3-none-any.whl", hash = "sha256:3dae7962aad109610e68c9a7abb31d79720e1d982ddf61363038d175a5025e89"},
+]
+
+[package.dependencies]
+requests = ">=2.21.0"
+six = ">=1.11.0"
+typing-extensions = ">=4.6.0"
+
+[package.extras]
+aio = ["aiohttp (>=3.0)"]
+
+[[package]]
+name = "azure-cosmos"
+version = "4.5.1"
+description = "Microsoft Azure Cosmos Client Library for Python"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "azure-cosmos-4.5.1.tar.gz", hash = "sha256:c4ada8381306eec413c01bc50a778e264dc3f4fafa9d696f9df8436148d2aea8"},
+    {file = "azure_cosmos-4.5.1-py3-none-any.whl", hash = "sha256:3557570cf7197f50c5b11e655c1fbb1ddf433adc94f91381d671cfad8e2d7bdf"},
+]
+
+[package.dependencies]
+azure-core = ">=1.23.0,<2.0.0"
+
+[[package]]
 name = "babel"
 version = "2.14.0"
 description = "Internationalization utilities"
@@ -2577,6 +2610,17 @@ files = [
 ]
 
 [[package]]
+name = "typing-extensions"
+version = "4.9.0"
+description = "Backported and Experimental Type Hints for Python 3.8+"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "typing_extensions-4.9.0-py3-none-any.whl", hash = "sha256:af72aea155e91adfc61c3ae9e0e342dbc0cba726d6cba4b6c72c1f34e47291cd"},
+    {file = "typing_extensions-4.9.0.tar.gz", hash = "sha256:23478f88c37f27d76ac8aee6c905017a143b0b1b886c3c9f66bc2fd94f9f5783"},
+]
+
+[[package]]
 name = "tzdata"
 version = "2024.1"
 description = "Provider of IANA time zone data"
@@ -2685,4 +2729,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "c510427fe09f627cac339f5184eb3f8dbabd453b71c301ceb6e53ff7f61b62e1"
+content-hash = "6236fd14b390a45823e16cc15b04326c0cc27b7020b82aa41b18b5cc63374d70"
