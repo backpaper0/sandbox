@@ -51,6 +51,9 @@ RIGHT = lambda v: v(FALSE)
 # リスト
 CONS = lambda h: lambda t: TUPLE(TUPLE(FALSE)(h))(t)
 NIL = TUPLE(TRUE)(TRUE)
+HEAD = lambda l: RIGHT(LEFT(l))
+TAIL = RIGHT
+IS_NIL = lambda l: LEFT(LEFT(l))
 
 # 範囲
 
@@ -69,12 +72,9 @@ def to_bool(n):
     return n(True)(False)
 
 def to_num_list(n):
-    head = LEFT(n)
-    is_nil = LEFT(head)
-    if to_bool(is_nil):
+    if to_bool(IS_NIL(n)):
         return []
-    tail = RIGHT(n)
-    return [to_num(RIGHT(head)), to_num_list(tail)]
+    return [to_num(HEAD(n)), to_num_list(TAIL(n))]
 
 # print(to_num(_0))
 # print(to_num(_1))
