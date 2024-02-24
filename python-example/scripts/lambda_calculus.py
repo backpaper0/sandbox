@@ -7,7 +7,7 @@
 # - [x] 真偽値
 # - [x] タプル
 # - [x] リスト
-# - [ ] 範囲
+# - [x] 範囲
 # - [ ] ループ
 # - [x] 条件分岐
 # - [ ] 文字
@@ -39,6 +39,13 @@ _3 = lambda f: lambda x: f(f(f(x)))
 # インクリメント(後者関数)
 SUCC = lambda n: lambda f: lambda x: f(n(f)(x))
 
+# 比較演算
+DECREMENT = lambda n: LEFT(n(lambda x: TUPLE(RIGHT(x))(SUCC(RIGHT(x))))(TUPLE(_0)(_0)))
+SUB = lambda a: lambda b: b(DECREMENT)(a)
+IS_ZERO = lambda n: n(lambda x: FALSE)(TRUE)
+# LT = lambda a: lambda b: IS_ZERO(SUB(b)(a))(FALSE)(TRUE)
+EQ = lambda a: lambda b: IS_ZERO(SUB(a)(b))(IS_ZERO(SUB(b)(a)))(FALSE)
+
 # 真偽値
 TRUE = lambda l: lambda r: l
 FALSE = lambda l: lambda r: r
@@ -56,8 +63,12 @@ TAIL = RIGHT
 IS_NIL = lambda l: LEFT(LEFT(l))
 
 # 範囲
+RANGE = lambda a: lambda b: RIGHT(SUB(b)(a)(lambda x: TUPLE(DECREMENT(LEFT(x)))(CONS(LEFT(x))(RIGHT(x))))(TUPLE(DECREMENT(b))(NIL)))
 
-# ループ
+# ループ(というか射影)
+# λf. (λx. f (λy. x x y)) (λx. f (λy. x x y))
+Z = lambda f: (lambda x: f(lambda y: x(x)(y)))(lambda x: f(lambda y: x(x)(y)))
+MAP = Z(lambda f: lambda g: lambda l: IF(IS_NIL(l))(NIL)(lambda x: CONS(g(HEAD(l)))(f(g)(TAIL(l)))(x)))
 
 # 条件分岐
 IF = lambda c: lambda t: lambda e: c(t)(e)
@@ -72,30 +83,11 @@ def to_bool(n):
     return n(True)(False)
 
 def to_num_list(n):
+    print(n)
     if to_bool(IS_NIL(n)):
         return []
     return [to_num(HEAD(n)), to_num_list(TAIL(n))]
 
-# print(to_num(_0))
-# print(to_num(_1))
-# print(to_num(_2))
-# print(to_num(_3))
-# print(to_num(SUCC(_3)))
-
-# print(to_bool(TRUE))
-# print(to_bool(FALSE))
-# print(to_num(IF(TRUE)(_1)(_0)))
-# print(to_num(IF(FALSE)(_1)(_0)))
-
-# print(to_num(LEFT(TUPLE(_1)(_2))))
-# print(to_num(RIGHT(TUPLE(_1)(_2))))
-
-lst = CONS(_1)(
-    CONS(_2)(
-        CONS(_3)(
-            NIL
-        )
-    )
-)
-
-print(to_num_list(lst))
+# MAPがうまくいっていない。TypeError: 'bool' object is not callable
+# print(to_num_list(RANGE(_0)(_3)))
+print(to_num_list(MAP(lambda x: x)(RANGE(_0)(_3))))
