@@ -24,7 +24,6 @@ poetry run python scripts/hello.py
 poetry run mypy scripts/verify_error.py
 ```
 
-
 ## Appendix
 
 ### インストールとか諸々
@@ -52,6 +51,10 @@ poetry add python-dotenv
 ```
 
 あと、`.vscode/settings.json`で`python`コマンドと`poetry`コマンドのパスを設定してみた。
+
+VSCodeで型チェックを行うために次の拡張をインストールした。
+
+- [Mypy Type Checker](https://marketplace.visualstudio.com/items?itemName=ms-python.mypy-type-checker)
 
 ### 参考資料
 
