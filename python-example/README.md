@@ -15,6 +15,16 @@ poetry install
 poetry run python scripts/hello.py
 ```
 
+> [!NOTE]
+> ノートブックは`.ipynb`ファイルを開いて実行してください。
+
+## 静的解析
+
+```sh
+poetry run mypy scripts/verify_error.py
+```
+
+
 ## Appendix
 
 ### インストールとか諸々
