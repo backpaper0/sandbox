@@ -24,6 +24,12 @@ poetry run python scripts/hello.py
 poetry run mypy scripts/verify_error.py
 ```
 
+[taskipy](https://github.com/taskipy/taskipy)でタスク化しているので次のコマンドでも動きます。
+
+```sh
+poetry run task verify
+```
+
 ## Appendix
 
 ### インストールとか諸々

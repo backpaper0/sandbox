@@ -18,7 +18,11 @@ pandas-stubs = "^2.2.0.240218"
 
 [tool.poetry.group.dev.dependencies]
 pandas = "^2.2.0"
+taskipy = "^1.12.2"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+verify = "poetry run mypy scripts/verify_error.py"
