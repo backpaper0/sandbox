@@ -26,3 +26,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
 verify = "poetry run mypy scripts/verify_error.py"
+test = "poetry run python -m unittest -v scripts/test_*.py"

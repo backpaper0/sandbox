@@ -30,6 +30,12 @@ poetry run mypy scripts/verify_error.py
 poetry run task verify
 ```
 
+## テストの実行
+
+```sh
+poetry run task test
+```
+
 ## Appendix
 
 ### インストールとか諸々
