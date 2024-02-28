@@ -1,7 +1,7 @@
 # Python Example
 
 - 環境
-    - Python 3.12.2
+    - Python 3.11.6
 
 ## 準備
 
@@ -17,6 +17,13 @@ poetry run python scripts/hello.py
 
 > [!NOTE]
 > ノートブックは`.ipynb`ファイルを開いて実行してください。
+
+> [!NOTE]
+> [nbconvert](https://github.com/jupyter/nbconvert)を使用するとノートブックをコマンドラインで実行できます。
+> 
+> ```
+> poetry run jupyter nbconvert --to notebook --execute notebooks/collection.ipynb --output collection.ipynb
+> ```
 
 ## 静的解析
 
@@ -43,11 +50,11 @@ poetry run task test
 こんなことやりました。
 
 ```sh
-asdf install python 3.12.2
+asdf install python 3.11.6
 ```
 
 ```sh
-asdf local python 3.12.2
+asdf local python 3.11.6
 ```
 
 ```sh
