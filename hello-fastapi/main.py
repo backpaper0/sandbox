@@ -30,9 +30,9 @@ class CommonQueryParams:
         self.limit = limit
 
 @app.get("/items/")
-async def read_items(commons: CommonQueryParams = Depends(CommonQueryParams)):
+async def read_items(commons: CommonQueryParams = Depends()):
     return commons
 
 @app.get("/users/")
-async def read_users(commons: CommonQueryParams = Depends(CommonQueryParams)):
+async def read_users(commons: CommonQueryParams = Depends()):
     return commons
