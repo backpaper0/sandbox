@@ -15,6 +15,7 @@ azure-cosmos = "^4.5.1"
 mypy = "^1.8.0"
 pandas-stubs = "^2.2.0.240218"
 iplantuml = "^0.1.1"
+tqdm = "^4.66.2"
 
 
 [tool.poetry.group.dev.dependencies]
