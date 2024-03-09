@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "langchain-example"
+version = "0.1.0"
+description = ""
+authors = ["Uragami Taichi <backpaper0@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+jupyter = "^1.0.0"
+langchain = "^0.1.11"
+python-dotenv = "^1.0.1"
+langchain-openai = "^0.0.8"
+faiss-cpu = "^1.8.0"
+tiktoken = "^0.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
