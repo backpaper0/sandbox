@@ -14,8 +14,12 @@ langchain-openai = "^0.0.8"
 faiss-cpu = "^1.8.0"
 tiktoken = "^0.6.0"
 langserve = {extras = ["all"], version = "^0.0.47"}
+taskipy = "^1.12.2"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+start = "uvicorn scripts.server:app"
