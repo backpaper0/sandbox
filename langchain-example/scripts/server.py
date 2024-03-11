@@ -1,5 +1,5 @@
 import time
-from typing import AsyncGenerator, AsyncIterator, Callable, Iterator
+from typing import Any, AsyncGenerator, AsyncIterator, Callable, Iterator
 from fastapi import FastAPI
 from langserve import add_routes
 from langchain_openai import ChatOpenAI
@@ -63,4 +63,40 @@ add_routes(
     app,
     RunnableGenerator(g),
     path="/generator",
+)
+
+from langchain_core.runnables.utils import AddableDict
+
+def build_chain1() -> Runnable:
+    async def gen1(input: AsyncIterator[str]) -> AsyncIterator[str]:
+        async for s in input:
+            for i in range(1, 4):
+                time.sleep(1)
+                yield f"foo{s}{i}"
+
+    async def gen2(input: AsyncIterator[str]) -> AsyncIterator[str]:
+        async for s in input:
+            for i in range(1, 4):
+                time.sleep(.5)
+                yield f"bar{s}{i}"
+
+    async def gen3(input: AsyncIterator[Any]) -> AsyncIterator[Any]:
+        async for elm in input:
+            yield elm
+        yield AddableDict({ "foobar" : "foobar" })
+
+    return (
+        RunnablePassthrough()
+        | {
+            "foo": gen1,
+            "bar": gen2,
+        }
+        | gen3
+    )
+
+add_routes(
+    app,
+    build_chain1(),
+    path="/chain1",
+    input_type=str,
 )
