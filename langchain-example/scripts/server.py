@@ -1,4 +1,3 @@
-from callback import MyCallbackHandler
 from dataclasses import dataclass
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -18,6 +17,7 @@ from langchain_core.runnables import (
 )
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.runnables.utils import AddableDict
+from langchain_core.tracers import ConsoleCallbackHandler
 from langchain_openai import ChatOpenAI
 from langserve import add_routes
 from typing import Any, AsyncIterator
@@ -28,7 +28,7 @@ load_dotenv()
 app = FastAPI()
 
 config = RunnableConfig({
-    "callbacks": [MyCallbackHandler()]
+    "callbacks": [ConsoleCallbackHandler()]
 })
 
 strOutputParser = StrOutputParser().with_config(config)
