@@ -1,22 +1,25 @@
-import time
-from typing import Any, AsyncGenerator, AsyncIterator, Callable, Iterator
-from fastapi import FastAPI
-from langserve import add_routes
-from langchain_openai import ChatOpenAI
+from dataclasses import dataclass
 from dotenv import load_dotenv
+from fastapi import FastAPI
+from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import (
+    ChatPromptTemplate,
+    MessagesPlaceholder,
+)
 from langchain_core.runnables import (
     Runnable,
-    RunnableAssign,
-    RunnableBinding,
-    RunnableBranch,
     RunnableGenerator,
     RunnableLambda,
-    RunnableParallel,
     RunnablePassthrough,
-    RunnablePick,
-    RunnableWithFallbacks,
 )
-from dataclasses import dataclass
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_core.runnables.utils import AddableDict
+from langchain_openai import ChatOpenAI
+from langserve import add_routes
+from typing import Any, AsyncIterator
+import time
 
 load_dotenv()
 
@@ -65,7 +68,6 @@ add_routes(
     path="/generator",
 )
 
-from langchain_core.runnables.utils import AddableDict
 
 def build_chain1() -> Runnable:
     async def gen1(input: AsyncIterator[str]) -> AsyncIterator[str]:
@@ -99,4 +101,39 @@ add_routes(
     build_chain1(),
     path="/chain1",
     input_type=str,
+)
+
+def build_chatbot():
+    store = {}
+
+    def get_session_history(session_id: str) -> BaseChatMessageHistory:
+        if session_id not in store:
+            store[session_id] = ChatMessageHistory()
+        return store[session_id]
+
+    prompt = ChatPromptTemplate.from_messages([
+        MessagesPlaceholder("history"),
+        ("human", "{question}"),
+    ])
+
+    model = ChatOpenAI()
+
+    return (
+        RunnableWithMessageHistory(
+            runnable=(
+                prompt
+                | model
+                | StrOutputParser()
+            ),
+            get_session_history=get_session_history,
+            input_messages_key="question",
+            # output_messages_key="output",
+            history_messages_key="history",
+        )
+    )
+
+add_routes(
+    app,
+    build_chatbot(),
+    path="/chatbot",
 )
