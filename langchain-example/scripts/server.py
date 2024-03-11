@@ -1,3 +1,4 @@
+from callback import MyCallbackHandler
 from dataclasses import dataclass
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -10,6 +11,7 @@ from langchain_core.prompts import (
 )
 from langchain_core.runnables import (
     Runnable,
+    RunnableConfig,
     RunnableGenerator,
     RunnableLambda,
     RunnablePassthrough,
@@ -25,11 +27,17 @@ load_dotenv()
 
 app = FastAPI()
 
+config = RunnableConfig({
+    "callbacks": [MyCallbackHandler()]
+})
 
+strOutputParser = StrOutputParser().with_config(config)
+
+model = ChatOpenAI().with_config(config)
 
 add_routes(
     app,
-    ChatOpenAI(),
+    model,
     path="/chat1",
 )
 
@@ -37,7 +45,7 @@ add_routes(
 
 add_routes(
     app,
-    RunnablePassthrough(),
+    RunnablePassthrough().with_config(config),
     path="/passthrough",
 )
 
@@ -51,7 +59,7 @@ class Msg:
 def build_lambda():
     def f(input: Msg) -> str:
         return input.text * input.times
-    return RunnableLambda(f)
+    return RunnableLambda(f).with_config(config)
 
 add_routes(
     app,
@@ -72,7 +80,7 @@ def build_generator():
             for c in msg.text:
                 yield c
                 time.sleep(msg.sleep)
-    return RunnableGenerator(g)
+    return RunnableGenerator(g).with_config(config)
 
 add_routes(
     app,
@@ -100,13 +108,12 @@ def build_chain1() -> Runnable:
         yield AddableDict({ "foobar" : "foobar" })
 
     return (
-        RunnablePassthrough()
-        | {
-            "foo": gen1,
-            "bar": gen2,
+        {
+            "foo": RunnableGenerator(gen1).with_config(config),
+            "bar": RunnableGenerator(gen2).with_config(config),
         }
-        | gen3
-    )
+        | RunnableGenerator(gen3).with_config(config)
+    ).with_config(config)
 
 add_routes(
     app,
@@ -128,22 +135,20 @@ def build_chat2():
     prompt = ChatPromptTemplate.from_messages([
         MessagesPlaceholder("history"),
         ("human", "{question}"),
-    ])
-
-    model = ChatOpenAI()
+    ]).with_config(config)
 
     return (
         RunnableWithMessageHistory(
             runnable=(
                 prompt
                 | model
-                | StrOutputParser()
-            ),
+                | strOutputParser
+            ).with_config(config),
             get_session_history=get_session_history,
             input_messages_key="question",
             # output_messages_key="output",
             history_messages_key="history",
-        )
+        ).with_config(config)
     )
 
 add_routes(
