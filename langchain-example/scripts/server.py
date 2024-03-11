@@ -25,11 +25,15 @@ load_dotenv()
 
 app = FastAPI()
 
+
+
 add_routes(
     app,
     ChatOpenAI(),
-    path="/chat",
+    path="/chat1",
 )
+
+
 
 add_routes(
     app,
@@ -37,34 +41,42 @@ add_routes(
     path="/passthrough",
 )
 
+
+
 @dataclass
 class Msg:
     text: str
     times: int
 
-def f(input: Msg) -> str:
-    return input.text * input.times
+def build_lambda():
+    def f(input: Msg) -> str:
+        return input.text * input.times
+    return RunnableLambda(f)
 
 add_routes(
     app,
-    RunnableLambda(f),
+    build_lambda(),
     path="/lambda",
 )
+
+
 
 @dataclass
 class Msg2:
     text: str
     sleep: float
 
-async def g(input: AsyncIterator[Msg2]) -> AsyncIterator[str]:
-    async for msg in input:
-        for c in msg.text:
-            yield c
-            time.sleep(msg.sleep)
+def build_generator():
+    async def g(input: AsyncIterator[Msg2]) -> AsyncIterator[str]:
+        async for msg in input:
+            for c in msg.text:
+                yield c
+                time.sleep(msg.sleep)
+    return RunnableGenerator(g)
 
 add_routes(
     app,
-    RunnableGenerator(g),
+    build_generator(),
     path="/generator",
 )
 
@@ -103,7 +115,9 @@ add_routes(
     input_type=str,
 )
 
-def build_chatbot():
+
+
+def build_chat2():
     store = {}
 
     def get_session_history(session_id: str) -> BaseChatMessageHistory:
@@ -134,6 +148,6 @@ def build_chatbot():
 
 add_routes(
     app,
-    build_chatbot(),
-    path="/chatbot",
+    build_chat2(),
+    path="/chat2",
 )
