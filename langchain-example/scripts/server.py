@@ -20,33 +20,39 @@ from langchain_core.runnables.utils import AddableDict
 from langchain_core.tracers import ConsoleCallbackHandler
 from langchain_openai import ChatOpenAI
 from langserve import add_routes
-from typing import Any, AsyncIterator
+from starlette.requests import Request
+from typing import Any, AsyncIterator, Dict
 import time
 
 load_dotenv()
 
 app = FastAPI()
 
-config = RunnableConfig({
+common_config = RunnableConfig({
     "callbacks": [ConsoleCallbackHandler()]
 })
 
-strOutputParser = StrOutputParser().with_config(config)
+def per_req_config_modifier(config: Dict[str, Any], r: Request) -> Dict[str, Any]:
+    return {**common_config, **config}
 
-model = ChatOpenAI().with_config(config)
+strOutputParser = StrOutputParser()
+
+model = ChatOpenAI()
 
 add_routes(
     app,
     model,
     path="/chat1",
+    per_req_config_modifier=per_req_config_modifier,
 )
 
 
 
 add_routes(
     app,
-    RunnablePassthrough().with_config(config),
+    RunnablePassthrough(),
     path="/passthrough",
+    per_req_config_modifier=per_req_config_modifier,
 )
 
 
@@ -59,12 +65,13 @@ class Msg:
 def build_lambda():
     def f(input: Msg) -> str:
         return input.text * input.times
-    return RunnableLambda(f).with_config(config)
+    return RunnableLambda(f)
 
 add_routes(
     app,
     build_lambda(),
     path="/lambda",
+    per_req_config_modifier=per_req_config_modifier,
 )
 
 
@@ -80,12 +87,13 @@ def build_generator():
             for c in msg.text:
                 yield c
                 time.sleep(msg.sleep)
-    return RunnableGenerator(g).with_config(config)
+    return RunnableGenerator(g)
 
 add_routes(
     app,
     build_generator(),
     path="/generator",
+    per_req_config_modifier=per_req_config_modifier,
 )
 
 
@@ -108,18 +116,20 @@ def build_chain1() -> Runnable:
         yield AddableDict({ "foobar" : "foobar" })
 
     return (
-        {
-            "foo": RunnableGenerator(gen1).with_config(config),
-            "bar": RunnableGenerator(gen2).with_config(config),
+        RunnablePassthrough()
+        | {
+            "foo": gen1,
+            "bar": gen2,
         }
-        | RunnableGenerator(gen3).with_config(config)
-    ).with_config(config)
+        | gen3
+    )
 
 add_routes(
     app,
     build_chain1(),
     path="/chain1",
     input_type=str,
+    per_req_config_modifier=per_req_config_modifier,
 )
 
 
@@ -135,7 +145,7 @@ def build_chat2():
     prompt = ChatPromptTemplate.from_messages([
         MessagesPlaceholder("history"),
         ("human", "{question}"),
-    ]).with_config(config)
+    ])
 
     return (
         RunnableWithMessageHistory(
@@ -143,16 +153,17 @@ def build_chat2():
                 prompt
                 | model
                 | strOutputParser
-            ).with_config(config),
+            ),
             get_session_history=get_session_history,
             input_messages_key="question",
             # output_messages_key="output",
             history_messages_key="history",
-        ).with_config(config)
+        )
     )
 
 add_routes(
     app,
     build_chat2(),
     path="/chat2",
+    per_req_config_modifier=per_req_config_modifier,
 )
