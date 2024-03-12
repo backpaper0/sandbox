@@ -25,4 +25,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
-start = "PYTHONPATH=scripts uvicorn server:app"
+start = "PYTHONPATH=scripts uvicorn server:app --reload"
