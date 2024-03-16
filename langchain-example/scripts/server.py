@@ -21,7 +21,7 @@ from langchain_core.tracers import ConsoleCallbackHandler
 from langchain_openai import ChatOpenAI
 from langserve import add_routes
 from starlette.requests import Request
-from typing import Any, AsyncIterator, Dict
+from typing import Any, AsyncIterator, Dict, Iterator
 import time
 
 load_dotenv()
@@ -165,5 +165,35 @@ add_routes(
     app,
     build_chat2(),
     path="/chat2",
+    per_req_config_modifier=per_req_config_modifier,
+)
+
+
+# AIの回答の前後にテキストを追加する
+def build_chat3():
+
+    def transform(input: Iterator[str]) -> Iterator[str]:
+        yield "[回答開始]\n"
+        for chunk in input:
+            yield chunk
+        yield "\n[回答終了]"
+
+    async def atransform(input: AsyncIterator[str]) -> AsyncIterator[str]:
+        yield "[回答開始]\n"
+        async for chunk in input:
+            yield chunk
+        yield "\n[回答終了]"
+
+    return (
+        model
+        | strOutputParser
+        | RunnableGenerator(transform, atransform)
+    )
+
+add_routes(
+    app,
+    build_chat3(),
+    path="/chat3",
+    input_type=str,
     per_req_config_modifier=per_req_config_modifier,
 )
