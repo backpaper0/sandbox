@@ -846,6 +846,16 @@ files = [
 ]
 
 [[package]]
+name = "ipadic"
+version = "1.0.0"
+description = "IPAdic packaged for Python"
+optional = false
+python-versions = "*"
+files = [
+    {file = "ipadic-1.0.0.tar.gz", hash = "sha256:f5923d31eca6131acaaf18ed28d8998665b1347b640d3a6476f64650e9a71c07"},
+]
+
+[[package]]
 name = "iplantuml"
 version = "0.1.1"
 description = "Package which adds a PlantUML cell magic to IPython."
@@ -1566,6 +1576,48 @@ files = [
 
 [package.dependencies]
 traitlets = "*"
+
+[[package]]
+name = "mecab-python3"
+version = "1.0.8"
+description = "Python wrapper for the MeCab morphological analyzer for Japanese"
+optional = false
+python-versions = "*"
+files = [
+    {file = "mecab-python3-1.0.8.tar.gz", hash = "sha256:70988bab263696456f75d3d8910c75aea477a9d08054ad7ef85be5470dd3f65b"},
+    {file = "mecab_python3-1.0.8-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:65866d0fa9214afaddca538311d38a6e8dc71d7fa892139eabfaca9866d7d68e"},
+    {file = "mecab_python3-1.0.8-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:98a8716d66df9c4689ba99674a8b6bbe9ac189df2c39c75f59592e83af8ab927"},
+    {file = "mecab_python3-1.0.8-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:6289053be84250efcddcc637d2fb8089b58a74bb2c6fbe09d3c003019e59c41a"},
+    {file = "mecab_python3-1.0.8-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5cccf6853a4a2f1c39db404917b429040b327326d3f9930b11ba11b1f182efc0"},
+    {file = "mecab_python3-1.0.8-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a77786f6afaa25f6ecf27634e2db2d1cc7e549a9a2aa9099f929ec14ddd835c1"},
+    {file = "mecab_python3-1.0.8-cp310-cp310-win_amd64.whl", hash = "sha256:bac38af07623b01422a58829d3087fc97f76bca529250146309ca64dba90aaa0"},
+    {file = "mecab_python3-1.0.8-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:3d67b142997a4dbcfcfa27c50d0796d665ba67b8185311a43364840f7f7f87ba"},
+    {file = "mecab_python3-1.0.8-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:3384150a96cc723b9b110eb253d363270a2a97071e2511c8c35d3bbb6b5f821d"},
+    {file = "mecab_python3-1.0.8-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:56652649b3948fffa253a2619f12c7c6b02e484c172770595d430a68dfbb1b9d"},
+    {file = "mecab_python3-1.0.8-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f538ebdd2381b7ff02f0023154783c6558df284879547628c500bee0db7f300f"},
+    {file = "mecab_python3-1.0.8-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8df17cb9acf601770c81cd2cde19fdffdce638dbfe14b83c9274358a04a752f6"},
+    {file = "mecab_python3-1.0.8-cp311-cp311-win_amd64.whl", hash = "sha256:d6df291b4e05194aebc4aca5d3bf83f5d6cbf0c2fb6fa135835c938c107d7632"},
+    {file = "mecab_python3-1.0.8-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:e0b8490b3c4e4f1434175b76f6599ce1b0144e5982720c9140bb6b2b9f57efa1"},
+    {file = "mecab_python3-1.0.8-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:32edc45b307ece212a9507a229d5fcf3cc2d8a59b6d6c9f322430e72e4a520a5"},
+    {file = "mecab_python3-1.0.8-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:dd244b414fcc0afaf2a278610d3a5d9b575c50279724b8340c3871c14e619400"},
+    {file = "mecab_python3-1.0.8-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2ec8c7a95fd7138019103663d6dd8edb5d48217e8c1a1120ca59400eb704d429"},
+    {file = "mecab_python3-1.0.8-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:b02f184b5c300d10a7b0a19e9c99684d1b9453709205421008e743347cb4a484"},
+    {file = "mecab_python3-1.0.8-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:77f566a0431a8cb15f540f87d44575085d9800e3ad28143ce5085db6dfbdc600"},
+    {file = "mecab_python3-1.0.8-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:64eb2ad8b3d77fe2c6c745f4f39ba412e7aa4fcc1affa89861064ce30aaf5eeb"},
+    {file = "mecab_python3-1.0.8-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9fe0c0e106829724c5b9c46c999353280c7924103302ea01b6fdfedc7d644986"},
+    {file = "mecab_python3-1.0.8-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4a48982540b9113275c2a0154271b685e304092f340de795652d6146e8f7707f"},
+    {file = "mecab_python3-1.0.8-cp38-cp38-win_amd64.whl", hash = "sha256:613da4a8e6c5c0a0569950eba445fe336181cee05905b6f26806bdda5b884131"},
+    {file = "mecab_python3-1.0.8-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:35b5d9f097c00317d99c066f976b4cd690e37428136f37fabd5adcd2b4897b78"},
+    {file = "mecab_python3-1.0.8-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:d4c8fc9954101f9b6bf63eb98e2c7b429ef1b78550d70d0d46b840c6ddf8fe15"},
+    {file = "mecab_python3-1.0.8-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:c55d224fd3a7813683aadb8f72d375195d68f3720b0652c396c1012469b81be9"},
+    {file = "mecab_python3-1.0.8-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4ccbcb3418f6218a0e8d9e15bb526a5d84ee1b3d014e8543247f3ea64a4c99b8"},
+    {file = "mecab_python3-1.0.8-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4339373325702856e623e9a06435b47f0adbc1eaed8b0c5437f3e78e67ebc2ef"},
+    {file = "mecab_python3-1.0.8-cp39-cp39-win_amd64.whl", hash = "sha256:f55fbf887f750475ea526c0cb62089384882f4217a58de7cf7e65727e025e07d"},
+]
+
+[package.extras]
+unidic = ["unidic"]
+unidic-lite = ["unidic-lite"]
 
 [[package]]
 name = "mistune"
@@ -3179,4 +3231,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "ea08f7d1af98b3299f10199ccbd0a818ef0fab31d1d27299229782e401286ef0"
+content-hash = "b6b091f3b660450c67496560261ce2b5e6f43518ad3fbd22ab0bb2f3ab946538"
