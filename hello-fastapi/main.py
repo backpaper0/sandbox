@@ -1,5 +1,8 @@
+from typing import Any, AsyncIterator, Dict
 from fastapi import Cookie, FastAPI, Depends
 from pydantic import BaseModel
+from sse_starlette import EventSourceResponse
+import asyncio
 
 app = FastAPI()
 
@@ -55,3 +58,17 @@ def query_or_cookie_extractor(
 @app.get("/items2/")
 async def read_query(query_or_default: str = Depends(query_or_cookie_extractor)):
     return {"q_or_cookie": query_or_default}
+
+
+# curl -N localhost:8000/foobar
+@app.get("/foobar")
+async def foobar() -> EventSourceResponse:
+    return EventSourceResponse(_foobar_streamer())
+
+async def _foobar_streamer() -> AsyncIterator[Dict[str, Any]]:
+    for i in range(10):
+        await asyncio.sleep(.1)
+        yield {
+            "event": "data",
+            "data": f"{i}",
+        }
