@@ -43,6 +43,29 @@ poetry run task verify
 poetry run task test
 ```
 
+## OpenTelemetryを試す
+
+[OpenTelemetryのPython SDK](https://opentelemetry.io/docs/languages/python/)を試します。
+
+コードは [scripts/server.py](scripts/server.py) です。
+
+可視化は[SigNoz](https://signoz.io/)を使うのが手軽だと思います。
+
+### 動作確認の手順
+
+- [SigNozをDocker Composeで起動する](https://github.com/SigNoz/signoz/tree/develop/deploy)
+- アプリケーションを起動する
+  ```
+  poetry run task serve
+  ```
+- 別のコンソールでリクエストを投げる
+  ```bash
+  poetry run task request
+  ```
+- テレメトリーを確認する
+  - http://localhost:3301
+  - https://frontend.clickhouse-setup.orb.local/ ([OrbStack](https://orbstack.dev/)使ってるならこっち)
+
 ## Appendix
 
 ### インストールとか諸々
