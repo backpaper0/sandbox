@@ -22,6 +22,12 @@ sqlalchemy = "^2.0.28"
 aiosqlite = "^0.20.0"
 mecab-python3 = "^1.0.8"
 ipadic = "^1.0.0"
+fastapi = "^0.110.0"
+uvicorn = {extras = ["standard"], version = "^0.28.1"}
+opentelemetry-api = "^1.23.0"
+opentelemetry-sdk = "^1.23.0"
+opentelemetry-instrumentation-fastapi = "^0.44b0"
+opentelemetry-exporter-zipkin = "^1.23.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -36,3 +42,4 @@ build-backend = "poetry.core.masonry.api"
 [tool.taskipy.tasks]
 verify = "poetry run mypy scripts/verify_error.py"
 test = "poetry run python -m unittest -v scripts/test_*.py"
+serve = "PYTHONPATH=scripts:$PYTHONPATH uvicorn server:app --reload"
