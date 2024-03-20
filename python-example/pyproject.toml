@@ -28,6 +28,7 @@ opentelemetry-api = "^1.23.0"
 opentelemetry-sdk = "^1.23.0"
 opentelemetry-instrumentation-fastapi = "^0.44b0"
 opentelemetry-exporter-zipkin = "^1.23.0"
+pydantic = "^2.6.4"
 
 
 [tool.poetry.group.dev.dependencies]
