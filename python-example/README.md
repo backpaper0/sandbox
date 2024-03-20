@@ -92,9 +92,9 @@ poetry init -q
 poetry add python-dotenv
 ```
 
-あと、`.vscode/settings.json`で`python`コマンドと`poetry`コマンドのパスを設定してみた。
+あと、`.vscode/settings.json`で`python`コマンドと`poetry`コマンドのパスを設定してみました。
 
-VSCodeで型チェックを行うために次の拡張をインストールした。
+VSCodeで型チェックを行うために次の拡張をインストールしました。
 
 - [Mypy Type Checker](https://marketplace.visualstudio.com/items?itemName=ms-python.mypy-type-checker)
 
