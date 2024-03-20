@@ -1,4 +1,4 @@
-# docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
+# docker compose up -d
 # poetry run task serve
 # curl localhost:8000/rolldice
 
@@ -28,7 +28,7 @@ def _roll() -> int:
 
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from opentelemetry import trace
-from opentelemetry.exporter.zipkin.proto.http import ZipkinExporter
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.sdk.resources import SERVICE_NAME, Resource
@@ -38,7 +38,7 @@ resource = Resource(attributes={
 })
 
 traceProvider = TracerProvider(resource=resource)
-processor = BatchSpanProcessor(ZipkinExporter())
+processor = BatchSpanProcessor(OTLPSpanExporter())
 traceProvider.add_span_processor(processor)
 trace.set_tracer_provider(traceProvider)
 
