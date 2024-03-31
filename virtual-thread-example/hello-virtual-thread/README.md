@@ -56,3 +56,30 @@ b-1
 仮想スレッドAで`Thread.sleep`しても仮想スレッドBへは制御が切り替わらず、仮想スレッドAの処理がすべて完了してから仮想スレッドBの処理が開始していました。
 
 こちらも期待通りの動作です。
+
+## nativeメソッドによる固定化
+
+`FileInputStream.readAllBytes()`が呼ばれたときに仮想スレッドが切り替わるか確認してみましたが、切り替わりませんでした。
+
+```
+java -Djdk.virtualThreadScheduler.maxPoolSize=1 App3.java
+```
+
+```
+a-1
+a-2
+b-1
+```
+
+これは`FileInputStream.readAllBytes()`から辿って呼び出されている`FileInputStream.readBytes()`がnativeメソッドであることが要因です。
+
+> ```java
+> private native int readBytes(byte[] b, int off, int len) throws IOException;
+> ```
+
+`synchronized`ブロックと同様にnativeメソッドも仮想スレッドをキャリアへ固定します。
+
+> 仮想スレッドがキャリアに固定されている場合、ブロッキング操作中にマウント解除することはできません。仮想スレッドが固定されるのは次の状況です:
+> 
+> - 仮想スレッドが、synchronizedブロックまたはメソッド内でコードを実行します
+> - 仮想スレッドが、nativeメソッドまたは外部関数実行します([外部関数およびメモリーAPI](https://docs.oracle.com/javase/jp/21/core/foreign-function-and-memory-api.html#GUID-FBE990DA-C356-46E8-9109-C75567849BA8)を参照)
