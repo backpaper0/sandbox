@@ -20,7 +20,6 @@ java -Djdk.virtualThreadScheduler.maxPoolSize=1 App1.java
 ```
 a-1
 b-1
-b-2
 a-2
 ```
 
@@ -52,7 +51,6 @@ java -Djdk.virtualThreadScheduler.maxPoolSize=1 App2.java
 a-1
 a-2
 b-1
-b-2
 ```
 
 仮想スレッドAで`Thread.sleep`しても仮想スレッドBへは制御が切り替わらず、仮想スレッドAの処理がすべて完了してから仮想スレッドBの処理が開始していました。

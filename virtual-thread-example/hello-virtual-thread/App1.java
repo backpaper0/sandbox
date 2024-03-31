@@ -21,17 +21,10 @@ public class App1 {
 
         Thread t2 = Thread.ofVirtual().unstarted(() -> {
             System.out.println("b-1");
-
-            try {
-                gate.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("b-2");
         });
 
         t1.start();
+        gate.await();
         t2.start();
 
         t1.join();
