@@ -83,3 +83,5 @@ b-1
 > 
 > - 仮想スレッドが、synchronizedブロックまたはメソッド内でコードを実行します
 > - 仮想スレッドが、nativeメソッドまたは外部関数実行します([外部関数およびメモリーAPI](https://docs.oracle.com/javase/jp/21/core/foreign-function-and-memory-api.html#GUID-FBE990DA-C356-46E8-9109-C75567849BA8)を参照)
+
+- [仮想スレッドのスケジュールおよび固定された仮想スレッド](https://docs.oracle.com/javase/jp/21/core/virtual-threads.html#GUID-704A716D-0662-4BC7-8C7F-66EE74B1EDAD)より引用
