@@ -20,6 +20,7 @@ langserve = {extras = ["all"], version = "^0.0.47"}
 taskipy = "^1.12.2"
 pydantic = "1.10.13"
 pandas = "^2.2.1"
+pypdf = "^4.2.0"
 
 
 [build-system]
