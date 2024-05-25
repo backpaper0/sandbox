@@ -18,6 +18,13 @@ async def run(playwright):
     title = await page.title()
     print(f"Page title: {title}")
 
+    # ページ内のすべてのリンクを取得
+    links = await page.query_selector_all("a")
+    # リンクのhref属性を取得して表示
+    for link in links:
+        href = await link.get_attribute("href")
+        print(href)
+
     # スクリーンショットを取得して保存
     await page.screenshot(path="screenshot.png")
 
