@@ -29,6 +29,7 @@ opentelemetry-sdk = "^1.23.0"
 opentelemetry-instrumentation-fastapi = "^0.44b0"
 pydantic = "^2.6.4"
 opentelemetry-exporter-otlp-proto-http = "^1.23.0"
+duckdb = "^1.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
