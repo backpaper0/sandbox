@@ -2,11 +2,7 @@ from azure.cosmos.errors import CosmosResourceNotFoundError
 
 import core
 
-client = core.get_cosmos_client()
-
-db = client.get_database_client("mydb")
-
-users = db.get_container_client("users")
+users = core.get_users_container()
 
 print("# 全件取得")
 items = users.read_all_items()

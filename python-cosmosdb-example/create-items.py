@@ -2,11 +2,7 @@ from azure.cosmos.exceptions import CosmosResourceExistsError
 
 import core
 
-client = core.get_cosmos_client()
-
-db = client.get_database_client("mydb")
-
-users = db.get_container_client("users")
+users = core.get_users_container()
 
 items = [
     {"id": "1", "location": "JP", "name": "Alice", "age": 20},

@@ -1,10 +1,6 @@
 import core
 
-client = core.get_cosmos_client()
-
-db = client.get_database_client("mydb")
-
-users = db.get_container_client("users")
+users = core.get_users_container()
 
 items = users.query_items(query="select * from c", enable_cross_partition_query=True)
 for item in items:

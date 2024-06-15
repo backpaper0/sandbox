@@ -1,7 +1,7 @@
 import os
 
 import urllib3
-from azure.cosmos import CosmosClient
+from azure.cosmos import ContainerProxy, CosmosClient
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -20,3 +20,7 @@ def get_cosmos_client() -> CosmosClient:
         connection_verify=connection_verify,
     )
     return client
+
+
+def get_users_container() -> ContainerProxy:
+    return get_cosmos_client().get_database_client("mydb").get_container_client("users")

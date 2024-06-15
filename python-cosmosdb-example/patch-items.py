@@ -3,11 +3,7 @@ from azure.cosmos.exceptions import CosmosAccessConditionFailedError
 
 import core
 
-client = core.get_cosmos_client()
-
-db = client.get_database_client("mydb")
-
-users = db.get_container_client("users")
+users = core.get_users_container()
 
 
 alice = users.read_item(item="1", partition_key="JP")
