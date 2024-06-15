@@ -27,3 +27,9 @@ python delete-items.py
 ```
 
 削除対象のドキュメントが存在していなくても特にエラーにならないみたい。
+
+## Itemを更新する
+
+```bash
+python upsert-items.py
+```

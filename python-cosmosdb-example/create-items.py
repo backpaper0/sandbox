@@ -1,5 +1,3 @@
-import logging
-
 from azure.cosmos.exceptions import CosmosResourceExistsError
 
 import core
