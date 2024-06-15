@@ -33,3 +33,11 @@ python delete-items.py
 ```bash
 python upsert-items.py
 ```
+
+`patch_item`メソッドでドキュメントの部分的な更新もできる。
+
+```bash
+python patch-items.py
+```
+
+- 参考）[Azure Cosmos DB の部分的ドキュメント更新](https://learn.microsoft.com/ja-jp/azure/cosmos-db/partial-document-update)

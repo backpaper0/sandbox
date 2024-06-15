@@ -11,20 +11,27 @@ users = db.get_container_client("users")
 
 
 alice = users.read_item(item="1", partition_key="JP")
+patch_operations = [
+    {"op": "incr", "path": "/age", "value": 1},
+]
 
-print("# upsert_item")
-result = users.upsert_item(
-    body={"id": "1", "location": "JP", "name": "Alice", "age": 19},
+print("# patch_item")
+result = users.patch_item(
+    item="1",
+    partition_key="JP",
+    patch_operations=patch_operations,
     etag=alice["_etag"],
     match_condition=MatchConditions.IfNotModified,
 )
 print(result)
 print()  # 空行
 
-print("# upsert_item（etagによる楽観排他に失敗する）")
+print("# patch_item（etagによる楽観排他に失敗する）")
 try:
-    users.upsert_item(
-        body={"id": "1", "location": "JP", "name": "Alice", "age": 18},
+    users.patch_item(
+        item="1",
+        partition_key="JP",
+        patch_operations=patch_operations,
         etag=alice["_etag"],
         match_condition=MatchConditions.IfNotModified,
     )
