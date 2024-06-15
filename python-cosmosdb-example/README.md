@@ -1,5 +1,11 @@
 # Python Cosmos DB Example
 
+## DockerでCosmos Emulatorを起動する
+
+```bash
+poetry run task start-cosmos
+```
+
 ## Containerを作成する
 
 ```bash

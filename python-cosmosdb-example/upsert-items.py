@@ -27,3 +27,12 @@ try:
 except CosmosAccessConditionFailedError as e:
     print(e.reason)
     print()  # 空行
+
+print("# upsert_item（ドキュメントが存在しない場合は新規作成）")
+result = users.upsert_item(
+    body={"id": "4", "location": "US", "name": "Carol", "age": 25},
+    etag="00000000-0000-0000-0000-000000000000",
+    match_condition=MatchConditions.IfNotModified,
+)
+print(result)
+print()  # 空行

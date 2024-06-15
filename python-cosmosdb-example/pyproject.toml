@@ -21,5 +21,3 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
 start-cosmos = "docker run -d -p 8081:8081 -p 10250-10255:10250-10255 --name cosmos  mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator"
-stop-cosmos = "docker stop cosmos"
-rm-cosmos = "docker rm cosmos"
