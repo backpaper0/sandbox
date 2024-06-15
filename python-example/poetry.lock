@@ -2894,6 +2894,20 @@ files = [
 ]
 
 [[package]]
+name = "python-ulid"
+version = "2.6.0"
+description = "Universally unique lexicographically sortable identifier"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "python_ulid-2.6.0-py3-none-any.whl", hash = "sha256:b47cc7a427b82f7526af96385d7702685df808e9b4922523dd5988a3ba98a89d"},
+    {file = "python_ulid-2.6.0.tar.gz", hash = "sha256:904e19093dd6578a5ce01a8274e3e228d556d47be3bda328da2d3601c5240c4f"},
+]
+
+[package.extras]
+pydantic = ["pydantic (>=2.0)"]
+
+[[package]]
 name = "pytz"
 version = "2024.1"
 description = "World timezone definitions, modern and historical"
@@ -4101,4 +4115,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "b55fd5166e1dd506c94b64c509421784aa687780cbcf0b310903a8d7ca166b5f"
+content-hash = "98d2fcd10421e467fcffeac57e9f86c2677b15bf3282f4a2c197810ef88d034e"
