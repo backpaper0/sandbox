@@ -11,11 +11,15 @@ for item in items:
 print()  # 空行
 
 print("# 1件取得（idで取得）")
+item = users.read_item(item="1", partition_key="JP")
+print(item)
+print()  # 空行
+
+print("# 1件取得（ドキュメントが存在しない場合はエラー）")
 try:
-    item = users.read_item(item="1", partition_key="JP")
-    print(item)
+    users.read_item(item="9999", partition_key="JP")
 except CosmosResourceNotFoundError as e:
-    print(e)
+    print(e.reason)
 print()  # 空行
 
 print("# 属性で取得")
