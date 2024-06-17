@@ -1,7 +1,8 @@
 import os
+from typing import Tuple
 
 import urllib3
-from azure.cosmos import ContainerProxy, CosmosClient
+from azure.cosmos.aio import ContainerProxy, CosmosClient
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -22,5 +23,6 @@ def get_cosmos_client() -> CosmosClient:
     return client
 
 
-def get_users_container() -> ContainerProxy:
-    return get_cosmos_client().get_database_client("mydb").get_container_client("users")
+def get_users_container() -> Tuple[ContainerProxy, CosmosClient]:
+    client = get_cosmos_client()
+    return client.get_database_client("mydb").get_container_client("users"), client
