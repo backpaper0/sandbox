@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload file example</title>
+</head>
+
+<body>
+
+    <form>
+        <p>
+            <input type="file" name="file1">
+            <button type="button" onclick="uploadFile(this.form.file1, '/files/', 'file_size')">Upload</button>
+        </p>
+        <p>
+            <input type="file" name="file2">
+            <button type="button" onclick="uploadFile(this.form.file2, '/uploadfile/', 'filename')">Upload</button>
+        </p>
+    </form>
+
+    <script>
+        async function uploadFile(file, path, propName) {
+            const body = new FormData();
+            body.append("file", file.files[0]);
+            const resp = await fetch(path, {
+                method: 'POST',
+                body,
+            })
+            const data = await resp.json();
+            window.alert(`${propName} = ${data[propName]}`);
+        }
+    </script>
+</body>
+
+</html>
