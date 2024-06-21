@@ -1,4 +1,7 @@
+# python -m unittest -v tests/test_example.py
+
 import unittest
+
 
 class TestExample(unittest.TestCase):
 
