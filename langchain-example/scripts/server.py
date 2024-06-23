@@ -1,13 +1,13 @@
+import time
 from dataclasses import dataclass
+from typing import Any, AsyncIterator, Dict, Iterator
+
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import (
-    ChatPromptTemplate,
-    MessagesPlaceholder,
-)
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables import (
     Runnable,
     RunnableConfig,
@@ -21,19 +21,17 @@ from langchain_core.tracers import ConsoleCallbackHandler
 from langchain_openai import ChatOpenAI
 from langserve import add_routes
 from starlette.requests import Request
-from typing import Any, AsyncIterator, Dict, Iterator
-import time
 
 load_dotenv()
 
 app = FastAPI()
 
-common_config = RunnableConfig({
-    "callbacks": [ConsoleCallbackHandler()]
-})
+common_config = RunnableConfig({"callbacks": [ConsoleCallbackHandler()]})
+
 
 def per_req_config_modifier(config: Dict[str, Any], r: Request) -> Dict[str, Any]:
     return {**common_config, **config}
+
 
 strOutputParser = StrOutputParser()
 
@@ -47,7 +45,6 @@ add_routes(
 )
 
 
-
 add_routes(
     app,
     RunnablePassthrough(),
@@ -56,16 +53,18 @@ add_routes(
 )
 
 
-
 @dataclass
 class Msg:
     text: str
     times: int
 
-def build_lambda():
+
+def build_lambda() -> RunnableLambda[Msg, str]:
     def f(input: Msg) -> str:
         return input.text * input.times
+
     return RunnableLambda(f)
+
 
 add_routes(
     app,
@@ -75,19 +74,21 @@ add_routes(
 )
 
 
-
 @dataclass
 class Msg2:
     text: str
     sleep: float
 
-def build_generator():
+
+def build_generator() -> RunnableGenerator[Msg2, str]:
     async def g(input: AsyncIterator[Msg2]) -> AsyncIterator[str]:
         async for msg in input:
             for c in msg.text:
                 yield c
                 time.sleep(msg.sleep)
+
     return RunnableGenerator(g)
+
 
 add_routes(
     app,
@@ -107,13 +108,13 @@ def build_chain1() -> Runnable:
     async def gen2(input: AsyncIterator[str]) -> AsyncIterator[str]:
         async for s in input:
             for i in range(1, 4):
-                time.sleep(.5)
+                time.sleep(0.5)
                 yield f"bar{s}{i}"
 
     async def gen3(input: AsyncIterator[Any]) -> AsyncIterator[Any]:
         async for elm in input:
             yield elm
-        yield AddableDict({ "foobar" : "foobar" })
+        yield AddableDict({"foobar": "foobar"})
 
     return (
         RunnablePassthrough()
@@ -124,6 +125,7 @@ def build_chain1() -> Runnable:
         | gen3
     )
 
+
 add_routes(
     app,
     build_chain1(),
@@ -133,8 +135,7 @@ add_routes(
 )
 
 
-
-def build_chat2():
+def build_chat2() -> RunnableWithMessageHistory:
     store = {}
 
     def get_session_history(session_id: str) -> BaseChatMessageHistory:
@@ -142,24 +143,21 @@ def build_chat2():
             store[session_id] = ChatMessageHistory()
         return store[session_id]
 
-    prompt = ChatPromptTemplate.from_messages([
-        MessagesPlaceholder("history"),
-        ("human", "{question}"),
-    ])
-
-    return (
-        RunnableWithMessageHistory(
-            runnable=(
-                prompt
-                | model
-                | strOutputParser
-            ),
-            get_session_history=get_session_history,
-            input_messages_key="question",
-            # output_messages_key="output",
-            history_messages_key="history",
-        )
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            MessagesPlaceholder("history"),
+            ("human", "{question}"),
+        ]
     )
+
+    return RunnableWithMessageHistory(
+        runnable=(prompt | model | strOutputParser),  # type: ignore[arg-type]
+        get_session_history=get_session_history,
+        input_messages_key="question",
+        # output_messages_key="output",
+        history_messages_key="history",
+    )
+
 
 add_routes(
     app,
@@ -170,7 +168,7 @@ add_routes(
 
 
 # AIの回答の前後にテキストを追加する
-def build_chat3():
+def build_chat3() -> Runnable:
 
     def transform(input: Iterator[str]) -> Iterator[str]:
         yield "[回答開始]\n"
@@ -184,11 +182,8 @@ def build_chat3():
             yield chunk
         yield "\n[回答終了]"
 
-    return (
-        model
-        | strOutputParser
-        | RunnableGenerator(transform, atransform)
-    )
+    return model | strOutputParser | RunnableGenerator(transform, atransform)
+
 
 add_routes(
     app,

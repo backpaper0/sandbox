@@ -35,7 +35,7 @@ prompt = ChatPromptTemplate.from_messages(
 chain = prompt | ChatOpenAI(model="gpt-4o")
 
 chain_with_history = RunnableWithMessageHistory(
-    runnable=chain,
+    runnable=chain,  # type: ignore[arg-type]
     get_session_history=get_by_session_id,
     input_messages_key="question",
     history_messages_key="history",

@@ -25,7 +25,7 @@ langchain-community = "^0.2.5"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^7.1.0"
-black = "^24.4.2"
+black = {extras = ["jupyter"], version = "^24.4.2"}
 isort = "^5.13.2"
 mypy = "^1.10.0"
 
