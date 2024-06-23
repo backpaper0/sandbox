@@ -27,6 +27,7 @@ langchain-community = "^0.2.5"
 flake8 = "^7.1.0"
 black = "^24.4.2"
 isort = "^5.13.2"
+mypy = "^1.10.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -34,7 +35,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
 start = "PYTHONPATH=scripts uvicorn server:app --reload"
-lint = "flake8 . && black . && isort ."
+lint = "flake8 . && black . && isort . && mypy ."
 
 [tool.black]
 line-length = 88
