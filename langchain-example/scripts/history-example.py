@@ -56,28 +56,23 @@ class MyMessageConverter(BaseMessageConverter):
         return MyMessage
 
 
-class MySQLChatMessageHistory(SQLChatMessageHistory):
-    def __init__(self, *args, **kwargs):  # type: ignore
-        super().__init__(*args, **kwargs)
-
-    # 以下のエラーが発生するので、とりあえずエラーが出ないような対応をしたサブクラスを用意する。
-    # Error in RootListenersTracer.on_chain_end callback: RuntimeError("There is no current event loop in thread 'asyncio_0'.")
-    # InMemoryChatMessageHistory だとエラーが発生しなかったので SQLChatMessageHistory の問題か
-    def add_messages(self, messages):  # type: ignore
-        if self.async_mode:
-            asyncio.run(super().aadd_messages(messages))
-        else:
-            super().add_messages(messages)
-
-
+# 以下のエラーが発生するので、とりあえずエラーが出ないよう、add_messagesメソッドをアドホックにオーバーライドする
+# Error in RootListenersTracer.on_chain_end callback: RuntimeError("There is no current event loop in thread 'asyncio_0'.")
+# InMemoryChatMessageHistory だとエラーが発生しなかったので SQLChatMessageHistory の問題か
 def get_by_session_id(session_id: str) -> BaseChatMessageHistory:
-    return MySQLChatMessageHistory(
+    obj = SQLChatMessageHistory(
         session_id=session_id,
         connection=engine,
         custom_message_converter=MyMessageConverter(),
         table_name="my_messages",
         session_id_field_name="chat_id",
     )
+
+    def custom_add_messages(self, messages):  # type: ignore
+        asyncio.run(self.aadd_messages(messages))
+
+    obj.add_messages = custom_add_messages.__get__(obj, SQLChatMessageHistory)  # type: ignore
+    return obj
 
 
 prompt = ChatPromptTemplate.from_messages(
