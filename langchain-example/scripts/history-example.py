@@ -108,11 +108,7 @@ def dump(data: dict[str, Any] | list[dict[str, Any]]) -> None:
 
 async def get_my_messages(session_id: str) -> list[dict[str, Any]]:
     async with engine.connect() as con:
-        result = await con.execute(
-            select(MyMessage)
-            .where(MyMessage.chat_id == session_id)
-            .order_by(MyMessage.id.asc())
-        )
+        result = await con.execute(select(MyMessage).where(MyMessage.chat_id == session_id).order_by(MyMessage.id.asc()))
         return [
             dict(
                 id=row.id,

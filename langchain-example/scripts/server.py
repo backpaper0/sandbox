@@ -8,13 +8,7 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.runnables import (
-    Runnable,
-    RunnableConfig,
-    RunnableGenerator,
-    RunnableLambda,
-    RunnablePassthrough,
-)
+from langchain_core.runnables import Runnable, RunnableConfig, RunnableGenerator, RunnableLambda, RunnablePassthrough
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.runnables.utils import AddableDict
 from langchain_core.tracers import ConsoleCallbackHandler
