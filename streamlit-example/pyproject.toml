@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "streamlit-example"
+version = "0.1.0"
+description = ""
+authors = ["Uragami Taichi <backpaper0@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+streamlit = "^1.36.0"
+pandas = "^2.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
