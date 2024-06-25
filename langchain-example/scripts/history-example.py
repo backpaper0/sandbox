@@ -1,5 +1,5 @@
+import asyncio
 import json
-import os
 import uuid
 from typing import Any
 
@@ -11,7 +11,7 @@ from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_openai.chat_models import ChatOpenAI
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.sql import select
 from sqlalchemy.types import Text
@@ -19,9 +19,9 @@ from ulid import ULID
 
 load_dotenv()
 
-database_url = os.environ["DATABASE_URL"]
+database_url = "sqlite+aiosqlite:///example.db"
 
-engine = create_engine(database_url)
+engine = create_async_engine(database_url)
 
 
 class Base(DeclarativeBase):
@@ -56,8 +56,22 @@ class MyMessageConverter(BaseMessageConverter):
         return MyMessage
 
 
+class MySQLChatMessageHistory(SQLChatMessageHistory):
+    def __init__(self, *args, **kwargs):  # type: ignore
+        super().__init__(*args, **kwargs)
+
+    # 以下のエラーが発生するので、とりあえずエラーが出ないような対応をしたサブクラスを用意する。
+    # Error in RootListenersTracer.on_chain_end callback: RuntimeError("There is no current event loop in thread 'asyncio_0'.")
+    # InMemoryChatMessageHistory だとエラーが発生しなかったので SQLChatMessageHistory の問題か
+    def add_messages(self, messages):  # type: ignore
+        if self.async_mode:
+            asyncio.run(super().aadd_messages(messages))
+        else:
+            super().add_messages(messages)
+
+
 def get_by_session_id(session_id: str) -> BaseChatMessageHistory:
-    return SQLChatMessageHistory(
+    return MySQLChatMessageHistory(
         session_id=session_id,
         connection=engine,
         custom_message_converter=MyMessageConverter(),
@@ -97,9 +111,9 @@ def dump(data: dict[str, Any] | list[dict[str, Any]]) -> None:
     )
 
 
-def get_my_messages(session_id: str) -> list[dict[str, Any]]:
-    with engine.connect() as con:
-        result = con.execute(
+async def get_my_messages(session_id: str) -> list[dict[str, Any]]:
+    async with engine.connect() as con:
+        result = await con.execute(
             select(MyMessage)
             .where(MyMessage.chat_id == session_id)
             .order_by(MyMessage.id.asc())
@@ -114,24 +128,31 @@ def get_my_messages(session_id: str) -> list[dict[str, Any]]:
         ]
 
 
-dump(
-    chain_with_history.invoke(
-        {"question": "1以上100以下の整数の中から適当に3つ挙げて。"},
-        config={"configurable": {"session_id": session_id}},
-    ).dict()
-)
+async def main() -> None:
+    try:
+        dump(
+            (
+                await chain_with_history.ainvoke(
+                    {"question": "1以上100以下の整数の中から適当に3つ挙げて。"},
+                    config={"configurable": {"session_id": session_id}},
+                )
+            ).dict()
+        )
 
-dump(get_my_messages(session_id))
+        dump(await get_my_messages(session_id))
+
+        dump(
+            (
+                await chain_with_history.ainvoke(
+                    {"question": "それらを合計して。"},
+                    config={"configurable": {"session_id": session_id}},
+                )
+            ).dict()
+        )
+
+        dump(await get_my_messages(session_id))
+    finally:
+        await engine.dispose()
 
 
-dump(
-    chain_with_history.invoke(
-        {"question": "それらを合計して。"},
-        config={"configurable": {"session_id": session_id}},
-    ).dict()
-)
-
-
-dump(get_my_messages(session_id))
-
-engine.dispose()
+asyncio.run(main())
