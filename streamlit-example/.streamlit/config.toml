@@ -1,0 +1,11 @@
+[logger]
+#level = "debug"
+
+[client]
+#toolbarMode = "minimal"
+
+[server]
+headless = true
+
+[theme]
+#primaryColor = "#0000ff"
