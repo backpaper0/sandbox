@@ -1,37 +1,38 @@
-import time
-
 import streamlit as st
+from dotenv import load_dotenv
+from langchain_core.messages import BaseMessage, HumanMessage
+from langchain_openai.chat_models import ChatOpenAI
 
-_AI_ANSWER = """わかりました。17、43、89の合計を計算します。
+load_dotenv()
 
-17 + 43 + 89 = 149
-
-合計は149です。"""
-
-
-def ai_stream():
-    for word in _AI_ANSWER.split(" "):
-        yield word + " "
-        time.sleep(0.02)
+# streamlit run --server.headless true chat-example.py
 
 
-prompt = st.chat_input(placeholder="それらを合計して。")
+def write_message(message: BaseMessage) -> None:
+    msg = st.chat_message(name=message.type)
+    msg.write(message.content)
 
 
-human_message = st.chat_message(name="human")
-human_message.write("1以上100以下の整数の中から適当に3つ挙げて。")
+chat = ChatOpenAI(model="gpt-4o")
 
-ai_message = st.chat_message(name="ai")
-ai_message.write(
-    """もちろんです。以下の3つの整数をランダムに選びました:
 
-17, 43, 89"""
-)
+messages: list[BaseMessage] = st.session_state.get("messages", [])
+
+
+for message in messages:
+    write_message(message)
+
+prompt = st.chat_input()
 
 if prompt is not None:
-    human_message2 = st.chat_message(name="human")
-    human_message2.write(prompt)
+    human_message = HumanMessage(prompt)
+    write_message(human_message)
+    messages.append(human_message)
 
-    ai_message2 = st.chat_message(name="ai")
-    time.sleep(3)
-    ai_message2.write_stream(ai_stream)
+    input = [str(message.content) for message in messages]
+
+    ai_message = chat.invoke(input)
+    write_message(ai_message)
+    messages.append(ai_message)
+
+    st.session_state["messages"] = messages

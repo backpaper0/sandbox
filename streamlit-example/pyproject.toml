@@ -9,6 +9,9 @@ readme = "README.md"
 python = "^3.11"
 streamlit = "^1.36.0"
 pandas = "^2.2.2"
+langchain = "^0.2.5"
+openai = "^1.35.3"
+python-dotenv = "^1.0.1"
 
 
 [build-system]
