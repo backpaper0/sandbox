@@ -1,11 +1,6 @@
 import streamlit as st
-from dotenv import load_dotenv
 from langchain_core.messages import BaseMessage, HumanMessage
 from langchain_openai.chat_models import ChatOpenAI
-
-load_dotenv()
-
-# streamlit run --server.headless true chat-example.py
 
 
 def write_message(message: BaseMessage) -> None:
@@ -13,7 +8,10 @@ def write_message(message: BaseMessage) -> None:
     msg.write(message.content)
 
 
-chat = ChatOpenAI(model="gpt-4o")
+chat = ChatOpenAI(
+    model="gpt-4o",
+    api_key=st.secrets["openai_api_key"],  # from ~/.streamlit/secrets.toml
+)
 
 
 messages: list[BaseMessage] = st.session_state.get("messages", [])
