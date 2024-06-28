@@ -101,3 +101,5 @@ VSCodeで型チェックを行うために次の拡張をインストールし�
 ### 参考資料
 
 - [公式ドキュメント](https://docs.python.org/ja/3/index.html)
+- [SQLAlchemy(ORM)](https://docs.sqlalchemy.org/en/20/)
+- [Alembic(DBマイグレーション)](https://alembic.sqlalchemy.org/en/latest/)

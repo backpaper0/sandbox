@@ -32,6 +32,7 @@ opentelemetry-exporter-otlp-proto-http = "^1.23.0"
 duckdb = "^1.0.0"
 python-ulid = "^2.6.0"
 python-multipart = "^0.0.9"
+alembic = "^1.13.2"
 
 
 [tool.poetry.group.dev.dependencies]
