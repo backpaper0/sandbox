@@ -1,4 +1,4 @@
-import React, { useActionState, useOptimistic, useState } from 'react';
+import React, { useActionState, useEffect, useOptimistic, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 
 interface Message {
@@ -9,6 +9,7 @@ interface Message {
 const genId: () => string = () => Math.floor((Math.random() * 0xFFFFFFFF)).toString(16);
 
 const App: React.FC = () => {
+  const formRef = useRef<HTMLFormElement>();
   const [messages, setMessages] = useState<Message[]>([{
     id: genId(),
     content: "hello world",
@@ -24,6 +25,7 @@ const App: React.FC = () => {
   const action = async (previousState, formData) => {
     const content = formData.get("content");
     addOptimistic(content);
+    formRef.current?.reset()
     const message = await sendMessage(content);
     setMessages(messages => [message, ...messages]);
   }
@@ -31,7 +33,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <form action={formAction}>
+      <form action={formAction} ref={formRef}>
         <MessageForm />
       </form>
       <ul>
@@ -49,9 +51,15 @@ export default App
 
 const MessageForm: React.FC = () => {
   const status = useFormStatus();
+  const inputRef = useRef<HTMLInputElement>();
+  useEffect(() => {
+    if (status.pending === false) {
+      inputRef.current?.focus();
+    }
+  }, [status.pending])
   return (
     <div>
-      <input type="text" name="content" disabled={status.pending} />
+      <input type="text" name="content" disabled={status.pending} ref={inputRef} />
       <button type="submit" disabled={status.pending}>Submit</button>
     </div>
   );
