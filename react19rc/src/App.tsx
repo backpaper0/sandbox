@@ -26,13 +26,20 @@ const App: React.FC = () => {
     const content = formData.get("content");
     addOptimistic(content);
     formRef.current?.reset()
-    const message = await sendMessage(content);
-    setMessages(messages => [message, ...messages]);
+    try {
+      const message = await sendMessage(content);
+      setMessages(messages => [message, ...messages]);
+      return "";
+    } catch (e) {
+      return e.message;
+    }
   }
-  const [, formAction] = useActionState(action)
+  const initialState = "";
+  const [actionState, formAction] = useActionState(action, initialState)
 
   return (
     <div>
+      <p>{actionState}</p>
       <form action={formAction} ref={formRef}>
         <MessageForm />
       </form>
@@ -66,12 +73,16 @@ const MessageForm: React.FC = () => {
 }
 
 const sendMessage: (content: string) => Promise<Message> = (content) => {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve({
-        id: genId(),
-        content,
-      });
+      if (content.includes("err")) {
+        reject(new Error("エラーが発生しました"))
+      } else {
+        resolve({
+          id: genId(),
+          content,
+        });
+      }
     }, 1000);
   });
 }
