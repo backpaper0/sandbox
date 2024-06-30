@@ -1,32 +1,36 @@
-function httpMethods() {
-  const methods = ['get', 'head', 'post', 'put', 'delete', 'trace', 'options', 'connect', 'patch'];
-  methods.forEach(method => {
-    const options = {
-      method: method.toUpperCase()
-    };
-    const label = `[${method}]`;
-    fetch(`/methods/${method}`, options)
-      .then(a => a.text())
-      .then(a => console.log(label, a))
-      .catch(e => console.log(label, e.message));
+(() => {
+  const container = document.querySelector('#httpMethods');
+  ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'OPTIONS', 'CONNECT', 'PATCH'].forEach(async (method) => {
+    const item = document.createElement('li');
+    container.appendChild(item);
+    let text;
+    let result;
+    try {
+      const resp = await fetch(`/methods`, { method });
+      text = await resp.text();
+      result = "OK";
+    } catch (e) {
+      text = e.message;
+      result = "NG";
+    }
+    item.textContent = `${method}: ${result} - ${text}`;
   });
-}
+})();
 
-let controller;
-function sendAbortExample() {
-  controller = new AbortController();
+(async () => {
+  const container = document.querySelector('#abort');
+  const item = document.createElement('li');
+  container.appendChild(item);
+  const controller = new AbortController();
   const signal = controller.signal;
-  fetch('/abort', { signal })
-    .then(a => a.json())
-    .then(a => console.log('[abort]', a))
-    .catch(e => console.log('[abort]', e.message));
-}
-
-function abortAbortExample() {
-  if (controller) {
+  try {
+    promise = fetch('/abort', { signal })
     controller.abort();
+    await promise;
+  } catch (e) {
+    item.textContent = e.message;
   }
-}
+})();
 
 (() => {
   const container = document.querySelector('#whatstatuscodeisrejected');
@@ -39,7 +43,7 @@ function abortAbortExample() {
       }
       return `Not OK - ${resp.status} ${resp.statusText}`;
     }).catch(error => {
-      return `${error.message}`;
+      return `Error - ${error.message}`;
     }).then(text => {
       item.textContent = `${status}: ${text}`;
     });

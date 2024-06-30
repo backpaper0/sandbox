@@ -1,22 +1,27 @@
 <!doctype html>
 <html lang="ja">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fetch API demo</title>
-  </head>
-  <body>
+</head>
+
+<body>
     <h3>HTTP method</h3>
-    <p><button onclick="httpMethods()">HTTP methods</button></p>
+    <u id="httpMethods"></u>
+
     <hr>
+
     <h3>Abort</h3>
-    <p>
-      <button onclick="sendAbortExample()">send</button>
-      <button onclick="abortAbortExample()">abort</button>
-    </p>
+    <u id="abort"></u>
+
+    <hr>
+
     <h3>What status code is rejected?</h3>
-    <ul id="whatstatuscodeisrejected">
-    </ul>
+    <ul id="whatstatuscodeisrejected"></ul>
+
     <script src="index.js"></script>
-  </body>
+</body>
+
 </html>
