@@ -195,6 +195,26 @@ files = [
 ]
 
 [[package]]
+name = "splinter"
+version = "0.21.0"
+description = "browser abstraction for web acceptance testing"
+optional = false
+python-versions = "*"
+files = [
+    {file = "splinter-0.21.0-py3-none-any.whl", hash = "sha256:4c9e5962ce25f468b2dd52effbd1445afd7466740f238e564c6b70f7fda9368f"},
+    {file = "splinter-0.21.0.tar.gz", hash = "sha256:60cbbec9209acefccf39608d677eecdb248bbd700023663ce406595322c38fe5"},
+]
+
+[package.dependencies]
+urllib3 = ">=1.26.14,<3.0"
+
+[package.extras]
+django = ["Django (>=2.0.6)", "cssselect", "lxml (>=4.2.4)"]
+flask = ["Flask (>=2.3.2)", "cssselect", "lxml (>=4.2.4)"]
+selenium = ["selenium (>=4.1.0,<4.17.0)"]
+zope-testbrowser = ["cssselect", "lxml (>=4.2.4)", "zope.testbrowser (>=6.0)"]
+
+[[package]]
 name = "trio"
 version = "0.25.1"
 description = "A friendly Python library for async concurrency and I/O"
@@ -292,4 +312,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "bf2d9d78fdf7aad156b1a47f4ad1634a5ad23514d44da74c2b507203c7825fc2"
+content-hash = "4c45aa623d47cd931e27cc69b97f16c2908005fd884e4c1b5869d961981227c5"
