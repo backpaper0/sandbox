@@ -19,3 +19,9 @@ Macはこんな感じ。
 ```bash
 python -m example.main
 ```
+
+## Scrapyと組み合わせてクローリングする
+
+```bash
+scrapy runspider app/scrapy-example.py -O example.jsonl
+```
