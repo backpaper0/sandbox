@@ -20,7 +20,7 @@ pypdf = "^4.2.0"
 sqlalchemy = "^2.0.31"
 aiosqlite = "^0.20.0"
 langchain-openai = "^0.1.9"
-langchain-community = "^0.2.5"
+langchain-community = "^0.2.9"
 python-ulid = "^2.7.0"
 
 
