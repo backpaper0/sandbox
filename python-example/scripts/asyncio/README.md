@@ -96,3 +96,20 @@ python -m scripts.asyncio.example7
 04:47:44 go! #3
 04:47:44 end
 ```
+
+`asyncio.Barrier`を試す。
+
+```bash
+python -m scripts.asyncio.example7
+```
+
+```
+04:54:51 start
+04:54:51 ready... #1 barrier=<asyncio.locks.Barrier object at 0x1011a9050 [filling, waiters:0/3]>
+04:54:52 ready... #2 barrier=<asyncio.locks.Barrier object at 0x1011a9050 [filling, waiters:1/3]>
+04:54:53 ready... #3 barrier=<asyncio.locks.Barrier object at 0x1011a9050 [filling, waiters:2/3]>
+04:54:53 go! #3 barrier=<asyncio.locks.Barrier object at 0x1011a9050 [draining, waiters:0/3]>
+04:54:53 go! #1 barrier=<asyncio.locks.Barrier object at 0x1011a9050 [draining, waiters:0/3]>
+04:54:53 go! #2 barrier=<asyncio.locks.Barrier object at 0x1011a9050 [filling, waiters:0/3]>
+04:54:53 end
+```
