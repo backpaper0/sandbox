@@ -79,3 +79,20 @@ python -m scripts.asyncio.example6
 21:39:09 msg#9
 21:39:09 end
 ```
+
+`asyncio.Event`でブロックできる。
+
+```bash
+python -m scripts.asyncio.example7
+```
+
+```
+04:47:41 start
+04:47:41 ready... #1
+04:47:41 ready... #2
+04:47:41 ready... #3
+04:47:44 go! #1
+04:47:44 go! #2
+04:47:44 go! #3
+04:47:44 end
+```
