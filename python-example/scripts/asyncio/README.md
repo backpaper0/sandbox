@@ -100,7 +100,7 @@ python -m scripts.asyncio.example7
 `asyncio.Barrier`を試す。
 
 ```bash
-python -m scripts.asyncio.example7
+python -m scripts.asyncio.example8
 ```
 
 ```
@@ -112,4 +112,29 @@ python -m scripts.asyncio.example7
 04:54:53 go! #1 barrier=<asyncio.locks.Barrier object at 0x1011a9050 [draining, waiters:0/3]>
 04:54:53 go! #2 barrier=<asyncio.locks.Barrier object at 0x1011a9050 [filling, waiters:0/3]>
 04:54:53 end
+```
+
+`asyncio.Queue`を試す。
+
+```bash
+python -m scripts.asyncio.example9
+```
+
+```
+05:01:10 start
+05:01:13 group#1
+  05:01:11 task#1
+  05:01:12 task#2
+05:01:16 group#2
+  05:01:13 task#3
+  05:01:14 task#4
+  05:01:15 task#5
+  05:01:16 task#6
+05:01:19 group#3
+  05:01:17 task#7
+  05:01:18 task#8
+  05:01:19 task#9
+05:01:22 group#4
+  05:01:20 task#10
+05:01:22 end
 ```
