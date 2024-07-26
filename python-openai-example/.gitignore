@@ -1,0 +1,3 @@
+*.pyc
+*.jsonl
+.env

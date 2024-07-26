@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "python-openai-example"
+version = "0.1.0"
+description = ""
+authors = ["Uragami Taichi <backpaper0@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+openai = "^1.37.1"
+python-dotenv = "^1.0.1"
+tiktoken = "^0.7.0"
+pandas = "^2.2.2"
+tqdm = "^4.66.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
