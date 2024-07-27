@@ -2,3 +2,4 @@
 *.crt
 *.pyc
 *.db
+*.jsonl
