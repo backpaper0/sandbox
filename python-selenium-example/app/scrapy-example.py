@@ -1,8 +1,8 @@
-import os
 import time
+from pathlib import Path
 
 import scrapy
-from scrapy.http import HtmlResponse, TextResponse
+from scrapy.http import HtmlResponse
 from scrapy.spiders import Request, Response, Spider
 from scrapy.utils.decorators import defers
 from selenium import webdriver
@@ -19,7 +19,7 @@ class Handler:
         chrome_options = Options()
         chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 
-        driver_path = f"{os.environ['HOME']}/chromedriver"
+        driver_path = Path.home() / "chromedriver"
 
         service = Service(executable_path=driver_path)
         self.driver = webdriver.Chrome(service=service, options=chrome_options)
