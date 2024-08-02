@@ -17,11 +17,15 @@ Macはこんな感じ。
 プログラムの起動コマンドはこちら。
 
 ```bash
-python -m example.main
+python -m app.selenium_example
+```
+
+```bash
+python -m app.splinter_example
 ```
 
 ## Scrapyと組み合わせてクローリングする
 
 ```bash
-scrapy runspider app/scrapy-example.py -O example.jsonl
+scrapy runspider app/scrapy_example.py -O example.jsonl
 ```
