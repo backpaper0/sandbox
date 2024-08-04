@@ -1,0 +1,1 @@
+https://learn.microsoft.com/ja-jp/azure/app-service/deploy-zip?tabs=cli
