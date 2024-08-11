@@ -12,6 +12,9 @@ fastapi = {extras = ["standard"], version = "^0.112.0"}
 langserve = {extras = ["server"], version = "^0.2.2"}
 langchain-openai = "^0.1.21"
 python-dotenv = "^1.0.1"
+promptflow = "^1.14.0"
+opentelemetry-instrumentation-langchain = "^0.26.5"
+promptflow-azure = "^1.14.0"
 
 
 [tool.poetry.group.dev.dependencies]
