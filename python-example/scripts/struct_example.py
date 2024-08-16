@@ -13,6 +13,7 @@ pickleはstructよりもサイズが大きいが、unpackしても誤差が生�
 import json
 import pickle
 import struct
+from io import BytesIO
 from pathlib import Path
 
 dir = Path("data")
@@ -20,37 +21,31 @@ dir = Path("data")
 with open(dir / "embeddings_sample.json", "r") as f:
     data = json.load(f)["data"][0]["embedding"]
 
-with open(dir / "data.json", "w") as f:
-    json.dump(data, f)
 
-with open(dir / "data.bin", "wb") as f:
-    f.write(struct.pack(f"{len(data)}f", *data))
+b1 = BytesIO()
+b2 = BytesIO()
+b3 = BytesIO()
 
-with open(dir / "data.pkl", "wb") as f:
-    pickle.dump(data, f)
+b1.write(json.dumps(data).encode())
 
-with open(dir / "data.json", "rb") as f:
-    print(f"  Text file size: {len(f.read()):,}")
+b2.write(struct.pack(f"{len(data)}f", *data))
 
-with open(dir / "data.bin", "rb") as f:
-    print(f"Binary file size: {len(f.read()):,}")
+pickle.dump(data, b3)
 
-with open(dir / "data.pkl", "rb") as f:
-    print(f"Pickle file size: {len(f.read()):,}")
+print(f"  Text file size: {len(b1.getvalue()):,}")
+print(f"Binary file size: {len(b2.getvalue()):,}")
+print(f"Pickle file size: {len(b3.getvalue()):,}")
 
 print()
 
 size = 5
 print(f"Original data: {data[:size]}")
 
-with open(dir / "data.json", "r") as f:
-    data1 = json.load(f)
-    print(f"    Text file: {data1[:size]}")
+data1 = json.loads(b1.getvalue())
+print(f"    Text file: {data1[:size]}")
 
-with open(dir / "data.bin", "rb") as f:
-    data2 = list(struct.unpack(f"{len(data)}f", f.read()))
-    print(f"  Binary file: {data2[:size]}")
+data2 = list(struct.unpack(f"{len(data)}f", b2.getbuffer()))
+print(f"  Binary file: {data2[:size]}")
 
-with open(dir / "data.pkl", "rb") as f:
-    data3 = pickle.load(f)
-    print(f"  Pickle file: {data3[:size]}")
+data3 = pickle.loads(b3.getbuffer())
+print(f"  Pickle file: {data3[:size]}")
