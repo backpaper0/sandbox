@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -10,7 +11,7 @@ from promptflow.tracing import start_trace
 
 load_dotenv()
 
-start_trace()
+start_trace(collection=f"{datetime.today()}")
 
 instrumentor = LangchainInstrumentor()
 if not instrumentor.is_instrumented_by_opentelemetry:
