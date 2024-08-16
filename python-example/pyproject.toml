@@ -33,12 +33,15 @@ duckdb = "^1.0.0"
 python-ulid = "^2.6.0"
 python-multipart = "^0.0.9"
 alembic = "^1.13.2"
+aiofiles = "^24.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
 pandas = "^2.2.0"
 taskipy = "^1.12.2"
 nbconvert = "^7.16.1"
+types-aiofiles = "^24.1.0.20240626"
+types-tqdm = "^4.66.0.20240417"
 
 [build-system]
 requires = ["poetry-core"]
