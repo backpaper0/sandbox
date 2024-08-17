@@ -26,7 +26,14 @@ async def main(args: argparse.Namespace) -> None:
             )
             await conn.commit()
 
-        if args.import_:
+        if args.cost:
+            await calc_cost(
+                input_file=args.input,
+                text_column=args.text,
+                show_progress_bar=args.progress,
+                conn=conn,
+            )
+        elif args.import_:
             print("Importing vectors...")
         else:
             await embeddings(
@@ -62,11 +69,4 @@ if __name__ == "__main__":
     parser.add_argument("-P", "--progress", help="進捗の表示", action="store_false")
     args = parser.parse_args()
 
-    if args.cost:
-        calc_cost(
-            input_file=args.input,
-            text_column=args.text,
-            show_progress_bar=args.progress,
-        )
-    else:
-        asyncio.run(main(args=args))
+    asyncio.run(main(args=args))

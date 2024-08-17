@@ -1,13 +1,14 @@
 import json
 import os
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
 import aiosqlite
 import asyncio
 import aiofiles
 from openai import AsyncOpenAI
 from tqdm import tqdm
-import hashlib
+from app.cache import CacheManager
+
 
 async def _reader(
     input_file: Path,
@@ -31,22 +32,41 @@ async def _processor(
     conn: aiosqlite.Connection,
     embeddings_model: str,
     progress_bar: Optional[tqdm] = None,
-) -> None:
-    while True:
-        line = await input_queue.get()
-        if line is None:
+) -> int:
+    async with conn.cursor() as cursor:
+
+        cache = CacheManager(cursor)
+
+        async def vectorize(text: str) -> Tuple[list[float], bool]:
+            vector = await cache.get(text)
+            if vector is not None:
+                return vector, True
+            resp = await client.embeddings.create(input=text, model=embeddings_model)
+            vector = resp.data[0].embedding
+            await cache.set(text, vector)
+            return vector, False
+
+        hit_cache_count = 0
+        while True:
+            line = await input_queue.get()
+            if line is None:
+                input_queue.task_done()
+                break
+            item = json.loads(line)
+            text = item[text_column]
+            vector, hit_cache = await vectorize(text)
+            if hit_cache:
+                hit_cache_count += 1
+            item[vector_column] = vector
+            line = json.dumps(item, ensure_ascii=False)
+            await output_queue.put(line)
             input_queue.task_done()
-            break
-        item = json.loads(line)
-        text = item[text_column]
-        resp = await client.embeddings.create(input=text, model=embeddings_model)
-        vector = resp.data[0].embedding
-        item[vector_column] = vector
-        line = json.dumps(item, ensure_ascii=False)
-        await output_queue.put(line)
-        input_queue.task_done()
-        if progress_bar is not None:
-            progress_bar.update()
+            if progress_bar is not None:
+                progress_bar.update()
+
+        await conn.commit()
+
+    return hit_cache_count
 
 
 async def _writer(
@@ -117,10 +137,12 @@ async def embeddings(
     await reader_task
     for _ in range(parallels):
         await input_queue.put(None)
-    await processor_task
+    hit_cache_count_list = await processor_task
     await output_queue.put(None)
     await writer_task
 
     progress_bar_for_reader.close()
     progress_bar_for_processor.close()
     progress_bar_for_writer.close()
+
+    print(f"キャッシュヒット数: {sum(hit_cache_count_list)}")
