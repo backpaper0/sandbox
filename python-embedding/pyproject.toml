@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "python-embedding"
+version = "0.1.0"
+description = ""
+authors = ["Uragami Taichi <backpaper0@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+tqdm = "^4.66.5"
+python-dotenv = "^1.0.1"
+openai = "^1.41.0"
+aiofiles = "^24.1.0"
+tiktoken = "^0.7.0"
+
+
+[tool.poetry.group.dev.dependencies]
+types-tqdm = "^4.66.0.20240417"
+pylint = "^3.2.6"
+flake8 = "^7.1.1"
+black = "^24.8.0"
+taskipy = "^1.13.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+lint = "pylint app/**/*.py && flake8 app/ && black app/"
