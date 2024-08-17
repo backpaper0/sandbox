@@ -1,9 +1,13 @@
+"""
+テキストの埋め込みを生成するためのモジュールです。
+"""
+
 import json
 import os
 from pathlib import Path
 from typing import Optional, Tuple
-import aiosqlite
 import asyncio
+import aiosqlite
 import aiofiles
 from openai import AsyncOpenAI
 from tqdm import tqdm
@@ -96,8 +100,25 @@ async def embeddings(
     text_column: str,
     vector_column: str,
 ) -> None:
+    """
+    埋め込みを生成します。
+
+    Args:
+        input_file (Path): 入力ファイルのパス
+        output_file (Path): 出力ファイルのパス
+        parallels (int): 並列処理の数
+        show_progress_bar (bool): 進捗バーを表示するかどうかのフラグ
+        conn (aiosqlite.Connection): データベース接続オブジェクト
+        text_column (str): 元テキストのカラム名
+        vector_column (str): 埋め込みのカラム名
+
+    Returns:
+        None
+    """
+
     if show_progress_bar:
-        total = sum(1 for _ in open(input_file, encoding="utf-8", mode="r"))
+        with open(input_file, encoding="utf-8", mode="r") as f:
+            total = sum(1 for _ in f)
         progress_bar_for_reader = tqdm(total=total)
         progress_bar_for_processor = tqdm(total=total)
         progress_bar_for_writer = tqdm(total=total)

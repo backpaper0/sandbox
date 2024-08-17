@@ -1,5 +1,8 @@
 [flake8]
 max-line-length = 120
+
+too-many-arguments = 10
+
 exclude =
     .git,
     __pycache__

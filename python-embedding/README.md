@@ -4,7 +4,7 @@
 python -m app.main --cost -i data/input.jsonl
 ```
 
-ベクトル化。
+埋め込みの生成。
 
 ```
 python -m app.main -i data/input.jsonl -o data/output.jsonl

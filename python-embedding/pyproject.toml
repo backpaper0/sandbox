@@ -28,5 +28,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
-lint = "pylint app/**/*.py && flake8 app/"
-fix = "black app/"
+lint = "black app/ && pylint app/**/*.py && flake8 app/"

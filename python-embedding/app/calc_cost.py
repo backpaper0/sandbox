@@ -8,7 +8,6 @@ from pathlib import Path
 from typing import Tuple
 
 import tiktoken
-from dotenv import load_dotenv
 from tqdm import tqdm
 import aiosqlite
 from app.cache import CacheManager
