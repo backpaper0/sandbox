@@ -5,6 +5,39 @@
 import argparse
 from pathlib import Path
 from app.calc_cost import calc_cost
+from app.embeddings import embeddings
+import asyncio
+import aiosqlite
+import os
+from dotenv import load_dotenv
+
+
+async def main(args: argparse.Namespace) -> None:
+    load_dotenv()
+    async with aiosqlite.connect(os.environ["DB_PATH"]) as conn:
+        async with conn.cursor() as cursor:
+            await cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS vectors (
+                    id TEXT PRIMARY KEY,
+                    vector BLOB NOT NULL
+                )
+                """
+            )
+            await conn.commit()
+
+        if args.import_:
+            print("Importing vectors...")
+        else:
+            await embeddings(
+                input_file=args.input,
+                output_file=args.output,
+                parallels=args.parallels,
+                show_progress_bar=args.progress,
+                conn=conn,
+                text_column=args.text,
+                vector_column=args.vector,
+            )
 
 
 if __name__ == "__main__":
@@ -35,7 +68,5 @@ if __name__ == "__main__":
             text_column=args.text,
             show_progress_bar=args.progress,
         )
-    elif args.import_:
-        print("Importing vectors...")
     else:
-        print("Main action")
+        asyncio.run(main(args=args))

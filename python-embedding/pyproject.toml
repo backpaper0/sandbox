@@ -13,6 +13,7 @@ python-dotenv = "^1.0.1"
 openai = "^1.41.0"
 aiofiles = "^24.1.0"
 tiktoken = "^0.7.0"
+aiosqlite = "^0.20.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -27,4 +28,5 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
-lint = "pylint app/**/*.py && flake8 app/ && black app/"
+lint = "pylint app/**/*.py && flake8 app/"
+fix = "black app/"
