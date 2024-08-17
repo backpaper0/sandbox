@@ -11,6 +11,7 @@ import aiosqlite
 from dotenv import load_dotenv
 
 from app.calc_cost import calc_cost
+from app.import_cache import import_cache
 from app.embeddings import embeddings
 
 
@@ -76,7 +77,13 @@ async def main() -> None:
                 conn=conn,
             )
         elif args.is_import:
-            print("埋め込みをインポートします。")
+            await import_cache(
+                input_file=args.input_path,
+                conn=conn,
+                text_column=args.text_column,
+                vector_column=args.vector_column,
+                show_progress_bar=args.progress,
+            )
         else:
             await embeddings(
                 input_file=args.input_path,

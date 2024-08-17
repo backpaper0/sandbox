@@ -10,6 +10,12 @@ python -m app.main --cost -i data/input.jsonl
 python -m app.main -i data/input.jsonl -o data/output.jsonl
 ```
 
+DBへの埋め込みインポート。
+
+```
+python -m app.main -I -i data/output.jsonl
+```
+
 静的解析など。
 
 ```

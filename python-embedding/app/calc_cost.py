@@ -9,6 +9,7 @@ from typing import Tuple
 
 import tiktoken
 from tqdm import tqdm
+import aiofiles
 import aiosqlite
 from app.cache import CacheManager
 
@@ -42,24 +43,18 @@ async def calc_cost(
 
         encoding = tiktoken.encoding_for_model(model_name)
 
-        line_size = 0
         if show_progress_bar:
-            with open(input_file, encoding="utf-8", mode="r") as f:
-                while True:
-                    line = f.readline()
-                    if not line:
-                        break
+            line_size = 0
+            async with aiofiles.open(input_file, encoding="utf-8", mode="r") as f:
+                async for line in f:
                     line_size += 1
 
         progress_bar = tqdm(total=line_size) if show_progress_bar else None
 
         total_tokens_size = 0
         hit_cache_count = 0
-        with open(input_file, encoding="utf-8", mode="r") as f:
-            while True:
-                line = f.readline()
-                if not line:
-                    break
+        async with aiofiles.open(input_file, encoding="utf-8", mode="r") as f:
+            async for line in f:
                 item = json.loads(line)
                 text = str(item[text_column])
                 vector = await cache.get(text)
