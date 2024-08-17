@@ -7,25 +7,12 @@ import json
 from pathlib import Path
 from typing import Optional, Tuple
 
-import aiofiles
 import aiosqlite
 from tqdm import tqdm
 
+from app.aioutil import file_reader, file_writer
 from app.cache import CacheManager
 from app.embeddings_client import EmbeddingsClient, get_embeddings_client
-
-
-async def _reader(
-    input_file: Path,
-    input_queue: asyncio.Queue,
-    progress_bar: Optional[tqdm] = None,
-) -> None:
-    async with aiofiles.open(input_file, encoding="utf-8", mode="r") as f:
-        async for line in f:
-            await input_queue.put(line)
-            if progress_bar is not None:
-                progress_bar.update()
-    await input_queue.put(None)
 
 
 async def _processor(
@@ -72,24 +59,6 @@ async def _processor(
     return hit_cache_count
 
 
-async def _writer(
-    output_file: Path,
-    output_queue: asyncio.Queue,
-    progress_bar: Optional[tqdm] = None,
-) -> None:
-    async with aiofiles.open(output_file, encoding="utf-8", mode="w") as f:
-        while True:
-            line = await output_queue.get()
-            if not line:
-                output_queue.task_done()
-                break
-            await f.write(line)
-            await f.write("\n")
-            output_queue.task_done()
-            if progress_bar is not None:
-                progress_bar.update()
-
-
 async def embeddings(
     input_file: Path,
     output_file: Path,
@@ -132,7 +101,7 @@ async def embeddings(
     output_queue: asyncio.Queue = asyncio.Queue(parallels)
 
     reader_task = asyncio.create_task(
-        _reader(input_file, input_queue, progress_bar_for_reader)
+        file_reader(input_file, input_queue, progress_bar_for_reader)
     )
     processor_task = asyncio.gather(
         *[
@@ -149,7 +118,7 @@ async def embeddings(
         ]
     )
     writer_task = asyncio.create_task(
-        _writer(output_file, output_queue, progress_bar_for_writer)
+        file_writer(output_file, output_queue, progress_bar_for_writer)
     )
 
     await reader_task
@@ -159,8 +128,12 @@ async def embeddings(
     await output_queue.put(None)
     await writer_task
 
-    progress_bar_for_reader.close()
-    progress_bar_for_processor.close()
-    progress_bar_for_writer.close()
+    for pb in [
+        progress_bar_for_reader,
+        progress_bar_for_processor,
+        progress_bar_for_writer,
+    ]:
+        if pb is not None:
+            pb.close()
 
     print(f"キャッシュヒット数: {sum(hit_cache_count_list)}")
