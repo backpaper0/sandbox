@@ -2,16 +2,17 @@
 テキストの埋め込みを生成するためのモジュールです。
 """
 
+import asyncio
 import json
-import os
 from pathlib import Path
 from typing import Optional, Tuple
-import asyncio
-import aiosqlite
+
 import aiofiles
-from openai import AsyncOpenAI
+import aiosqlite
 from tqdm import tqdm
+
 from app.cache import CacheManager
+from app.embeddings_client import EmbeddingsClient, get_embeddings_client
 
 
 async def _reader(
@@ -28,13 +29,12 @@ async def _reader(
 
 
 async def _processor(
-    client: AsyncOpenAI,
+    embeddings_client: EmbeddingsClient,
     input_queue: asyncio.Queue,
     output_queue: asyncio.Queue,
     text_column: str,
     vector_column: str,
     conn: aiosqlite.Connection,
-    embeddings_model: str,
     progress_bar: Optional[tqdm] = None,
 ) -> int:
     async with conn.cursor() as cursor:
@@ -45,8 +45,7 @@ async def _processor(
             vector = await cache.get(text)
             if vector is not None:
                 return vector, True
-            resp = await client.embeddings.create(input=text, model=embeddings_model)
-            vector = resp.data[0].embedding
+            vector = await embeddings_client(text)
             await cache.set(text, vector)
             return vector, False
 
@@ -116,6 +115,8 @@ async def embeddings(
         None
     """
 
+    embeddings_client = get_embeddings_client()
+
     if show_progress_bar:
         with open(input_file, encoding="utf-8", mode="r") as f:
             total = sum(1 for _ in f)
@@ -130,23 +131,19 @@ async def embeddings(
     input_queue: asyncio.Queue = asyncio.Queue(parallels)
     output_queue: asyncio.Queue = asyncio.Queue(parallels)
 
-    client = AsyncOpenAI()
-    embeddings_model = os.environ["EMBEDDINGS_MODEL"]
-
     reader_task = asyncio.create_task(
         _reader(input_file, input_queue, progress_bar_for_reader)
     )
     processor_task = asyncio.gather(
         *[
             _processor(
-                client=client,
+                embeddings_client=embeddings_client,
                 input_queue=input_queue,
                 output_queue=output_queue,
                 text_column=text_column,
                 vector_column=vector_column,
                 conn=conn,
                 progress_bar=progress_bar_for_processor,
-                embeddings_model=embeddings_model,
             )
             for _ in range(parallels)
         ]

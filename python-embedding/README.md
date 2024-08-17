@@ -21,7 +21,3 @@ python -m app.main -I -i data/output.jsonl
 ```
 poetry run task lint
 ```
-
-```
-poetry run task fix
-```
