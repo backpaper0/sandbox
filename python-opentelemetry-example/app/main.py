@@ -1,10 +1,5 @@
-from base64 import b64encode
-
 from dotenv import load_dotenv
 from fastapi import FastAPI
-from langchain_core.output_parsers import StrOutputParser
-from langchain_openai import ChatOpenAI
-from langserve import add_routes
 from opentelemetry import trace
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
@@ -16,6 +11,8 @@ from opentelemetry.semconv.resource import ResourceAttributes
 
 for suffix in ["local", "secret"]:
     load_dotenv(f".env.{suffix}")
+
+from app.chat import router as chat_router
 
 app = FastAPI()
 
@@ -34,9 +31,9 @@ exporter1 = OTLPSpanExporter()
 processor1 = BatchSpanProcessor(exporter1)
 provider.add_span_processor(processor1)
 
-exporter2 = ConsoleSpanExporter()
-processor2 = BatchSpanProcessor(exporter2)
-provider.add_span_processor(processor2)
+# exporter2 = ConsoleSpanExporter()
+# processor2 = BatchSpanProcessor(exporter2)
+# provider.add_span_processor(processor2)
 
 FastAPIInstrumentor.instrument_app(app)
 
@@ -50,6 +47,4 @@ async def root():
     return {"message": "Hello World"}
 
 
-chat = ChatOpenAI()
-chain = chat | StrOutputParser()
-add_routes(app, chain, path="/chat")
+app.include_router(chat_router)

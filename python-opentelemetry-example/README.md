@@ -30,6 +30,21 @@ OpenObserveでテレメトリーを確認する。
 
 [OpenTelemetry Langchain Instrumentation](https://github.com/traceloop/openllmetry/tree/main/packages/opentelemetry-instrumentation-langchain)で[LangChain](https://www.langchain.com/)のトレースを記録する。
 
+挨拶。
+
 ```
-curl localhost:8000/chat/invoke -H "Content-Type: application/json" -d '{"input":"こんにちは。"}'
+curl localhost:8000/chat/invoke -H "Content-Type: application/json" -d '{"input":"はじめまして。"}'
 ```
+
+質問。
+
+```
+curl localhost:8000/chat/invoke -H "Content-Type: application/json" -d '{"input":"FastAPIについて教えて。"}'
+```
+
+その他。
+
+```
+curl localhost:8000/chat/invoke -H "Content-Type: application/json" -d '{"input":"うひょー"}'
+```
+
