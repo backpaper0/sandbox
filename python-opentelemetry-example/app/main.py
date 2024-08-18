@@ -9,6 +9,7 @@ from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.semconv.resource import ResourceAttributes
 
 from app.chat import router as chat_router
+from app.manual_tracing import router as manual_tracing_router
 
 app = FastAPI()
 
@@ -44,3 +45,4 @@ async def root():
 
 
 app.include_router(chat_router)
+app.include_router(manual_tracing_router)
