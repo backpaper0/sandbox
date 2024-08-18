@@ -3,9 +3,6 @@ from typing import Tuple
 
 import urllib3
 from azure.cosmos.aio import ContainerProxy, CosmosClient
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 def get_cosmos_client() -> CosmosClient:

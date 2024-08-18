@@ -3,7 +3,7 @@ import asyncio
 from azure.core import MatchConditions
 from azure.cosmos.exceptions import CosmosAccessConditionFailedError
 
-import core
+import app.core as core
 
 
 async def main():

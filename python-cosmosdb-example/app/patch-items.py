@@ -6,7 +6,7 @@ from azure.cosmos.exceptions import (
     CosmosResourceNotFoundError,
 )
 
-import core
+import app.core as core
 
 
 async def main():

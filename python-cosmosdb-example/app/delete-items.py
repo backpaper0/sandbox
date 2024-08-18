@@ -1,6 +1,6 @@
 import asyncio
 
-import core
+import app.core as core
 
 
 async def main():

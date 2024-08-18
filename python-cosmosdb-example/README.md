@@ -3,19 +3,19 @@
 ## DockerでCosmos Emulatorを起動する
 
 ```bash
-poetry run task start-cosmos
+docker compose up -d
 ```
 
 ## Containerを作成する
 
 ```bash
-python create-container.py
+python -m app.create-container
 ```
 
 ## Itemを作成する
 
 ```bash
-python create-items.py
+python -m app.create-items
 ```
 
 `id`と`partition key`の組み合わせが重複した場合、`CosmosResourceExistsError`が発生するっぽい。
@@ -23,13 +23,13 @@ python create-items.py
 ## Itemを検索する
 
 ```bash
-python query-items.py
+python -m app.query-items
 ```
 
 ## Itemを削除する
 
 ```bash
-python delete-items.py
+python -m app.delete-items
 ```
 
 削除対象のドキュメントが存在していなくても特にエラーにならないみたい。
@@ -37,13 +37,13 @@ python delete-items.py
 ## Itemを更新する
 
 ```bash
-python upsert-items.py
+python -m app.upsert-items
 ```
 
 `patch_item`メソッドでドキュメントの部分的な更新もできる。
 
 ```bash
-python patch-items.py
+python -m app.patch-items
 ```
 
 - 参考）[Azure Cosmos DB の部分的ドキュメント更新](https://learn.microsoft.com/ja-jp/azure/cosmos-db/partial-document-update)

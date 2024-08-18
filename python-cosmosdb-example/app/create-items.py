@@ -2,7 +2,7 @@ import asyncio
 
 from azure.cosmos.exceptions import CosmosResourceExistsError
 
-import core
+import app.core as core
 
 
 async def main():
