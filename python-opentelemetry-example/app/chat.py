@@ -1,7 +1,9 @@
+from typing import Any
+
 from fastapi import APIRouter
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts.chat import ChatPromptTemplate
-from langchain_core.runnables import RunnableBranch, RunnablePassthrough
+from langchain_core.runnables import Runnable, RunnableBranch, RunnablePassthrough
 from langchain_openai import ChatOpenAI
 from langserve import add_routes
 
@@ -57,7 +59,7 @@ _qa = ChatPromptTemplate(
 
 _chat = ChatOpenAI()
 
-_chain = (
+_chain: Runnable[Any, Any] = (
     RunnablePassthrough()
     | {
         "input": RunnablePassthrough(),

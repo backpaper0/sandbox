@@ -18,6 +18,15 @@ langchain-openai = "^0.1.22"
 langchain = "^0.2.14"
 
 
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.13.0"
+flake8 = "^7.1.1"
+black = "^24.8.0"
+pylint = "^3.2.6"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+lint = "black app/ && pylint app/**/*.py && flake8 app/"
