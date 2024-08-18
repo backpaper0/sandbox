@@ -25,3 +25,11 @@ OpenObserveでテレメトリーを確認する。
 
 - ユーザー名：`root@example.com`
 - パスワード：`pass1234`
+
+### LangChain
+
+[OpenTelemetry Langchain Instrumentation](https://github.com/traceloop/openllmetry/tree/main/packages/opentelemetry-instrumentation-langchain)で[LangChain](https://www.langchain.com/)のトレースを記録する。
+
+```
+curl localhost:8000/chat/invoke -H "Content-Type: application/json" -d '{"input":"こんにちは。"}'
+```
