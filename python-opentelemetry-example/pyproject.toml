@@ -32,3 +32,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
 lint = "black app/ && pylint app/**/*.py && flake8 app/"
+dev = "fastapi dev"

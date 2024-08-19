@@ -4,6 +4,7 @@ from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from app.chat import router as chat_router
 from app.distributed import router as distributed_router
 from app.manual_tracing import router as manual_tracing_router
+from app.traceid import router as traceid_router
 
 app = FastAPI()
 
@@ -19,3 +20,4 @@ async def root():
 app.include_router(chat_router)
 app.include_router(manual_tracing_router)
 app.include_router(distributed_router, prefix="/distributed")
+app.include_router(traceid_router, prefix="/traceid")
