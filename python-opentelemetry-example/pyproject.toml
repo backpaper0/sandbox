@@ -16,6 +16,8 @@ langserve = {extras = ["server"], version = "^0.2.2"}
 opentelemetry-instrumentation-langchain = "^0.27.0"
 langchain-openai = "^0.1.22"
 langchain = "^0.2.14"
+aiohttp = "^3.10.4"
+opentelemetry-instrumentation-aiohttp-client = "^0.47b0"
 
 
 [tool.poetry.group.dev.dependencies]

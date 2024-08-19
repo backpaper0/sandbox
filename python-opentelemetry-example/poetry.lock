@@ -1569,6 +1569,27 @@ setuptools = ">=16.0"
 wrapt = ">=1.0.0,<2.0.0"
 
 [[package]]
+name = "opentelemetry-instrumentation-aiohttp-client"
+version = "0.47b0"
+description = "OpenTelemetry aiohttp client instrumentation"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "opentelemetry_instrumentation_aiohttp_client-0.47b0-py3-none-any.whl", hash = "sha256:e3c75801d07ca0d045d58474a9b194127a47ef807f6fead2296f785df0696c52"},
+    {file = "opentelemetry_instrumentation_aiohttp_client-0.47b0.tar.gz", hash = "sha256:3dbecceebae07e509d1db1137f0ddf9fa72ea377cf77d2b63a51119177c878c4"},
+]
+
+[package.dependencies]
+opentelemetry-api = ">=1.12,<2.0"
+opentelemetry-instrumentation = "0.47b0"
+opentelemetry-semantic-conventions = "0.47b0"
+opentelemetry-util-http = "0.47b0"
+wrapt = ">=1.0.0,<2.0.0"
+
+[package.extras]
+instruments = ["aiohttp (>=3.0,<4.0)"]
+
+[[package]]
 name = "opentelemetry-instrumentation-asgi"
 version = "0.47b0"
 description = "ASGI instrumentation for OpenTelemetry"
@@ -3197,4 +3218,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "d90cf6be9704f1cfbbc3198e937cfe60314c52f97c06d15d1492ced584b885e1"
+content-hash = "da72d35ba7b2220434cae0396bcd489800fb5904cc122f86117f264125fb5d2e"

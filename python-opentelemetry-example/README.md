@@ -68,3 +68,11 @@ async def manual_tracing():
 ```
 
 ![](doc/manual_tracing.png)
+
+### 複数のサービスにまたがるトレーシング（分散トレーシング）
+
+```
+curl localhost:8000/distributed/foo
+```
+
+![](doc/distributed_tracing.png)
