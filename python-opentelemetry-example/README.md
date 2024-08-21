@@ -42,6 +42,13 @@ curl localhost:8000/chat/invoke -H "Content-Type: application/json" -d '{"input"
 curl localhost:8000/chat/invoke -H "Content-Type: application/json" -d '{"input":"FastAPIについて教えて。"}'
 ```
 
+Server-Sent Events版。
+
+```
+curl localhost:8000/chat/stream -N -H "Content-Type: application/json" -d '{"input":"FastAPIについて教えて。"}'
+```
+
+
 その他。
 
 ```
