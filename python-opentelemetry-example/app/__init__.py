@@ -1,3 +1,4 @@
+import json
 from typing import Optional, Sequence
 
 from dotenv import load_dotenv
@@ -7,7 +8,7 @@ from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExport
 from opentelemetry.instrumentation.aiohttp_client import AioHttpClientInstrumentor
 from opentelemetry.instrumentation.langchain import LangchainInstrumentor
 from opentelemetry.sdk.resources import Resource
-from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace import ReadableSpan, Span, SpanProcessor, TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.sdk.trace.sampling import Decision, Sampler, SamplingResult
 from opentelemetry.semconv.resource import ResourceAttributes
@@ -34,10 +35,59 @@ class SseOmittingSampler(Sampler):
         if name == "POST /chat/stream http send":
             return SamplingResult(Decision.DROP)
 
-        return SamplingResult(Decision.RECORD_AND_SAMPLE, {"xxx": "yyy"})
+        return SamplingResult(Decision.RECORD_AND_SAMPLE)
 
     def get_description(self) -> str:
-        return "..."
+        return "Drop Server-Sent Events span"
+
+
+class UnescapeUnicodeSpanProcessorWrapper(SpanProcessor):
+    def __init__(self, processor: SpanProcessor):
+        self.processor = processor
+
+    def on_start(
+        self,
+        span: Span,
+        parent_context: Optional[Context] = None,
+    ) -> None:
+        self.processor.on_start(span)
+
+    _keys = ["traceloop.entity.input", "traceloop.entity.output"]
+
+    def on_end(self, span: ReadableSpan) -> None:
+        attr: Optional[Attributes]
+        if (span.attributes is not None) and any(
+            key in span.attributes for key in self._keys
+        ):
+            attr = {**span.attributes}
+            for key in self._keys:
+                if key in attr:
+                    value = attr[key]
+                    if isinstance(value, str):
+                        decoded_value = json.loads(value)
+                        attr[key] = json.dumps(decoded_value, ensure_ascii=False)
+        else:
+            attr = span.attributes
+        self.processor.on_end(
+            ReadableSpan(
+                span.name,
+                span.context,
+                span.parent,
+                span.resource,
+                attr,
+                span.events,
+                span.links,
+                span.kind,
+                span.instrumentation_info,
+                span.status,
+                span.start_time,
+                span.end_time,
+                span.instrumentation_scope,
+            )
+        )
+
+    def shutdown(self) -> None:
+        self.processor.shutdown()
 
 
 _resource = Resource.create({ResourceAttributes.SERVICE_NAME: "telemetry-example"})
@@ -52,7 +102,7 @@ trace.set_tracer_provider(_provider)
 #     },
 # )
 _exporter = OTLPSpanExporter()
-_processor = BatchSpanProcessor(_exporter)
+_processor = UnescapeUnicodeSpanProcessorWrapper(BatchSpanProcessor(_exporter))
 _provider.add_span_processor(_processor)
 
 
