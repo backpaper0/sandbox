@@ -23,6 +23,7 @@ from langchain_core.runnables import (
     RunnableWithFallbacks,
     RunnableWithMessageHistory,
 )
+from langchain_core.runnables.config import RunnableConfig
 
 
 class RunnableTest(unittest.TestCase):
@@ -102,11 +103,64 @@ class RunnableTest(unittest.TestCase):
         r2 = r1.assign(out=RunnableLambda(lambda input: f"{input['in']} bar"))
 
         ret = r2.invoke({"in": "foo"})
-        self.assertEqual(
+        self.assertDictEqual(
             ret,
             {
                 "in": "foo",
                 "out": "foo bar",
+            },
+        )
+
+    def test_with_config(self) -> None:
+        """
+        configを指定する。
+        """
+        r1 = RunnableLambda(
+            lambda input, config: {
+                "input": input,
+                "configurable": config["configurable"],
+            }
+        )
+        config = RunnableConfig(
+            configurable={
+                "xxx": "yyy",
+            }
+        )
+        r2 = r1.with_config(config)
+        ret = r2.invoke("foobar")
+        self.assertDictEqual(
+            ret,
+            {
+                "input": "foobar",
+                "configurable": {
+                    "xxx": "yyy",
+                },
+            },
+        )
+
+    def test_invoke_with_config(self) -> None:
+        """
+        invokeするときにconfigを指定する。
+        """
+        r1 = RunnableLambda(
+            lambda input, config: {
+                "input": input,
+                "configurable": config["configurable"],
+            }
+        )
+        config = RunnableConfig(
+            configurable={
+                "xxx": "yyy",
+            }
+        )
+        ret = r1.invoke(input="foobar", config=config)
+        self.assertDictEqual(
+            ret,
+            {
+                "input": "foobar",
+                "configurable": {
+                    "xxx": "yyy",
+                },
             },
         )
 
