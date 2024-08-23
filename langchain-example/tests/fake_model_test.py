@@ -1,7 +1,7 @@
 """
 モックを試す。
 
-python -m tests.fake_model_test -v
+poetry run python -m tests.fake_model_test -v
 """
 
 import unittest
