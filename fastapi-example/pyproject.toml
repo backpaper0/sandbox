@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "fastapi-example"
+version = "0.1.0"
+description = ""
+authors = ["Uragami Taichi <backpaper0@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["standard"], version = "^0.112.2"}
+
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.13.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+dev = "fastapi dev app/main.py"
