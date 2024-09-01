@@ -80,3 +80,7 @@ http://localhost:5173/ を開いて音声入力を試す。
 az group delete \
   --name speech-example-rg
 ```
+
+## 参考リソース
+
+- [About the Speech SDK - Speech service - Azure AI services | Microsoft Learn](https://learn.microsoft.com/ja-jp/azure/ai-services/speech-service/speech-sdk)
