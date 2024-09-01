@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MediaRecorderで音声を取得する例</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        function App() {
+            const stateNeutral = "neutral";
+            const stateRecording = "recording";
+            const stateWaiting = "waiting";
+
+            const [state, setState] = React.useState(stateNeutral);
+            const mediaRecorderRef = React.useRef(null);
+
+            const start = async () => {
+                setState(stateRecording);
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const mediaRecorder = new MediaRecorder(stream);
+                const audioChunks = [];
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                }
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const formData = new FormData();
+                    formData.append('audio', audioBlob, 'recording.wav');
+
+                    await fetch('/upload-audio', {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    setState(stateNeutral);
+                }
+                mediaRecorder.start();
+                mediaRecorderRef.current = mediaRecorder;
+            };
+
+            const stop = () => {
+                setState(stateWaiting);
+                const mediaRecorder = mediaRecorderRef.current;
+                mediaRecorder.stop();
+                mediaRecorderRef.current = null;
+            };
+
+            return (
+                <>
+                    <h1>MediaRecorderで音声を取得する例</h1>
+                    <p>
+                        <button onClick={() => start()} disabled={state !== stateNeutral}>録音開始</button>
+                        <button onClick={() => stop()} disabled={state !== stateRecording}>録音停止</button>
+                    </p>
+                </>
+            )
+        }
+
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
