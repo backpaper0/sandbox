@@ -1,5 +1,5 @@
 """
-単純にnode1 -> node2 -> node3の順に実行するグラフを作成する例
+条件分岐の例
 """
 
 import argparse
