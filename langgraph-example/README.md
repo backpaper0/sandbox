@@ -42,3 +42,23 @@ graph TD;
         classDef first fill-opacity:0
         classDef last fill:#bfb6fc
 ```
+
+### example3
+
+%%{init: {'flowchart': {'curve': 'linear'}}}%%
+graph TD;
+        __start__([__start__]):::first
+        node1(node1)
+        node2(node2)
+        node3(node3)
+        node4(node4)
+        __end__([__end__]):::last
+        __start__ --> node1;
+        node2 --> node4;
+        node3 --> node4;
+        node4 --> __end__;
+        node1 -.-> node2;
+        node1 -.-> node3;
+        classDef default fill:#f2f0ff,line-height:1.2
+        classDef first fill-opacity:0
+        classDef last fill:#bfb6fc
