@@ -7,7 +7,7 @@ from enum import Enum
 import urllib3
 from azure.cosmos import CosmosClient, PartitionKey
 
-os.environ["REQUESTS_CA_BUNDLE"] = "./emulatorcert.crt"
+os.environ["REQUESTS_CA_BUNDLE"] = "../../cosmos/emulatorcert.crt"
 
 urllib3.disable_warnings()
 
@@ -30,7 +30,7 @@ class Action(Enum):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--action", "-a", type=Action, default=Action.ADD)
-parser.add_argument("--names", "-n", type=str, nargs="+")
+parser.add_argument("--names", "-n", type=str, nargs="+", default=[])
 args = parser.parse_args()
 
 
