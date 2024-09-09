@@ -26,10 +26,11 @@ class Action(Enum):
     ADD = "add"
     MOD = "mod"
     DEL = "del"
+    GET = "get"
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--action", "-a", type=Action, default=Action.ADD)
+parser.add_argument("--action", "-a", type=Action, default=Action.GET)
 parser.add_argument("--names", "-n", type=str, nargs="+", default=[])
 args = parser.parse_args()
 
@@ -63,3 +64,6 @@ match args.action:
                 partition_key=name,
             )
             container.delete_item(item, partition_key=name)
+    case Action.GET:
+        items = [item for item in container.read_all_items()]
+        print(json.dumps(items, ensure_ascii=False, indent=2))
