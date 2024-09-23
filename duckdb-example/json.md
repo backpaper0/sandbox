@@ -49,7 +49,7 @@ DuckDBは複数個のJSONファイルを一度に取り込むことができる�
 まずはリポジトリ数を取得する。
 
 ```bash
-seq $(($(curl -G -d per_page=30 -s https://api.github.com/orgs/spring-projects | jq .public_repos) / 30 + 1)) | \
+seq $(($(curl -s https://api.github.com/orgs/spring-projects | jq .public_repos) / 30 + 1)) | \
  while read page; do curl -o repos${page}.json -G -d per_page=30 -d page=${page} https://api.github.com/orgs/spring-projects/repos; done
 ```
 
