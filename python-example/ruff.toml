@@ -1,0 +1,7 @@
+exclude = [
+    ".mypy_cache",
+    ".git",
+]
+
+[lint]
+ignore = ["E731", "E741"]
