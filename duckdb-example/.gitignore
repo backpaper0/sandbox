@@ -1,0 +1,6 @@
+*.csv
+*.db
+*.json
+*.jsonl
+*.parq
+*.parquet
