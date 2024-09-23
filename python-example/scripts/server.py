@@ -15,9 +15,7 @@ from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
 app = FastAPI()
 
-resource = Resource(attributes={
-    SERVICE_NAME: "dice-server"
-})
+resource = Resource(attributes={SERVICE_NAME: "dice-server"})
 
 traceProvider = TracerProvider(resource=resource)
 processor = BatchSpanProcessor(OTLPSpanExporter())
@@ -42,6 +40,7 @@ roll_counter = meter.create_counter(
     description="The number of rolls by roll value",
 )
 
+
 @app.get("/rolldice")
 def roll_dice(player: Union[str, None] = None) -> str:
     with tracer.start_as_current_span(name="roll") as roll_span:
@@ -53,6 +52,7 @@ def roll_dice(player: Union[str, None] = None) -> str:
         else:
             logger.warning("Anonymous player is rolling the dice: %s", result)
         return result
+
 
 def _roll() -> int:
     return randint(1, 6)

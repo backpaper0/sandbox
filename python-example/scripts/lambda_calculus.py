@@ -25,6 +25,7 @@ def fizzbuzz():
         else:
             yield n
 
+
 print([n for n in fizzbuzz()])
 
 # %%
@@ -63,30 +64,42 @@ TAIL = RIGHT
 IS_NIL = lambda l: LEFT(LEFT(l))
 
 # 範囲
-RANGE = lambda a: lambda b: RIGHT(SUB(b)(a)(lambda x: TUPLE(DECREMENT(LEFT(x)))(CONS(LEFT(x))(RIGHT(x))))(TUPLE(DECREMENT(b))(NIL)))
+RANGE = lambda a: lambda b: RIGHT(
+    SUB(b)(a)(lambda x: TUPLE(DECREMENT(LEFT(x)))(CONS(LEFT(x))(RIGHT(x))))(
+        TUPLE(DECREMENT(b))(NIL)
+    )
+)
 
 # ループ(というか射影)
 # λf. (λx. f (λy. x x y)) (λx. f (λy. x x y))
 Z = lambda f: (lambda x: f(lambda y: x(x)(y)))(lambda x: f(lambda y: x(x)(y)))
-MAP = Z(lambda f: lambda g: lambda l: IF(IS_NIL(l))(NIL)(lambda x: CONS(g(HEAD(l)))(f(g)(TAIL(l)))(x)))
+MAP = Z(
+    lambda f: lambda g: lambda l: IF(IS_NIL(l))(NIL)(
+        lambda x: CONS(g(HEAD(l)))(f(g)(TAIL(l)))(x)
+    )
+)
 
 # 条件分岐
 IF = lambda c: lambda t: lambda e: c(t)(e)
 
 # 文字
 
+
 # 型変換処理
 def to_num(n):
     return n(lambda x: x + 1)(0)
 
+
 def to_bool(n):
     return n(True)(False)
+
 
 def to_num_list(n):
     print(n)
     if to_bool(IS_NIL(n)):
         return []
     return [to_num(HEAD(n)), to_num_list(TAIL(n))]
+
 
 # MAPがうまくいっていない。TypeError: 'bool' object is not callable
 # print(to_num_list(RANGE(_0)(_3)))

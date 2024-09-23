@@ -8,7 +8,9 @@ import matplotlib.pyplot as plt
 rcParams["font.family"] = "PlemolJP"
 
 # %%
-df = pd.read_csv("https://web.pref.hyogo.lg.jp/kk26/documents/hyogo_free_wi_fi_list_zahyo.csv")
+df = pd.read_csv(
+    "https://web.pref.hyogo.lg.jp/kk26/documents/hyogo_free_wi_fi_list_zahyo.csv"
+)
 
 # %%
 df["地域"].value_counts().plot.bar()
