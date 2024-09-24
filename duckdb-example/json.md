@@ -46,7 +46,7 @@ DuckDBは複数個のJSONファイルを一度に取り込むことができる�
 
 例として`per_page`を30に設定し、複数個のJSONファイルを取得して、DuckDBへ読み込んでみる。
 
-まずはリポジトリ数を取得する。
+まずはリポジトリ情報を取得する。
 
 ```bash
 seq $(($(duckdb -csv -noheader -c "select public_repos from read_json('https://api.github.com/orgs/spring-projects')") / 30 + 1)) | \
