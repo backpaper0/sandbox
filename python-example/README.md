@@ -25,16 +25,16 @@ poetry run python scripts/hello.py
 > poetry run jupyter nbconvert --to notebook --execute notebooks/collection.ipynb --output collection.ipynb
 > ```
 
-## 静的解析
+## 型チェック
 
 ```sh
-poetry run mypy scripts/verify_error.py
+poetry run mypy scripts/type_error.py
 ```
 
 [taskipy](https://github.com/taskipy/taskipy)でタスク化しているので次のコマンドでも動きます。
 
 ```sh
-poetry run task verify
+poetry run task check-type
 ```
 
 ## テストの実行
