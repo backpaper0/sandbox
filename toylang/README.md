@@ -36,3 +36,23 @@
 - 型推論器
 - 型チェッカー
 - パーサー
+
+## 開発ツール
+
+### 型チェック
+
+```bash
+poetry run mypy toylang
+```
+
+### Lint
+
+```bash
+poetry run ruff check toylang
+```
+
+### フォーマッター
+
+```bash
+poetry run ruff format toylang
+```
