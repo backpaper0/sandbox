@@ -26,6 +26,22 @@ def do_eval(expr: Expr, env: dict[str, Any]) -> Any:
                 return lhs * rhs
             case "/":
                 return int(lhs / rhs)
+            case "<":
+                return lhs < rhs
+            case "<=":
+                return lhs <= rhs
+            case ">":
+                return lhs > rhs
+            case ">=":
+                return lhs >= rhs
+            case "==":
+                return lhs == rhs
+            case "!=":
+                return lhs != rhs
+            case "&&":
+                return lhs and rhs
+            case "||":
+                return lhs or rhs
 
 
 if __name__ == "__main__":
