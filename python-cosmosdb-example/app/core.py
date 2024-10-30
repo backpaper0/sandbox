@@ -1,8 +1,22 @@
-from typing import Tuple
+from typing import Optional
 
 import urllib3
 from azure.cosmos.aio import ContainerProxy, CosmosClient
+from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class User(BaseModel):
+    id: str
+    location: str
+    name: str
+    age: int
+
+    rid: Optional[str] = Field(alias="_rid", default=None)
+    self: Optional[str] = Field(alias="_self", default=None)
+    etag: Optional[str] = Field(alias="_etag", default=None)
+    attachments: Optional[str] = Field(alias="_attachments", default=None)
+    ts: Optional[int] = Field(alias="_ts", default=None)
 
 
 class Settings(BaseSettings):
@@ -51,3 +65,8 @@ def get_users_container() -> UsersAndClient:
     client = get_cosmos_client()
     users = client.get_database_client("mydb").get_container_client("users")
     return UsersAndClient(users, client)
+
+
+async def read_user(container: ContainerProxy, id: str, location: str) -> User:
+    item = await container.read_item(item=id, partition_key=location)
+    return User(**item)

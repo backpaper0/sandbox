@@ -4,26 +4,27 @@ from azure.core import MatchConditions
 from azure.cosmos.exceptions import CosmosAccessConditionFailedError
 
 import app.core as core
+from app.core import User, read_user
 
 
 async def main():
-    async with core.get_users_container() as users:
-        alice = await users.read_item(item="1", partition_key="JP")
+    async with core.get_users_container() as container:
+        alice = await read_user(container=container, id="1", location="JP")
 
         print("# upsert_item")
-        result = await users.upsert_item(
-            body={"id": "1", "location": "JP", "name": "Alice", "age": 19},
-            etag=alice["_etag"],
+        result = await container.upsert_item(
+            body=User(id="1", location="JP", name="Alice", age=19).model_dump(),
+            etag=alice.etag,
             match_condition=MatchConditions.IfNotModified,
         )
-        print(result)
+        print(User(**result))
         print()  # 空行
 
         print("# upsert_item（etagによる楽観排他に失敗する）")
         try:
-            await users.upsert_item(
-                body={"id": "1", "location": "JP", "name": "Alice", "age": 18},
-                etag=alice["_etag"],
+            await container.upsert_item(
+                body=User(id="1", location="JP", name="Alice", age=18).model_dump(),
+                etag=alice.etag,
                 match_condition=MatchConditions.IfNotModified,
             )
         except CosmosAccessConditionFailedError as e:
@@ -31,12 +32,12 @@ async def main():
             print()  # 空行
 
         print("# upsert_item（ドキュメントが存在しない場合は新規作成）")
-        result = await users.upsert_item(
-            body={"id": "4", "location": "US", "name": "Carol", "age": 25},
+        result = await container.upsert_item(
+            body=User(id="4", location="US", name="Carol", age=25).model_dump(),
             etag="00000000-0000-0000-0000-000000000000",
             match_condition=MatchConditions.IfNotModified,
         )
-        print(result)
+        print(User(**result))
         print()  # 空行
 
 

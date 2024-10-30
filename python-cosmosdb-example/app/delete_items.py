@@ -1,13 +1,15 @@
 import asyncio
 
 import app.core as core
+from app.core import User
 
 
 async def main():
-    async with core.get_users_container() as users:
-        items = users.read_all_items()
+    async with core.get_users_container() as container:
+        items = container.read_all_items()
         async for item in items:
-            await users.delete_item(item=item, partition_key=item["location"])
+            user = User(**item)
+            await container.delete_item(item=user.id, partition_key=user.location)
 
 
 asyncio.run(main())
