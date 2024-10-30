@@ -9,9 +9,8 @@ async def main():
     async with core.get_users_container() as users:
         print("# 全件取得")
         items = users.read_all_items()
-        async for iter in items.by_page():
-            async for item in iter:
-                print(item)
+        async for item in items:
+            print(item)
         print()  # 空行
 
         print("# 1件取得（idで取得）")
@@ -31,9 +30,8 @@ async def main():
             query="select * from c where c.name = @name",
             parameters=[{"name": "@name", "value": "Bob"}],
         )
-        async for iter in items.by_page():
-            async for item in iter:
-                print(item)
+        async for item in items:
+            print(item)
         print()  # 空行
 
 
