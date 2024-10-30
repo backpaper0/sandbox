@@ -32,6 +32,22 @@ def get_cosmos_client() -> CosmosClient:
     return client
 
 
-def get_users_container() -> Tuple[ContainerProxy, CosmosClient]:
+class UsersAndClient:
+    users: ContainerProxy
+    client: CosmosClient
+
+    def __init__(self, users: ContainerProxy, client: CosmosClient):
+        self.users = users
+        self.client = client
+
+    async def __aenter__(self) -> ContainerProxy:
+        return self.users
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
+        await self.client.close()
+
+
+def get_users_container() -> UsersAndClient:
     client = get_cosmos_client()
-    return client.get_database_client("mydb").get_container_client("users"), client
+    users = client.get_database_client("mydb").get_container_client("users")
+    return UsersAndClient(users, client)
