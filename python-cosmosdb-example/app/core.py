@@ -1,20 +1,32 @@
-import os
 from typing import Tuple
 
 import urllib3
 from azure.cosmos.aio import ContainerProxy, CosmosClient
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+    cosmos_endpoint: str = ""
+    cosmos_key: str = ""
+
+
+settings = Settings()
 
 
 def get_cosmos_client() -> CosmosClient:
-    cosmos_endpoint = os.environ["COSMOS_ENDPOINT"]
     # エミュレーター使ってる場合は証明書まわりが面倒なので検証しない
-    connection_verify = not "localhost" in cosmos_endpoint
+    connection_verify = not "localhost" in settings.cosmos_endpoint
     if not connection_verify:
         urllib3.disable_warnings()
 
     client = CosmosClient(
-        url=cosmos_endpoint,
-        credential=os.environ["COSMOS_KEY"],
+        url=settings.cosmos_endpoint,
+        credential=settings.cosmos_key,
         connection_verify=connection_verify,
     )
     return client
