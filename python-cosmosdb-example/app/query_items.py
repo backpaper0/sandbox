@@ -3,7 +3,7 @@ import asyncio
 from azure.cosmos.errors import CosmosResourceNotFoundError
 
 import app.core as core
-from app.core import User
+from app.core import *
 
 
 async def main():
@@ -33,8 +33,7 @@ async def main():
             query="select * from c where c.name = @name",
             parameters=[{"name": "@name", "value": "Bob"}],
         )
-        async for item in items:
-            user = User(**item)
+        async for user in wrap_users(items):
             print(user)
         print()  # 空行
 

@@ -1,6 +1,7 @@
-from typing import Optional
+from typing import Any, AsyncGenerator, Dict, Optional
 
 import urllib3
+from azure.core.async_paging import AsyncItemPaged
 from azure.cosmos.aio import ContainerProxy, CosmosClient
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -70,3 +71,10 @@ def get_users_container() -> UsersAndClient:
 async def read_user(container: ContainerProxy, id: str, location: str) -> User:
     item = await container.read_item(item=id, partition_key=location)
     return User(**item)
+
+
+async def wrap_users(
+    items: AsyncItemPaged[Dict[str, Any]]
+) -> AsyncGenerator[User, None]:
+    async for item in items:
+        yield User(**item)
