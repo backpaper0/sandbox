@@ -86,7 +86,7 @@ D select name, topics from repos limit 5;
 └─────────────────────┴──────────────────────────────────────────────────────────┘
 ```
 
-これを行に展開するには`unset`関数を使う。
+これを行に展開するには`unnest`関数を使う。
 
 ```
 D select name, unnest(topics) from repos limit 5;
