@@ -13,3 +13,11 @@ func init --python
 ```bash
 poetry init -q --dependency="azure-functions"
 ```
+
+```bash
+rm requirements.txt
+```
+
+```bash
+poetry install
+```
