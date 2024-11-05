@@ -37,3 +37,45 @@ func start
 ```bash
 curl http://localhost:7071/api/HttpExample
 ```
+
+## Azureへデプロイ
+
+### リソースの準備
+
+```bash
+az group create --name AzureFunctionsQuickstart-rg --location japaneast
+```
+
+```bash
+az storage account create --name $STORAGE_NAME --location japaneast --resource-group AzureFunctionsQuickstart-rg --sku Standard_LRS
+```
+
+```bash
+az functionapp create --resource-group AzureFunctionsQuickstart-rg --consumption-plan-location westeurope --runtime python --runtime-version 3.11 --functions-version 4 --name $APP_NAME --os-type linux --storage-account $STORAGE_NAME
+```
+
+### デプロイする
+
+```bash
+poetry export -o requirements.txt
+```
+
+```bash
+func azure functionapp publish $APP_NAME
+```
+
+### 動作確認
+
+```bash
+curl -v https://$APP_NAME.azurewebsites.net/api/HttpExample
+```
+
+```bash
+curl -v https://$APP_NAME.azurewebsites.net/api/HttpExample -G -d name=xxx
+```
+
+### リソースの削除
+
+```bash
+az group delete --name AzureFunctionsQuickstart-rg
+```
