@@ -9,3 +9,7 @@
 ```bash
 func init --python
 ```
+
+```bash
+poetry init -q --dependency="azure-functions"
+```
