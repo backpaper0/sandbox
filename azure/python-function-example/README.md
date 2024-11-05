@@ -21,3 +21,9 @@ rm requirements.txt
 ```bash
 poetry install
 ```
+
+## 関数の追加
+
+```bash
+func new --name HttpExample --template "HTTP trigger" --authlevel "anonymous"
+```
