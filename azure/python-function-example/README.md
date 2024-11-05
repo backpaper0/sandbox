@@ -27,3 +27,13 @@ poetry install
 ```bash
 func new --name HttpExample --template "HTTP trigger" --authlevel "anonymous"
 ```
+
+## ローカル実行
+
+```bash
+func start
+```
+
+```bash
+curl http://localhost:7071/api/HttpExample
+```
