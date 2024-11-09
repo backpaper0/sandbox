@@ -38,19 +38,17 @@ curl localhost:7071/api/HttpExample -G -d name=MyName
 
 ### ローカル（コンテナ）
 
-```bash
-poetry export -o requirements.txt
-```
+#### ビルド
 
 ```bash
 docker build --tag myfun .
 ```
 
+#### 動作確認
+
 ```bash
 docker run -p 8080:80 -it --rm myfun
 ```
-
-動作確認。
 
 ```bash
 curl localhost:8080/api/HttpExample
@@ -62,7 +60,7 @@ curl localhost:8080/api/HttpExample -G -d name=MyName
 
 ### Azure
 
-#### デプロイ
+#### 環境構築・デプロイ
 
 変数を設定。
 
