@@ -43,15 +43,25 @@ curl http://localhost:7071/api/HttpExample
 ### リソースの準備
 
 ```bash
-az group create --name AzureFunctionsQuickstart-rg --location japaneast
+app_name=...
 ```
 
 ```bash
-az storage account create --name $STORAGE_NAME --location japaneast --resource-group AzureFunctionsQuickstart-rg --sku Standard_LRS
+rg_name=${app_name}rg
+storage_name=${app_name}storage
+loc_name=japaneast
 ```
 
 ```bash
-az functionapp create --resource-group AzureFunctionsQuickstart-rg --consumption-plan-location westeurope --runtime python --runtime-version 3.11 --functions-version 4 --name $APP_NAME --os-type linux --storage-account $STORAGE_NAME
+az group create --name $rg_name --location $loc_name
+```
+
+```bash
+az storage account create --name $storage_name --location $loc_name --resource-group $rg_name --sku Standard_LRS
+```
+
+```bash
+az functionapp create --resource-group $rg_name --consumption-plan-location $loc_name --runtime python --runtime-version 3.11 --functions-version 4 --name $app_name --os-type linux --storage-account $storage_name
 ```
 
 ### デプロイする
@@ -61,21 +71,27 @@ poetry export -o requirements.txt
 ```
 
 ```bash
-func azure functionapp publish $APP_NAME
+func azure functionapp publish $app_name
 ```
 
 ### 動作確認
 
+
 ```bash
-curl -v https://$APP_NAME.azurewebsites.net/api/HttpExample
+func_key=$(az functionapp function keys list --resource-group $rg_name --name $app_name --function-name HttpExample | jq -r ".default")
+```
+
+
+```bash
+curl -v -H "x-functions-key: $func_key" https://${app_name}.azurewebsites.net/api/HttpExample
 ```
 
 ```bash
-curl -v https://$APP_NAME.azurewebsites.net/api/HttpExample -G -d name=xxx
+curl -v -H "x-functions-key: $func_key" https://${app_name}.azurewebsites.net/api/HttpExample -G -d name=xxx
 ```
 
 ### リソースの削除
 
 ```bash
-az group delete --name AzureFunctionsQuickstart-rg
+az group delete --name $rg_name
 ```
