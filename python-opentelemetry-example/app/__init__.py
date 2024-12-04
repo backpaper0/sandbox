@@ -20,6 +20,10 @@ for suffix in ["local", "secret"]:
 
 
 class SseOmittingSampler(Sampler):
+    """
+    Server-Sent Eventsのトレースがやたらと出力されるので切り捨てるSampler。
+    """
+
     def should_sample(
         self,
         parent_context: Optional[Context],
@@ -42,6 +46,10 @@ class SseOmittingSampler(Sampler):
 
 
 class UnescapeUnicodeSpanProcessorWrapper(SpanProcessor):
+    """
+    デフォルトだと日本語がUnicodeエスケープされてしまって読めないので、アンエスケープするSpanProcessor。
+    """
+
     def __init__(self, processor: SpanProcessor):
         self.processor = processor
 
@@ -64,6 +72,7 @@ class UnescapeUnicodeSpanProcessorWrapper(SpanProcessor):
                 if key in attr:
                     value = attr[key]
                     if isinstance(value, str):
+                        # UnicodeエスケープされているJSONを読み込んで、UnicodeエスケープせずJSONを書き出す。
                         decoded_value = json.loads(value)
                         attr[key] = json.dumps(decoded_value, ensure_ascii=False)
         else:
@@ -95,6 +104,7 @@ _resource = Resource.create({ResourceAttributes.SERVICE_NAME: "telemetry-example
 _provider = TracerProvider(resource=_resource, sampler=SseOmittingSampler())
 trace.set_tracer_provider(_provider)
 
+# 環境変数ではなくコンストラクタで設定することもできる。
 # _exporter = OTLPSpanExporter(
 #     endpoint="http://localhost:5080/api/default/v1/traces",
 #     headers={

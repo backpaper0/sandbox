@@ -1,3 +1,4 @@
+import os
 from typing import Any
 
 from fastapi import APIRouter
@@ -57,7 +58,7 @@ _qa = ChatPromptTemplate(
 )
 
 
-_chat = ChatOpenAI()
+_chat = ChatOpenAI(model=os.environ["CHAT_MODEL"])
 
 _chain: Runnable[Any, Any] = (
     RunnablePassthrough()
