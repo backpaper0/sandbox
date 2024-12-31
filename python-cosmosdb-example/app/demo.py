@@ -6,7 +6,15 @@
 ## 実行
 
 ```
+docker compose up -d
+```
+
+```
 poetry run python -m app.demo
+```
+
+```
+docker compose down
 ```
 
 ## コンテナ
@@ -20,7 +28,15 @@ pack build demo
 ### コンテナ実行
 
 ```
+GATEWAY_PUBLIC_ENDPOINT=cosmos docker compose up -d
+```
+
+```
 docker compose run --rm demo
+```
+
+```
+docker compose down
 ```
 
 """
