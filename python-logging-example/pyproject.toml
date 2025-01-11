@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "python-logging-example"
+version = "0.1.0"
+description = ""
+authors = ["Uragami Taichi <backpaper0@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.13"
+pydantic-settings = "^2.7.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.9.1"
+taskipy = "^1.14.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+main = "python -m app.main"
+lint = "ruff format --check app && ruff check --select ALL --ignore D app"
+fix = "ruff format app && ruff check --select ALL --ignore D --fix app"
