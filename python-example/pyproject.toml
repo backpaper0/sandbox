@@ -34,6 +34,7 @@ python-ulid = "^2.6.0"
 python-multipart = "^0.0.9"
 alembic = "^1.13.2"
 aiofiles = "^24.1.0"
+tiktoken = "^0.8.0"
 
 
 [tool.poetry.group.dev.dependencies]
