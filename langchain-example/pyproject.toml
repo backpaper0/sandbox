@@ -30,3 +30,5 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
 format = "ruff format"
+lint = "ruff check"
+fix = "ruff format && ruff check --fix"

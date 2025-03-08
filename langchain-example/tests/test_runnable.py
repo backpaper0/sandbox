@@ -13,7 +13,6 @@ from langchain_core.runnables import (
     RunnableParallel,
     RunnablePassthrough,
 )
-from langchain_core.runnables.config import RunnableConfig
 
 
 class RunnableTest(unittest.TestCase):
