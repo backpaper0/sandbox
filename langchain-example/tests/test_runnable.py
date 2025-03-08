@@ -4,6 +4,7 @@ Runnableを知る。
 poetry run python -m tests.runnable_test -v
 """
 
+from typing import Any
 import unittest
 
 from langchain_core.runnables import (
@@ -70,7 +71,9 @@ class RunnableTest(unittest.TestCase):
         """
         入力を引き回す。
         """
-        r1 = RunnableLambda(lambda input: f"{input['in']} bar")
+        r1: RunnableLambda[dict[str, str], str] = RunnableLambda(
+            lambda input: f"{input['in']} bar"
+        )
         r2 = RunnableParallel(out=r1)
         r3 = RunnableAssign(r2)
 
@@ -103,12 +106,14 @@ class RunnableTest(unittest.TestCase):
         """
         configを指定する。
         """
-        r1 = RunnableLambda(
-            lambda input, config: {
+
+        def f(input: Any, config: RunnableConfig) -> Any:
+            return {
                 "input": input,
-                "configurable": config["configurable"],
+                "configurable": config.get("configurable"),
             }
-        )
+
+        r1 = RunnableLambda(f)
         config = RunnableConfig(
             configurable={
                 "xxx": "yyy",
@@ -130,12 +135,14 @@ class RunnableTest(unittest.TestCase):
         """
         invokeするときにconfigを指定する。
         """
-        r1 = RunnableLambda(
-            lambda input, config: {
+
+        def f(input: Any, config: RunnableConfig) -> Any:
+            return {
                 "input": input,
-                "configurable": config["configurable"],
+                "configurable": config.get("configurable"),
             }
-        )
+
+        r1 = RunnableLambda(f)
         config = RunnableConfig(
             configurable={
                 "xxx": "yyy",
