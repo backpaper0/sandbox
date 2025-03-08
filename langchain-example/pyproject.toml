@@ -37,6 +37,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.taskipy.tasks]
 start = "PYTHONPATH=scripts uvicorn server:app --reload"
 lint = "flake8 . && black . && isort . && mypy ."
+test = "python -m unittest discover"
 
 [tool.black]
 line-length = 200
