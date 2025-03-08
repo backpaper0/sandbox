@@ -4,44 +4,23 @@ version = "0.1.0"
 description = ""
 authors = ["Uragami Taichi <backpaper0@gmail.com>"]
 readme = "README.md"
-packages = [
-    { include = "*.py", from = "scripts" }
-]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
-langserve = {extras = ["all"], version = "^0.2.2"}
-taskipy = "^1.13.0"
-faiss-cpu = "^1.8.0"
+langserve = {extras = ["all"], version = "^0.3.1"}
+faiss-cpu = "^1.10.0"
 python-dotenv = "^1.0.1"
-jupyter = "^1.0.0"
-pandas = "^2.2.2"
-pypdf = "^4.2.0"
-sqlalchemy = "^2.0.31"
-aiosqlite = "^0.20.0"
-langchain-openai = "^0.1.9"
-langchain-community = "^0.2.5"
-python-ulid = "^2.7.0"
+jupyter = "^1.1.1"
+pandas = "^2.2.3"
+pypdf = "^5.3.1"
+sqlalchemy = "^2.0.38"
+aiosqlite = "^0.21.0"
+langchain-openai = "^0.3.8"
+langchain-community = "^0.3.19"
+python-ulid = "^3.0.0"
 
-
-[tool.poetry.group.dev.dependencies]
-flake8 = "^7.1.0"
-black = {extras = ["jupyter"], version = "^24.4.2"}
-isort = "^5.13.2"
-mypy = "^1.10.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.taskipy.tasks]
-start = "PYTHONPATH=scripts uvicorn server:app --reload"
-lint = "flake8 . && black . && isort . && mypy ."
-test = "python -m unittest discover"
-
-[tool.black]
-line-length = 200
-
-[tool.isort]
-profile = "black"
-line_length = 200
