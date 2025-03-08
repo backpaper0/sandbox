@@ -11,7 +11,6 @@ from langchain_community.embeddings.fake import DeterministicFakeEmbedding
 
 
 class FakeListChatModelTest(unittest.TestCase):
-
     def setUp(self) -> None:
         # 指定した応答を順番に返すチャットモデルのモック
         self.chat = FakeListChatModel(
@@ -31,7 +30,6 @@ class FakeListChatModelTest(unittest.TestCase):
 
 
 class DeterministicFakeEmbeddingTest(unittest.TestCase):
-
     def setUp(self) -> None:
         # 同じ入力に対して同じ出力を返す埋め込みのモック
         self.embedding = DeterministicFakeEmbedding(size=10)

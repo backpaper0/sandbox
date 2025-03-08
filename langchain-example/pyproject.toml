@@ -21,6 +21,12 @@ langchain-community = "^0.3.19"
 python-ulid = "^3.0.0"
 
 
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.9.10"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+format = "ruff format"

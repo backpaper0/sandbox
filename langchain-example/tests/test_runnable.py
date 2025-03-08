@@ -17,7 +17,6 @@ from langchain_core.runnables.config import RunnableConfig
 
 
 class RunnableTest(unittest.TestCase):
-
     def test_parallel(self) -> None:
         """
         複数のRunnableをまとめて結果をdictで取得する。
