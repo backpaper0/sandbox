@@ -1,6 +1,6 @@
 # Graph
 
-## simple graph
+## simple
 
 ```mermaid
 %%{init: {'flowchart': {'curve': 'linear'}}}%%
