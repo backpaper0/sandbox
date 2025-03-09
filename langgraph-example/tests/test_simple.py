@@ -1,8 +1,8 @@
 import unittest
-import app.helloworld as sut
+import app.simple as sut
 
 
-class TestHelloWorld(unittest.IsolatedAsyncioTestCase):
+class TestSimple(unittest.IsolatedAsyncioTestCase):
     async def test_simple_graph(self) -> None:
         graph = sut.build_simple_graph()
 

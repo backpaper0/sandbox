@@ -1,10 +1,10 @@
 from pathlib import Path
-import app.helloworld
+import app.simple
 
 
 def main() -> None:
     graph_builders = [
-        app.helloworld.build_simple_graph,
+        app.simple.build_simple_graph,
     ]
     md_file_path = Path("graph.md")
     with md_file_path.open(mode="w", encoding="utf-8") as file:
