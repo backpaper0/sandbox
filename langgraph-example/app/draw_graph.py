@@ -1,6 +1,6 @@
 import importlib.util
 from pathlib import Path
-from typing import Callable, Generator
+from typing import Any, Callable, Generator, Tuple
 import pkgutil
 import importlib
 import inspect
@@ -19,7 +19,9 @@ def is_target_func(func_name: str) -> bool:
     )
 
 
-def find_graph_builders() -> Generator[Callable[[], CompiledStateGraph], None, None]:
+def find_graph_builders() -> Generator[
+    Callable[[], CompiledStateGraph | Tuple[CompiledStateGraph, Any]], None, None
+]:
     root = "app"
     root_module = importlib.import_module(root)
     for _, name, _ in pkgutil.iter_modules(root_module.__path__):
@@ -44,7 +46,12 @@ def main() -> None:
             )
             file.write(f"\n## {title}\n")
 
-            graph = graph_builder()
+            graph_or_tuple = graph_builder()
+            graph = (
+                graph_or_tuple
+                if isinstance(graph_or_tuple, CompiledStateGraph)
+                else graph_or_tuple[0]
+            )
             flowchart = graph.get_graph().draw_mermaid()
             file.write("\n```mermaid\n")
             file.write(flowchart)
