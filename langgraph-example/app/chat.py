@@ -30,20 +30,20 @@ def build_call_model(
     return call_model
 
 
-def build_graph(model: str) -> CompiledStateGraph:
+def build_chat_graph(model: str = "llama3.2") -> CompiledStateGraph:
     chat = ChatOllama(model=model)
 
     graph_builder = StateGraph(State)
-    graph_builder.add_node("call_model", build_call_model(chat))
+    graph_builder.add_node("chatbot", build_call_model(chat))
 
-    graph_builder.set_entry_point("call_model")
-    graph_builder.set_finish_point("call_model")
+    graph_builder.set_entry_point("chatbot")
+    graph_builder.set_finish_point("chatbot")
 
     return graph_builder.compile()
 
 
 async def main(query: str, model: str) -> None:
-    graph = build_graph(model)
+    graph = build_chat_graph(model)
     input = {"query": query}
     async_iterator = graph.astream(input, debug=True, stream_mode="messages")
     async for msg, metadata in async_iterator:

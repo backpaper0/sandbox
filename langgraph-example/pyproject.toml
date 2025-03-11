@@ -11,6 +11,9 @@ langgraph = "^0.3.5"
 grandalf = "^0.8"
 langserve = {extras = ["server"], version = "^0.3.1"}
 langchain-ollama = "^0.2.3"
+langchain-openai = "^0.3.8"
+langchain-community = "^0.3.19"
+wikipedia = "^1.4.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -29,3 +32,4 @@ fix = "ruff format && ruff check --fix && pyright"
 test = "python -m unittest discover"
 graph = "python -m app.draw_graph"
 chat = "python -m app.chat"
+chat_with_tool = "python -m app.chat_with_tool"
