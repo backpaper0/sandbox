@@ -52,7 +52,7 @@ def main() -> None:
                 if isinstance(graph_or_tuple, CompiledStateGraph)
                 else graph_or_tuple[0]
             )
-            flowchart = graph.get_graph().draw_mermaid()
+            flowchart = graph.get_graph(xray=True).draw_mermaid()
             file.write("\n```mermaid\n")
             file.write(flowchart)
             file.write("```\n")
