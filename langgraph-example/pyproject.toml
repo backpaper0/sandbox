@@ -18,6 +18,8 @@ fastapi = {extras = ["standard"], version = "^0.115.11"}
 pydantic = "^2.10.6"
 pydantic-settings = "^2.8.1"
 python-dotenv = "^1.0.1"
+aiosqlite = "^0.21.0"
+langgraph-checkpoint-sqlite = "^2.0.6"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -38,3 +40,4 @@ graph = "python -m app.draw_graph"
 chat = "python -m app.chat"
 chat_with_tool = "python -m app.chat_with_tool"
 dev = "fastapi dev"
+checkpoint = "python -m app.checkpoint"

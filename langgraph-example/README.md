@@ -41,3 +41,19 @@
   poetry run task dev
   ```
   http://localhost:8000/index.html
+- SQLiteへ会話を保存
+  ```bash
+  poetry run task checkpoint --query "1足す2は？"
+  ```
+
+  ```
+  1足す2は3です。
+  ```
+
+  ```bash
+  poetry run task checkpoint --query "3を掛けて。"
+  ```
+
+  ```
+  3を掛けると、3×3=9になります。
+  ```

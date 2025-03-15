@@ -137,8 +137,6 @@ graph TD;
 graph TD;
 	__start__([<p>__start__</p>]):::first
 	node1(node1)
-	sub_graph_node3(node3)
-	sub_graph_node4(node4)
 	node2(node2)
 	__end__([<p>__end__</p>]):::last
 	__start__ --> node1;
@@ -146,6 +144,8 @@ graph TD;
 	node2 --> __end__;
 	sub_graph_node4 --> node2;
 	subgraph sub_graph
+	sub_graph_node3(node3)
+	sub_graph_node4(node4)
 	sub_graph_node3 --> sub_graph_node4;
 	end
 	classDef default fill:#f2f0ff,line-height:1.2
