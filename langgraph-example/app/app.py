@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from langgraph.graph import StateGraph
 from pydantic import BaseModel
 from dotenv import load_dotenv
-from langchain_core.messages import BaseMessage, AIMessageChunk
+from langchain_core.messages import BaseMessage, AIMessageChunk, BaseMessageChunk
 from langchain_openai.chat_models import ChatOpenAI
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -62,23 +62,27 @@ def sse_response(
     return StreamingResponse(sse(), media_type="text/event-stream")
 
 
+async def messages(
+    iterator: AsyncIterator[dict[str, Any] | Any], node: str
+) -> AsyncIterator[str]:
+    async for chunk, metadata in cast(
+        AsyncIterator[Tuple[BaseMessageChunk, dict[str, Any]]], iterator
+    ):
+        if (
+            isinstance(chunk, AIMessageChunk)
+            and isinstance(chunk.content, str)
+            and chunk.content
+            and "langgraph_node" in metadata
+            and metadata["langgraph_node"] == node
+        ):
+            yield chunk.content
+
+
 @app.get("/chat/stream")
 async def chat_stream(query: str) -> StreamingResponse:
-    async def messages() -> AsyncIterator[str]:
-        iterator = graph.astream({"query": query}, stream_mode="messages")
-        cast_iterator = cast(
-            AsyncIterator[Tuple[AIMessageChunk, dict[str, Any]]], iterator
-        )
-        async for chunk, metadata in cast_iterator:
-            if (
-                isinstance(chunk.content, str)
-                and chunk.content
-                and "langgraph_node" in metadata
-                and metadata["langgraph_node"] == "chat"
-            ):
-                yield chunk.content
-
-    return sse_response(messages())
+    iterator = graph.astream({"query": query}, stream_mode="messages")
+    node = "chat"
+    return sse_response(messages(iterator, node))
 
 
 app.mount("/", StaticFiles(directory="static"))
