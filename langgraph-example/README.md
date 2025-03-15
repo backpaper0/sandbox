@@ -36,3 +36,8 @@
   *** LLM + Wikipediaの検索 ***
   ReGLOSSは野球のチームではなく、ホロライブプロダクション傘下の「hololive DEV_IS」に所属する日本の音楽アーティストVTuberグループです。メンバーには火威青、音乃瀬奏、一条莉々華、儒烏  風亭らでん、轟はじめの5人がいます。
   ```
+- FastAPIと組み合わせてServer-Sent Events
+  ```bash
+  poetry run task dev
+  ```
+  http://localhost:8000/index.html
