@@ -1,5 +1,5 @@
 from operator import add
-from typing import Annotated, Any, AsyncIterator, Tuple, cast
+from typing import Annotated, Any, AsyncIterator, Callable, Tuple, TypeVar, cast
 from fastapi import FastAPI
 from langgraph.graph import StateGraph
 from pydantic import BaseModel
@@ -38,6 +38,29 @@ app = FastAPI()
 
 line_sep = re.compile("\r\n|\r|\n")
 
+T = TypeVar("T")
+
+
+def sse_response(
+    iterator: AsyncIterator[T], serializer: Callable[[T], str] = str
+) -> StreamingResponse:
+    async def sse() -> AsyncIterator[str]:
+        async for chunk in iterator:
+            with StringIO() as writer:
+                writer.write("event: message\n")
+                for line in line_sep.split(serializer(chunk)):
+                    if isinstance(line, str):
+                        writer.write(f"data: {line}\n")
+                writer.write("\n")
+                yield writer.getvalue()
+        with StringIO() as writer:
+            writer.write("event: end\n")
+            writer.write("data:\n")
+            writer.write("\n")
+            yield writer.getvalue()
+
+    return StreamingResponse(sse(), media_type="text/event-stream")
+
 
 @app.get("/chat/stream")
 async def chat_stream(query: str) -> StreamingResponse:
@@ -53,20 +76,9 @@ async def chat_stream(query: str) -> StreamingResponse:
                 and "langgraph_node" in metadata
                 and metadata["langgraph_node"] == "chat"
             ):
-                with StringIO() as writer:
-                    writer.write("event: message\n")
-                    for line in line_sep.split(chunk.content):
-                        if isinstance(line, str):
-                            writer.write(f"data: {line}\n")
-                    writer.write("\n")
-                    yield writer.getvalue()
-        with StringIO() as writer:
-            writer.write("event: end\n")
-            writer.write("data:\n")
-            writer.write("\n")
-            yield writer.getvalue()
+                yield chunk.content
 
-    return StreamingResponse(messages(), media_type="text/event-stream")
+    return sse_response(messages())
 
 
 app.mount("/", StaticFiles(directory="static"))
