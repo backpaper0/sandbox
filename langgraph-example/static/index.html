@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Server-Sent Events</title>
+</head>
+
+<body>
+    <form id="chatForm">
+        <p>
+            <input name="query" type="text" value="LangGraphについて教えて。" style="width: 30rem;">
+            <button name="send" type="submit">送信</button>
+        </p>
+    </form>
+    <pre id="answer" style="white-space: pre-wrap;"></pre>
+    <script src="sse.js"></script>
+</body>
+
+</html>
