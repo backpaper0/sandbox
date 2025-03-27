@@ -1,0 +1,1 @@
+insert into animals (name, species) select * from csvread('src/main/resources/data.csv');
