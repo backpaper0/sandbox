@@ -13,6 +13,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from langchain_core.runnables import Runnable
 from argparse import ArgumentParser
 
+import mlflow
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
@@ -89,12 +91,14 @@ async def ainvoke(graph: CompiledStateGraph, query: str, stream: bool) -> None:
 
 async def main(query: str, stream: bool) -> None:
     print("*** LLMのみ ***")
-    await ainvoke(_build_chat_only_graph(), query, stream)
+    with mlflow.start_run():
+        await ainvoke(_build_chat_only_graph(), query, stream)
 
     print()
 
     print("*** LLM + Wikipediaの検索 ***")
-    await ainvoke(build_chat_with_tools_graph(), query, stream)
+    with mlflow.start_run():
+        await ainvoke(build_chat_with_tools_graph(), query, stream)
 
 
 if __name__ == "__main__":
