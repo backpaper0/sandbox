@@ -5,13 +5,13 @@
 `async def`でコルーチンを作成できる。
 
 ```bash
-python -m scripts.asyncio.example1
+uv run -m scripts.asyncio.example1
 ```
 
 コルーチンは`await`で実行できる。
 
 ```bash
-python -m scripts.asyncio.example2
+uv run -m scripts.asyncio.example2
 ```
 
 ```
@@ -24,7 +24,7 @@ python -m scripts.asyncio.example2
 `asyncio.create_task()`はコルーチンをスケジュールできる。
 
 ```bash
-python -m scripts.asyncio.example3
+uv run -m scripts.asyncio.example3
 ```
 
 ```
@@ -37,7 +37,7 @@ python -m scripts.asyncio.example3
 `asyncio.gather()`で複数のコルーチンを束ねられる。
 
 ```bash
-python -m scripts.asyncio.example4
+uv run -m scripts.asyncio.example4
 ```
 
 ```
@@ -50,7 +50,7 @@ python -m scripts.asyncio.example4
 `asyncio.Lock`でロックできる。
 
 ```bash
-python -m scripts.asyncio.example5
+uv run -m scripts.asyncio.example5
 ```
 
 ```
@@ -63,7 +63,7 @@ python -m scripts.asyncio.example5
 セマフォ（`asyncio.Semaphore()`）もある。
 
 ```bash
-python -m scripts.asyncio.example6
+uv run -m scripts.asyncio.example6
 ```
 
 ```
@@ -83,7 +83,7 @@ python -m scripts.asyncio.example6
 `asyncio.Event`でブロックできる。
 
 ```bash
-python -m scripts.asyncio.example7
+uv run -m scripts.asyncio.example7
 ```
 
 ```
@@ -100,7 +100,7 @@ python -m scripts.asyncio.example7
 `asyncio.Barrier`を試す。
 
 ```bash
-python -m scripts.asyncio.example8
+uv run -m scripts.asyncio.example8
 ```
 
 ```
@@ -117,7 +117,7 @@ python -m scripts.asyncio.example8
 `asyncio.Queue`を試す。
 
 ```bash
-python -m scripts.asyncio.example9
+uv run -m scripts.asyncio.example9
 ```
 
 ```
