@@ -1,56 +1,52 @@
-[tool.poetry]
+[project]
 name = "python-example"
 version = "0.1.0"
-description = ""
-authors = ["Uragami Taichi <backpaper0@gmail.com>"]
+description = "Python example"
 readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "aiofiles>=24.1.0",
+    "aiosqlite>=0.21.0",
+    "alembic>=1.15.2",
+    "azure-cosmos>=4.9.0",
+    "duckdb>=1.2.2",
+    "fastapi>=0.115.12",
+    "ipadic>=1.0.0",
+    "iplantuml>=0.1.1",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.10.1",
+    "mecab-python3>=1.0.10",
+    "mypy>=1.15.0",
+    "opentelemetry-api>=1.32.0",
+    "opentelemetry-exporter-otlp-proto-http>=1.32.0",
+    "opentelemetry-instrumentation-fastapi>=0.53b0",
+    "opentelemetry-sdk>=1.32.0",
+    "pandas>=2.2.3",
+    "pandas-stubs>=2.2.3.250308",
+    "psycopg-binary>=3.2.6",
+    "psycopg-pool>=3.2.6",
+    "pydantic>=2.11.3",
+    "python-dotenv>=1.1.0",
+    "python-multipart>=0.0.20",
+    "python-ulid>=3.0.0",
+    "sqlalchemy>=2.0.40",
+    "tiktoken>=0.9.0",
+    "tqdm>=4.67.1",
+    "uvicorn>=0.34.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-python-dotenv = "^1.0.1"
-jupyter = "^1.0.0"
-pandas = "^2.2.0"
-matplotlib = "^3.8.3"
-azure-cosmos = "^4.5.1"
-mypy = "^1.8.0"
-pandas-stubs = "^2.2.0.240218"
-iplantuml = "^0.1.1"
-tqdm = "^4.66.2"
-psycopg-pool = "^3.2.1"
-psycopg-binary = "^3.1.18"
-sqlalchemy = "^2.0.28"
-aiosqlite = "^0.20.0"
-mecab-python3 = "^1.0.8"
-ipadic = "^1.0.0"
-fastapi = "^0.110.0"
-uvicorn = {extras = ["standard"], version = "^0.28.1"}
-opentelemetry-api = "^1.23.0"
-opentelemetry-sdk = "^1.23.0"
-opentelemetry-instrumentation-fastapi = "^0.44b0"
-pydantic = "^2.6.4"
-opentelemetry-exporter-otlp-proto-http = "^1.23.0"
-duckdb = "^1.0.0"
-python-ulid = "^2.6.0"
-python-multipart = "^0.0.9"
-alembic = "^1.13.2"
-aiofiles = "^24.1.0"
-tiktoken = "^0.8.0"
-
-
-[tool.poetry.group.dev.dependencies]
-pandas = "^2.2.0"
-taskipy = "^1.12.2"
-nbconvert = "^7.16.1"
-types-aiofiles = "^24.1.0.20240626"
-types-tqdm = "^4.66.0.20240417"
-ruff = "^0.6.7"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "nbconvert>=7.16.6",
+    "pandas>=2.2.3",
+    "ruff>=0.11.5",
+    "taskipy>=1.14.1",
+    "types-aiofiles>=24.1.0.20250326",
+    "types-tqdm>=4.67.0.20250404",
+]
 
 [tool.taskipy.tasks]
-check-type = "poetry run mypy scripts/type_error.py"
-test = "poetry run python -m unittest -v tests/test_*.py"
+check-type = "uvx pyright scripts/type_error.py"
+test = "python -m unittest -v tests/test_*.py"
 serve = "PYTHONPATH=scripts:$PYTHONPATH uvicorn server:app --reload"
 request = "while true; do curl -w '\n' localhost:8000/rolldice; sleep 1; curl -w '\n' localhost:8000/rolldice -G -d player=demouser; sleep 1; done"

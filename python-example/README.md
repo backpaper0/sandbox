@@ -2,17 +2,18 @@
 
 - 環境
     - Python 3.11.6
+    - uv 0.6.14
 
 ## 準備
 
 ```sh
-poetry install
+uv sync
 ```
 
 ## 実行
 
 ```sh
-poetry run python scripts/hello.py
+uv run scripts/hello.py
 ```
 
 > [!NOTE]
@@ -25,19 +26,13 @@ poetry run python scripts/hello.py
 > poetry run jupyter nbconvert --to notebook --execute notebooks/collection.ipynb --output collection.ipynb
 > ```
 
-## 型チェック
-
-```sh
-poetry run mypy scripts/type_error.py
-```
-
-[taskipy](https://github.com/taskipy/taskipy)でタスク化しているので次のコマンドでも動きます。
+## 型チェックを試す
 
 ```sh
 poetry run task check-type
 ```
 
-## テストの実行
+## テストの実行を試す
 
 ```sh
 poetry run task test
@@ -56,11 +51,11 @@ poetry run task test
 - [SigNozをDocker Composeで起動する](https://github.com/SigNoz/signoz/tree/develop/deploy)
 - アプリケーションを起動する
   ```
-  poetry run task serve
+  uv run task serve
   ```
 - 別のコンソールでリクエストを投げる
   ```bash
-  poetry run task request
+  uv run task request
   ```
 - テレメトリーを確認する
   - http://localhost:3301
@@ -81,18 +76,16 @@ asdf local python 3.11.6
 ```
 
 ```sh
-pip install poetry
+pip install uv
 ```
 
 ```sh
-poetry init -q
+uv init
 ```
 
 ```sh
-poetry add python-dotenv
+uv add python-dotenv
 ```
-
-あと、`.vscode/settings.json`で`python`コマンドと`poetry`コマンドのパスを設定してみました。
 
 VSCodeで型チェックを行うために次の拡張をインストールしました。
 
