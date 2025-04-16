@@ -63,17 +63,18 @@ async def retry_example(counter: Counter) -> None:
 
 
 @flow
-async def flow_example() -> None:
-    await task_example()
+def flow_example() -> None:
+    task_example.submit().wait()
 
-    parallel_example_coros = [parallel_task_example(t) for t in [1, 2, 3]]
-    await asyncio.gather(*parallel_example_coros)
+    parallel_example_futures = [parallel_task_example.submit(t) for t in [1, 2, 3]]
+    for parallel_example_future in parallel_example_futures:
+        parallel_example_future.wait()
 
     my_parameter = MyParameter(foo="hello", bar=42, baz=True)
-    await parameter_example(my_parameter=my_parameter)
+    parameter_example.submit(my_parameter=my_parameter).wait()
 
-    await retry_example(Counter())
+    retry_example.submit(Counter()).wait()
 
 
 if __name__ == "__main__":
-    asyncio.run(flow_example())
+    flow_example()
