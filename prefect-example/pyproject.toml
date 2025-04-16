@@ -11,10 +11,11 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pyright>=1.1.399",
     "taskipy>=1.14.1",
 ]
 
 [tool.taskipy.tasks]
 prefect = "prefect server start"
 main = "python -m main"
-fix = "uvx ruff format && uvx ruff check --fix && uvx pyright"
+fix = "uvx ruff format && uvx ruff check --fix && pyright"
