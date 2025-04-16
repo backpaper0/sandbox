@@ -1,8 +1,7 @@
-from typing import Awaitable, cast
-from prefect_shell import ShellOperation
 from prefect import flow, task, get_run_logger
 import asyncio
 from pydantic import BaseModel
+import docker
 
 
 @task
@@ -12,23 +11,28 @@ async def sleep(t: float) -> None:
 
 @task
 async def task_example() -> None:
-    async with ShellOperation(
-        commands=[
-            "docker run --rm hello-world",
-        ]
-    ) as operation:
-        await cast(Awaitable, operation.run())
+    logger = get_run_logger()
+    client = docker.from_env()
+    container = client.containers.run("hello-world", detach=True)
+    for log in container.logs(stream=True):
+        logger.info(log.decode().strip())
+    container.wait()
+    container.remove()
 
 
 @task
 async def parallel_task_example(t: float) -> None:
-    async with ShellOperation(
-        commands=[
-            "docker run --rm busybox sleep ${SLEEP_TIME}",
-        ],
-        env={"SLEEP_TIME": str(t)},
-    ) as operation:
-        await cast(Awaitable, operation.run())
+    logger = get_run_logger()
+    client = docker.from_env()
+    container = client.containers.run(
+        image="busybox",
+        command=["sleep", str(t)],
+        detach=True,
+    )
+    for log in container.logs(stream=True):
+        logger.info(log.decode().strip())
+    container.wait()
+    container.remove()
 
 
 class MyParameter(BaseModel):
@@ -64,16 +68,22 @@ async def retry_example(counter: Counter) -> None:
 
 @flow
 def flow_example() -> None:
-    task_example.submit().wait()
+    example_future = task_example.submit()
 
-    parallel_example_futures = [parallel_task_example.submit(t) for t in [1, 2, 3]]
-    for parallel_example_future in parallel_example_futures:
-        parallel_example_future.wait()
+    parallel_example_futures = [
+        parallel_task_example.submit(t, return_state=False, wait_for=example_future)
+        for t in [1, 2, 3]
+    ]
 
     my_parameter = MyParameter(foo="hello", bar=42, baz=True)
-    parameter_example.submit(my_parameter=my_parameter).wait()
+    parameter_example_future = parameter_example.submit(
+        my_parameter=my_parameter, return_state=False, wait_for=parallel_example_futures
+    )
 
-    retry_example.submit(Counter()).wait()
+    retry_example_future = retry_example.submit(
+        Counter(), return_state=False, wait_for=parameter_example_future
+    )
+    retry_example_future.wait()
 
 
 if __name__ == "__main__":

@@ -931,6 +931,7 @@ name = "prefect-example"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "docker" },
     { name = "prefect", extra = ["shell"] },
     { name = "pydantic" },
 ]
@@ -943,6 +944,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "docker", specifier = ">=7.1.0" },
     { name = "prefect", extras = ["shell"], specifier = ">=3.3.4" },
     { name = "pydantic", specifier = ">=2.11.3" },
 ]
