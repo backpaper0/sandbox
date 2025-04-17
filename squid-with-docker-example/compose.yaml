@@ -1,0 +1,19 @@
+services:
+  proxy:
+    image: ubuntu/squid
+    networks:
+      - private_net
+      - public_net
+    volumes:
+      - ./squid.conf:/etc/squid/conf.d/_squid.conf:ro
+
+  test:
+    image: curlimages/curl
+    networks:
+      - private_net
+    command: tail -f /dev/null
+
+networks:
+  private_net:
+    internal: true
+  public_net: {}
