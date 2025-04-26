@@ -6,6 +6,11 @@ from settings import settings
 from pydantic import SecretStr
 import aiofiles
 from tqdm.asyncio import tqdm
+from langchain.embeddings import CacheBackedEmbeddings
+from langchain_core.embeddings import Embeddings
+
+from valkey_store import ValkeyStore
+from redis.asyncio import Redis
 
 
 async def vectorize(
@@ -13,15 +18,16 @@ async def vectorize(
     progress_bar: tqdm,
     in_queue: asyncio.Queue[dict[str, Any] | None],
     out_queue: asyncio.Queue[dict[str, Any] | None],
-    embeddings: OpenAIEmbeddings,
+    embeddings: Embeddings,
 ):
     while True:
         doc = await in_queue.get()
         if doc is None:
             break
-        texts = [doc[key] for key in settings.targets.keys()]
+        kvs = [(k, v) for k, v in settings.targets.items()]
+        texts = [doc[key] for key, _ in kvs]
         embedding = await embeddings.aembed_documents(texts)
-        for value, emb in zip(settings.targets.values(), embedding):
+        for (_, value), emb in zip(kvs, embedding):
             doc[value] = emb
         await out_queue.put(doc)
         in_queue.task_done()
@@ -52,12 +58,7 @@ async def write_file(
             progress_bar.update(1)
 
 
-async def main():
-    embeddings = OpenAIEmbeddings(
-        api_key=SecretStr(settings.openai_api_key),
-        model=settings.embedding_model,
-        dimensions=settings.embedding_dimensions,
-    )
+async def run(embeddings: Embeddings) -> None:
     in_queue = asyncio.Queue(settings.parallels)
     out_queue = asyncio.Queue()
     reader_progress_bar = tqdm(total=settings.total, position=0, desc="Read")
@@ -88,6 +89,21 @@ async def main():
     await asyncio.gather(*processor_tasks)
     await out_queue.put(None)
     await writer_task
+
+
+async def main():
+    embeddings = OpenAIEmbeddings(
+        api_key=SecretStr(settings.openai_api_key),
+        model=settings.embedding_model,
+        dimensions=settings.embedding_dimensions,
+    )
+    if settings.valkey_url is None:
+        await run(embeddings)
+    else:
+        async with Redis.from_url(settings.valkey_url) as redis:
+            document_embedding_store = ValkeyStore(redis)
+            embeddings = CacheBackedEmbeddings(embeddings, document_embedding_store)
+            await run(embeddings)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,10 @@
+services:
+  kvs:
+    image: valkey/valkey
+    ports:
+      - "6379:6379"
+    volumes:
+      - "kvs_data:/data"
+
+volumes:
+  kvs_data: {}
