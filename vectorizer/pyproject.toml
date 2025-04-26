@@ -12,3 +12,13 @@ dependencies = [
     "pydantic-settings>=2.9.1",
     "tqdm>=4.67.1",
 ]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.400",
+    "taskipy>=1.14.1",
+]
+
+[tool.taskipy.tasks]
+lint = "uvx ruff format --check && uvx ruff check && pyright"
+fix = "uvx ruff format && uvx ruff check --fix && pyright"
