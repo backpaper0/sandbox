@@ -1,0 +1,2 @@
+- https://github.com/lindera/lindera
+- https://github.com/lindera/lindera-py
