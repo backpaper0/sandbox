@@ -11,7 +11,7 @@ docker compose up -d
 アプリケーションを起動する。
 
 ```
-poetry run fastapi dev
+uv run fastapi dev
 ```
 
 http://localhost:8000/docs を開いて適当にリクエストを送信する。

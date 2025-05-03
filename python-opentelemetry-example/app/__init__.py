@@ -34,7 +34,6 @@ class SseOmittingSampler(Sampler):
         links: Optional[Sequence[trace.Link]] = None,
         trace_state: Optional[TraceState] = None,
     ) -> SamplingResult:
-
         # Server-Sent Eventsの場合はサンプリングしない
         if name == "POST /chat/stream http send":
             return SamplingResult(Decision.DROP)
