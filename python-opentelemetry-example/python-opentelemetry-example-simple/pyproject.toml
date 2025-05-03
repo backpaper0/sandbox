@@ -1,0 +1,21 @@
+[project]
+name = "python-opentelemetry-example-simple"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "opentelemetry-exporter-otlp>=1.32.1",
+    "opentelemetry-exporter-prometheus>=0.53b1",
+    "opentelemetry-sdk>=1.32.1",
+    "pydantic-settings>=2.9.1",
+]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.400",
+    "taskipy>=1.14.1",
+]
+
+[tool.taskipy.tasks]
+fix = "uvx ruff format && uvx ruff check --fix && pyright"
