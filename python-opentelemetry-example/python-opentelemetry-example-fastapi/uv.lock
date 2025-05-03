@@ -2,6 +2,12 @@ version = 1
 revision = 1
 requires-python = ">=3.13"
 
+[manifest]
+members = [
+    "python-opentelemetry-example",
+    "python-opentelemetry-example-simple",
+]
+
 [[package]]
 name = "aiohappyeyeballs"
 version = "2.6.1"
@@ -1263,6 +1269,23 @@ requires-dist = [
 dev = [
     { name = "pyright", specifier = ">=1.1.400" },
     { name = "taskipy", specifier = ">=1.14.1" },
+]
+
+[[package]]
+name = "python-opentelemetry-example-simple"
+version = "0.1.0"
+source = { virtual = "python-opentelemetry-example-simple" }
+dependencies = [
+    { name = "opentelemetry-exporter-otlp" },
+    { name = "opentelemetry-sdk" },
+    { name = "pydantic-settings" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "opentelemetry-exporter-otlp", specifier = ">=1.32.1" },
+    { name = "opentelemetry-sdk", specifier = ">=1.32.1" },
+    { name = "pydantic-settings", specifier = ">=2.9.1" },
 ]
 
 [[package]]

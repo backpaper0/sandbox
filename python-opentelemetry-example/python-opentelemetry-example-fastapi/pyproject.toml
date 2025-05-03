@@ -1,5 +1,5 @@
 [project]
-name = "python-opentelemetry-example"
+name = "python-opentelemetry-example-fastapi"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
