@@ -1,0 +1,32 @@
+[project]
+name = "python-coverage-example"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "coverage>=7.8.0",
+    "isort>=6.0.1",
+    "pyright>=1.1.400",
+    "ruff>=0.11.8",
+    "taskipy>=1.14.1",
+]
+
+[tool.taskipy.tasks]
+lint = "ruff format --check && ruff check && pyright"
+fix = "isort nabchan_mcp_server tests tools && ruff format && ruff check --fix && pyright"
+
+coverage1 = "task coverage1_run && task coverage1_report"
+coverage1_run = "coverage run --data-file .coverage.foo -m unittest discover -s tests -p test_foo*.py"
+coverage1_report = "coverage report --data-file .coverage.foo -m -i && coverage html --data-file .coverage.foo -i -d htmlcov_foo"
+
+coverage2 = "task coverage2_run && task coverage2_report"
+coverage2_run = "coverage run --data-file .coverage.bar -m unittest discover -s tests -p test_bar*.py"
+coverage2_report = "coverage report --data-file .coverage.bar -m -i && coverage html --data-file .coverage.bar -i -d htmlcov_bar"
+
+coverage = "task coverage1_run && task coverage2_run && task coverage_combine && task coverage_report"
+coverage_combine = "coverage combine --data-file .coverage .coverage.foo .coverage.bar"
+coverage_report = "coverage report -m -i && coverage html -i"
