@@ -1,6 +1,0 @@
-services:
-  cosmos:
-    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
-    ports:
-      - "8081:8081"
-      - "10250-10255:10250-10255"

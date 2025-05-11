@@ -1,6 +1,0 @@
----
-- hosts: all
-  tasks:
-  - name: install sl
-    apt:
-      name: sl
