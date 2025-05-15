@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PostMessage Receiver</title>
+</head>
+
+<body>
+    <h1>PostMessage Receiver</h1>
+    <textarea id="messageBox" rows="10" cols="50" readonly></textarea>
+    <br>
+    <button id="clearButton">内容をクリア</button>
+    <script>
+        window.addEventListener('message', function (event) {
+            // 許可するオリジンのみ受け入れる
+            const messageBox = document.getElementById('messageBox');
+            if (event.origin !== 'http://localhost:8000') {
+                messageBox.value = '警告: 許可されていないオリジンからのメッセージを受信しました (' + event.origin + ')';
+                return;
+            }
+            if (event.data && event.data.text) {
+                messageBox.value = event.data.text;
+            } else {
+                messageBox.value = JSON.stringify(event.data);
+            }
+        });
+        document.getElementById('clearButton').addEventListener('click', function () {
+            document.getElementById('messageBox').value = '';
+        });
+    </script>
+</body>
+
+</html>

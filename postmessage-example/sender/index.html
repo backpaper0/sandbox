@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PostMessage Sender</title>
+</head>
+
+<body>
+    <h1>PostMessage Sender</h1>
+    <button id="sendBtn">メッセージ送信</button>
+    <script>
+        const receiverUrl = 'http://localhost:3000';
+        const targetOrigin = 'http://localhost:3000';
+        const receiverWindowName = 'receiverWindow';
+
+        document.getElementById('sendBtn').addEventListener('click', function () {
+            // ウィンドウ名を指定してreceiverウィンドウを開く（すでに開いていれば再利用）
+            const prevReceiverWindow = window[receiverWindowName] || null;
+            const receiverWindow = window.open(receiverUrl, receiverWindowName);
+            let openedNewWindow = !prevReceiverWindow || receiverWindow.closed;
+            if (!openedNewWindow) {
+                receiverWindow.focus();
+            }
+            // 送信するメッセージ
+            const message = { text: 'こんにちは、postMessageで送信しました！' };
+            // receiverウィンドウにpostMessageで送信
+            if (receiverWindow) {
+                if (openedNewWindow) {
+                    setTimeout(() => {
+                        receiverWindow.postMessage(message, targetOrigin);
+                    }, 500);
+                } else {
+                    receiverWindow.postMessage(message, targetOrigin);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
