@@ -6,7 +6,9 @@
 docker build -t python-lambda-docker-example .
 ```
 
-## 起動
+## ローカルでの動作確認
+
+### 起動
 
 ```bash
 docker run -it --rm -p 8080:8080 python-lambda-docker-example
@@ -18,7 +20,7 @@ docker run -it --rm -p 8080:8080 python-lambda-docker-example
 15 Jul 2025 11:37:48,072 [INFO] (rapid) exec '/var/runtime/bootstrap' (cwd=/var/task, handler=)
 ```
 
-## 関数の実行
+### 関数の実行
 
 ```bash
 curl "http://localhost:8080/2015-03-31/functions/function/invocations" --json '{}'
