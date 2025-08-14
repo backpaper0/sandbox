@@ -4,8 +4,19 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"dbaeumer.vscode-eslint"
-			]
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode"
+			],
+			"settings": {
+				"[typescript]": {
+					"editor.defaultFormatter": "esbenp.prettier-vscode",
+					"editor.formatOnSave": true
+				},
+				"eslint.validate": [
+					"typescript"
+				]
+			}
 		}
-	}
+	},
+	"postCreateCommand": "npm ci"
 }
