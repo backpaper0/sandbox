@@ -1,3 +1,4 @@
+/* eslint-disable */
 (() => {
     class Foo {
         constructor(private value: number) { }

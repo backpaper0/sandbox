@@ -41,6 +41,6 @@ console.dir({ tuple, first, second });
 enum Color { Red, Green, Blue }
 
 const color: Color = Color.Green;
-const colorName: string = Color[2];
+const colorName: string | undefined = Color[2];
 console.log({ color, colorName });
 

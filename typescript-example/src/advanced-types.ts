@@ -39,7 +39,7 @@ function isFish(pet: Fish | Bird): pet is Fish {
 }
 
 function main(getSmallPet: () => Fish | Bird) {
-  let pet = getSmallPet();
+  const pet = getSmallPet();
 
   if (isFish(pet)) {
     pet.swim();
