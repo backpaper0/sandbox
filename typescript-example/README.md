@@ -1,6 +1,6 @@
 ```bash
 npm i -D typescript @types/node
-npm i -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+npm i -D eslint prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-prettier
 npx tsc --init
 npx eslint --init
 ```

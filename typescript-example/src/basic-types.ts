@@ -15,9 +15,9 @@ console.dir({ decimal, hex, binary, octal });
 
 const fullName: string = "Bob Bobbington";
 const age: number = 37;
-const sentence: string = `Hello, my name is ${ fullName }.
+const sentence: string = `Hello, my name is ${fullName}.
 
-I'll be ${ age + 1 } years old next month.`;
+I'll be ${age + 1} years old next month.`;
 console.dir({ sentence });
 
 // Array
@@ -38,9 +38,12 @@ console.dir({ tuple, first, second });
 
 // Enum
 
-enum Color { Red, Green, Blue }
+enum Color {
+  Red,
+  Green,
+  Blue,
+}
 
 const color: Color = Color.Green;
 const colorName: string | undefined = Color[2];
 console.log({ color, colorName });
-

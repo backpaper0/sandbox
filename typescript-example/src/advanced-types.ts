@@ -1,13 +1,12 @@
-
 class Fish {
   swim() {
-    console.log('swim');
+    console.log("swim");
   }
 }
 
 class Bird {
   fly() {
-    console.log('fly');
+    console.log("fly");
   }
 }
 
@@ -19,18 +18,18 @@ class Bird {
  * 戻り値の定義を次のようにしてしまうと、
  *
  *   function isFish(pet: Fish | Bird): boolean {
- * 
+ *
  * 次のようなコンパイルエラーになる。
  *
  *   src/advanced-types.ts:23:9 - error TS2339: Property 'swim' does not exist on type 'Fish | Bird'.
  *     Property 'swim' does not exist on type 'Bird'.
- *   
+ *
  *   23     pet.swim();
  *              ~~~~
- *   
+ *
  *   src/advanced-types.ts:25:9 - error TS2339: Property 'fly' does not exist on type 'Fish | Bird'.
  *     Property 'fly' does not exist on type 'Fish'.
- *   
+ *
  *   25     pet.fly();
  *              ~~~
  */
