@@ -1,0 +1,10 @@
+{
+	"name": "Locally referenced Features example",
+	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
+	"features": {
+		"./foo": {}
+	},
+	"postCreateCommand": ".devcontainer/install_bar.sh",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+	"workspaceFolder": "/workspace"
+}
