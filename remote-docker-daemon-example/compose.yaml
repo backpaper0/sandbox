@@ -1,0 +1,33 @@
+services:
+  docker:
+    image: docker:dind
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+    volumes:
+      - certs:/certs/client
+      - data:/var/lib/docker
+    networks:
+      - private
+      - public
+    privileged: true
+
+  cli:
+    image: docker
+    entrypoint: ["/bin/sh", "-c", "tail -f /dev/null"]
+    environment:
+      DOCKER_HOST: tcp://docker:2376
+      DOCKER_TLS_VERIFY: 1
+      DOCKER_CERT_PATH: /certs/client
+    volumes:
+      - certs:/certs/client
+    networks:
+      - private
+
+volumes:
+  certs: {}
+  data: {}
+
+networks:
+  private:
+    internal: true
+  public: {}
