@@ -18,3 +18,5 @@ jobs:
         with:
           publish-features: "true"
           base-path-to-features: "./devcontainer-features-example/src"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
