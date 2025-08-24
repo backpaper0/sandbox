@@ -1,0 +1,21 @@
+name: "Dev Container Features example"
+on:
+  push:
+    tags:
+      - 'devcontainer-features-example-v*'
+
+jobs:
+  deploy:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: "Publish features"
+        uses: devcontainers/action@v1
+        with:
+          publish-features: "true"
+          base-path-to-features: "./devcontainer-features-example/src"
