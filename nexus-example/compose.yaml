@@ -1,0 +1,70 @@
+services:
+  nexus:
+    image: sonatype/nexus3
+    ports: ["8081:8081"]
+    networks:
+      - private
+      - public
+    volumes:
+      - nexus-data:/nexus-data
+
+  nexus-setup:
+    build:
+      context: ./nexus-setup
+    depends_on:
+      - nexus
+    networks:
+      - private
+    volumes:
+      - nexus-data:/nexus-data:ro
+      - ./nexus-setup/app:/app:ro
+    entrypoint: ["/bin/sh", "/app/setup.sh"]
+
+  docker:
+    image: docker:dind
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+    networks:
+      - private
+    volumes:
+      - ./docker/daemon.json:/etc/docker/daemon.json:ro
+
+  maven:
+    image: maven
+    command: ["/bin/sh", "-c", "while sleep 10; do :; done"]
+    networks:
+      - private
+    volumes:
+      - ./maven/settings.xml:/root/.m2/settings.xml:ro
+      - ./maven/app:/app
+    working_dir: /app
+
+  node:
+    image: node
+    command: ["/bin/sh", "-c", "while sleep 10; do :; done"]
+    networks:
+      - private
+    volumes:
+      - ./npm/.npmrc:/root/.npmrc:ro
+      - ./npm/app:/app
+    working_dir: /app
+
+  python:
+    build:
+      context: ./python
+    command: ["/bin/sh", "-c", "while sleep 10; do :; done"]
+    networks:
+      - private
+    volumes:
+      - ./python/config.toml:/root/.config/uv/config.toml:ro
+      - ./python/app:/app
+    working_dir: /app
+
+networks:
+  private:
+    internal: true
+  public: {}
+
+volumes:
+  nexus-data: {}

@@ -1,0 +1,8 @@
+{
+    "insecure-registries": [
+        "nexus:5000"
+    ],
+    "registry-mirrors": [
+        "http://nexus:5000"
+    ]
+}

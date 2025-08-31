@@ -1,0 +1,3 @@
+[install]
+index-url = "http://nexus:8081/repository/pypi-group/"
+trusted-host = ["nexus"]
