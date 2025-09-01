@@ -13,7 +13,7 @@ docker compose exec docker docker run --rm hello-world
 ```
 
 ```bash
-docker compose exec node npm ci
+docker compose exec node npm start
 ```
 
 ```bash
