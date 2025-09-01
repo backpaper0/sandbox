@@ -6,15 +6,10 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-if [ -z "${USERNAME}"]; then
-    echo -e "USERNAME environment variable must be set"
-    exit 1
-fi
-
 cp "$(dirname "$0")/update-workspace-owner.sh" /usr/local/bin/update-workspace-owner.sh
 
 chmod +x /usr/local/bin/update-workspace-owner.sh
 
-echo "${USERNAME} ALL=(root) NOPASSWD: /usr/local/bin/update-workspace-owner.sh" > /etc/sudoers.d/${USERNAME}-workspace-owner
+echo "${_REMOTE_USER} ALL=(root) NOPASSWD: /usr/local/bin/update-workspace-owner.sh" > /etc/sudoers.d/${_REMOTE_USER}-workspace-owner
 
-chmod 0440 /etc/sudoers.d/${USERNAME}-workspace-owner
+chmod 0440 /etc/sudoers.d/${_REMOTE_USER}-workspace-owner

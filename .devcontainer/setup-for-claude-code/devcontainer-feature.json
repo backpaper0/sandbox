@@ -2,12 +2,6 @@
     "id": "setup-for-claude-code",
     "version": "1.0.0",
     "name": "Setup for Claude Code",
-    "options": {
-        "username": {
-            "type": "string",
-            "default": ""
-        }
-    },
     "installsAfter": [
         "ghcr.io/anthropics/devcontainer-features/claude-code"
     ]

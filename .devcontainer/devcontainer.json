@@ -11,12 +11,8 @@
 			"version": "none"
 		},
 		"ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
-		"./setup-for-claude-code": {
-			"username": "node"
-		},
-		"./workspace-owner": {
-			"username": "node"
-		}
+		"./setup-for-claude-code": {},
+		"./workspace-owner": {}
 	},
 	"containerEnv": {
 		"CLAUDE_CONFIG_DIR": "/home/node/.claude",
@@ -35,7 +31,7 @@
 		}
 	},
 	"remoteUser": "node",
-	"postStartCommand": "sudo /usr/local/bin/init-firewall.sh && sudo /usr/local/bin/update-workspace-owner.sh node '${localWorkspaceFolderBasename}'",
+	"postStartCommand": "sudo /usr/local/bin/init-firewall.sh && sudo /usr/local/bin/update-workspace-owner.sh",
 	"waitFor": "postStartCommand",
 	"mounts": [
 		"source=claude-code-bashhistory,target=/commandhistory,type=volume",
