@@ -56,8 +56,10 @@ services:
     command: ["/bin/sh", "-c", "while sleep 10; do :; done"]
     networks:
       - private
+    environment:
+      UV_LINK_MODE: copy
     volumes:
-      - ./python/config.toml:/root/.config/uv/config.toml:ro
+      - ./python/uv.toml:/root/.config/uv/uv.toml:ro
       - ./python/app:/app
     working_dir: /app
 

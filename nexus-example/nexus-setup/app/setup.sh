@@ -396,7 +396,7 @@ create_pypi_proxy() {
         "strictContentTypeValidation": true
     },
     "proxy": {
-        "remoteUrl": "https://pypi.org/pypi/",
+        "remoteUrl": "https://pypi.org/",
         "contentMaxAge": 1440,
         "metadataMaxAge": 1440
     },

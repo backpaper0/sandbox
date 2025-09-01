@@ -17,5 +17,5 @@ docker compose exec node npm ci
 ```
 
 ```bash
-docker compose exec python uv sync
+docker compose exec python uv run main.py
 ```

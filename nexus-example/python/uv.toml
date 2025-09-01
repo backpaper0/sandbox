@@ -1,0 +1,6 @@
+allow-insecure-host = ["nexus:8081"]
+
+[[index]]
+name = "nexus"
+url = "http://nexus:8081/repository/pypi-group/simple/"
+default = true
