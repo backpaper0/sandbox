@@ -5,7 +5,7 @@ docker compose up -d && docker compose logs -f --no-log-prefix nexus-setup
 ```
 
 ```bash
-docker compose exec maven mvn exec:java
+docker compose exec maven mvn compile exec:java
 ```
 
 ```bash
