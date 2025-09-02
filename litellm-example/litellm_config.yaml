@@ -1,0 +1,5 @@
+model_list:
+  - model_name: gpt-oss
+    litellm_params:
+      model: ollama/gpt-oss:20b
+      api_base: http://host.docker.internal:11434
