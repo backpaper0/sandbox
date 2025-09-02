@@ -12,7 +12,7 @@ curl localhost:4000/v1/messages -s \
   --json '{"model":"gpt-oss","max_tokens":1024,"messages":[{"role":"user","content":"やあ"}]}' | jq
 ```
 
-``json
+```json
 {
   "id": "chatcmpl-5d4602d4-5860-40ef-8e1d-1259bc97b03a",
   "type": "message",
