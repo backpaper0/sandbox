@@ -1,0 +1,18 @@
+services:
+  docker:
+    image: docker:dind
+    volumes:
+      - ./docker_daemon.json:/etc/docker/daemon.json:ro
+    networks: [private]
+    privileged: true
+
+  mirror:
+    image: registry
+    environment:
+      REGISTRY_PROXY_REMOTEURL: https://registry-1.docker.io
+    networks: [private, public]
+
+networks:
+  private:
+    internal: true
+  public: {}

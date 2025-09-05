@@ -1,0 +1,8 @@
+{
+    "registry-mirrors": [
+        "http://mirror:5000"
+    ],
+    "insecure-registries": [
+        "mirror:5000"
+    ]
+}
