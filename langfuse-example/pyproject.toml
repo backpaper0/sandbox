@@ -1,0 +1,23 @@
+[project]
+name = "langfuse-example"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langchain>=0.3.27",
+    "langchain-ollama>=0.3.8",
+    "langfuse>=3.4.0",
+    "langgraph>=0.6.7",
+    "python-dotenv>=1.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.405",
+    "taskipy>=1.14.1",
+]
+
+[tool.taskipy.tasks]
+check = "uvx ruff format --check && uvx ruff check && uvx ruff check --select I && pyright"
+fix = "uvx ruff format && uvx ruff check --fix && uvx ruff check --select I --fix"
