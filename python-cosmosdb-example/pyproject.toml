@@ -15,3 +15,14 @@ dependencies = [
     "pydantic-settings>=2.10.1",
     "python-ulid>=3.1.0",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.13.1",
+    "taskipy>=1.14.1",
+    "ty>=0.0.1a21",
+]
+
+[tool.taskipy.tasks]
+check = "ruff format --check && ruff check && ruff check --select I && ty"
+fix = "ruff format && ruff check --fix && ruff check --select I --fix"

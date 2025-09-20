@@ -35,7 +35,7 @@ settings = Settings()
 
 def get_cosmos_client() -> CosmosClient:
     # エミュレーター使ってる場合は証明書まわりが面倒なので検証しない
-    connection_verify = not "localhost" in settings.cosmos_endpoint
+    connection_verify = "localhost" not in settings.cosmos_endpoint
     if not connection_verify:
         urllib3.disable_warnings()
 
@@ -74,7 +74,7 @@ async def read_user(container: ContainerProxy, id: str, location: str) -> User:
 
 
 async def wrap_users(
-    items: AsyncItemPaged[Dict[str, Any]]
+    items: AsyncItemPaged[Dict[str, Any]],
 ) -> AsyncGenerator[User, None]:
     async for item in items:
         yield User(**item)

@@ -3,7 +3,7 @@ import asyncio
 from azure.cosmos.errors import CosmosResourceNotFoundError
 
 import app.core as core
-from app.core import *
+from app.core import User, wrap_users
 
 
 async def main():

@@ -12,6 +12,7 @@ if os.getenv("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT", ""):
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
     from opentelemetry.semconv.resource import ResourceAttributes
+
     resource = Resource.create(
         {ResourceAttributes.SERVICE_NAME: "python-cosmosdb-example"}
     )

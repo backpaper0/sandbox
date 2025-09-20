@@ -3,12 +3,13 @@ poetry run python -m app.repository_example
 """
 
 import asyncio
+from typing import AsyncGenerator, Optional
 
 from azure.cosmos.aio import ContainerProxy
 from azure.cosmos.errors import CosmosResourceNotFoundError
 
 import app.core as core
-from app.core import *
+from app.core import User
 
 
 class UserRepository:
@@ -64,7 +65,7 @@ async def main():
         print(f"Get user #2: {user4}")
         print()  # 空行
 
-        print(f"Found user:")
+        print("Found user:")
         async for user in repos.find_all(location="US"):
             print(f"  {user}")
 

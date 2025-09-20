@@ -10,14 +10,17 @@ poetry run python -m app.demo_datetime
 ```
 
 """
-from .demo import settings
+
+import asyncio
+from datetime import datetime
+from logging import INFO, StreamHandler, getLogger
+
 from azure.cosmos import PartitionKey
 from azure.cosmos.aio import CosmosClient
 from azure.cosmos.exceptions import CosmosResourceNotFoundError
-from datetime import datetime, timezone, timedelta
-from logging import getLogger, INFO, StreamHandler
 from pydantic import BaseModel, model_validator
-import asyncio
+
+from .demo import settings
 
 # basicConfig(level=INFO)
 
@@ -25,9 +28,11 @@ logger = getLogger("demo_datetime")
 logger.addHandler(StreamHandler())
 logger.setLevel(INFO)
 
+
 class DemoDatetimeModel(BaseModel):
     id: str
     datetime: datetime
+
 
 class DemoDatetimeCosmosModel(BaseModel):
     id: str
@@ -47,15 +52,19 @@ class DemoDatetimeCosmosModel(BaseModel):
             v["datetime"] = v["datetime"].timestamp()
         return v
 
+
 async def main() -> None:
     logger.info("Cosmos DB endpoint: %s", settings.cosmos_endpoint)
-    async with CosmosClient(url=settings.cosmos_endpoint, credential=settings.cosmos_key, connection_verify=False) as cosmos_client:
+    async with CosmosClient(
+        url=settings.cosmos_endpoint,
+        credential=settings.cosmos_key,
+        connection_verify=False,
+    ) as cosmos_client:
         db = await cosmos_client.create_database_if_not_exists(
             id=settings.cosmos_database,
         )
         container = await db.create_container_if_not_exists(
-            id="demo_datetime",
-            partition_key=PartitionKey("/id")
+            id="demo_datetime", partition_key=PartitionKey("/id")
         )
         try:
             await container.delete_item(item="a", partition_key="a")
@@ -75,6 +84,7 @@ async def main() -> None:
         read_item = await container.read_item(item="a", partition_key="a")
         read_model = DemoDatetimeModel.model_validate(read_item)
         logger.info("%s", read_model.model_dump_json())
+
 
 if __name__ == "__main__":
     asyncio.run(main())

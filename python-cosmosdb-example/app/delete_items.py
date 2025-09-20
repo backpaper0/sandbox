@@ -1,7 +1,7 @@
 import asyncio
 
 import app.core as core
-from app.core import *
+from app.core import wrap_users
 
 
 async def main():
