@@ -10,7 +10,7 @@ docker compose up -d
 ```
 
 ```
-poetry run python -m app.demo
+uv run -m app.demo
 ```
 
 ```

@@ -6,7 +6,7 @@ Azure Cosmos DBのクライアントは内部でjson.dumps()を呼び出して�
 ## 実行
 
 ```
-poetry run python -m app.demo_datetime
+uv run -m app.demo_datetime
 ```
 
 """

@@ -1,5 +1,5 @@
 """
-poetry run python -m app.repository_example
+uv run -m app.repository_example
 """
 
 import asyncio
