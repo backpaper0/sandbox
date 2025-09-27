@@ -1,0 +1,22 @@
+[project]
+name = "coding-agent-example"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langchain[ollama]>=0.3.27",
+    "langfuse>=3.5.1",
+    "langgraph>=0.6.7",
+    "python-dotenv>=1.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "taskipy>=1.14.1",
+    "ty>=0.0.1a21",
+]
+
+[tool.taskipy.tasks]
+check = "uvx ruff format --check && uvx ruff check && uvx ruff check --select I && ty check"
+fix = "uvx ruff format && uvx ruff check --fix && uvx ruff check --select I --fix"
