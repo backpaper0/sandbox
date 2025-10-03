@@ -1,0 +1,16 @@
+services:
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/tls:/etc/nginx/tls:ro
+    hostname: httpsserver.test
+
+  curl:
+    profiles: ["curl"]
+    image: curlimages/curl
+    command: ["curl", "-v", "https://httpsserver.test"]
+    volumes:
+      - ./nginx/tls/ca.crt:/home/curl_user/ca.crt:ro
+    environment:
+      CURL_CA_BUNDLE: /home/curl_user/ca.crt
