@@ -7,10 +7,17 @@ services:
     hostname: httpsserver.test
 
   curl:
-    profiles: ["curl"]
     image: curlimages/curl
     command: ["curl", "-v", "https://httpsserver.test"]
     volumes:
       - ./nginx/tls/ca.crt:/home/curl_user/ca.crt:ro
     environment:
       CURL_CA_BUNDLE: /home/curl_user/ca.crt
+
+  uv-requests:
+    build:
+      context: uv-requests
+    volumes:
+      - ./nginx/tls/ca.crt:/home/curl_user/ca.crt:ro
+    environment:
+      REQUESTS_CA_BUNDLE: /home/curl_user/ca.crt

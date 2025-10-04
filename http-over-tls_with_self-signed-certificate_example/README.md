@@ -9,11 +9,17 @@
 ## 動作確認
 
 ```bash
-docker compose up -d
+docker compose up -d nginx
 ```
 
 ### curl
 
 ```bash
 docker compose run --rm curl
+```
+
+### Python
+
+```bash
+docker compose run --rm uv-requests
 ```
