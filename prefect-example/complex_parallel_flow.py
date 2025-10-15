@@ -1,7 +1,8 @@
+import asyncio
 from typing import Any
+
 from prefect import flow, task
 from prefect.futures import PrefectFuture
-import asyncio
 
 
 @task

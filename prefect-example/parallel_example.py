@@ -1,7 +1,8 @@
-from prefect import flow, task
-import time
-import threading
 import os
+import threading
+import time
+
+from prefect import flow, task
 
 
 def _f(name: str) -> None:

@@ -1,7 +1,8 @@
-from prefect import flow, task, get_run_logger
 import asyncio
-from pydantic import BaseModel
+
 import docker
+from prefect import flow, get_run_logger, task
+from pydantic import BaseModel
 
 
 @task

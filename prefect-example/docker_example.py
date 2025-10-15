@@ -1,6 +1,7 @@
-from prefect import flow, task, get_run_logger
-import docker
 from argparse import ArgumentParser
+
+import docker
+from prefect import flow, get_run_logger, task
 
 
 def _run_container(image: str, command: list[str]) -> None:
