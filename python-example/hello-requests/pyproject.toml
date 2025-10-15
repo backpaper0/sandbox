@@ -1,0 +1,20 @@
+[project]
+name = "hello-requests"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "requests>=2.32.3",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.0",
+    "taskipy>=1.14.1",
+    "ty>=0.0.1a22",
+]
+
+[tool.taskipy.tasks]
+fix = "ruff format && ruff check --select I --fix && ruff check --fix"
+check = "ruff format --check && ruff check --select I && ruff check && ty check"
