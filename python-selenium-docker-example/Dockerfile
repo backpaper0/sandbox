@@ -1,10 +1,11 @@
 FROM python:3.13
 
 ARG CHROME_VERSION=141.0.7390.78
+ARG TZ=Asia/Tokyo
 
 RUN <<EOF
 apt update
-apt install -y \
+apt install -y --no-install-recommends \
     unzip \
     fontconfig \
     libxcomposite1 \
@@ -23,9 +24,19 @@ apt install -y \
     libdrm2 \
     xdg-utils \
     libxshmfence1 \
-    libgbm1
+    libgbm1 \
+    fonts-noto-cjk \
+    locales \
+    tzdata
 apt clean
 rm -rf /var/lib/apt/lists/*
+
+sed -i 's/^# *ja_JP.UTF-8 UTF-8/ja_JP.UTF-8 UTF-8/' /etc/locale.gen
+locale-gen
+update-locale LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
+
+ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
+echo $TZ > /etc/timezone
 EOF
 
 RUN <<EOF
@@ -47,7 +58,6 @@ RUN pip install uv
 
 WORKDIR /app
 
-# Copy code and install dependencies
 COPY pyproject.toml uv.lock .python-version /app
 
 RUN <<EOF
@@ -59,5 +69,6 @@ COPY main.py /app
 
 ENV CHROME_PATH=/usr/bin/chrome
 ENV WEBDRIVER_PATH=/usr/bin/chromedriver
+ENV TZ=${TZ}
 
 CMD ["python", "main.py"]
