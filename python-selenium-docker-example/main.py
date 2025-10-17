@@ -11,7 +11,7 @@ from selenium.webdriver.chrome.service import Service
 class Settings(BaseSettings):
     chrome_path: str = ""
     webdriver_path: str = ""
-    url: str = "https://example.com"
+    url: str = "https://urgm.jp/private_screening_lycoris_recoil.html"
 
 
 settings = Settings()

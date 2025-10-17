@@ -13,5 +13,5 @@ docker build --platform linux/x86_64 -t demo .
 ```
 
 ```bash
-docker run --rm -e URL=https://urgm.jp/private_screening_lycoris_recoil.html demo > out2.png
+docker run --rm demo > out2.png
 ```
