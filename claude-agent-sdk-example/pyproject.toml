@@ -1,0 +1,20 @@
+[project]
+name = "claude-agent-sdk-example"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "claude-agent-sdk>=0.1.6",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.4",
+    "taskipy>=1.14.1",
+    "ty>=0.0.1a26",
+]
+
+[tool.taskipy.tasks]
+check = "ruff format --check && ruff check && ty check"
+fix = "ruff format && ruff check --select I --fix && ruff check --fix"
