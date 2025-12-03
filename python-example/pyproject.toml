@@ -41,12 +41,14 @@ dev = [
     "pandas>=2.3.3",
     "ruff>=0.14.7",
     "taskipy>=1.14.1",
+    "ty>=0.0.1a29",
     "types-aiofiles>=25.1.0.20251011",
     "types-tqdm>=4.67.0.20250809",
 ]
 
 [tool.taskipy.tasks]
-check-type = "uvx pyright scripts/type_error.py"
+check = "ruff format --check && ruff check && ruff check --select I && ty check"
+fix = "ruff format && ruff check --fix && ruff check --select I --fix"
 test = "python -m unittest -v tests/test_*.py"
 serve = "PYTHONPATH=scripts:$PYTHONPATH uvicorn server:app --reload"
 request = "while true; do curl -w '\n' localhost:8000/rolldice; sleep 1; curl -w '\n' localhost:8000/rolldice -G -d player=demouser; sleep 1; done"
