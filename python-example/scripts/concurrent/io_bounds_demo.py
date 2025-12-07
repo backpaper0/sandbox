@@ -7,12 +7,12 @@ slow_files.pyで作成された名前付きパイプ(FIFO)を読み込み、各�
 
 使用例:
     # 事前にslow_files.pyで遅いファイルを作成
-    uv run ./scripts/concurrent/slow_files.py --size 5 &
+    uv run ./scripts/concurrent/slow_files.py --size 8 &
     # 各実行方式で性能を比較
-    uv run ./scripts/concurrent/io_bounds_demo.py --size 5 --type single
-    uv run ./scripts/concurrent/io_bounds_demo.py --size 5 --type thread
-    uv run ./scripts/concurrent/io_bounds_demo.py --size 5 --type interpreter
-    uv run ./scripts/concurrent/io_bounds_demo.py --size 5 --type process
+    uv run ./scripts/concurrent/io_bounds_demo.py --size 8 --type single
+    uv run ./scripts/concurrent/io_bounds_demo.py --size 8 --type thread
+    uv run ./scripts/concurrent/io_bounds_demo.py --size 8 --type interpreter
+    uv run ./scripts/concurrent/io_bounds_demo.py --size 8 --type process
 """
 
 import logging

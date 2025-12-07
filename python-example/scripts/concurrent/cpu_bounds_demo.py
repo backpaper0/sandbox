@@ -8,10 +8,10 @@ CPUバウンドな処理に対する並列化の効果を検証するデモプ�
 4. process: ProcessPoolExecutor(マルチプロセスによる真の並列実行)
 
 使用例:
-    uv run ./scripts/concurrent/cpu_bounds_demo.py --size 4 --type single
-    uv run ./scripts/concurrent/cpu_bounds_demo.py --size 4 --type thread
-    uv run ./scripts/concurrent/cpu_bounds_demo.py --size 4 --type interpreter
-    uv run ./scripts/concurrent/cpu_bounds_demo.py --size 4 --type process
+    uv run ./scripts/concurrent/cpu_bounds_demo.py --size 8 --type single
+    uv run ./scripts/concurrent/cpu_bounds_demo.py --size 8 --type thread
+    uv run ./scripts/concurrent/cpu_bounds_demo.py --size 8 --type interpreter
+    uv run ./scripts/concurrent/cpu_bounds_demo.py --size 8 --type process
 """
 
 import logging
