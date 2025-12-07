@@ -78,7 +78,7 @@ def count_primes_range(args: tuple[int, int]) -> int:
     end_time = time.perf_counter()
     elapsed = end_time - start_time
     logging.info(
-        "count_primes_range終了: start=%s, end=%s (%.10f 秒)", start, end, elapsed
+        "count_primes_range終了: start=%s, end=%s (%.3f 秒)", start, end, elapsed
     )
     return count
 

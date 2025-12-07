@@ -65,7 +65,7 @@ def main(
         future.result()
     end = time.perf_counter()
     elapsed = end - start
-    logging.info(f"経過秒数: {elapsed:.10f} 秒")
+    logging.info("経過秒数: %.3f 秒", elapsed)
 
 
 def single_thread(f: Callable[[int], str], i: int) -> Future[str]:
