@@ -6,7 +6,7 @@ concurrent_demo.pyでIOバウンドな処理の並列処理による性能向上
 InterpreterPoolExecutorを使用して複数のパイプを並列で作成・書き込みします。
 
 使用例:
-    python slow_files.py --size 8
+    python slow_files.py --size 4
 """
 
 import os
