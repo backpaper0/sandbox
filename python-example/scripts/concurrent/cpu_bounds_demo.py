@@ -119,7 +119,7 @@ def main(
     end_time = time.perf_counter()
     elapsed = end_time - start_time
     logging.info("%d未満の素数の個数: %d", limit, prime_count)
-    logging.info("経過秒数: %.10f 秒", elapsed)
+    logging.info("経過秒数: %.3f 秒", elapsed)
 
 
 def single_thread(
