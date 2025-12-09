@@ -15,7 +15,7 @@
     <maven.compiler.release>25</maven.compiler.release>
     <exec.executable>java</exec.executable>
     <exec.args>-Djdk.virtualThreadScheduler.parallelism=${parallelism} -cp
-      "${project.build.outputDirectory}" com.example.CpuBoundsDemo ${executor}</exec.args>
+      "${project.build.outputDirectory}" ${mainClass} ${executor}</exec.args>
     <executor>single</executor>
     <parallelism>8</parallelism>
   </properties>
@@ -30,4 +30,18 @@
     </plugins>
   </build>
 
+  <profiles>
+    <profile>
+      <id>cpu</id>
+      <properties>
+        <mainClass>com.example.CpuBoundsDemo</mainClass>
+      </properties>
+    </profile>
+    <profile>
+      <id>io</id>
+      <properties>
+        <mainClass>com.example.IoBoundsDemo</mainClass>
+      </properties>
+    </profile>
+  </profiles>
 </project>
