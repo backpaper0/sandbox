@@ -34,21 +34,15 @@ public class CpuBoundsDemo {
             }
             case "platform": {
                 // プラットフォームスレッドモード: 固定サイズのスレッドプールで並列実行
-                var executor = Executors.newFixedThreadPool(size);
-                try {
+                try (var executor = Executors.newFixedThreadPool(size)) {
                     run(limit, size, executor::submit);
-                } finally {
-                    executor.shutdown();
                 }
                 break;
             }
             case "virtual": {
                 // 仮想スレッドモード: タスクごとに仮想スレッドを作成して並列実行
-                var executor = Executors.newVirtualThreadPerTaskExecutor();
-                try {
+                try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
                     run(limit, size, executor::submit);
-                } finally {
-                    executor.shutdown();
                 }
                 break;
             }
@@ -58,8 +52,8 @@ public class CpuBoundsDemo {
     /**
      * 指定された実行戦略で素数カウント処理を実行し、経過時間を測定します。
      *
-     * @param limit 素数を探索する範囲の上限値
-     * @param size 処理を分割するタスク数
+     * @param limit    素数を探索する範囲の上限値
+     * @param size     処理を分割するタスク数
      * @param executor タスクを実行する関数（シングルスレッド/プラットフォームスレッド/仮想スレッドの実行戦略）
      */
     static void run(int limit, int size, Function<Callable<Integer>, Future<Integer>> executor) throws Exception {
@@ -96,7 +90,7 @@ public class CpuBoundsDemo {
      * 指定された範囲の素数をカウントするCallableタスクを生成します。
      *
      * @param start 範囲の開始値（含む）
-     * @param end 範囲の終了値（含まない）
+     * @param end   範囲の終了値（含まない）
      * @return 素数の個数を返すCallableタスク
      */
     static Callable<Integer> callable(int start, int end) {
@@ -132,7 +126,7 @@ public class CpuBoundsDemo {
      * 指定された範囲内の素数の個数をカウントします。
      *
      * @param startInclude 範囲の開始値（含む）
-     * @param endExclude 範囲の終了値（含まない）
+     * @param endExclude   範囲の終了値（含まない）
      * @return 範囲内の素数の個数
      */
     static int countPrimesRange(int startInclude, int endExclude) {

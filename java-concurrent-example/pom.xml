@@ -13,6 +13,11 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>25</maven.compiler.release>
+    <exec.executable>java</exec.executable>
+    <exec.args>-Djdk.virtualThreadScheduler.parallelism=${parallelism} -cp
+      "${project.build.outputDirectory}" com.example.CpuBoundsDemo ${executor}</exec.args>
+    <executor>single</executor>
+    <parallelism>8</parallelism>
   </properties>
 
   <build>
@@ -24,20 +29,5 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>cpu</id>
-      <properties>
-        <exec.mainClass>com.example.CpuBoundsDemo</exec.mainClass>
-      </properties>
-    </profile>
-    <profile>
-      <id>io</id>
-      <properties>
-        <exec.mainClass>com.example.IoBoundsDemo</exec.mainClass>
-      </properties>
-    </profile>
-  </profiles>
 
 </project>
