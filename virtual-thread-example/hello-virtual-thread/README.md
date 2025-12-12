@@ -25,9 +25,9 @@ a-2
 
 期待通り仮想スレッドAで`Thread.sleep`すると仮想スレッドBに制御が移っていました。
 
-## `synchronized`ブロックで仮想スレッドがキャリアへ固定されることを確認
+## `synchronized`ブロックで仮想スレッドがキャリアへ固定されることを確認(〜Java 23)
 
-次に`synchronized`ブロックで仮想スレッドがキャリア（仮想スレッドがマウントされたプラットフォーム・スレッドのこと）へ固定されることを確認します。
+次にバージョン23以下のJavaを使って`synchronized`ブロックで仮想スレッドがキャリア（仮想スレッドがマウントされたプラットフォーム・スレッドのこと）へ固定されることを確認します。
 
 仮想スレッドAの処理全体を`synchronized`ブロックで囲んだものを用意しました（`App2.java`）。
 
@@ -42,6 +42,7 @@ Thread t1 = Thread.ofVirtual().unstarted(() -> {
 先ほどと同じようにプログラムを起動します。
 
 ```
+asdf local java liberica-23+38
 java -Djdk.virtualThreadScheduler.maxPoolSize=1 App2.java
 ```
 
@@ -54,6 +55,21 @@ b-1
 ```
 
 仮想スレッドAで`Thread.sleep`しても仮想スレッドBへは制御が切り替わらず、仮想スレッドAの処理がすべて完了してから仮想スレッドBの処理が開始していました。
+
+Java 24以上でも動かして`synchronized`ブロックではキャリアへ固定されないことを確認しましょう。
+
+```
+asdf local java liberica-24+37
+java -Djdk.virtualThreadScheduler.maxPoolSize=1 App2.java
+```
+
+結果は次の通りです。
+
+```
+a-1
+b-1
+a-2
+```
 
 こちらも期待通りの動作です。
 
@@ -77,7 +93,7 @@ b-1
 > private native int readBytes(byte[] b, int off, int len) throws IOException;
 > ```
 
-`synchronized`ブロックと同様にnativeメソッドも仮想スレッドをキャリアへ固定します。
+(Java 23までの)`synchronized`ブロックと同様にnativeメソッドも仮想スレッドをキャリアへ固定します。
 
 > 仮想スレッドがキャリアに固定されている場合、ブロッキング操作中にマウント解除することはできません。仮想スレッドが固定されるのは次の状況です:
 > 
@@ -85,3 +101,5 @@ b-1
 > - 仮想スレッドが、nativeメソッドまたは外部関数実行します([外部関数およびメモリーAPI](https://docs.oracle.com/javase/jp/21/core/foreign-function-and-memory-api.html#GUID-FBE990DA-C356-46E8-9109-C75567849BA8)を参照)
 
 - [仮想スレッドのスケジュールおよび固定された仮想スレッド](https://docs.oracle.com/javase/jp/21/core/virtual-threads.html#GUID-704A716D-0662-4BC7-8C7F-66EE74B1EDAD)より引用
+
+[Java 24のドキュメント](https://docs.oracle.com/en/java/javase/24/core/virtual-threads.html#GUID-704A716D-0662-4BC7-8C7F-66EE74B1EDAD)を読むと、これまで述べたように`synchronized`ブロックは固定の条件から削除されたことがわかります。
