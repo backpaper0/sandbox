@@ -1,13 +1,13 @@
 """
 並列処理による性能向上のデモンストレーション
 
-IOバウンドな処理(遅いファイル読み込み)を、シングルスレッド、ThreadPoolExecutor、
+IOバウンドな処理(遅いHTTPリクエスト)を、シングルスレッド、ThreadPoolExecutor、
 InterpreterPoolExecutor、ProcessPoolExecutorの4つの実行方式で比較するスクリプト。
-slow_files.pyで作成された名前付きパイプ(FIFO)を読み込み、各方式の実行時間を計測します。
+HTTPBinを使用して3秒遅延するリクエストを実行し、各方式の実行時間を計測します。
 
 使用例:
-    # 事前にslow_files.pyで遅いファイルを作成
-    uv run ./scripts/concurrent/slow_files.py --size 4 &
+    # 事前にHTTPBinをDockerで起動
+    docker run -p 8080:80 kennethreitz/httpbin
     # 各実行方式で性能を比較
     uv run ./scripts/concurrent/io_bounds_demo.py --size 4 --type single
     uv run ./scripts/concurrent/io_bounds_demo.py --size 4 --type thread
@@ -25,27 +25,25 @@ from concurrent.futures import (
     ThreadPoolExecutor,
 )
 from typing import Callable
+from urllib import request
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s (%(taskName)s) %(message)s")
 
 
-def read_file(id: int) -> str:
+def do_http_request(id: int) -> str:
     """
-    ファイルを読み込む
+    HTTPBinに対して遅延リクエストを実行する
 
     Args:
-        id: ファイルの識別子(slow_files.pyで作成されたファイル番号)
+        id: リクエストの識別子(並列実行時の区別用)
 
     Returns:
-        読み込んだファイルの内容
+        HTTPレスポンスの内容
     """
-    path = f"/tmp/slow_file_{id}"
-    logging.info("読み込み開始: %s", path)
-    content = ""
-    with open(path) as f:
-        for s in f:
-            content += s
-    logging.info("読み込み終了: %s", path)
+    logging.info("読み込み開始")
+    with request.urlopen("http://localhost:8080/delay/3") as response:
+        content = response.read().decode("utf-8")
+    logging.info("読み込み終了")
     return content
 
 
@@ -53,14 +51,14 @@ def main(
     size: int, executor: Callable[[Callable[[int], str], int], Future[str]]
 ) -> None:
     """
-    指定された実行方式でファイル読み込みを実行し、経過時間を計測する
+    指定された実行方式でHTTPリクエストを実行し、経過時間を計測する
 
     Args:
-        size: 読み込むファイル数
+        size: 実行するリクエスト数
         executor: 実行方式を抽象化した関数(single_thread、ThreadPoolExecutor.submit等)
     """
     start = time.perf_counter()
-    futures = [executor(read_file, i) for i in range(size)]
+    futures = [executor(do_http_request, i) for i in range(size)]
     for future in futures:
         future.result()
     end = time.perf_counter()
