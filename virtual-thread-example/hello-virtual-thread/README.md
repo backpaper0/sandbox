@@ -2,8 +2,16 @@
 
 Java 21から正式版となった仮想スレッドへ入門します。
 
-- [14 並行処理 > 仮想スレッド](https://docs.oracle.com/javase/jp/21/core/virtual-threads.html#GUID-DC4306FC-D6C1-4BCC-AECE-48C32C1A8DAA)
+- [Virtual Threads](https://docs.oracle.com/en/java/javase/25/core/virtual-threads.html)
 - [JEP 444: Virtual Threads](https://openjdk.org/jeps/444)
+
+## 準備
+
+HTTPBinをDockerで立てておきます。
+
+```bash
+docker run -d --name httpbin -p 8080:80 kennethreitz/httpbin
+```
 
 ## 仮想スレッドの制御が切り替わることを確認
 
@@ -23,7 +31,7 @@ b-1
 a-2
 ```
 
-期待通り仮想スレッドAで`Thread.sleep`すると仮想スレッドBに制御が移っていました。
+期待通り仮想スレッドAでHTTPリクエストを行うと仮想スレッドBに制御が移っていました。
 
 ## `synchronized`ブロックで仮想スレッドがキャリアへ固定されることを確認(〜Java 23)
 
@@ -103,3 +111,38 @@ b-1
 - [仮想スレッドのスケジュールおよび固定された仮想スレッド](https://docs.oracle.com/javase/jp/21/core/virtual-threads.html#GUID-704A716D-0662-4BC7-8C7F-66EE74B1EDAD)より引用
 
 [Java 24のドキュメント](https://docs.oracle.com/en/java/javase/24/core/virtual-threads.html#GUID-704A716D-0662-4BC7-8C7F-66EE74B1EDAD)を読むと、これまで述べたように`synchronized`ブロックは固定の条件から削除されたことがわかります。
+
+## IOバウンドな処理の性能向上
+
+次の条件でそれぞれプログラムを実行して性能向上するかどうかを確認します。
+
+- シングルスレッド
+- マルチスレッド（プラットフォームスレッド）
+    - プラットフォームスレッド数: 4
+- 仮想スレッド（キャリアになるプラットフォームスレッドの最大数が1）
+    - 仮想スレッド数: 4
+    - キャリアになるプラットフォームスレッド数: 1
+
+```bash
+java IoBoundsDemo.java single
+```
+
+```
+経過時間: 12.063秒
+```
+
+```bash
+java IoBoundsDemo.java platform
+```
+
+```
+経過時間: 3.026秒
+```
+
+```bash
+java -Djdk.virtualThreadScheduler.maxPoolSize=1 IoBoundsDemo.java virtual
+```
+
+```
+経過時間: 3.032秒
+```

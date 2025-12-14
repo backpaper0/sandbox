@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.net.URI;
 import java.util.concurrent.CountDownLatch;
 
 public class App1 {
@@ -11,9 +14,13 @@ public class App1 {
             gate.countDown();
 
             try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                var url = URI.create("http://localhost:8080/delay/1").toURL();
+                var conn = url.openConnection();
+                try (var in = conn.getInputStream()) {
+                    in.readAllBytes();
+                }
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
             }
 
             System.out.println("a-2");
