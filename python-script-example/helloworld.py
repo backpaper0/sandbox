@@ -6,6 +6,8 @@
 #     "pyfiglet>=1.0.4",
 #     "rich>=14.2.0",
 # ]
+# [tool.uv]
+# exclude-newer = "2026-01-01T00:00:00Z"
 # ///
 
 from typing import Tuple
