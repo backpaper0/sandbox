@@ -9,10 +9,10 @@ const Counter = () => {
   const [overview, setOverview] = useState("Simple counter");
   return (
     <div>
-      <CounterTitle/>
-      <MemoizedCounterOverview overview={overview} setOverview={setOverview}/>
-      <CountDisplay count={count}/>
-      <CountUpper setCount={setCount}/>
+      <CounterTitle />
+      <MemoizedCounterOverview overview={overview} setOverview={setOverview} />
+      <CountDisplay count={count} />
+      <CountUpper setCount={setCount} />
     </div>
   );
 };
@@ -21,9 +21,7 @@ type Setter<T> = React.Dispatch<React.SetStateAction<T>>;
 
 const CounterTitle = () => {
   console.log("CounterTitle");
-  return (
-    <h1>Counter</h1>
-  );
+  return <h1>Counter</h1>;
 };
 
 interface CounterOverviewProps {
@@ -33,9 +31,7 @@ interface CounterOverviewProps {
 
 const CounterOverview: React.FC<CounterOverviewProps> = ({ overview, setOverview }) => {
   console.log("CounterOverview");
-  return (
-    <p onClick={() => setOverview(a => `${a}*`)}>{overview}</p>
-  );
+  return <p onClick={() => setOverview((a) => `${a}*`)}>{overview}</p>;
 };
 
 //メモ化をするとpropsが変更されるまで再レンダーされない
@@ -47,9 +43,7 @@ interface CountDisplayProps {
 
 const CountDisplay: React.FC<CountDisplayProps> = ({ count }) => {
   console.log("CountDisplay");
-  return (
-    <div>{count}</div>
-  );
+  return <div>{count}</div>;
 };
 
 interface CountUpperProps {
@@ -60,10 +54,10 @@ let prevSetCount: Setter<number> | null = null;
 
 const CountUpper: React.FC<CountUpperProps> = ({ setCount }) => {
   console.log("CountUpper");
-  const f = () => setCount(a => a + 1);
+  const f = () => setCount((a) => a + 1);
   const g = () => {
     if (prevSetCount !== null) {
-      prevSetCount(a => a + 1);
+      prevSetCount((a) => a + 1);
     }
   };
   console.log(setCount === prevSetCount);
@@ -80,7 +74,7 @@ export default function RenderTimingExample() {
   console.log("Root");
   return (
     <div>
-      <Counter/>
+      <Counter />
     </div>
   );
-};
+}

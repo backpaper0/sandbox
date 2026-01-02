@@ -5,7 +5,7 @@ export default function StateCapturedExample() {
   const [count2, setCount2] = useState(0);
   const countUp = () => {
     setCount1(count1 + 1);
-    setCount2(c => c + 1);
+    setCount2((c) => c + 1);
   };
   useEffect(() => {
     const timerId = setInterval(countUp, 2000);
@@ -17,8 +17,9 @@ export default function StateCapturedExample() {
     <div>
       <p>count1: {count1}</p>
       <p>count2: {count2}</p>
-      <p><button onClick={countUp}>Count up</button></p>
+      <p>
+        <button onClick={countUp}>Count up</button>
+      </p>
     </div>
   );
-};
-
+}

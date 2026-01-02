@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from "react";
 
 export default function ScrollExample() {
   const delay = 100;
@@ -6,11 +6,11 @@ export default function ScrollExample() {
   const [loading, setLoading] = useState(false);
   const ref = useRef(null);
   useEffect(() => {
-    setLoading(a => {
+    setLoading((a) => {
       if (a === false) {
         return a;
       }
-      const element = (ref.current as any);
+      const element = ref.current as any;
       const rect = element.getBoundingClientRect();
       if (element.scrollTop >= rect.height) {
         return false;
@@ -23,7 +23,7 @@ export default function ScrollExample() {
   useEffect(() => {
     const element = ref.current as any;
     element.scrollTo({
-      top: element.lastElementChild.getBoundingClientRect().y
+      top: element.lastElementChild.getBoundingClientRect().y,
     });
   }, []);
   const tryUpdateMessages = useCallback(() => {
@@ -40,7 +40,7 @@ export default function ScrollExample() {
       setTimeout(() => {
         setMessages(messages.prev());
       }, delay);
-    } else if (element.lastElementChild.getBoundingClientRect().y < (rect.height * 2)) {
+    } else if (element.lastElementChild.getBoundingClientRect().y < rect.height * 2) {
       if (messages.isLast()) {
         return;
       }
@@ -55,12 +55,14 @@ export default function ScrollExample() {
   }, [tryUpdateMessages]);
   const handleScroll: React.UIEventHandler = () => {
     tryUpdateMessages();
-  }
+  };
   return (
     <div>
       <h1>Scroll</h1>
       <div className="scrollable" ref={ref} style={css} onScroll={handleScroll}>
-        {messages.map(a => <p key={a}>{a}</p>)}
+        {messages.map((a) => (
+          <p key={a}>{a}</p>
+        ))}
       </div>
     </div>
   );
@@ -80,7 +82,7 @@ class Messages {
     this.array = [];
     for (let i = begin; i < endExcludes; i++) {
       this.array.push(`Message ${i}`);
-    };
+    }
   }
   isFirst(): boolean {
     return this.begin <= Messages.minBegin;
@@ -94,7 +96,10 @@ class Messages {
     return new Messages(begin, endExcludes);
   }
   next(): Messages {
-    const begin = Math.min(Messages.maxEndExcluded - Messages.fetchSize, this.begin + Messages.fetchSize);
+    const begin = Math.min(
+      Messages.maxEndExcluded - Messages.fetchSize,
+      this.begin + Messages.fetchSize,
+    );
     const endExcludes = Math.min(Messages.maxEndExcluded, begin + Messages.size);
     return new Messages(begin, endExcludes);
   }
@@ -109,11 +114,10 @@ class Messages {
 }
 
 const css = {
-  border: '1px solid silver',
-  width: '480px',
-  height: '640px',
-  overflowY: 'scroll' as const,
+  border: "1px solid silver",
+  width: "480px",
+  height: "640px",
+  overflowY: "scroll" as const,
 };
 
 const initialValue: Messages = Messages.initialValue();
-

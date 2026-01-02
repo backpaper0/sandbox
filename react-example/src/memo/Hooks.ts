@@ -1,19 +1,19 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 
 export function useDebugLog(name: string): [React.Ref<any>] {
   console.log(`${name}: render`);
   const ref = useRef(null);
   useEffect(() => {
     console.log(`(${name}: connect)`);
-    const observer = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
         switch (mutation.type) {
-          case 'attributes':
+          case "attributes":
             break;
-          case 'characterData':
+          case "characterData":
             console.log(`(${name}: update DOM)`);
             break;
-          case 'childList':
+          case "childList":
             break;
         }
       });

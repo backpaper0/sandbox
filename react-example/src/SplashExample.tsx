@@ -6,14 +6,10 @@ export default function SplashExample() {
   const [initialized, setInitialized] = useState(false);
   const callback = () => setInitialized(true);
   if (initialized) {
-    return (
-      <App/>
-    );
+    return <App />;
   }
-  return (
-    <Splash callback={callback}/>
-  );
-};
+  return <Splash callback={callback} />;
+}
 
 const App = () => (
   <div>
@@ -21,9 +17,14 @@ const App = () => (
   </div>
 );
 
-const Splash: React.FC<{ callback: () => void; }> = ({ callback }) => (
-  <FadeOut init={{ opacity: 1 }} transition={{ opacity: 0, transition: "opacity 1500ms" }} delay={1500} callback={callback}>
-    <img alt="Splash" src={splash}/>
+const Splash: React.FC<{ callback: () => void }> = ({ callback }) => (
+  <FadeOut
+    init={{ opacity: 1 }}
+    transition={{ opacity: 0, transition: "opacity 1500ms" }}
+    delay={1500}
+    callback={callback}
+  >
+    <img alt="Splash" src={splash} />
   </FadeOut>
 );
 
@@ -33,7 +34,7 @@ type FadeOutProps = {
   delay: number;
   children: any;
   callback: () => void;
-}
+};
 
 const FadeOut: React.FC<FadeOutProps> = ({ init, transition, delay, children, callback }) => {
   const [begin, setBegin] = useState(false);
@@ -44,7 +45,7 @@ const FadeOut: React.FC<FadeOutProps> = ({ init, transition, delay, children, ca
     };
   }, [delay]);
   return (
-    <div style={ begin ? transition : init } onTransitionEnd={callback}>
+    <div style={begin ? transition : init} onTransitionEnd={callback}>
       {children}
     </div>
   );

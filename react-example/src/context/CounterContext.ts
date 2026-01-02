@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 type ContextType = {
   counter1: number;
   countUp1(): void;
   counter2: number;
   countUp2(): void;
-}
+};
 
 const defaultValue = {
   counter1: 0,
@@ -15,4 +15,3 @@ const defaultValue = {
 };
 
 export default React.createContext<ContextType>(defaultValue);
-

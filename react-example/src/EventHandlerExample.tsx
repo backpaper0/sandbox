@@ -1,4 +1,11 @@
-import React, { useState, MouseEvent, ChangeEvent, KeyboardEvent, FormEvent, useCallback } from 'react';
+import React, {
+  useState,
+  MouseEvent,
+  ChangeEvent,
+  KeyboardEvent,
+  FormEvent,
+  useCallback,
+} from "react";
 
 export default function EventHandlerExample() {
   const [output, setOutput] = useState("");
@@ -18,7 +25,7 @@ export default function EventHandlerExample() {
   };
 
   //useCallbackを経由すれば型推論が効く？
-  const handleClick2 = useCallback(event => {
+  const handleClick2 = useCallback((event) => {
     try {
       // と思ったけど型推論が効いているのではなく (...args: any[]) => any と解釈されているだけっぽい
       // cf. node_modules/@types/react/index.d.ts
@@ -31,30 +38,43 @@ export default function EventHandlerExample() {
     f(event);
   }, []);
 
-  const handleClick3: React.MouseEventHandler<HTMLButtonElement> = event => f(event);
+  const handleClick3: React.MouseEventHandler<HTMLButtonElement> = (event) => f(event);
 
   return (
     <div style={{ display: "flex" }}>
       <div style={{ margin: ".5rem" }}>
-        <p>Click: <button onClick={handleClick}>Click</button></p>
-        <p>Change: <input type="text" onChange={handleChange}/></p>
-        <p>KeyDown: <input type="text" onKeyDown={handleKey}/></p>
-        <p>KeyPress: <input type="text" onKeyPress={handleKey}/></p>
-        <p>KeyUp: <input type="text" onKeyUp={handleKey}/></p>
+        <p>
+          Click: <button onClick={handleClick}>Click</button>
+        </p>
+        <p>
+          Change: <input type="text" onChange={handleChange} />
+        </p>
+        <p>
+          KeyDown: <input type="text" onKeyDown={handleKey} />
+        </p>
+        <p>
+          KeyPress: <input type="text" onKeyPress={handleKey} />
+        </p>
+        <p>
+          KeyUp: <input type="text" onKeyUp={handleKey} />
+        </p>
         <form onSubmit={handleSubmit}>
-          Submit: 
-          <input type="text"/>
+          Submit:
+          <input type="text" />
           <button type="submit">Submit</button>
         </form>
-        <hr/>
-        <p>With useCallback: <button onClick={handleClick2}>Click</button></p>
-        <hr/>
-        <p>Click(Handler type): <button onClick={handleClick3}>Click</button></p>
+        <hr />
+        <p>
+          With useCallback: <button onClick={handleClick2}>Click</button>
+        </p>
+        <hr />
+        <p>
+          Click(Handler type): <button onClick={handleClick3}>Click</button>
+        </p>
       </div>
       <div style={{ margin: ".5rem" }}>
         <pre>{output}</pre>
       </div>
     </div>
   );
-};
-
+}

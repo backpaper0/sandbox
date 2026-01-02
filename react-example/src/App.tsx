@@ -1,10 +1,5 @@
-import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import Page1 from "./UseStateTypeInfer";
 import Page2 from "./Props";
@@ -17,14 +12,14 @@ import Page8 from "./FormExample";
 import Page9 from "./BucketRelayJs";
 import Page10 from "./BucketRelay";
 import Page11 from "./Misc";
-import Page12 from './context/ContextExample';
-import Page13 from './memo/MemoExample1';
-import Page14 from './memo/MemoExample2';
-import Page15 from './ScrollExample';
-import Page16 from './Initialize';
-import Page17 from './SurrogatePair';
-import Page18 from './GenericChild';
-import Page19 from './ForceUpdate';
+import Page12 from "./context/ContextExample";
+import Page13 from "./memo/MemoExample1";
+import Page14 from "./memo/MemoExample2";
+import Page15 from "./ScrollExample";
+import Page16 from "./Initialize";
+import Page17 from "./SurrogatePair";
+import Page18 from "./GenericChild";
+import Page19 from "./ForceUpdate";
 
 const pages = [
   Page1,
@@ -49,7 +44,7 @@ const pages = [
 ];
 
 const App: React.FC = () => {
-	return (
+  return (
     <Router>
       <div style={{ display: "flex" }}>
         <nav style={{ margin: ".5rem" }}>
@@ -72,7 +67,7 @@ const App: React.FC = () => {
         </div>
       </div>
     </Router>
-	);
-}
+  );
+};
 
 export default App;
