@@ -6,8 +6,8 @@ export default function MemoExample2() {
   const [count2, setCount2] = useState(0);
   const countUp1 = () => setCount1((a) => a + 1);
   const countUp2 = () => setCount2((a) => a + 1);
-  const callback1 = useCallback(countUp1, [count1]);
-  const callback2 = useCallback(countUp2, [count2]);
+  const callback1 = useCallback(countUp1, []);
+  const callback2 = useCallback(countUp2, []);
   return (
     <div>
       <h1>Memo (function)</h1>
