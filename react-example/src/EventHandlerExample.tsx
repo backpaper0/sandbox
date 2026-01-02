@@ -26,6 +26,7 @@ export default function EventHandlerExample() {
       //     function useCallback<T extends (...args: any[]) => any>(callback: T, deps: DependencyList): T;
       event.xxxyyyzzz();
     } catch (e) {
+      console.error(e);
     }
     f(event);
   }, []);

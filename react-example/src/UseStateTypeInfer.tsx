@@ -17,9 +17,9 @@ export default function UseStateTypeInfer() {
 	);
 }
 
-function test1(count: number) {
+function test1(_: number) {
 }
 
-function test2(setCount: (count: number) => void) {
+function test2(_: (count: number) => void) {
 }
 

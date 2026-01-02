@@ -18,7 +18,7 @@ export default function RenderTimingWithFunctionPropsExample () {
   );
 };
 
-const Fn: React.FC<{ name: string; fn: () => void; }> = ({ name, fn }) => {
+const Fn: React.FC<{ name: string; fn: () => void; }> = ({ name }) => {
   console.log(`${name} (${new Date()})`);
   return (
     <p>{name}</p>

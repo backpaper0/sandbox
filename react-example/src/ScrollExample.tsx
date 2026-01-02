@@ -53,7 +53,7 @@ export default function ScrollExample() {
   useEffect(() => {
     tryUpdateMessages();
   }, [tryUpdateMessages]);
-  const handleScroll: React.UIEventHandler = (event) => {
+  const handleScroll: React.UIEventHandler = () => {
     tryUpdateMessages();
   }
   return (
