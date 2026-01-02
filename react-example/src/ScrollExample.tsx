@@ -112,7 +112,7 @@ const css = {
   border: '1px solid silver',
   width: '480px',
   height: '640px',
-  overflowY: 'scroll' as 'scroll',
+  overflowY: 'scroll' as const,
 };
 
 const initialValue: Messages = Messages.initialValue();
