@@ -4,6 +4,8 @@
 # dependencies = [
 #     "pyfiglet>=1.0.4",
 # ]
+# [tool.uv]
+# exclude-newer = "2026-01-01T00:00:00Z"
 # ///
 
 from pyfiglet import Figlet
