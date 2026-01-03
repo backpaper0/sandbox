@@ -138,3 +138,14 @@ uv run -m scripts.asyncio.example9
   05:01:20 task#10
 05:01:22 end
 ```
+
+`loop.run_in_executor()`を使うとブロッキングIOを`async/await`へ対応させられる。
+
+```bash
+uv run -m scripts.asyncio.example10
+```
+
+```
+[Blocking IO]results: 0, 2, 6, 12, 20 (5.02 sec)
+[async/await]results: 0, 2, 6, 12, 20 (1.01 sec)
+```
