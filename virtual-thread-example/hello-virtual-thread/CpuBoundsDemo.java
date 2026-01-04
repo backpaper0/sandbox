@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -16,11 +17,30 @@ public class CpuBoundsDemo {
 
     public static void main(String[] args) throws Exception {
         // 素数を探索する範囲の上限値
-        var limit = 100_000_000;
+        var defaultLimit = 100_000_000;
+        var limit = defaultLimit;
         // 処理を分割するタスク数
-        var size = 8;
-        // コマンドライン引数で実行モードを選択
-        switch (args[0]) {
+        var defaultSize = 8;
+        var size = defaultSize;
+        // 実行モード
+        var defaultMode = "virtual";
+        var mode = defaultMode;
+        var argsIter = Arrays.asList(args).iterator();
+        while (argsIter.hasNext()) {
+            var arg = argsIter.next();
+            switch (arg) {
+                case "--size":
+                    size = Integer.parseInt(argsIter.next());
+                    break;
+                case "--limit":
+                    limit = Integer.parseInt(argsIter.next());
+                    break;
+                case "--mode":
+                    mode = argsIter.next();
+                    break;
+            }
+        }
+        switch (mode) {
             case "single": {
                 // シングルスレッドモード: すべてのタスクを順次実行
                 run(limit, size, c -> {
@@ -44,6 +64,8 @@ public class CpuBoundsDemo {
                 }
                 break;
             }
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
