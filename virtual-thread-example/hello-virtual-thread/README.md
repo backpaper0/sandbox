@@ -124,7 +124,7 @@ b-1
     - キャリアになるプラットフォームスレッド数: 1
 
 ```bash
-java IoBoundsDemo.java single
+java IoBoundsDemo.java --mode single
 ```
 
 ```
@@ -132,7 +132,7 @@ java IoBoundsDemo.java single
 ```
 
 ```bash
-java IoBoundsDemo.java platform
+java IoBoundsDemo.java --mode platform
 ```
 
 ```
@@ -140,7 +140,7 @@ java IoBoundsDemo.java platform
 ```
 
 ```bash
-java -Djdk.virtualThreadScheduler.maxPoolSize=1 IoBoundsDemo.java virtual
+java -Djdk.virtualThreadScheduler.maxPoolSize=1 IoBoundsDemo.java --mode virtual
 ```
 
 ```
