@@ -40,6 +40,9 @@ public class CpuBoundsDemo {
                     break;
             }
         }
+        System.out.printf("size: %s%n", size);
+        System.out.printf("limit: %s%n", limit);
+        System.out.printf("mode: %s%n", mode);
         switch (mode) {
             case "single": {
                 // シングルスレッドモード: すべてのタスクを順次実行

@@ -39,11 +39,14 @@ public class IoBoundsDemo {
                 case "--delay":
                     delay = Integer.parseInt(argsIter.next());
                     break;
-                case "mode":
+                case "--mode":
                     mode = argsIter.next();
                     break;
             }
         }
+        System.out.printf("size: %s%n", size);
+        System.out.printf("delay: %s%n", delay);
+        System.out.printf("mode: %s%n", mode);
         switch (mode) {
             case "single": {
                 // シングルスレッドモード: すべてのタスクを順次実行
