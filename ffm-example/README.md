@@ -1,0 +1,3 @@
+```bash
+mise run all
+```

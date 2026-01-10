@@ -1,0 +1,15 @@
+[tasks.build]
+run = "go build '-buildmode=c-shared' -o libffmexample.so main.go"
+
+[tasks.app]
+run = "java --enable-native-access=ALL-UNNAMED App.java"
+
+[tasks.all]
+run = [
+    { task = "build" },
+    { task = "app" },
+]
+
+[tools]
+go = "1.25.5"
+java = "25"
