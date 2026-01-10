@@ -3,21 +3,34 @@ import java.lang.foreign.FunctionDescriptor;
 import java.lang.foreign.Linker;
 import java.lang.foreign.SymbolLookup;
 import java.lang.foreign.ValueLayout;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 
 public class App {
+
+    static void printResult(int value) {
+        System.out.printf("[Java] arg = %s%n", value);
+        System.out.printf("Thread = %s%n", Thread.currentThread());
+        new Throwable().printStackTrace(System.out);
+    }
 
     public static void main(String[] args) throws Throwable {
         var linker = Linker.nativeLinker();
         var lookup = SymbolLookup.libraryLookup("./libffmexample.so", Arena.global());
 
-        var function = FunctionDescriptor.of(
-                ValueLayout.JAVA_INT,
-                ValueLayout.JAVA_INT,
-                ValueLayout.JAVA_INT);
-        var address = lookup.find("add").get();
-        var add = linker.downcallHandle(address, function);
+        var printResultMethod = MethodHandles.lookup().findStatic(App.class, "printResult",
+                MethodType.methodType(void.class, int.class));
+        var callbackDescriptor = FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT);
+        var callbackStub = linker.upcallStub(printResultMethod, callbackDescriptor, Arena.global());
 
-        int result = (int) add.invoke(3, 5);
-        System.out.println(result); // 8
+        var addWithCallbackDescriptor = FunctionDescriptor.of(
+                ValueLayout.JAVA_INT,
+                ValueLayout.JAVA_INT,
+                ValueLayout.JAVA_INT,
+                ValueLayout.ADDRESS);
+        var addWithCallbackAddress = lookup.find("addWithCallback").get();
+        var addWithCallback = linker.downcallHandle(addWithCallbackAddress, addWithCallbackDescriptor);
+
+        addWithCallback.invoke(3, 5, callbackStub);
     }
 }
