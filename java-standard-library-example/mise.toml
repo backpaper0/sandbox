@@ -7,5 +7,10 @@ run = "javac classfile/*.java"
 hide = true
 
 [tasks.classfile]
+description = "Class-File APIでHello Worldするクラスを動的生成する例。"
 run = "java -cp classfile App"
 depends = ["build_classfile"]
+
+[tasks.process]
+description = "Pythonプロセスを起動する例。"
+run = "java process/ProcessDemo.java"
