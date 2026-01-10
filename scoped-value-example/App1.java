@@ -3,6 +3,8 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class App1 {
     public static void main(String[] args) throws InterruptedException {
@@ -62,20 +64,22 @@ public class App1 {
         var t1 = Thread.startVirtualThread(() -> {
             ScopedValue.where(sv1, "f").run(() -> {
                 try {
-                    cb1.await();
+                    cb1.await(1, TimeUnit.SECONDS);
                     assert Objects.equals(sv1.get(), "f");
-                    cb2.await();
-                } catch (InterruptedException | BrokenBarrierException e) {
+                    cb2.await(1, TimeUnit.SECONDS);
+                } catch (InterruptedException | BrokenBarrierException | TimeoutException e) {
+                    throw new RuntimeException(e);
                 }
             });
         });
         var t2 = Thread.startVirtualThread(() -> {
             ScopedValue.where(sv1, "g").run(() -> {
                 try {
-                    cb1.await();
+                    cb1.await(1, TimeUnit.SECONDS);
                     assert Objects.equals(sv1.get(), "g");
-                    cb2.await();
-                } catch (InterruptedException | BrokenBarrierException e) {
+                    cb2.await(1, TimeUnit.SECONDS);
+                } catch (InterruptedException | BrokenBarrierException | TimeoutException e) {
+                    throw new RuntimeException(e);
                 }
             });
         });

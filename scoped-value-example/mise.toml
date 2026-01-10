@@ -1,0 +1,14 @@
+[tools]
+java = "25"
+
+[tasks.app1]
+run = "java -ea App1.java"
+
+[tasks.app2]
+run = "java -ea --enable-preview App2.java"
+
+[tasks.all]
+run = [
+    { task = "app1" },
+    { task = "app2" },
+]
