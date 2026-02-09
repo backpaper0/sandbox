@@ -7,9 +7,11 @@
 2. docker compose up -d でリバースプロキシー(Nginx)を起動する
 3. curl localhost:8080/reverse-proxy/ -s | jq を実行する
 """
+
 from fastapi import APIRouter, Request
 
 router = APIRouter()
+
 
 @router.get("/")
 async def get_x_forwarded_for(request: Request):
