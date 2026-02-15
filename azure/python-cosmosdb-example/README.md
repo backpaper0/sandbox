@@ -22,13 +22,13 @@ uv run read_items.py
 uv run read_items.py --query "SELECT * FROM c WHERE c.category = 'gear'"
 
 # アイテム更新（パッチ操作）
-uv run update_item.py 1 gear '[{"op": "replace", "path": "/quantity", "value": 10}]'
+uv run update_item.py 1 gear '[{"op": "incr", "path": "/quantity", "value": 1}]'
 
 # アイテム更新（楽観排他制御）
-uv run update_item_optimistic.py 1 gear '[{"op": "replace", "path": "/quantity", "value": 10}]'
+uv run update_item_optimistic.py 1 gear '[{"op": "incr", "path": "/quantity", "value": 1}]'
 
 # アイテム更新（コンフリクトのシミュレーション）
-uv run update_item_optimistic.py 1 gear '[{"op": "replace", "path": "/quantity", "value": 10}]' --simulate-conflict
+uv run update_item_optimistic.py 1 gear '[{"op": "incr", "path": "/quantity", "value": 1}]' --simulate-conflict
 
 # アイテム削除
 uv run delete_item.py 1 gear

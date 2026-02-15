@@ -14,7 +14,7 @@ async def main():
     parser.add_argument("category", help="パーティションキー（category）")
     parser.add_argument(
         "patch",
-        help='パッチ操作（JSON文字列、例: \'[{"op": "replace", "path": "/quantity", "value": 10}]\'）',
+        help='パッチ操作（JSON文字列、例: \'[{"op": "incr", "path": "/quantity", "value": 1}]\'）',
     )
     args = parser.parse_args()
     operations = json.loads(args.patch)

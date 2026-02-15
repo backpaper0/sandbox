@@ -26,11 +26,11 @@ async def main():
         database = await client.create_database_if_not_exists(
             settings.cosmos_database_name
         )
-        container = await database.create_container_if_not_exists(
+        container = await database.create_container_if_not_exists(  # type: ignore[union-attr]
             id=settings.cosmos_container_name,
             partition_key=PartitionKey(path="/category"),
         )
-        result = await container.create_item(body=item)
+        result = await container.create_item(body=item)  # type: ignore[union-attr]
         print(f"Created: {result['id']} ({result['name']})")
 
 
