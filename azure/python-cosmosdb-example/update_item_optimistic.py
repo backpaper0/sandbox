@@ -23,6 +23,11 @@ async def main():
         "patch",
         help='パッチ操作（JSON文字列、例: \'[{"op": "replace", "path": "/quantity", "value": 10}]\'）',
     )
+    parser.add_argument(
+        "--simulate-conflict",
+        action="store_true",
+        help="読み取りと更新の間に別の書き込みを挟み、コンフリクトを発生させる",
+    )
     args = parser.parse_args()
     operations = json.loads(args.patch)
 
@@ -36,6 +41,17 @@ async def main():
         item = await container.read_item(item=args.id, partition_key=args.category)
         etag = item["_etag"]
         print(f"Read:    {item['id']} (quantity={item['quantity']}, etag={etag})")
+
+        # --simulate-conflict: 別のクライアントによる更新をシミュレートする
+        if args.simulate_conflict:
+            rival = await container.patch_item(
+                item=args.id,
+                partition_key=args.category,
+                patch_operations=[{"op": "incr", "path": "/quantity", "value": 1}],
+            )
+            print(
+                f"Rival:   {rival['id']} (quantity={rival['quantity']}, etag={rival['_etag']})"
+            )
 
         # 2. ETag を if_match に指定して更新する
         #    読み取り後に他のクライアントが同じアイテムを変更していた場合、
