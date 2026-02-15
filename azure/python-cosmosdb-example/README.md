@@ -45,3 +45,7 @@ uv run delete_item.py 1 gear
 | `update_item.py` | アイテムのパッチ更新 |
 | `update_item_optimistic.py` | ETag による楽観排他制御付き更新 |
 | `delete_item.py` | アイテムの削除 |
+
+## 参考
+
+- [Linux ベースの Azure Cosmos DB エミュレーター (vNext)](https://learn.microsoft.com/ja-jp/azure/cosmos-db/emulator-linux)
