@@ -1,0 +1,26 @@
+[tools]
+python = "3.14"
+uv = "latest"
+
+[tasks.fix]
+description = "Pythonコードのフォーマット、Lintエラーの自動修正"
+usage = '''
+arg "[files]" var=#true help="対象とするファイル/ディレクトリ" default="."
+'''
+run = [
+    "uvx ruff format -- ${usage_files}",
+    "uvx ruff check --select I --fix -- ${usage_files}",
+    "uvx ruff check --fix -- ${usage_files}"
+]
+
+[tasks.check]
+description = "Pythonコードのフォーマット検証、Lintと型チェックの実行"
+usage = '''
+arg "[files]" var=#true help="対象とするファイル/ディレクトリ" default="."
+'''
+run = [
+    "uvx ruff format --check -- ${usage_files}",
+    "uvx ruff check --select I -- ${usage_files}",
+    "uvx ruff check -- ${usage_files}",
+    "uvx --with-requirements pyproject.toml ty check -- ${usage_files}",
+]

@@ -1,0 +1,12 @@
+[project]
+name = "queue-storage-example"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "aiohttp>=3.13.3",
+    "azure-identity>=1.19.0",
+    "azure-storage-queue>=12.12.0",
+    "pydantic-settings>=2.7.0",
+]
