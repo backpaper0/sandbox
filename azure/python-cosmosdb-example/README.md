@@ -24,6 +24,9 @@ uv run read_items.py --query "SELECT * FROM c WHERE c.category = 'gear'"
 # アイテム更新（パッチ操作）
 uv run update_item.py 1 gear '[{"op": "replace", "path": "/quantity", "value": 10}]'
 
+# アイテム更新（楽観排他制御）
+uv run update_item_optimistic.py 1 gear '[{"op": "replace", "path": "/quantity", "value": 10}]'
+
 # アイテム削除
 uv run delete_item.py 1 gear
 ```
@@ -37,4 +40,5 @@ uv run delete_item.py 1 gear
 | `create_item.py` | データベース・コンテナ・アイテムの作成 |
 | `read_items.py` | アイテムのクエリ |
 | `update_item.py` | アイテムのパッチ更新 |
+| `update_item_optimistic.py` | ETag による楽観排他制御付き更新 |
 | `delete_item.py` | アイテムの削除 |
