@@ -39,3 +39,7 @@ uv run dequeue.py
 | `dequeue.py` | キューからメッセージを受信・削除する |
 | `settings.py` | 環境変数から設定を読み込む (pydantic-settings) |
 | `compose.yaml` | Azurite コンテナの定義 |
+
+## 参考情報
+
+- [Azure Queue Storage とは](https://learn.microsoft.com/ja-jp/azure/storage/queues/storage-queues-introduction)
