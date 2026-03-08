@@ -1,0 +1,20 @@
+[tools]
+python = "3.13"
+uv = "0.9"
+
+[tasks.check]
+description = "フォーマットのチェック・lint・型チェックを実行する"
+run = [
+    "uv run ruff format --check",
+    "uv run ruff check",
+    "uv run ruff check --select I",
+    "uv run ty check",
+]
+
+[tasks.fix]
+description = "フォーマットとlintの自動修正を実行する"
+run = [
+    "uv run ruff format",
+    "uv run ruff check --fix",
+    "uv run ruff check --select I --fix",
+]

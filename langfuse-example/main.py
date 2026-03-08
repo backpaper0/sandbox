@@ -1,11 +1,8 @@
-from dotenv import load_dotenv
-from langfuse import Langfuse
+from langchain.agents import create_agent
+from langfuse import get_client
 from langfuse.langchain import CallbackHandler
-from langgraph.prebuilt import create_react_agent
 
-load_dotenv()
-
-langfuse = Langfuse()
+langfuse = get_client()
 langfuse_handler = CallbackHandler()
 
 
@@ -14,10 +11,10 @@ def get_weather(city: str) -> str:
     return f"It's always sunny in {city}!"
 
 
-agent = create_react_agent(
-    model="ollama:gpt-oss:20b",
+agent = create_agent(
+    model="openai:gpt-5-mini",
     tools=[get_weather],
-    prompt="You are a helpful assistant",
+    system_prompt="You are a helpful assistant",
 )
 
 agent.invoke(
