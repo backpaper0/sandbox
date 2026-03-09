@@ -4,7 +4,14 @@ from typing import cast
 
 import numpy as np
 from langfuse import Evaluation, get_client
+from langfuse.api import NotFoundError
 from openai import OpenAI
+
+dataset = [
+    {"input": "What is the capital of France?", "expected_output": "Paris"},
+    {"input": "What is the capital of Germany?", "expected_output": "Berlin"},
+    {"input": "日本の首都はどこですか？", "expected_output": "東京"},
+]
 
 eval_prompt_template = """
 以下の2つのテキストを比較し、LLMの出力が期待する出力とどれだけ一致しているかを評価してください。
@@ -100,7 +107,18 @@ class MyExperiment:
 def main(task_chat_model: str, eval_chat_model: str, eval_embedding_model: str) -> None:
     langfuse = get_client()
 
-    dataset = langfuse.get_dataset("geography_quiz")
+    dataset_name = "geography_quiz"
+    try:
+        dataset_client = langfuse.get_dataset(name=dataset_name)
+    except NotFoundError:
+        langfuse.create_dataset(name=dataset_name)
+        for item in dataset:
+            langfuse.create_dataset_item(
+                dataset_name=dataset_name,
+                input=item["input"],
+                expected_output=item["expected_output"],
+            )
+        dataset_client = langfuse.get_dataset(name=dataset_name)
 
     experiment = MyExperiment(
         task_chat_model=task_chat_model,
@@ -108,7 +126,7 @@ def main(task_chat_model: str, eval_chat_model: str, eval_embedding_model: str) 
         eval_embedding_model=eval_embedding_model,
     )
 
-    result = dataset.run_experiment(
+    result = dataset_client.run_experiment(
         name="Geography Quiz",
         description="Testing basic functionality",
         task=experiment.task,
@@ -123,8 +141,8 @@ def main(task_chat_model: str, eval_chat_model: str, eval_embedding_model: str) 
         },
         max_concurrency=3,
     )
-    print(result)
-
+    print(f"Run ID: {result.dataset_run_id}")
+    print(f"Run URL: {result.dataset_run_url}")
     langfuse.flush()
 
 
