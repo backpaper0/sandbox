@@ -5,6 +5,7 @@ description = "Langfuse example"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "deepeval>=3.8.9",
     "langchain[openai]>=1.2.10",
     "langfuse>=3.14.5",
     "langgraph>=1.0.10",
