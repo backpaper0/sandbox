@@ -1,0 +1,43 @@
+{
+  "resourceMetrics": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": { "stringValue": "curl-demo" }
+          }
+        ]
+      },
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "manual-curl",
+            "version": "1.0.0"
+          },
+          "metrics": [
+            {
+              "name": "demo.temperature",
+              "description": "temperature sent by curl",
+              "unit": "Cel",
+              "gauge": {
+                "dataPoints": [
+                  {
+                    "timeUnixNano": "1710000003000000000",
+                    "asDouble": 23.5,
+                    "attributes": [
+                      {
+                        "key": "room",
+                        "value": { "stringValue": "lab" }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

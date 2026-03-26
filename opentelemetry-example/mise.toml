@@ -1,0 +1,36 @@
+[tasks.trace]
+run = """
+jq '
+  def now_ns: (now * 1000000000 | floor);
+
+  (.resourceSpans[].scopeSpans[].spans[]) |=
+  (
+    .startTimeUnixNano = (now_ns | tostring) |
+    .endTimeUnixNano   = ((now_ns + 1000000000) | tostring)
+  )
+' trace.json | curl http://localhost:4318/v1/traces --json @-
+"""
+
+
+
+
+
+
+
+
+[tasks.logs]
+run = """
+jq '
+  (.resourceLogs[].scopeLogs[].logRecords[].timeUnixNano) =
+  ((now * 1000000000) | floor | tostring)
+' logs.json | curl -v http://localhost:4318/v1/logs --json @-
+"""
+
+[tasks.metrics]
+run = """
+jq '
+  (.resourceMetrics[].scopeMetrics[].metrics[].gauge.dataPoints[].timeUnixNano) =
+  ((now * 1000000000) | floor | tostring)
+' metrics.json | curl http://localhost:4318/v1/metrics --json @-
+"""
+
