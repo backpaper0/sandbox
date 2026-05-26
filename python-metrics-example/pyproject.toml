@@ -1,0 +1,11 @@
+[project]
+name = "python-metrics-example"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "opentelemetry-api>=1.0.0",
+    "opentelemetry-sdk>=1.0.0",
+    "opentelemetry-exporter-otlp-proto-http>=1.0.0",
+]
