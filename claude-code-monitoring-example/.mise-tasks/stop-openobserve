@@ -1,0 +1,15 @@
+#!/bin/bash
+#MISE description="Stop OpenObserve with Docker"
+
+set -euo pipefail
+
+CONTAINER=openobserve
+
+if ! docker inspect "$CONTAINER" >/dev/null 2>&1; then
+  echo "OpenObserveのコンテナが存在しません"
+elif [ "$(docker inspect -f '{{.State.Running}}' "$CONTAINER")" = "true" ]; then
+  docker stop "$CONTAINER"
+  echo "OpenObserveを停止しました"
+else
+  echo "OpenObserveはすでに停止しています"
+fi

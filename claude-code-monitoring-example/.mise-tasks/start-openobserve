@@ -1,0 +1,22 @@
+#!/bin/bash
+#MISE description="Start OpenObserve with Docker"
+
+set -euo pipefail
+
+CONTAINER=openobserve
+
+if ! docker inspect "$CONTAINER" >/dev/null 2>&1; then
+  docker run -d \
+    --name "$CONTAINER" \
+    -v openobserve-data:/data \
+    -p 5080:5080 \
+    -e ZO_ROOT_USER_EMAIL="root@example.com" \
+    -e ZO_ROOT_USER_PASSWORD="Complexpass#123" \
+    public.ecr.aws/zinclabs/openobserve:latest
+  echo "OpenObserveを起動しました"
+elif [ "$(docker inspect -f '{{.State.Running}}' "$CONTAINER")" = "true" ]; then
+  echo "OpenObserveはすでに実行中です"
+else
+  docker start "$CONTAINER"
+  echo "OpenObserveを再起動しました"
+fi
