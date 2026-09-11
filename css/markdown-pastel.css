@@ -1,0 +1,258 @@
+/*
+ * Pastel Markdown Preview Theme
+ * VS Code の Markdown プレビュー用パステルカラースタイル
+ */
+
+:root {
+	--pastel-bg: #fdfcff;
+	--pastel-text: #4a4458;
+	--pastel-heading: #6a5d8f;
+	--pastel-pink: #ffd6e8;
+	--pastel-purple: #e5d4ff;
+	--pastel-blue: #d4e8ff;
+	--pastel-mint: #d4f5e9;
+	--pastel-yellow: #fff3d4;
+	--pastel-peach: #ffe4d6;
+	--pastel-border: #ece7f5;
+	--pastel-accent: #b8a4e0;
+	--pastel-link: #a67fd4;
+	--pastel-code-bg: #f5f1fb;
+	--pastel-quote-bg: #f7f3ff;
+	--pastel-shadow: rgba(184, 164, 224, 0.15);
+}
+
+body.vscode-dark,
+body.vscode-high-contrast {
+	--pastel-bg: #262433;
+	--pastel-text: #e8e3f5;
+	--pastel-heading: #d7c9ff;
+	--pastel-border: #3d3a4f;
+	--pastel-accent: #b8a4e0;
+	--pastel-link: #cbb4f0;
+	--pastel-code-bg: #2f2c40;
+	--pastel-quote-bg: #302d42;
+	--pastel-shadow: rgba(0, 0, 0, 0.3);
+}
+
+body {
+    font-family: "UD Digi Kyokasho NP-R", "UD Digi Kyokasho NP",
+        "UD Digi Kyokasho N-R", "UD Digi Kyokasho N", "UDデジタル教科書体 NP-R",
+        "Segoe UI", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+    background: var(--pastel-bg);
+	color: var(--pastel-text);
+	font-size: 15px;
+	line-height: 1.85;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 2rem 3rem;
+	letter-spacing: 0.02em;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: var(--pastel-heading);
+	font-weight: 700;
+	line-height: 1.4;
+	margin-top: 1.8em;
+	margin-bottom: 0.7em;
+}
+
+h1 {
+	font-size: 2.2em;
+	padding-bottom: 0.4em;
+	background: linear-gradient(120deg, #d4548f, #8a5fd4, #4a7fd4);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	border-bottom: 3px solid transparent;
+	border-image: linear-gradient(90deg, var(--pastel-pink), var(--pastel-purple), var(--pastel-blue)) 1;
+}
+
+body.vscode-dark h1,
+body.vscode-high-contrast h1 {
+	background: linear-gradient(120deg, #ff9ec7, #c4a0ff, #94c0ff);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+h2 {
+	font-size: 1.6em;
+	padding: 0.2em 0.7em;
+	border-left: 6px solid var(--pastel-accent);
+	background: linear-gradient(90deg, var(--pastel-purple), transparent);
+	border-radius: 0 8px 8px 0;
+}
+
+h3 {
+	font-size: 1.3em;
+	padding-bottom: 0.3em;
+	border-bottom: 2px dashed var(--pastel-border);
+}
+
+h4 {
+	font-size: 1.1em;
+}
+
+h4::before {
+	content: "✿ ";
+	color: var(--pastel-accent);
+}
+
+/* Links */
+a {
+	color: var(--pastel-link);
+	text-decoration: none;
+	border-bottom: 1px solid var(--pastel-accent);
+	transition: all 0.2s ease;
+}
+
+a:hover {
+	color: var(--pastel-heading);
+	background: var(--pastel-purple);
+	border-radius: 3px;
+}
+
+/* Paragraphs & lists */
+p {
+	margin: 1em 0;
+}
+
+ul,
+ol {
+	padding-left: 1.6em;
+}
+
+li {
+	margin: 0.4em 0;
+}
+
+ul li::marker {
+	color: var(--pastel-accent);
+}
+
+ol li::marker {
+	color: var(--pastel-accent);
+	font-weight: 700;
+}
+
+/* Blockquote */
+blockquote {
+	margin: 1.2em 0;
+	padding: 0.8em 1.4em;
+	background: var(--pastel-quote-bg);
+	border-left: 5px solid var(--pastel-accent);
+	border-radius: 0 10px 10px 0;
+	color: var(--pastel-text);
+	box-shadow: 0 2px 8px var(--pastel-shadow);
+}
+
+blockquote p {
+	margin: 0.3em 0;
+}
+
+/* Inline code */
+code {
+	font-family: "Cascadia Code", "Fira Code", "Consolas", monospace;
+	background: var(--pastel-code-bg);
+	color: #b5588f;
+	padding: 0.15em 0.45em;
+	border-radius: 6px;
+	font-size: 0.9em;
+}
+
+body.vscode-dark code {
+	color: #ffb3d9;
+}
+
+/* Code block */
+pre {
+	background: var(--pastel-code-bg);
+	padding: 1.2em;
+	border-radius: 12px;
+	overflow: auto;
+	border: 1px solid var(--pastel-border);
+	box-shadow: 0 4px 14px var(--pastel-shadow);
+}
+
+pre code {
+	background: transparent;
+	color: var(--pastel-text);
+	padding: 0;
+	font-size: 0.88em;
+	line-height: 1.6;
+}
+
+/* Tables */
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+	width: 100%;
+	margin: 1.4em 0;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 4px 14px var(--pastel-shadow);
+}
+
+th {
+	background: linear-gradient(120deg, var(--pastel-purple), var(--pastel-pink));
+	color: var(--pastel-heading);
+	font-weight: 700;
+	padding: 0.7em 1em;
+	text-align: left;
+}
+
+td {
+	padding: 0.6em 1em;
+	border-top: 1px solid var(--pastel-border);
+}
+
+tr:nth-child(even) td {
+	background: var(--pastel-quote-bg);
+}
+
+tr:hover td {
+	background: var(--pastel-blue);
+}
+
+/* Horizontal rule */
+hr {
+	border: none;
+	height: 3px;
+	margin: 2.5em 0;
+	background: linear-gradient(90deg, transparent, var(--pastel-pink), var(--pastel-purple), var(--pastel-blue), transparent);
+	border-radius: 3px;
+}
+
+/* Images */
+img {
+	max-width: 100%;
+	border-radius: 12px;
+	box-shadow: 0 6px 20px var(--pastel-shadow);
+}
+
+/* Task lists */
+input[type="checkbox"] {
+	accent-color: var(--pastel-accent);
+	width: 1.05em;
+	height: 1.05em;
+	vertical-align: middle;
+}
+
+/* Emphasis */
+strong {
+	color: var(--pastel-heading);
+	font-weight: 700;
+}
+
+mark {
+	background: var(--pastel-yellow);
+	color: var(--pastel-text);
+	padding: 0.1em 0.3em;
+	border-radius: 4px;
+}
