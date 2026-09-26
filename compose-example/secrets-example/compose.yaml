@@ -1,0 +1,19 @@
+services:
+  runner:
+    image: busybox
+    command: sh -x /run.sh
+    secrets:
+      - secret1
+      - source: secret2
+        target: /etc/secrets_example/secret2.txt
+        uid: "1000"
+        gid: "1000"
+        mode: "400"
+    volumes:
+      - ./run.sh:/run.sh:ro
+
+secrets:
+  secret1:
+    file: secret1.txt
+  secret2:
+    environment: SECRET2

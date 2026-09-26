@@ -1,8 +1,16 @@
 [tasks."configs-example"]
 run = "docker compose --file configs-example/compose.yaml run --rm runner"
 
+[tasks."secrets-example"]
+run = "docker compose --file secrets-example/compose.yaml run --rm runner"
+
 [env]
 CONFIG2 = '''
 key2a=value2a
 key2b=value2b
+'''
+
+SECRET2 = '''
+secret2a
+secret2b
 '''
