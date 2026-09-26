@@ -1,0 +1,24 @@
+services:
+  runner:
+    image: busybox
+    command: sh -x /run.sh
+    configs:
+      - config1
+      - config2
+      - source: config3
+        target: /etc/configs_example/config3.toml
+        uid: "1000"
+        gid: "1000"
+        mode: "400"
+    volumes:
+      - ./run.sh:/run.sh:ro
+
+configs:
+  config1:
+    file: config1.toml
+  config2:
+    environment: CONFIG2
+  config3:
+    content: |
+      key3a=value3a
+      key3b=value3b
