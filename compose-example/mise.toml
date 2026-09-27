@@ -4,6 +4,12 @@ run = "docker compose --file configs-example/compose.yaml run --rm runner"
 [tasks."secrets-example"]
 run = "docker compose --file secrets-example/compose.yaml run --rm runner"
 
+[tasks."healthcheck-example"]
+run = "docker compose --file healthcheck-example/compose.yaml run --rm runner"
+
+[tasks."down:healthcheck-example"]
+run = "docker compose --file healthcheck-example/compose.yaml down -v"
+
 [env]
 CONFIG2 = '''
 key2a=value2a

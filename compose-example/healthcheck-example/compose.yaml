@@ -1,0 +1,35 @@
+services:
+  web:
+    image: busybox
+    command: sh -x /server
+    configs:
+      - hello
+      - server
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost/hello"]
+      interval: 4s # interval: 30s
+      # timeout: 30s
+      # start_period: 0s
+      # start_interval: 5s
+      # retries: 3
+
+  runner:
+    image: busybox
+    command: sh -x /runner
+    configs:
+      - runner
+    depends_on:
+      web:
+        condition: service_healthy
+
+configs:
+  hello:
+    content: |
+      Hello World
+  server:
+    content: |
+      sleep 10
+      httpd -fvh /
+  runner:
+    content: |
+      wget -q -O - http://web/hello
