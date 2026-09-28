@@ -1,0 +1,22 @@
+[tools]
+python = "3.14"
+uv = "latest"
+
+[tasks."lint"]
+run = '''
+set -x
+cd assets
+uvx ruff format --check
+uvx ruff check --select I
+uvx ruff check
+uvx ty check
+'''
+
+[tasks."fix"]
+run = '''
+set -x
+cd assets
+uvx ruff format
+uvx ruff check --select I --fix
+uvx ruff check --fix
+'''
