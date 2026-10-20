@@ -1,0 +1,8 @@
+[env]
+_.file = ".env"
+LITELLM_API_BASE = "http://localhost:4000"
+LITELLM_API_KEY = "{{ env.LITELLM_MASTER_KEY }}"
+
+[tools]
+terraform = "latest"
+
