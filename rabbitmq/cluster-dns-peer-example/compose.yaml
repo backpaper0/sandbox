@@ -1,0 +1,50 @@
+x-rabbit: &rabbit
+  image: rabbitmq:4-management
+  environment:
+    # クラスタを組むノード同士で同じ Erlang Cookie を共有する必要がある
+    RABBITMQ_ERLANG_COOKIE: cluster-dns-peer-example
+    RABBITMQ_DEFAULT_USER: admin
+    RABBITMQ_DEFAULT_PASS: pass
+  volumes:
+    - ./rabbitmq.conf:/etc/rabbitmq/conf.d/rabbitmq.conf:ro
+  healthcheck:
+    test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+    interval: 10s
+    timeout: 10s
+    retries: 12
+    start_period: 30s
+  networks:
+    default:
+      aliases:
+        - rabbit.test
+
+# DNS ピアディスカバリは rabbit.test の A レコードから各ノードの IP を集め、
+# 逆引きしたホスト名で rabbit@<host> に接続する。
+# 逆引き結果はコンテナ名になるため、container_name と hostname を揃えておく。
+# rabbit.test は全ノード共通のネットワークエイリアスとして付与する。
+services:
+  rabbit1:
+    <<: *rabbit
+    container_name: rabbit1
+    hostname: rabbit1
+
+  rabbit2:
+    <<: *rabbit
+    container_name: rabbit2
+    hostname: rabbit2
+
+  rabbit3:
+    <<: *rabbit
+    container_name: rabbit3
+    hostname: rabbit3
+
+  front:
+    image: nginx
+    ports:
+      - 15672:15672
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - rabbit1
+      - rabbit2
+      - rabbit3
