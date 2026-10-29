@@ -1,0 +1,21 @@
+[tools]
+buildpacks = "latest"
+dapr = "latest"
+kind = "latest"
+kubectl = "latest"
+node = "lts"
+
+[tasks."npm:ci"]
+run = [
+    "cd hello && npm ci",
+    "cd world && npm ci",
+]
+
+[tasks."pack:build"]
+depends = ["pack:build:hello", "pack:build:world"]
+
+[tasks."pack:build:hello"]
+run = "pack build demo/hello --path hello"
+
+[tasks."pack:build:world"]
+run = "pack build demo/world --path world"

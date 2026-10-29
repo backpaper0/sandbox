@@ -2,6 +2,12 @@
 
 - https://docs.dapr.io/developing-applications/building-blocks/service-invocation/
 
+## ツールの準備
+
+```
+mise install
+```
+
 ## Dockerで試す
 
 Daprを準備する。
@@ -10,38 +16,22 @@ Daprを準備する。
 dapr init
 ```
 
-`hello`を起動する。
+依存ライブラリをインストールする。
 
 ```
-cd hello
+mise run npm:ci
 ```
 
-```
-npm ci
-```
+起動する。
 
 ```
-dapr run -a hello-svc -p 3000 npm start
-```
-
-`world`を起動する。
-
-```
-cd world
-```
-
-```
-npm ci
-```
-
-```
-dapr run -a world-svc -p 3001 npm start
+dapr run -f .
 ```
 
 `curl`で試す。
 
 ```
-curl localhost:$(dapr list -o json | jq -r '.[0].httpPort')/v1.0/invoke/hello-svc/method/hello -s | jq
+curl localhost:$(dapr list -o json | jq -r 'map(select(.appId == "hello-svc")) | .[].httpPort')/v1.0/invoke/hello-svc/method/hello -s | jq
 ```
 
 動的に設定されたDaprのポートを`dapr list`と`jq`で取得しているけれど、`dapr run`に`-H`でポートを明示的に設定することも可能。
@@ -51,6 +41,12 @@ curl localhost:$(dapr list -o json | jq -r '.[0].httpPort')/v1.0/invoke/hello-sv
 アプリケーションは`ctrl + c`で止める。
 
 Daprをアンインストールする。
+
+```
+dapr uninstall
+```
+
+または
 
 ```
 dapr uninstall --all
@@ -65,21 +61,17 @@ kind create cluster
 ```
 
 ```
-kind export kubeconfig
+kubectl cluster-info --context kind-kind
 ```
 
 ```
 dapr init -k
 ```
 
-`hello`と`world`それぞれコンテナイメージを作る。
+`hello`と`world`のコンテナイメージを作る。
 
 ```
-pack build demo/hello --path hello
-```
-
-```
-pack build demo/world --path world
+mise run pack:build
 ```
 
 Kindにコンテナイメージをロードする。
@@ -92,6 +84,13 @@ kind load docker-image demo/hello demo/world
 
 ```
 kubectl apply -f demo.yaml
+```
+
+動作状況を確認する。
+
+```
+kubectl get -f demo.yaml -o wide
+kubectl get pods -o wide
 ```
 
 ポートフォワードする。
@@ -125,4 +124,3 @@ dapr uninstall -k
 ```
 kind delete cluster
 ```
-

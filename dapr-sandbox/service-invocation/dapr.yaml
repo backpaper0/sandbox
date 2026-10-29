@@ -1,0 +1,10 @@
+version: 1
+apps:
+  - appID: hello-svc
+    appDirPath: ./hello/
+    appPort: 3000
+    command: ["npm", "start"]
+  - appID: world-svc
+    appDirPath: ./world/
+    appPort: 3001
+    command: ["npm", "start"]
