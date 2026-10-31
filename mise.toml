@@ -27,6 +27,11 @@ fi
 sudo usermod -aG docker {{ env.USER }}
 '''
 
+[bootstrap.directories."/etc/mise/conf.d"]
+owner = "root"
+group = "root"
+mode = "0755"
+
 [bootstrap.files."/etc/mise/conf.d/env.toml"]
 source = "./cc-sandbox-provisioning-example/env.toml"
 owner = "root"
