@@ -1,0 +1,11 @@
+[tasks.create]
+run = "orbctl create --isolate-network --isolated --set-password --user marine --user-data cloud-init.yaml ubuntu pirateship"
+
+[tasks."create:passwordless"]
+run = "orbctl create --isolate-network --isolated --user marine --user-data cloud-init.yaml ubuntu pirateship"
+
+[tasks.delete]
+run = "orbctl delete -f pirateship"
+
+[tasks.console]
+run = "orb -m pirateship"
