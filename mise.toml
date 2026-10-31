@@ -26,3 +26,9 @@ if ! command -v claude > /dev/null 2>&1; then
 fi
 sudo usermod -aG docker {{ env.USER }}
 '''
+
+[bootstrap.files."/etc/mise/conf.d/env.toml"]
+source = "./cc-sandbox-provisioning-example/env.toml"
+owner = "root"
+group = "root"
+mode = "0644"
