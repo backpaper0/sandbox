@@ -1,8 +1,0 @@
-package_update: true
-packages:
-  - curl
-  - ca-certificates
-
-runcmd:
-  - [sh, -c, "curl -fsSL https://mise.run | MISE_INSTALL_PATH=/usr/local/bin/mise sh"]
-  - [/usr/local/bin/mise, --version]
